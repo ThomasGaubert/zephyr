@@ -23,15 +23,6 @@ INCLUDEPATH += ../../../socketio-cpp/lib/websocketpp
 INCLUDEPATH += ../../../socketio-cpp/lib/rapidjson/include
 
 LIBS += -L../lib/win32 -lopenvr_api -lboost
-#LIBS += -L../lib/win32 -lopenvr_api -lPocoFoundation -lPocoJSON -lPocoNet -lPocoNetSSL
-
-#debug {
-#    LIBS += -L../lib/win32 -lsocketiod
-#}
-
-#release {
-#    LIBS += -L../lib/win32 -lsocketio
-#}
 
 DESTDIR = ../bin/win32
 
