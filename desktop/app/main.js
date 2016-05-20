@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow
 
 // Handle any Squirrel events first
 if (handleSquirrelEvent()) {
-   return
+  return
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -16,8 +16,8 @@ let mainWindow
 // Socket stuff
 var bodyParser = require("body-parser");
 var web = require('express')()
-web.use(bodyParser.urlencoded({ extended: false }));
-web.use(bodyParser.json());
+web.use(bodyParser.urlencoded({ extended: false }))
+web.use(bodyParser.json())
 var http = require('http').Server(web)
 var io = require('socket.io')(http)
 var serverId = 'nodejs-server'
@@ -195,7 +195,7 @@ function handleVersionRequest(msg) {
     },
     payload: {
       name: 'NodeJS/Electron Server',
-      version: '0.0.1',
+      version: '0.0.2',
       versionCode: 1,
       versions: [
         {

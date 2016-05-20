@@ -16,10 +16,11 @@
       "app-category-type": "public.app-category.utilities",
       "win": {
         "iconUrl": "https://raw.githubusercontent.com/ThomasGaubert/openvr-notifications/master/desktop/build/icon.ico",
-        "remoteReleases": "https://openvr-notifications-updates.herokuapp.com/update/win32",
+        "remoteReleases": "https://openvr-notifications-updates.herokuapp.com/update/win32/v0.0.1",
         "extraResources":  [
           "./build/overlay"
         ]
       }
     }
 }
+ 
