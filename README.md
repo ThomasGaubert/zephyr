@@ -2,7 +2,7 @@
 
 Mirror Android notifications to OpenVR.
 
-Build using these technologies:
+Built using these technologies:
 
  * Android
  * C++
