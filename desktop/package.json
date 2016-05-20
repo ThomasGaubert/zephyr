@@ -3,9 +3,7 @@
     "postinstall": "install-app-deps",
     "start": "electron ./app --enable-logging",
     "dev": "NODE_ENV='development' npm run start",
-    "dist": "npm run dist:osx && npm run dist:win32 && npm run dist:win64",
-    "dist:osx": "build --platform darwin",
-    "dist:win32": "build --platform win32 --arch ia32",
+    "dist": "npm run dist:win64",
     "dist:win64": "build --platform win32 --arch x64"
   },
   "devDependencies": {
@@ -18,6 +16,7 @@
       "app-category-type": "public.app-category.utilities",
       "win": {
         "iconUrl": "https://raw.githubusercontent.com/ThomasGaubert/openvr-notifications/master/desktop/build/icon.ico",
+        "remoteReleases": "https://openvr-notifications-updates.herokuapp.com/update/win32/:version/RELEASES",
         "extraResources":  [
           "./build/overlay"
         ]
