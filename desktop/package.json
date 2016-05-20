@@ -8,6 +8,19 @@
     "dist:win32": "build --platform win32 --arch ia32",
     "dist:win64": "build --platform win32 --arch x64"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasGaubert/openvr-notifications.git"
+  },
+  "keywords": [
+    "Electron",
+    "openvr",
+    "Android",
+    "notifications"
+  ],
+  "bugs": {
+    "url": "https://github.com/ThomasGaubert/openvr-notifications/issues"
+  },
   "devDependencies": {
     "electron-builder": "^3.25.0",
     "electron-prebuilt": "^1.1.1"
