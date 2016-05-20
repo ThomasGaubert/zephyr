@@ -88,6 +88,9 @@
             },
             payload: {}
           }))
+        } else if (b.metadata.type == 'broadcast-overlay-not-running') {
+          console.log('Overlay not running! (' + b.payload.message + ')')
+          $('#status').text('Error: Overlay is not running')
         }
       })
 
