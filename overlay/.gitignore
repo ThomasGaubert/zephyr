@@ -1,2 +1,13 @@
+# Build folder
 build
+
+# Boost
 headers/boost/
+boost.lib
+
+# Qt
+Qt5Core.dll
+Qt5Gui.dll
+Qt5Widgets.dll
+qwindows.dll
+qwindowsd.dll
