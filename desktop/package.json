@@ -1,33 +1,22 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
-  },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
-  "bugs": {
-    "url": "https://github.com/electron/electron-quick-start/issues"
-  },
-  "homepage": "https://github.com/electron/electron-quick-start#readme",
-  "dependencies": {
-    "body-parser": "^1.15.1",
-    "express": "^4.10.2",
-    "socket.io": "^1.4.6"
+    "postinstall": "install-app-deps",
+    "start": "electron ./app --enable-logging",
+    "dev": "NODE_ENV='development' npm run start",
+    "dist": "npm run dist:osx && npm run dist:win32 && npm run dist:win64",
+    "dist:osx": "build --platform darwin",
+    "dist:win32": "build --platform win32 --arch ia32",
+    "dist:win64": "build --platform win32 --arch x64"
   },
   "devDependencies": {
-    "electron-prebuilt": "^1.0.1"
-  }
+    "electron-builder": "^3.25.0",
+    "electron-prebuilt": "^1.1.1"
+  },
+  "build": {
+      "app-bundle-id": "com.texasgamer.openvrnotif",
+      "app-category-type": "public.app-category.utilities",
+      "win": {
+        "iconUrl": "http://gaubert.io/projects/openvr-notifications/icon.ico"
+      }
+    }
 }
