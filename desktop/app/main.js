@@ -195,7 +195,7 @@ function handleVersionRequest(msg) {
     },
     payload: {
       name: 'NodeJS/Electron Server',
-      version: '1.0',
+      version: '0.0.1',
       versionCode: 1,
       versions: [
         {

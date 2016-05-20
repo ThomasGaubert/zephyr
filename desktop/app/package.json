@@ -1,6 +1,6 @@
 {
   "name": "openvr-notifications-desktop",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "OpenVR Notifications",
   "author": "Thomas Gaubert <tpgaubert@gmail.com>",
   "license": "MIT",
