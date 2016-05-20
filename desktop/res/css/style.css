@@ -1,0 +1,40 @@
+@font-face {
+    font-family: roboto;
+    font-stretch: normal;
+    src: url(../fonts/Roboto.ttf);
+}
+
+@font-face {
+    font-family: roboto;
+    font-stretch: condensed;
+    src: url(../fonts/RobotoCondensed.ttf);
+}
+
+* {
+	font-family: roboto;
+}
+
+.title {
+	text-align: center;
+	font-size: 3em;
+}
+
+.app-connect {
+	text-align: center;
+	font-stretch: condensed;
+}
+
+.status {
+	margin-top: 20px;
+	text-align: center;
+	font-size: 0.75em;
+}
+
+.dev-tools {
+	font-size: 0.9em;
+}
+
+.dev-tools h3 {
+	font-size: 20px;
+	text-transform: uppercase;
+}

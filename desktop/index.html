@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenVR Notifications</title>
+    <link rel="stylesheet" type="text/css" href="./res/css/style.css">
+  </head>
+  <script>
+    function getIPAddress() {
+      var interfaces = require('os').networkInterfaces()
+      for (var devName in interfaces) {
+        var iface = interfaces[devName]
+
+        for (var i = 0; i < iface.length; i++) {
+          var alias = iface[i];
+          if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
+            return alias.address
+        }
+      }
+
+      return '0.0.0.0'
+    }
+  </script>
+  <body>
+    <div class="title">OpenVR Notifications</div>
+    <div class="app-connect">Connect <a href="https://play.google.com/store/apps/details?id=com.texasgamer.openvrnotif">app</a> to <script>document.write(getIPAddress())</script>:3753</div>
+    <div class="status">Status: <span id="status">Connecting to server...</span></div>
+    <br>
+    <div class="dev-tools">
+      <h3>API</h3>
+      <p>
+        OpenVR Notifications supplies REST and WebSocket (Socket.IO) APIs.
+        Check out the <a href="https://github.com/ThomasGaubert/openvr-notifications/wiki">wiki</a> for the latest documentation.
+      </p>
+      
+      <h3>Debugger</h3>
+      <input id="btnDevTools" type="submit" value="Toggle DevTools"/>
+      <input id="btnExNotif" type="submit" value="Test Notification"/>
+      <input id="btnVersion" type="submit" value="Version"/>
+    </div>
+
+    <script src="./res/js/socket.io.js"></script>
+    <script src="./res/js/menu.js"></script>
+    <script>
+      setupMenu();
+
+      window.$ = window.jQuery = require('./res/js/jquery.js');
+      var socket = io('http://localhost:3753')
+      var shell = require('electron').shell
+      $(document).on('click', 'a[href^="http"]', function(event) {
+          event.preventDefault()
+          shell.openExternal(this.href)
+      });
+
+      $(".dev-tools").hide();
+
+      var clientId = 'nodejs-electron-client-' + Math.floor((Math.random() * 100) + 1)
+
+      console.log(getVersionInfo().payload.name + ' ' + getVersionInfo().payload.version)
+      console.log('Client ID: ' + clientId)
+
+      requestServerVersion()
+
+      $('#btnDevTools').click(function() {
+        require('electron').remote.getCurrentWindow().toggleDevTools()
+      })
+
+      $('#btnExNotif').click(function() {
+        socket.emit('notification', JSON.stringify(getTestNotification()))
+      })
+
+      $('#btnVersion').click(function() {
+        requestServerVersion()
+      })
+
+      socket.on('version', function(msg) {
+        verifyVersion(msg)
+      })
+
+      socket.on('broadcast', function(msg) {
+        var b = JSON.parse(msg)
+        if (b.metadata.type == 'broadcast-ping') {
+          socket.emit('broadcast', JSON.stringify({
+            metadata: {
+              version: 1,
+              type: 'broadcast-pong',
+              from: clientId,
+              to: b.metadata.from
+            },
+            payload: {}
+          }))
+        }
+      })
+
+      socket.on(clientId, function(msg) {
+        var m = JSON.parse(msg)
+
+        if(m.metadata.type == 'version') {
+          verifyVersion(msg)
+        } else if(m.metadata.type == 'notification-response') {
+          handleNotificationResponse(msg)
+        } else {
+          console.log('Unknown private message: ' + m)
+        }
+      })
+
+      function getTestNotification() {
+        return {
+          metadata: {
+            version: 1,
+            type: 'notification',
+            from: clientId,
+            to: ''
+          },
+          payload: {
+            id: 0,
+            title: 'Test Notification',
+            text: 'This is a test notification.',
+            device: 'NodeJS/Electron Client'
+          }
+        }
+      }
+
+      function requestServerVersion() {
+        socket.emit('version', JSON.stringify(getVersionInfo()))
+      }
+
+      function getVersionInfo() {
+        return {
+          metadata: {
+            version: 1,
+            type: 'version',
+            from: clientId,
+            to: ''
+          },
+          payload: {
+            name: 'NodeJS/Electron Client',
+            version: '1.0',
+            versionCode: 1,
+            versions: []
+          }
+        }
+      }
+
+      function verifyVersion(msg) {
+        var v = JSON.parse(msg)
+        if (v.metadata.version == 1) {
+          if(v.payload.versionCode == 1) {
+            console.log('Connected to server "' + v.payload.name + '" ' + v.payload.version + ' (' + v.payload.versionCode + ')')
+            $('#status').text('Connected to server "' + v.payload.name + '" ' + v.payload.version + ' (' + v.payload.versionCode + ')')
+          } else {
+            console.log('Server is running incompatible version!')
+            $('#status').text('Unable to connect: Server is running incompatible version')
+          }
+        } else {
+          console.log('Invalid payload version!')
+          $('#status').text('Unable to connect: Invalid payload version')
+        }
+      }
+
+      function handleNotificationResponse(msg) {
+        var r = JSON.parse(msg)
+        if (r.metadata.version == 1) {
+          if(r.payload.result) {
+            console.log('Notification ' + r.payload.id + ' successfully displayed. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+            $('#status').text('Notification successfully displayed')
+          } else {
+            console.log('Notification ' + r.payload.id + ' failed to display. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+            $('#status').text('Failed to display notification. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+          }
+        } else {
+          console.log('Invalid payload version!')
+          $('#status').text('Notification response: Invalid payload version')
+        }
+      }
+    </script>
+  </body>
+  <script>
+    require('./renderer.js')
+  </script>
+</html>
