@@ -1,7 +1,7 @@
 {
   "name": "openvr-notifications-desktop",
   "version": "1.0.0",
-  "description": "Mirror Android notifications to OpenVR.",
+  "description": "OpenVR Notifications",
   "author": "Thomas Gaubert <tpgaubert@gmail.com>",
   "license": "MIT",
   "main": "main.js",
