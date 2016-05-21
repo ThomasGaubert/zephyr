@@ -1,13 +1,16 @@
+// Handle any Squirrel events first
+if(require('electron-squirrel-startup')) return;
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
+
+// Setup auto-updater
+const autoUpdater = electron.autoUpdater;
+setupAutoUpdater();
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
-
-// Handle any Squirrel events first
-if (handleSquirrelEvent()) {
-  return
-}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -124,11 +127,15 @@ function startServer() {
 }
 
 function startOverlay() {
-  const execFile = require('child_process').execFile;
-  const child = execFile('./build/overlay/openvr-notifications.exe', (error, stdout, stderr) => {
-    console.log("Overlay not running!")
+  if(process.platform == 'win32') {
+    const execFile = require('child_process').execFile;
+    const child = execFile('./build/overlay/openvr-notifications.exe', (error, stdout, stderr) => {
+      console.log("Overlay not running!")
+      broadcastOverlayNotRunning()
+    })
+  } else {
     broadcastOverlayNotRunning()
-  })
+  }
 }
 
 function broadcastOverlayNotRunning() {
@@ -195,7 +202,7 @@ function handleVersionRequest(msg) {
     },
     payload: {
       name: 'NodeJS/Electron Server',
-      version: '0.0.2',
+      version: app.getVersion(),
       versionCode: 1,
       versions: [
         {
@@ -211,48 +218,9 @@ function handleVersionRequest(msg) {
   }
 }
 
-function handleSquirrelEvent() {
-  if (process.platform != 'win32') {
-    return false
+function setupAutoUpdater() {
+  if(process.platform == 'win32') {
+    const feedURL = 'https://openvr-notifications-updates.herokuapp.com/update/win32/' + app.getVersion() 
+    autoUpdater.setFeedURL(feedURL)
   }
-
-  var path = require('path')
-  var cp = require('child_process')
-
-  function executeSquirrelCommand(args, done) {
-    var updateDotExe = path.resolve(path.dirname(process.execPath), 
-      '..', 'update.exe')
-    var child = cp.spawn(updateDotExe, args, { detached: true });
-    child.on('close', function(code) {
-      done()
-    })
-  }
-
-  function install(done) {
-    var target = path.basename(process.execPath)
-    executeSquirrelCommand(["--createShortcut", target], done)
-  }
-
-  function uninstall(done) {
-    var target = path.basename(process.execPath)
-    executeSquirrelCommand(["--removeShortcut", target], done)
-  }
-
-  var squirrelEvent = process.argv[1]
-  switch (squirrelEvent) {
-    case '--squirrel-install':
-      install(app.quit)
-      return true
-    case '--squirrel-updated':
-      install(app.quit)
-      return true
-    case '--squirrel-obsolete':
-      app.quit()
-      return true
-    case '--squirrel-uninstall':
-      uninstall(app.quit)
-      return true
-  }
-
-  return false
-};
+}

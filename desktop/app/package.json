@@ -1,6 +1,6 @@
 {
   "name": "openvr-notifications-desktop",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "OpenVR Notifications",
   "author": "Thomas Gaubert <tpgaubert@gmail.com>",
   "license": "MIT",
@@ -22,5 +22,8 @@
     "body-parser": "^1.15.1",
     "express": "^4.10.2",
     "socket.io": "^1.4.6"
+  },
+  "devDependencies": {
+    "electron-squirrel-startup": "^1.0.0"
   }
 }
