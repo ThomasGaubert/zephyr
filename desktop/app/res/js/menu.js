@@ -152,7 +152,7 @@ function setupMenu() {
 	      {
 	        label: 'Quit',
 	        accelerator: 'Command+Q',
-	        click() { app.quit(); }
+	        click() { remote.app.quit(); }
 	      },
 	    ]
 	  });

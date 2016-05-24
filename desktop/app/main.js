@@ -17,7 +17,7 @@ const BrowserWindow = electron.BrowserWindow
 let mainWindow
 
 // Socket stuff
-var bodyParser = require("body-parser");
+var bodyParser = require('body-parser');
 var web = require('express')()
 web.use(bodyParser.urlencoded({ extended: false }))
 web.use(bodyParser.json())
@@ -130,10 +130,11 @@ function startOverlay() {
   if(process.platform == 'win32') {
     const execFile = require('child_process').execFile;
     const child = execFile('./build/overlay/openvr-notifications.exe', (error, stdout, stderr) => {
-      console.log("Overlay not running!")
+      console.log('Overlay not running! (died)')
       broadcastOverlayNotRunning()
     })
   } else {
+    console.log('Overlay not running! (requires win32)')
     broadcastOverlayNotRunning()
   }
 }
