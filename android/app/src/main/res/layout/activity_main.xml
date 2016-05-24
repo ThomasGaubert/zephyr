@@ -35,6 +35,14 @@
             android:layout_below="@+id/serverAddrField"
             android:layout_centerHorizontal="true" />
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_test_notif"
+            android:id="@+id/testNotifBtn"
+            android:layout_below="@+id/connectBtn"
+            android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
     <android.support.design.widget.CoordinatorLayout

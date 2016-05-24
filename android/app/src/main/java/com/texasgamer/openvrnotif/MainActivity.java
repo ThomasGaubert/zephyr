@@ -1,7 +1,6 @@
 package com.texasgamer.openvrnotif;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("ConstantConditions")
     private void setupUi() {
         final Button connectBtn = (Button) findViewById(R.id.connectBtn);
+        final Button testNotifBtn = (Button) findViewById(R.id.testNotifBtn);
         final EditText serverAddrField = ((EditText) findViewById(R.id.serverAddrField));
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +49,32 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 connected = !connected;
+            }
+        });
+
+        testNotifBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(connected) {
+                    try {
+                        JSONObject notif = new JSONObject();
+                        JSONObject metadata = new JSONObject();
+                        metadata.put("verison", 1);
+                        metadata.put("type", "notification");
+                        metadata.put("from", clientId);
+                        metadata.put("to", "");
+                        JSONObject payload = new JSONObject();
+                        payload.put("id", 0);
+                        payload.put("title", "Test Notification");
+                        payload.put("text", "This is a test notification.");
+                        payload.put("device", "Android Client");
+                        notif.put("metadata", metadata);
+                        notif.put("payload", payload);
+                        socket.emit("notification", notif.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -70,16 +96,29 @@ public class MainActivity extends AppCompatActivity {
         }).on(clientId, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                // TODO: Actually verify version
-                Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
-                getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.pref_last_addr), serverAddr).apply();
+                try {
+                    JSONObject msg = new JSONObject(args[0].toString());
+                    JSONObject metadata = msg.getJSONObject("metadata");
+                    if(metadata.getString("type").equals("version") && metadata.getInt("version") == 1) {
+                        Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
+                        getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.pref_last_addr), serverAddr).apply();
+                    } else if(metadata.getString("type").equals("notification-response") && metadata.getInt("version") == 1) {
+                        if(msg.getJSONObject("payload").getBoolean("result")) {
+                            Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_notif_confirm, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_notif_fail, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                connected = false;
                 Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_disconnected, Snackbar.LENGTH_SHORT).show();
             }
-
         });
         socket.connect();
     }
