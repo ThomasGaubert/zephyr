@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">OpenVR Notifications</string>
+
+    <string name="server_addr">Server Address</string>
+    <string name="server_addr_ex">127.0.0.1:3753</string>
+    <string name="btn_connect">Connect</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="snackbar_connected">Connected to the server.</string>
+    <string name="snackbar_disconnected">Disconnected from the server.</string>
+
+    <string name="pref_last_addr">lastAddr</string>
+</resources>
