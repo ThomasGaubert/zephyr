@@ -77,10 +77,6 @@
         requestServerVersion()
       })
 
-      socket.on('version', function(msg) {
-        verifyVersion(msg)
-      })
-
       socket.on('broadcast', function(msg) {
         var b = JSON.parse(msg)
         if (b.metadata.type == 'broadcast-ping') {
