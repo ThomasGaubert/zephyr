@@ -96,6 +96,11 @@
         }
       })
 
+      socket.on('notification', function(msg) {
+        var n = JSON.parse(msg)
+        $.snackbar({content: n.payload.title + ': ' + n.payload.text})
+      })
+
       socket.on(clientId, function(msg) {
         var m = JSON.parse(msg)
 
