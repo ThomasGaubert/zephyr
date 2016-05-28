@@ -116,6 +116,19 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }).on("broadcast", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                try {
+                    JSONObject msg = new JSONObject(args[0].toString());
+                    JSONObject metadata = msg.getJSONObject("metadata");
+                    if(metadata.getString("type").equals("broadcast-ping")) {
+                        socket.emit("broadcast", getPong(metadata.getString("from")).toString());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -152,6 +165,26 @@ public class MainActivity extends AppCompatActivity {
             versionInfo.put("payload", payload);
 
             return versionInfo;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new JSONObject();
+    }
+
+    private JSONObject getPong(String to) {
+        try {
+            JSONObject pong = new JSONObject();
+            JSONObject metadata = new JSONObject();
+            metadata.put("version", 1);
+            metadata.put("type", "broadcast-pong");
+            metadata.put("from", clientId);
+            metadata.put("to", to);
+            JSONObject payload = new JSONObject();
+            pong.put("metadata", metadata);
+            pong.put("payload", payload);
+
+            return pong;
         } catch (Exception e) {
             e.printStackTrace();
         }
