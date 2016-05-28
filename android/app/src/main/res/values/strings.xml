@@ -13,6 +13,9 @@
     <string name="snackbar_not_connected">Not connected to server.</string>
     <string name="snackbar_notif_confirm">Notification successfully delivered.</string>
     <string name="snackbar_notif_fail">Unable to deliver notification.</string>
+    <string name="sheet_notif_title">Enable Notification Access</string>
+    <string name="sheet_notif_text">OpenVR Notifications needs access to your notifications to operate properly.</string>
+    <string name="sheet_notif_btn">Enable</string>
 
     <string name="pref_last_addr">lastAddr</string>
 </resources>
