@@ -4,10 +4,13 @@
     <string name="server_addr">Server Address</string>
     <string name="server_addr_ex">127.0.0.1:3753</string>
     <string name="btn_connect">Connect</string>
+    <string name="btn_connecting">Connecting…</string>
     <string name="btn_disconnect">Disconnect</string>
+    <string name="btn_disconnecting">Disconnecting…</string>
     <string name="btn_test_notif">Test Notification</string>
     <string name="snackbar_connected">Connected to the server.</string>
     <string name="snackbar_disconnected">Disconnected from the server.</string>
+    <string name="snackbar_not_connected">Not connected to server.</string>
     <string name="snackbar_notif_confirm">Notification successfully delivered.</string>
     <string name="snackbar_notif_fail">Unable to deliver notification.</string>
 

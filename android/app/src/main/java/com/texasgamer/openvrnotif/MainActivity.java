@@ -1,6 +1,7 @@
 package com.texasgamer.openvrnotif;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,14 +42,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!connected) {
                     serverAddr = serverAddrField.getText().toString();
-                    connectBtn.setText(R.string.btn_disconnect);
+                    connectBtn.setText(R.string.btn_connecting);
                     setupSocketConnection();
                 } else {
-                    connectBtn.setText(R.string.btn_connect);
+                    connectBtn.setText(R.string.btn_disconnecting);
                     socket.disconnect();
                 }
-
-                connected = !connected;
             }
         });
 
@@ -74,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_not_connected, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                     if(metadata.getString("type").equals("version") && metadata.getInt("version") == 1) {
                         Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
                         getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.pref_last_addr), serverAddr).apply();
+                        connected = true;
+                        updateConnectBtn();
                     } else if(metadata.getString("type").equals("notification-response") && metadata.getInt("version") == 1) {
                         if(msg.getJSONObject("payload").getBoolean("result")) {
                             Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_notif_confirm, Snackbar.LENGTH_SHORT).show();
@@ -117,10 +120,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void call(Object... args) {
                 connected = false;
+                updateConnectBtn();
                 Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_disconnected, Snackbar.LENGTH_SHORT).show();
             }
         });
         socket.connect();
+    }
+
+    private void updateConnectBtn() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                ((Button) findViewById(R.id.connectBtn)).setText(connected ? R.string.btn_disconnect : R.string.btn_connect);
+            }
+        });
     }
 
     private JSONObject getVersionInfo() {
