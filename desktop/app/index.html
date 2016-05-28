@@ -3,6 +3,8 @@
   <head>
     <title>OpenVR Notifications</title>
     <link rel="stylesheet" type="text/css" href="./res/css/style.css">
+    <link rel="stylesheet" type="text/css" href="./res/css/material.css">
+    <link rel="stylesheet" type="text/css" href="./res/css/snackbar.min.css">
   </head>
   <script>
     function getIPAddress() {
@@ -38,20 +40,23 @@
       <input id="btnVersion" type="submit" value="Version"/>
     </div>
 
+    <script>
+      window.$ = window.jQuery = require('./res/js/jquery.js')
+    </script>
     <script src="./res/js/socket.io.js"></script>
     <script src="./res/js/menu.js"></script>
+    <script src="./res/js/snackbar.min.js"></script>
     <script>
-      setupMenu();
+      setupMenu()
 
-      window.$ = window.jQuery = require('./res/js/jquery.js');
       var socket = io('http://localhost:3753')
       var shell = require('electron').shell
       $(document).on('click', 'a[href^="http"]', function(event) {
           event.preventDefault()
           shell.openExternal(this.href)
-      });
+      })
 
-      $(".dev-tools").hide();
+      $('.dev-tools').hide()
 
       var clientId = 'nodejs-electron-client-' + Math.floor((Math.random() * 100) + 1)
 
@@ -90,6 +95,7 @@
           }))
         } else if (b.metadata.type == 'broadcast-overlay-not-running') {
           console.log('Overlay not running! (' + b.payload.message + ')')
+          $.snackbar({content: 'Error: Overlay is not running.', timeout: 0})
           $('#status').text('Error: Overlay is not running')
         }
       })
@@ -149,13 +155,16 @@
         if (v.metadata.version == 1) {
           if(v.payload.versionCode == 1) {
             console.log('Connected to server "' + v.payload.name + '" ' + v.payload.version + ' (' + v.payload.versionCode + ')')
+            $.snackbar({content: 'Connected to server.'})
             $('#status').text('Connected to server "' + v.payload.name + '" ' + v.payload.version + ' (' + v.payload.versionCode + ')')
           } else {
             console.log('Server is running incompatible version!')
+            $.snackbar({content: 'Unable to connect: Server is running incompatible version.', timeout: 0})
             $('#status').text('Unable to connect: Server is running incompatible version')
           }
         } else {
           console.log('Invalid payload version!')
+          $.snackbar({content: 'Unable to connect: Invalid payload version.', timeout: 0})
           $('#status').text('Unable to connect: Invalid payload version')
         }
       }
@@ -165,13 +174,16 @@
         if (r.metadata.version == 1) {
           if(r.payload.result) {
             console.log('Notification ' + r.payload.id + ' successfully displayed. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+            $.snackbar({content: 'Notification successfully displayed.'})
             $('#status').text('Notification successfully displayed')
           } else {
             console.log('Notification ' + r.payload.id + ' failed to display. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+            $.snackbar({content: 'Failed to display notification. (' + r.payload.resultCode +')'})
             $('#status').text('Failed to display notification. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
           }
         } else {
           console.log('Invalid payload version!')
+          $.snackbar({content: 'Notification response: Invalid payload version.'})
           $('#status').text('Notification response: Invalid payload version')
         }
       }
