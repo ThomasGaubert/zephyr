@@ -1,7 +1,12 @@
 package com.texasgamer.openvrnotif;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.os.Handler;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,19 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
 public class MainActivity extends AppCompatActivity {
 
-    private Socket socket;
+    private MainAcvitiyReceiver mainAcvitiyReceiver;
+    private BottomSheetBehavior bottomSheetBehavior;
+
     private String serverAddr = "http://127.0.0.1:3753/";
-    private String clientId = "android";
     private boolean connected = false;
 
     @Override
@@ -29,7 +27,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startSocketService();
+        requestConnectionStatus();
+
         setupUi();
+
+        mainAcvitiyReceiver = new MainAcvitiyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+        registerReceiver(mainAcvitiyReceiver, filter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String enabledNotificationListeners =
+                android.provider.Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
+        if(enabledNotificationListeners.contains("com.texasgamer.openvrnotif.NotificationService")) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -43,10 +61,15 @@ public class MainActivity extends AppCompatActivity {
                 if(!connected) {
                     serverAddr = serverAddrField.getText().toString();
                     connectBtn.setText(R.string.btn_connecting);
-                    setupSocketConnection();
+                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    i.putExtra("type", "connect");
+                    i.putExtra("address", serverAddrField.getText().toString());
+                    sendBroadcast(i);
                 } else {
                     connectBtn.setText(R.string.btn_disconnecting);
-                    socket.disconnect();
+                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    i.putExtra("type", "disconnect");
+                    sendBroadcast(i);
                 }
             }
         });
@@ -55,89 +78,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(connected) {
-                    try {
-                        JSONObject notif = new JSONObject();
-                        JSONObject metadata = new JSONObject();
-                        metadata.put("verison", 1);
-                        metadata.put("type", "notification");
-                        metadata.put("from", clientId);
-                        metadata.put("to", "");
-                        JSONObject payload = new JSONObject();
-                        payload.put("id", 0);
-                        payload.put("title", "Test Notification");
-                        payload.put("text", "This is a test notification.");
-                        payload.put("device", "Android Client");
-                        notif.put("metadata", metadata);
-                        notif.put("payload", payload);
-                        socket.emit("notification", notif.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    i.putExtra("type", "test");
+                    sendBroadcast(i);
                 } else {
-                    Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_not_connected, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_not_connected, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
 
-        serverAddrField.setText(getPreferences(Context.MODE_PRIVATE).getString(getString(R.string.pref_last_addr), ""));
-    }
+        serverAddrField.setText(PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.pref_last_addr), ""));
 
-    private void setupSocketConnection() {
-        try {
-            socket = IO.socket("http://" + serverAddr + "/");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetBehavior.setHideable(true);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void call(Object... args) {
-                socket.emit("version", getVersionInfo().toString());
-            }
-        }).on(clientId, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                try {
-                    JSONObject msg = new JSONObject(args[0].toString());
-                    JSONObject metadata = msg.getJSONObject("metadata");
-                    if(metadata.getString("type").equals("version") && metadata.getInt("version") == 1) {
-                        Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
-                        getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.pref_last_addr), serverAddr).apply();
-                        connected = true;
-                        updateConnectBtn();
-                    } else if(metadata.getString("type").equals("notification-response") && metadata.getInt("version") == 1) {
-                        if(msg.getJSONObject("payload").getBoolean("result")) {
-                            Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_notif_confirm, Snackbar.LENGTH_SHORT).show();
-                        } else {
-                            Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_notif_fail, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
             }
-        }).on("broadcast", new Emitter.Listener() {
+
             @Override
-            public void call(Object... args) {
-                try {
-                    JSONObject msg = new JSONObject(args[0].toString());
-                    JSONObject metadata = msg.getJSONObject("metadata");
-                    if(metadata.getString("type").equals("broadcast-ping")) {
-                        socket.emit("broadcast", getPong(metadata.getString("from")).toString());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                connected = false;
-                updateConnectBtn();
-                Snackbar.make(findViewById(R.id.snackbarPosition), R.string.snackbar_disconnected, Snackbar.LENGTH_SHORT).show();
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
             }
         });
-        socket.connect();
+
+        findViewById(R.id.enableNotificationsBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateConnectBtn() {
@@ -148,47 +122,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private JSONObject getVersionInfo() {
-        try {
-            JSONObject versionInfo = new JSONObject();
-            JSONObject metadata = new JSONObject();
-            metadata.put("version", 1);
-            metadata.put("type", "version");
-            metadata.put("from", clientId);
-            metadata.put("to", "");
-            JSONObject payload = new JSONObject();
-            payload.put("name", "Android Client");
-            payload.put("version", getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-            payload.put("versionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-            payload.put("versions", new JSONArray());
-            versionInfo.put("metadata", metadata);
-            versionInfo.put("payload", payload);
-
-            return versionInfo;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new JSONObject();
+    private void startSocketService() {
+        Intent i = new Intent(this, SocketService.class);
+        startService(i);
     }
 
-    private JSONObject getPong(String to) {
-        try {
-            JSONObject pong = new JSONObject();
-            JSONObject metadata = new JSONObject();
-            metadata.put("version", 1);
-            metadata.put("type", "broadcast-pong");
-            metadata.put("from", clientId);
-            metadata.put("to", to);
-            JSONObject payload = new JSONObject();
-            pong.put("metadata", metadata);
-            pong.put("payload", payload);
+    private void requestConnectionStatus() {
+        Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+        i.putExtra("type", "status");
+        sendBroadcast(i);
+    }
 
-            return pong;
-        } catch (Exception e) {
-            e.printStackTrace();
+    class MainAcvitiyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String type = intent.getStringExtra("type");
+            if (type.equals("connected")) {
+                connected = true;
+                serverAddr = intent.getStringExtra("address");
+                ((EditText) findViewById(R.id.serverAddrField)).setText(serverAddr);
+                updateConnectBtn();
+                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
+            } else if (type.equals("disconnected")) {
+                connected = false;
+                updateConnectBtn();
+                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_disconnected, Snackbar.LENGTH_SHORT).show();
+            } else if (type.equals("notif-sent")) {
+                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_notif_confirm, Snackbar.LENGTH_SHORT).show();
+            } else if (type.equals("notif-failed")) {
+                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_notif_fail, Snackbar.LENGTH_SHORT).show();
+            }
         }
-
-        return new JSONObject();
     }
 }
