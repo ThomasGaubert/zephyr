@@ -1,6 +1,7 @@
 package com.texasgamer.openvrnotif;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -140,7 +141,10 @@ public class WelcomeActivity extends AppCompatActivity {
         mSkipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this)
+                        .edit().putBoolean(getString(R.string.pref_first_run), false).apply();
+                Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
+                startActivity(i);
                 finish();
             }
         });
@@ -148,12 +152,13 @@ public class WelcomeActivity extends AppCompatActivity {
         mFinishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this)
                         .edit().putBoolean(getString(R.string.pref_first_run), false).apply();
+                Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
             }
         });
-
     }
 
     void updateIndicators(int position) {
