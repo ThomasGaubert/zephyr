@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkIfFirstRun();
+
         startSocketService();
         requestConnectionStatus();
 
@@ -47,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+    }
+
+    private void checkIfFirstRun() {
+        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_first_run), true)) {
+            Intent i = new Intent(this, WelcomeActivity.class);
+            startActivity(i);
         }
     }
 

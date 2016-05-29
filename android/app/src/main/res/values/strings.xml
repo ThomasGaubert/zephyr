@@ -1,6 +1,17 @@
 <resources>
+    <!-- General strings -->
     <string name="app_name">OpenVR Notifications</string>
 
+    <!-- WelcomeActivity -->
+    <string name="section_format">Page %1$d</string>
+    <string name="welcome_section_one_title">Notifications, In VR</string>
+    <string name="welcome_section_one_text">Get notifications from all apps within VR.</string>
+    <string name="welcome_section_two_title">Simply Secure</string>
+    <string name="welcome_section_two_text">Notifications are kept on the local network.</string>
+    <string name="welcome_section_three_title">One More Thing</string>
+    <string name="welcome_section_three_text">Make sure the OpenVR Notifications desktop app is running.</string>
+
+    <!-- MainActivity -->
     <string name="server_addr">Server Address</string>
     <string name="server_addr_ex">127.0.0.1:3753</string>
     <string name="btn_connect">Connect</string>
@@ -17,5 +28,7 @@
     <string name="sheet_notif_text">OpenVR Notifications needs access to your notifications to operate properly.</string>
     <string name="sheet_notif_btn">Enable</string>
 
+    <!-- Preferences -->
+    <string name="pref_first_run">firstRun</string>
     <string name="pref_last_addr">lastAddr</string>
 </resources>

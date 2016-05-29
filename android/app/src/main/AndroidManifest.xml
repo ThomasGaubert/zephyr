@@ -18,9 +18,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.texasgamer.openvrnotif.SocketService"/>
-
-        <service android:name="com.texasgamer.openvrnotif.NotificationService"
+        <service android:name=".SocketService" />
+        <service
+            android:name=".NotificationService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -28,11 +28,13 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="com.texasgamer.openvrnotif.BootReceiver">
+        <receiver android:name=".BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".WelcomeActivity"></activity>
     </application>
 
 </manifest>
