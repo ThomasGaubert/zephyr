@@ -10,6 +10,8 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,11 +35,6 @@ public class MainActivity extends AppCompatActivity {
         requestConnectionStatus();
 
         setupUi();
-
-        mainAcvitiyReceiver = new MainAcvitiyReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
-        registerReceiver(mainAcvitiyReceiver, filter);
     }
 
     @Override
@@ -50,12 +47,35 @@ public class MainActivity extends AppCompatActivity {
         } else {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
+
+        mainAcvitiyReceiver = new MainAcvitiyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+        registerReceiver(mainAcvitiyReceiver, filter);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         unregisterReceiver(mainAcvitiyReceiver);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent i = new Intent(MainActivity.this, PreferencesActivity.class);
+                startActivity(i);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void checkIfFirstRun() {

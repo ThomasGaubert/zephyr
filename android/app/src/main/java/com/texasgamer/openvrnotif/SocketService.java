@@ -42,6 +42,12 @@ public class SocketService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(serviceReceiver);
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(!serverAddr.isEmpty()) {
             Log.i(TAG, "Connecting to saved address " + serverAddr + "...");
@@ -234,10 +240,11 @@ public class SocketService extends Service {
                 metadata.put("to", "");
 
                 JSONObject payload = new JSONObject();
-                payload.put("id", 0);
-                payload.put("title", "Test Notification");
-                payload.put("text", "This is a test notification.");
-                payload.put("device", "Android Client");
+                payload.put("id", id);
+                payload.put("title", title);
+                payload.put("text", text);
+                payload.put("device", PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                        .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name)));
                 notif.put("metadata", metadata);
                 notif.put("payload", payload);
 

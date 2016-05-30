@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_start_on_boot"
+        android:summary="@string/pref_description_start_on_boot"
+        android:title="@string/pref_title_start_on_boot" />
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_device_name"
+        android:inputType="textCapWords"
+        android:key="@string/pref_device_name"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_device_name" />
+
+</PreferenceScreen>

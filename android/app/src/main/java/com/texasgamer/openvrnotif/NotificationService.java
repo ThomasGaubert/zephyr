@@ -2,6 +2,7 @@ package com.texasgamer.openvrnotif;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -26,18 +27,23 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         Log.i(TAG, "onNotificationPosted");
 
-        Notification n = sbn.getNotification();
-        String title = n.extras.getString(Notification.EXTRA_TITLE);
-        String text = n.extras.getString(Notification.EXTRA_TEXT);
+        if(PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(getString(R.string.pref_app_notif_base) + "-" + sbn.getPackageName(), true)) {
+            Notification n = sbn.getNotification();
+            String title = n.extras.getString(Notification.EXTRA_TITLE);
+            String text = n.extras.getString(Notification.EXTRA_TEXT);
 
-        Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getPackageName() + "\t" + title + "\t" + text);
-        Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
-        i.putExtra("type", "notification");
-        i.putExtra("id", sbn.getId());
-        i.putExtra("package", sbn.getPackageName());
-        i.putExtra("title", title);
-        i.putExtra("text", text);
-        sendBroadcast(i);
+            Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getPackageName() + "\t" + title + "\t" + text);
+            Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+            i.putExtra("type", "notification");
+            i.putExtra("id", sbn.getId());
+            i.putExtra("package", sbn.getPackageName());
+            i.putExtra("title", title);
+            i.putExtra("text", text);
+            sendBroadcast(i);
+        } else {
+            Log.i(TAG, "Ignoring notification from " + sbn.getPackageName());
+        }
     }
 
     @Override

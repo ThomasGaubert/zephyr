@@ -34,7 +34,15 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".WelcomeActivity"></activity>
+        <activity android:name=".WelcomeActivity" />
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/title_activity_preferences"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.texasgamer.openvrnotif.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
