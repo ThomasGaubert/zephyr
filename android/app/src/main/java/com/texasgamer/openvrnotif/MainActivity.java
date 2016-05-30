@@ -52,10 +52,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(mainAcvitiyReceiver);
+    }
+
     private void checkIfFirstRun() {
         if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_first_run), true)) {
             Intent i = new Intent(this, WelcomeActivity.class);
             startActivity(i);
+            finish();
         }
     }
 

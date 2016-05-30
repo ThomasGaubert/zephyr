@@ -177,7 +177,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         int[] titles = new int[]{R.string.welcome_section_one_title, R.string.welcome_section_two_title, R.string.welcome_section_three_title};
         int[] texts = new int[]{R.string.welcome_section_one_text, R.string.welcome_section_two_text, R.string.welcome_section_three_text};
-        int[] bgs = new int[]{R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
+        int[] bgs = new int[]{R.drawable.ic_alert, R.drawable.ic_security, R.drawable.ic_download};
 
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
