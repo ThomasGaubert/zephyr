@@ -16,7 +16,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAnalytics firebaseAnalytics;
 
     private MainAcvitiyReceiver mainAcvitiyReceiver;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkIfFirstRun();
 
+        setupAnalytics();
         startSocketService();
         requestConnectionStatus();
 
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if(enabledNotificationListeners.contains("com.texasgamer.openvrnotif.NotificationService")) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
+            firebaseAnalytics.logEvent(getString(R.string.analytics_show_enable_notif_perm), null);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
 
@@ -70,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
+                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_settings), null);
+
                 Intent i = new Intent(MainActivity.this, PreferencesActivity.class);
                 startActivity(i);
                 return true;
@@ -84,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+    }
+
+    private void setupAnalytics() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -101,11 +113,19 @@ public class MainActivity extends AppCompatActivity {
                     i.putExtra("type", "connect");
                     i.putExtra("address", serverAddrField.getText().toString());
                     sendBroadcast(i);
+
+                    Bundle b = new Bundle();
+                    b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                    firebaseAnalytics.logEvent(getString(R.string.analytics_tap_connect), b);
                 } else {
                     connectBtn.setText(R.string.btn_disconnecting);
                     Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
                     i.putExtra("type", "disconnect");
                     sendBroadcast(i);
+
+                    Bundle b = new Bundle();
+                    b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                    firebaseAnalytics.logEvent(getString(R.string.analytics_tap_disconnect), b);
                 }
             }
         });
@@ -114,10 +134,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(connected) {
+                    firebaseAnalytics.logEvent(getString(R.string.analytics_tap_test_notif_connected), null);
+
                     Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
                     i.putExtra("type", "test");
                     sendBroadcast(i);
                 } else {
+                    firebaseAnalytics.logEvent(getString(R.string.analytics_tap_test_notif_disconnected), null);
+
                     Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_not_connected, Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -144,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.enableNotificationsBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_enable_notif_perm), null);
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 startActivity(intent);
             }

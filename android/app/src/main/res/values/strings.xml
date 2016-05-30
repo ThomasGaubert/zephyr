@@ -65,4 +65,43 @@
     <string name="pref_header_about">About</string>
     <string name="pref_title_version">Version %1$S</string>
     <string name="pref_title_licenses">Open Source Licenses</string>
+
+    <!-- Analytics -->
+    <string name="analytics_tap_next">tap_next</string>
+    <string name="analytics_tap_skip">tap_skip</string>
+    <string name="analytics_tap_finish">tap_finish</string>
+    <string name="analytics_select_page">select_page</string>
+    <string name="analytics_param_welcome_page">param_welcome_page</string>
+
+    <string name="analytics_tap_settings">tap_settings</string>
+    <string name="analytics_tap_connect">tap_connect</string>
+    <string name="analytics_tap_disconnect">tap_disconnect</string>
+    <string name="analytics_param_server_addr">param_server_addr</string>
+    <string name="analytics_tap_test_notif_connected">tap_notif_connected</string>
+    <string name="analytics_tap_test_notif_disconnected">tap_notif_disconnected</string>
+    <string name="analytics_show_enable_notif_perm">show_enable_notif_perm</string>
+    <string name="analytics_tap_enable_notif_perm">tap_enable_notif_perm</string>
+
+    <string name="analytics_tap_general_prefs">tap_general_prefs</string>
+    <string name="analytics_tap_start_on_boot">tap_start_on_boot</string>
+    <string name="analytics_tap_device_name">tap_device_name</string>
+    <string name="analytics_event_empty_device_name">empty_device_name</string>
+    <string name="analytics_tap_notif_prefs">tap_notif_prefs</string>
+    <string name="analytics_tap_enable_all">tap_enable_all</string>
+    <string name="analytics_tap_disable_all">tap_disable_all</string>
+    <string name="analytics_param_num_apps">param_num_apps</string>
+    <string name="analytics_tap_app">tap_app</string>
+    <string name="analytics_param_app_name">param_app_name</string>
+    <string name="analytics_param_new_value">param_new_value</string>
+    <string name="analytics_tap_about_prefs">tap_about_prefs</string>
+    <string name="analytics_tap_licenses">tap_licenses</string>
+
+    <string name="analytics_event_version">event_version</string>
+    <string name="analytics_event_connect">event_connect</string>
+    <string name="analytics_event_disconnect">event_disconnect</string>
+    <string name="analytics_event_connected">event_connected</string>
+    <string name="analytics_event_disconnected">event_disconnected</string>
+    <string name="analytics_event_notif_sent">event_notif_sent</string>
+    <string name="analytics_event_notif_failed">event_notif_failed</string>
+    <string name="analytics_event_ping">event_ping</string>
 </resources>

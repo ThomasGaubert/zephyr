@@ -5,10 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +26,7 @@ public class SocketService extends Service {
     private String TAG = this.getClass().getSimpleName();
 
     private SocketServiceReceiver serviceReceiver;
+    private FirebaseAnalytics firebaseAnalytics;
 
     private Socket socket;
     private String serverAddr;
@@ -33,6 +37,7 @@ public class SocketService extends Service {
     public void onCreate() {
         super.onCreate();
         serviceReceiver = new SocketServiceReceiver();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.texasgamer.openvrnotif.SOCKET_SERVICE");
@@ -73,6 +78,10 @@ public class SocketService extends Service {
 
         serverAddr = address;
 
+        Bundle b = new Bundle();
+        b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+        firebaseAnalytics.logEvent(getString(R.string.analytics_event_connect), b);
+
         try {
             socket = IO.socket("http://" + address + "/");
         } catch (Exception e) {
@@ -86,6 +95,9 @@ public class SocketService extends Service {
 
     private void disconnect() {
         Log.i(TAG, "Disconnecting...");
+        Bundle b = new Bundle();
+        b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+        firebaseAnalytics.logEvent(getString(R.string.analytics_event_disconnect), b);
         socket.disconnect();
     }
 
@@ -93,6 +105,10 @@ public class SocketService extends Service {
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                Bundle b = new Bundle();
+                b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                firebaseAnalytics.logEvent(getString(R.string.analytics_event_version), b);
+
                 socket.emit("version", getVersionInfo().toString());
             }
         }).on(clientId, new Emitter.Listener() {
@@ -103,6 +119,11 @@ public class SocketService extends Service {
                     JSONObject metadata = msg.getJSONObject("metadata");
                     if(metadata.getString("type").equals("version") && metadata.getInt("version") == 1) {
                         Log.i(TAG, "Connected to server at " + serverAddr);
+
+                        Bundle b = new Bundle();
+                        b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                        firebaseAnalytics.logEvent(getString(R.string.analytics_event_connected), b);
+
                         Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
                         i.putExtra("type", "connected");
                         i.putExtra("address", serverAddr);
@@ -113,11 +134,21 @@ public class SocketService extends Service {
                     } else if(metadata.getString("type").equals("notification-response") && metadata.getInt("version") == 1) {
                         if(msg.getJSONObject("payload").getBoolean("result")) {
                             Log.i(TAG, "Notification sent.");
+
+                            Bundle b = new Bundle();
+                            b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                            firebaseAnalytics.logEvent(getString(R.string.analytics_event_notif_sent), b);
+
                             Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
                             i.putExtra("type", "notif-sent");
                             sendBroadcast(i);
                         } else {
                             Log.i(TAG, "Notification failed.");
+
+                            Bundle b = new Bundle();
+                            b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                            firebaseAnalytics.logEvent(getString(R.string.analytics_event_notif_failed), b);
+
                             Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
                             i.putExtra("type", "notif-failed");
                             sendBroadcast(i);
@@ -135,6 +166,11 @@ public class SocketService extends Service {
                     JSONObject metadata = msg.getJSONObject("metadata");
                     if(metadata.getString("type").equals("broadcast-ping")) {
                         Log.i(TAG, "Responding to ping...");
+
+                        Bundle b = new Bundle();
+                        b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                        firebaseAnalytics.logEvent(getString(R.string.analytics_event_ping), b);
+
                         socket.emit("broadcast", getPong(metadata.getString("from")).toString());
                     }
                 } catch (Exception e) {
@@ -145,6 +181,11 @@ public class SocketService extends Service {
             @Override
             public void call(Object... args) {
                 Log.i(TAG, "Disconnected from server.");
+
+                Bundle b = new Bundle();
+                b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
+                firebaseAnalytics.logEvent(getString(R.string.analytics_event_disconnected), b);
+
                 Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
                 i.putExtra("type", "disconnected");
                 i.putExtra("address", serverAddr);

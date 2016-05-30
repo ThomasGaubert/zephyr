@@ -26,20 +26,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class WelcomeActivity extends AppCompatActivity {
 
-    WelcomePagerAdapter mSectionsPagerAdapter;
+    private FirebaseAnalytics firebaseAnalytics;
+    private WelcomePagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
-    ImageButton mNextBtn;
-    Button mSkipBtn, mFinishBtn;
+    private ImageButton mNextBtn;
+    private Button mSkipBtn, mFinishBtn;
 
-    ImageView zero, one, two;
-    ImageView[] indicators;
+    private ImageView zero, one, two;
+    private ImageView[] indicators;
 
-    CoordinatorLayout mCoordinator;
+    private CoordinatorLayout mCoordinator;
 
-    int page = 0;
+    private int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_welcome);
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mSectionsPagerAdapter = new WelcomePagerAdapter(getSupportFragmentManager());
 
         mNextBtn = (ImageButton) findViewById(R.id.intro_btn_next);
@@ -102,6 +106,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                Bundle b = new Bundle();
+                b.putLong(getString(R.string.analytics_param_welcome_page), position);
+                firebaseAnalytics.logEvent(getString(R.string.analytics_select_page), null);
 
                 page = position;
 
@@ -133,6 +140,10 @@ public class WelcomeActivity extends AppCompatActivity {
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle b = new Bundle();
+                b.putLong(getString(R.string.analytics_param_welcome_page), page);
+                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_next), null);
+
                 page += 1;
                 mViewPager.setCurrentItem(page, true);
             }
@@ -141,6 +152,10 @@ public class WelcomeActivity extends AppCompatActivity {
         mSkipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle b = new Bundle();
+                b.putLong(getString(R.string.analytics_param_welcome_page), page);
+                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_skip), null);
+
                 PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this)
                         .edit().putBoolean(getString(R.string.pref_first_run), false).apply();
                 Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
@@ -152,6 +167,10 @@ public class WelcomeActivity extends AppCompatActivity {
         mFinishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle b = new Bundle();
+                b.putLong(getString(R.string.analytics_param_welcome_page), page);
+                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_finish), null);
+
                 PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this)
                         .edit().putBoolean(getString(R.string.pref_first_run), false).apply();
                 Intent i = new Intent(WelcomeActivity.this, MainActivity.class);

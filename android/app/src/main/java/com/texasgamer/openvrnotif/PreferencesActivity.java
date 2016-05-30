@@ -1,6 +1,5 @@
 package com.texasgamer.openvrnotif;
 
-
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,96 +31,56 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.List;
 
-/**
- * A {@link PreferenceActivity} that presents a set of application settings. On
- * handset devices, settings are presented as a single list. On tablets,
- * settings are split by category, with category headers shown to the left of
- * the list of settings.
- * <p/>
- * See <a href="http://developer.android.com/design/patterns/settings.html">
- * Android Design: Settings</a> for design guidelines and the <a
- * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
- * API Guide</a> for more information on developing a Settings UI.
- */
 public class PreferencesActivity extends AppCompatPreferenceActivity {
-    /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
+
+    private FirebaseAnalytics firebaseAnalytics;
+
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
             if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
 
-                // Set the summary to reflect the new value.
                 preference.setSummary(
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
-
             } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
                     preference.setSummary(R.string.pref_ringtone_silent);
-
                 } else {
                     Ringtone ringtone = RingtoneManager.getRingtone(
                             preference.getContext(), Uri.parse(stringValue));
 
                     if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
                         preference.setSummary(null);
                     } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
                         String name = ringtone.getTitle(preference.getContext());
                         preference.setSummary(name);
                     }
                 }
-
             } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
                 preference.setSummary(stringValue);
             }
             return true;
         }
     };
 
-    /**
-     * Helper method to determine if the device has an extra-large screen. For
-     * example, 10" tablets are extra-large.
-     */
     private static boolean isXLargeTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
     private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
-        // Trigger the listener immediately with the preference's
-        // current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
@@ -132,15 +91,12 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(getString(R.string.action_settings));
         }
@@ -158,27 +114,17 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         return super.onMenuItemSelected(featureId, item);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean onIsMultiPane() {
         return isXLargeTablet(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
@@ -186,10 +132,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
 
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
@@ -199,18 +141,38 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_general);
+            ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_general_prefs), null);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
             EditTextPreference p = (EditTextPreference) findPreference(getString(R.string.pref_device_name));
             bindPreferenceSummaryToValue(p);
 
             if(p.getTitle().toString().equals(getString(R.string.pref_default_device_name))
                     || p.getTitle().toString().isEmpty()) {
+                ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_event_empty_device_name), null);
                 p.setText(Build.MANUFACTURER + " " + Build.MODEL);
             }
+
+            p.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Bundle b = new Bundle();
+                    String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
+                    b.putString(getString(R.string.analytics_param_new_value), newValueStr);
+                    ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_device_name), b);
+                    return false;
+                }
+            });
+
+            findPreference(getString(R.string.pref_start_on_boot)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Bundle b = new Bundle();
+                    String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
+                    b.putString(getString(R.string.analytics_param_new_value), newValueStr);
+                    ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_start_on_boot), b);
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -224,10 +186,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment {
         @Override
@@ -237,6 +195,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_notifications);
+            ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_notif_prefs), null);
 
             populatePreferences();
         }
@@ -255,11 +214,21 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 return true;
             } else if(id == R.id.enable_all) {
                 PreferenceScreen screen = getPreferenceScreen();
+
+                Bundle b = new Bundle();
+                b.putLong(getString(R.string.analytics_param_num_apps), screen.getPreferenceCount());
+                ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_enable_all), b);
+
                 for(int x = 0; x < screen.getPreferenceCount(); x++) {
                     ((CheckBoxPreference) screen.getPreference(x)).setChecked(true);
                 }
             } else if(id == R.id.disable_all) {
                 PreferenceScreen screen = getPreferenceScreen();
+
+                Bundle b = new Bundle();
+                b.putLong(getString(R.string.analytics_param_num_apps), screen.getPreferenceCount());
+                ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_disable_all), b);
+
                 for(int x = 0; x < screen.getPreferenceCount(); x++) {
                     ((CheckBoxPreference) screen.getPreference(x)).setChecked(false);
                 }
@@ -279,15 +248,22 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 pref.setIcon(packageManager.getApplicationIcon(p.applicationInfo));
                 pref.setChecked(PreferenceManager.getDefaultSharedPreferences(getActivity())
                         .getBoolean(getString(R.string.pref_app_notif_base) + "-" + p.packageName, true));
+                pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange (Preference preference, Object newValue) {
+                        Bundle b = new Bundle();
+                        b.putString(getString(R.string.analytics_param_app_name), preference.getTitle().toString());
+                        String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
+                        b.putString(getString(R.string.analytics_param_new_value), newValueStr);
+                        ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_app), b);
+                        return true;
+                    }
+                });
                 screen.addPreference(pref);
             }
         }
     }
 
-    /**
-     * This fragment shows about preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class AboutPreferenceFragment extends PreferenceFragment {
         @Override
@@ -297,6 +273,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             setHasOptionsMenu(true);
 
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_about);
+            ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_about_prefs), null);
 
             try {
                 findPreference(getString(R.string.pref_version)).setTitle(getString(R.string.pref_title_version,
@@ -305,6 +282,8 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
+                        ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_licenses), null);
+
                         final Dialog licenseDialog = new Dialog(getActivity());
                         licenseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         licenseDialog.setContentView(R.layout.dialog_licenses);
