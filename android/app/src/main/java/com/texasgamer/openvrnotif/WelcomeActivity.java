@@ -40,8 +40,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private ImageView zero, one, two;
     private ImageView[] indicators;
 
-    private CoordinatorLayout mCoordinator;
-
     private int page = 0;
 
     @Override
@@ -77,9 +75,6 @@ public class WelcomeActivity extends AppCompatActivity {
         zero = (ImageView) findViewById(R.id.intro_indicator_0);
         one = (ImageView) findViewById(R.id.intro_indicator_1);
         two = (ImageView) findViewById(R.id.intro_indicator_2);
-
-        mCoordinator = (CoordinatorLayout) findViewById(R.id.main_content);
-
 
         indicators = new ImageView[]{zero, one, two};
 
