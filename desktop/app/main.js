@@ -27,7 +27,12 @@ var serverId = 'nodejs-server'
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/res/img/icon.ico'})
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    minWidth: 400,
+    minHeight: 600,
+    icon: __dirname + '/res/img/icon.ico'})
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')

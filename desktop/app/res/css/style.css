@@ -14,16 +14,6 @@
 	font-family: roboto;
 }
 
-.title {
-	text-align: center;
-	font-size: 3em;
-}
-
-.app-connect {
-	text-align: center;
-	font-stretch: condensed;
-}
-
 .status {
 	margin-top: 20px;
 	text-align: center;
@@ -31,6 +21,7 @@
 }
 
 .dev-tools {
+	margin-top: 250px;
 	font-size: 0.9em;
 }
 
