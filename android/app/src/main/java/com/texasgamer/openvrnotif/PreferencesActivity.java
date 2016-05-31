@@ -143,7 +143,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_general);
             ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_general_prefs), null);
 
-            EditTextPreference p = (EditTextPreference) findPreference(getString(R.string.pref_device_name));
+            final EditTextPreference p = (EditTextPreference) findPreference(getString(R.string.pref_device_name));
             bindPreferenceSummaryToValue(p);
 
             if(p.getTitle().toString().equals(getString(R.string.pref_default_device_name))
@@ -155,11 +155,17 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             p.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    p.setSummary(newValue.toString());
+
+                    // TODO: FIXME: This currently results in two devices showing on client side
+                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    i.putExtra("type", "update-devices");
+                    getActivity().sendBroadcast(i);
+
                     Bundle b = new Bundle();
-                    String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
-                    b.putString(getString(R.string.analytics_param_new_value), newValueStr);
+                    b.putString(getString(R.string.analytics_param_new_value), newValue.toString());
                     ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_device_name), b);
-                    return false;
+                    return true;
                 }
             });
 

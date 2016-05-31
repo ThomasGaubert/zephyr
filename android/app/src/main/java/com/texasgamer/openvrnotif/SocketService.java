@@ -130,7 +130,7 @@ public class SocketService extends Service {
                         sendBroadcast(i);
                         connected = true;
 
-                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(getString(R.string.pref_last_addr), "").apply();
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(getString(R.string.pref_last_addr), serverAddr).apply();
                     } else if(metadata.getString("type").equals("notification-response") && metadata.getInt("version") == 1) {
                         if(msg.getJSONObject("payload").getBoolean("result")) {
                             Log.i(TAG, "Notification sent.");
@@ -196,6 +196,9 @@ public class SocketService extends Service {
     }
 
     private JSONObject getVersionInfo() {
+        clientId = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name));
+
         try {
             JSONObject versionInfo = new JSONObject();
             JSONObject metadata = new JSONObject();
@@ -220,6 +223,9 @@ public class SocketService extends Service {
     }
 
     private JSONObject getPong(String to) {
+        clientId = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name));
+
         try {
             JSONObject pong = new JSONObject();
             JSONObject metadata = new JSONObject();
@@ -258,7 +264,7 @@ public class SocketService extends Service {
                 connect(intent.getStringExtra("address"));
             } else if(type.equals("disconnect")) {
                 disconnect();
-            } else if(type.equals("status") && connected) {
+            } else if(type.equals("status")) {
                 Intent i = new Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
                 i.putExtra("type", "connected");
                 i.putExtra("address", serverAddr);
@@ -268,10 +274,15 @@ public class SocketService extends Service {
                     socket.emit("notification", buildNotificationJSONObject(0, "Test Notification",
                             "This is a test notification.").toString());
                 }
+            } else if(type.equals("update-devices")) {
+                socket.emit("version", getVersionInfo().toString());
             }
         }
 
         private JSONObject buildNotificationJSONObject(int id, String title, String text) {
+            clientId = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                    .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name));
+
             try {
                 JSONObject notif = new JSONObject();
                 JSONObject metadata = new JSONObject();

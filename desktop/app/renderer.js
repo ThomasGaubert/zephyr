@@ -51,6 +51,19 @@ socket.on('broadcast', function(msg) {
   }
 })
 
+socket.on('devices', function(msg) {
+  var d = JSON.parse(msg)
+  if(d.metadata.type == 'devices-add' && d.payload.name != clientId) {
+    $('#devices-none').hide()
+    $('#devices-list').show()
+    $('#devices-list').append('<li>' + d.payload.name + '</li>')
+  } else if(d.metadata.type == 'devices-clear') {
+    $('#devices-list').empty()
+    $('#devices-list').hide()
+    $('#devices-none').show()
+  }
+})
+
 socket.on('notification', function(msg) {
   var n = JSON.parse(msg)
   $.snackbar({content: n.payload.title + ': ' + n.payload.text})

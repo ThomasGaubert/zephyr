@@ -111,12 +111,26 @@ function startServer() {
     socket.on('version', function(msg) {
       var v = JSON.parse(msg)
       io.emit(v.metadata.from, JSON.stringify(handleVersionRequest(msg)))
+
+      broadcastPing()
     })
 
     socket.on('broadcast', function(msg) {
       var b = JSON.parse(msg)
       if (b.metadata.type == 'broadcast-pong') {
         console.log('Received response from ' + b.metadata.from)
+
+        io.emit('devices', JSON.stringify({
+          metadata: {
+            version: 1,
+            type: 'devices-add',
+            from: serverId,
+            to: ''
+          },
+          payload: {
+            name: b.metadata.from
+          }
+        }))
       }
     })
 
@@ -159,10 +173,21 @@ function broadcastOverlayNotRunning() {
 }
 
 function broadcastPing() { 
+  console.log('PINGING!!!!')
   io.emit('broadcast', JSON.stringify({
     metadata: {
       version: 1,
       type: 'broadcast-ping',
+      from: serverId,
+      to: ''
+    },
+    payload: {}
+  }))
+
+  io.emit('devices', JSON.stringify({
+    metadata: {
+      version: 1,
+      type: 'devices-clear',
       from: serverId,
       to: ''
     },
