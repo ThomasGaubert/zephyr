@@ -157,7 +157,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     p.setSummary(newValue.toString());
 
-                    // TODO: FIXME: This currently results in two devices showing on client side
                     Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
                     i.putExtra("type", "update-devices");
                     getActivity().sendBroadcast(i);

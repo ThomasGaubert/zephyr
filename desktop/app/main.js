@@ -173,7 +173,6 @@ function broadcastOverlayNotRunning() {
 }
 
 function broadcastPing() { 
-  console.log('PINGING!!!!')
   io.emit('broadcast', JSON.stringify({
     metadata: {
       version: 1,

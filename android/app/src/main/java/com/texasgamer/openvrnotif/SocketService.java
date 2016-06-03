@@ -32,18 +32,23 @@ public class SocketService extends Service {
     private String serverAddr;
     private String clientId = "android";
     private boolean connected = false;
+    private boolean reconnect = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        serviceReceiver = new SocketServiceReceiver();
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        if(!connected) {
+            serviceReceiver = new SocketServiceReceiver();
+            firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.texasgamer.openvrnotif.SOCKET_SERVICE");
-        registerReceiver(serviceReceiver, filter);
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+            registerReceiver(serviceReceiver, filter);
 
-        serverAddr = PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.pref_last_addr), "");
+            serverAddr = PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.pref_last_addr), "");
+        } else {
+            Log.w(TAG, "onCreate() called while already connected!");
+        }
     }
 
     @Override
@@ -88,9 +93,12 @@ public class SocketService extends Service {
             e.printStackTrace();
         }
 
-        setUpEvents();
 
-        socket.connect();
+        if(socket != null) {
+            setUpEvents();
+
+            socket.connect();
+        }
     }
 
     private void disconnect() {
@@ -98,10 +106,15 @@ public class SocketService extends Service {
         Bundle b = new Bundle();
         b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
         firebaseAnalytics.logEvent(getString(R.string.analytics_event_disconnect), b);
-        socket.disconnect();
+
+        if(socket != null)
+            socket.disconnect();
     }
 
     private void setUpEvents() {
+        clientId = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name));
+
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -191,6 +204,12 @@ public class SocketService extends Service {
                 i.putExtra("address", serverAddr);
                 sendBroadcast(i);
                 connected = false;
+
+                if(reconnect) {
+                    Log.i(TAG, "Reconnecting to server...");
+                    reconnect = false;
+                    connect(serverAddr);
+                }
             }
         });
     }
@@ -275,7 +294,12 @@ public class SocketService extends Service {
                             "This is a test notification.").toString());
                 }
             } else if(type.equals("update-devices")) {
-                socket.emit("version", getVersionInfo().toString());
+                clientId = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                        .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name));
+
+                reconnect = true;
+
+                disconnect();
             }
         }
 
