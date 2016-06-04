@@ -30,7 +30,7 @@ public class SocketService extends Service {
 
     private Socket socket;
     private String serverAddr;
-    private String clientId = "android";
+    private String clientId = getString(R.string.pref_default_device_name);
     private boolean connected = false;
     private boolean reconnect = false;
 
