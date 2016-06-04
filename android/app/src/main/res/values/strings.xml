@@ -1,6 +1,7 @@
 <resources>
     <!-- General strings -->
     <string name="app_name">OpenVR Notifications</string>
+    <string name="app_name_short">VR Notifications</string>
 
     <!-- WelcomeActivity -->
     <string name="section_format">Page %1$d</string>

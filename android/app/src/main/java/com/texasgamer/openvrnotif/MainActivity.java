@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupUi() {
+        getSupportActionBar().setTitle(R.string.app_name);
+
         final Button connectBtn = (Button) findViewById(R.id.connectBtn);
         final Button testNotifBtn = (Button) findViewById(R.id.testNotifBtn);
         final EditText serverAddrField = ((EditText) findViewById(R.id.serverAddrField));
