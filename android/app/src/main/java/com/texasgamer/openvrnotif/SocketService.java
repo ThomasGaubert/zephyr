@@ -297,9 +297,14 @@ public class SocketService extends Service {
                 clientId = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
                         .getString(getString(R.string.pref_device_name), getString(R.string.pref_default_device_name));
 
-                reconnect = true;
+                if(connected) {
+                    Log.i(TAG, "Client ID updated, reconnecting to server...");
+                    reconnect = true;
 
-                disconnect();
+                    disconnect();
+                } else {
+                    Log.i(TAG, "Client ID updated, will apply on next connection.");
+                }
             }
         }
 
