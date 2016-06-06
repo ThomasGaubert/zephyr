@@ -251,7 +251,8 @@ function handleVersionRequest(msg) {
 
 function setupAutoUpdater() {
   if(process.platform == 'win32') {
-    const feedURL = 'https://openvr-notifications-updates.herokuapp.com/update/win32/' + app.getVersion() 
+    const feedURL = 'https://openvr-notifications-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
+    console.log('Checking for updates at ' + feedURL + '...')
     autoUpdater.setFeedURL(feedURL)
   }
 }
