@@ -251,8 +251,29 @@ function handleVersionRequest(msg) {
 
 function setupAutoUpdater() {
   if(process.platform == 'win32') {
+    autoUpdater.addListener("update-available", function(event) {  
+      console.log("Update available!");
+    });
+
+    autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
+        console.log("Update donwloaded!");
+    });
+
+    autoUpdater.addListener("error", function(error) {  
+        console.log("Error while checking for updates: " + error);
+    });
+
+    autoUpdater.addListener("checking-for-update", function(event) {  
+        console.log("Checking for update...");
+    });
+
+    autoUpdater.addListener("update-not-available", function(event) {  
+        console.log("Update not available!");
+    });
+
     const feedURL = 'https://openvr-notifications-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
     console.log('Checking for updates at ' + feedURL + '...')
     autoUpdater.setFeedURL(feedURL)
+    autoUpdater.checkForUpdates()
   }
 }
