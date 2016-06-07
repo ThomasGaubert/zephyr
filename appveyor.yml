@@ -1,18 +1,15 @@
-# Test against this version of Node.js
+skip_non_tags: true
+
 environment:
   nodejs_version: "6.2.1"
 
-# Install scripts. (runs after repo cloning)
 install:
   - cd desktop
-  # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
-  # install modules
   - npm install
 
-# Post-install test scripts.
 build_script:
-  - ps: echo %APPVEYOR_REPO_TAG_NAME:~1%
+  - echo %APPVEYOR_REPO_TAG_NAME:~1%
   - node --version
   - npm --version
   - npm run dist
