@@ -12,13 +12,21 @@ install:
 
 # Post-install test scripts.
 build_script:
+  - echo %APPVEYOR_REPO_TAG_NAME:~1%
   - node --version
   - npm --version
   - npm run dist
   - cd dist/win
-  - rename *.exe openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME%-setup.exe
+  - rename *.exe openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-setup.exe
+  - move openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-setup.exe ../../..
+  - move openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-delta.nupkg ../../..
+  - move openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-full.nupkg ../../..
+  - move RELEASES ../../..
+  - cd ../..
+  - rmdir dist /s /q
+
 
 artifacts:
-  - path: desktop/dist/win/*.exe
-  - path: desktop/dist/win/*.nupkg
-  - path: desktop/dist/win/RELEASES
+  - path: '*.exe'
+  - path: '*.nupkg'
+  - path: RELEASES
