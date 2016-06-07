@@ -1,8 +1,9 @@
 {
-  "name": "openvr-notifications-desktop",
-  "version": "0.0.6",
+  "name": "openvrnotifications-desktop",
+  "version": "0.0.7",
   "description": "OpenVR Notifications",
   "author": "Thomas Gaubert <tpgaubert@gmail.com>",
+  "homepage": "https://github.com/ThomasGaubert/openvr-notifications",
   "license": "MIT",
   "main": "main.js",
   "repository": {

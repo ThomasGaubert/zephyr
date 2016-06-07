@@ -112,7 +112,7 @@ function getVersionInfo() {
     },
     payload: {
       name: 'NodeJS/Electron Client',
-      version: '0.0.6',
+      version: '0.0.7',
       versionCode: 1,
       versions: []
     }
