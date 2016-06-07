@@ -32,6 +32,7 @@ artifacts:
 
 deploy:
   release: Version $(version)
+  tag: v$(version)
   description: 'Description'
   provider: GitHub
   auth_token:
