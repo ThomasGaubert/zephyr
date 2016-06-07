@@ -1,4 +1,4 @@
-# skip_non_tags: true
+skip_non_tags: true
 
 environment:
   nodejs_version: "6.2.1"
