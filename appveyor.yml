@@ -12,7 +12,7 @@ install:
 
 # Post-install test scripts.
 build_script:
-  - echo %APPVEYOR_REPO_TAG_NAME:~1%
+  - ps: echo %APPVEYOR_REPO_TAG_NAME:~1%
   - node --version
   - npm --version
   - npm run dist
