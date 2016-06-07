@@ -16,5 +16,7 @@ build_script:
   - npm --version
   - npm run dist
 
-# Don't actually build.
-build: on
+artifacts:
+  - path: dist/win/*.exe
+  - path: dist/win/*.nupkg
+  - path: dist/win/RELEASES
