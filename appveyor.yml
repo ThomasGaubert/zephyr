@@ -29,3 +29,16 @@ artifacts:
   - path: '*.exe'
   - path: '*.nupkg'
   - path: RELEASES
+
+deploy:
+  release: Version $(version)
+  description: 'Description'
+  provider: GitHub
+  auth_token:
+    secure: 4LcQfItsHFXJHdZm9zZxPj33rzkb9kZ74fe+kXcbP5g6BkUsEeRsoZG/INVGuEIl
+  artifact: /.*\.exe/,/.*\.nupkg/,RELEASES           
+  draft: true
+  prerelease: false
+  on:
+    branch: master
+    appveyor_repo_tag: true
