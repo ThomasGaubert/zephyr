@@ -1,4 +1,4 @@
-skip_non_tags: true
+# skip_non_tags: true
 
 environment:
   nodejs_version: "6.2.1"
@@ -9,15 +9,17 @@ install:
   - npm install
 
 build_script:
-  - echo %APPVEYOR_REPO_TAG_NAME:~1%
+  - cd app
+  - ps: Set-AppveyorBuildVariable -Name version -Value (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+  - cd ..
   - node --version
   - npm --version
   - npm run dist
   - cd dist/win
-  - rename *.exe openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-setup.exe
-  - move openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-setup.exe ../../..
-  - move openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-delta.nupkg ../../..
-  - move openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME:~1%-full.nupkg ../../..
+  - rename *.exe openvr-notifications-desktop-%version%-setup.exe
+  - move openvr-notifications-desktop-%version%-setup.exe ../../..
+  - move openvr-notifications-desktop-%version%-delta.nupkg ../../..
+  - move openvr-notifications-desktop-%version%-full.nupkg ../../..
   - move RELEASES ../../..
   - cd ../..
   - rmdir dist /s /q
