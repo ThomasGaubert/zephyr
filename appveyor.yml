@@ -19,6 +19,6 @@ build_script:
   - rename *.exe openvr-notifications-desktop-%APPVEYOR_REPO_TAG_NAME%-setup.exe
 
 artifacts:
-  - path: dist/win/*.exe
-  - path: dist/win/*.nupkg
-  - path: dist/win/RELEASES
+  - path: desktop/dist/win/*.exe
+  - path: desktop/dist/win/*.nupkg
+  - path: desktop/dist/win/RELEASES
