@@ -8,8 +8,5 @@ android:
     # Design Support Library
     - extra-android-m2repository
 
-  before_install:
-    - cd android
-
   script:
-    - ./gradlew build
+    - ./android/gradlew build
