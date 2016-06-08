@@ -11,4 +11,5 @@ android:
     - extra-android-m2repository
 
   script:
-    - ./android/gradlew build
+    - cd ./android
+    - ./gradlew build
