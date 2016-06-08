@@ -8,6 +8,8 @@ android:
     # Design Support Library
     - extra-android-m2repository
 
-  script:
+  before_script:
     - cd android
+
+  script:
     - ./gradlew build
