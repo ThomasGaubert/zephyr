@@ -1,4 +1,6 @@
 language: android
+notifications:
+  email: false
 android:
   components:
     - platform-tools
