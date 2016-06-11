@@ -1,5 +1,5 @@
 // Handle any Squirrel events first
-if(require('electron-squirrel-startup')) return
+if(require('electron-squirrel-startup')) return;
 
 const electron = require('electron')
 // Module to control application life.
