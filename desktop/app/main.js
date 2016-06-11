@@ -1,13 +1,13 @@
 // Handle any Squirrel events first
-if(require('electron-squirrel-startup')) return;
+if(require('electron-squirrel-startup')) return
 
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
 
 // Setup auto-updater
-const autoUpdater = electron.autoUpdater;
-setupAutoUpdater();
+const autoUpdater = electron.autoUpdater
+setupAutoUpdater()
 
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
@@ -17,7 +17,7 @@ const BrowserWindow = electron.BrowserWindow
 let mainWindow
 
 // Socket stuff
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser')
 var web = require('express')()
 web.use(bodyParser.urlencoded({ extended: false }))
 web.use(bodyParser.json())
@@ -136,7 +136,7 @@ function startServer() {
     })
 
     socket.on('disconnect', function(){
-      console.log('Client disconnected, checking on other clients...');
+      console.log('Client disconnected, checking on other clients...')
       broadcastPing()
     })
   })
@@ -148,7 +148,7 @@ function startServer() {
 
 function startOverlay() {
   if(process.platform == 'win32') {
-    const execFile = require('child_process').execFile;
+    const execFile = require('child_process').execFile
     const child = execFile('./build/overlay/openvr-notifications.exe', (error, stdout, stderr) => {
       console.log('Overlay not running! (died)')
       broadcastOverlayNotRunning()
@@ -252,24 +252,75 @@ function handleVersionRequest(msg) {
 function setupAutoUpdater() {
   if(process.platform == 'win32') {
     autoUpdater.addListener("update-available", function(event) {  
-      console.log("Update available!");
-    });
+      console.log("Update available!")
+      io.emit('updates', JSON.stringify({
+        metadata: {
+          version: 1,
+          type: 'update-available',
+          from: serverId,
+          to: ''
+        },
+        payload: {}
+      }))
+    })
 
     autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
-        console.log("Update donwloaded!");
-    });
+        console.log("Update donwloaded!")
+        io.emit('updates', JSON.stringify({
+          metadata: {
+            version: 1,
+            type: 'update-downloaded',
+            from: serverId,
+            to: ''
+          },
+          payload: {
+            name: releaseName,
+            date: releaseDate,
+            changelog: releaseNotes
+          }
+        }))
+    })
 
-    autoUpdater.addListener("error", function(error) {  
-        console.log("Error while checking for updates: " + error);
-    });
+    autoUpdater.addListener("error", function(err) {  
+        console.log("Error while checking for updates: " + err)
+        io.emit('updates', JSON.stringify({
+          metadata: {
+            version: 1,
+            type: 'update-error',
+            from: serverId,
+            to: ''
+          },
+          payload: {
+            error: err
+          }
+        }))
+    })
 
     autoUpdater.addListener("checking-for-update", function(event) {  
-        console.log("Checking for update...");
-    });
+        console.log("Checking for update...")
+        io.emit('updates', JSON.stringify({
+          metadata: {
+            version: 1,
+            type: 'update-checking',
+            from: serverId,
+            to: ''
+          },
+          payload: {}
+        }))
+    })
 
     autoUpdater.addListener("update-not-available", function(event) {  
-        console.log("Update not available!");
-    });
+        console.log("Update not available!")
+        io.emit('updates', JSON.stringify({
+          metadata: {
+            version: 1,
+            type: 'update-not-available',
+            from: serverId,
+            to: ''
+          },
+          payload: {}
+        }))
+    })
 
     const feedURL = 'https://openvr-notifications-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
     console.log('Checking for updates at ' + feedURL + '...')

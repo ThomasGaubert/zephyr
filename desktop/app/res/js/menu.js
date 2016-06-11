@@ -25,14 +25,6 @@ function setupMenu() {
 	        label: 'Toggle Developer Tools',
 	        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
 	        click(item, focusedWindow) {
-	          if (focusedWindow)
-	            focusedWindow.webContents.toggleDevTools();
-	        }
-	      },
-	      {
-	        label: 'Toggle Documentation',
-	        accelerator: process.platform === 'darwin' ? 'Alt+Command+D' : 'Ctrl+Shift+D',
-	        click(item, focusedWindow) {
 	            $(".dev-tools").toggle();
 	        }
 	      },

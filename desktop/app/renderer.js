@@ -69,6 +69,10 @@ socket.on('notification', function(msg) {
   $.snackbar({content: n.payload.title + ': ' + n.payload.text})
 })
 
+socket.on('updates', function(msg) {
+  console.log(msg)
+})
+
 socket.on(clientId, function(msg) {
   var m = JSON.parse(msg)
 
