@@ -120,6 +120,22 @@ function setupMenu() {
 	      role: 'front'
 	    }
 	  );
+	} else if (process.platform === 'win32') {
+		const name = require('electron').remote.app.getName();
+	  template.unshift({
+	    label: 'File',
+	    submenu: [
+	      {
+	        label: 'Check for Updates...',
+	        click() { remote.autoUpdater.checkForUpdates() }
+	      },
+	      {
+	        label: 'Quit',
+	        accelerator: 'Alt+F4',
+	        click() { remote.app.quit(); }
+	      },
+	    ]
+	  });
 	}
 
 	const menu = Menu.buildFromTemplate(template);

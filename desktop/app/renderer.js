@@ -71,6 +71,10 @@ socket.on('notification', function(msg) {
 
 socket.on('updates', function(msg) {
   console.log(msg)
+  var u = JSON.parse(msg)
+  if(u.metadata.type == 'update-downloaded') {
+    $.snackbar({content: 'Update downloaded, restart to apply.'})
+  }
 })
 
 socket.on(clientId, function(msg) {
