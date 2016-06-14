@@ -9,18 +9,16 @@ install:
   - npm install
   - cd app
   - npm install
-  - cd ..
 
 build_script:
-  - cd app
   - ps: Set-AppveyorBuildVariable -Name version -Value (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
   - cd ..
   - npm run dist
   - cd dist/win
-  - rename *.exe zephyr-%version%-setup.exe
-  - move zephyr-%version%-setup.exe ../../..
-  - move zephyr-%version%-delta.nupkg ../../..
-  - move zephyr-%version%-full.nupkg ../../..
+  - rename *.exe zephyr-desktop-%version%-setup.exe
+  - move zephyr-desktop-%version%-setup.exe ../../..
+  - move zephyr-desktop-%version%-delta.nupkg ../../..
+  - move zephyr-desktop-%version%-full.nupkg ../../..
   - move RELEASES ../../..
   - cd ../..
   - rmdir dist /s /q
