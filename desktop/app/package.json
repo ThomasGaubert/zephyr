@@ -1,7 +1,7 @@
 {
   "name": "zephyr-desktop",
   "productName": "Zephyr",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Zephyr",
   "author": "Thomas Gaubert <tpgaubert@gmail.com>",
   "homepage": "https://github.com/ThomasGaubert/zephyr",
