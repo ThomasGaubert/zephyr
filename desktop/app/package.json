@@ -1,15 +1,15 @@
 {
-  "name": "openvr-notifications-desktop",
-  "productName": "OpenVR Notifications",
+  "name": "zephyr-desktop",
+  "productName": "Zephyr",
   "version": "0.0.8",
-  "description": "OpenVR Notifications",
+  "description": "Zephyr",
   "author": "Thomas Gaubert <tpgaubert@gmail.com>",
-  "homepage": "https://github.com/ThomasGaubert/openvr-notifications",
+  "homepage": "https://github.com/ThomasGaubert/zephyr",
   "license": "MIT",
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThomasGaubert/openvr-notifications.git"
+    "url": "git+https://github.com/ThomasGaubert/zephyr.git"
   },
   "keywords": [
     "Electron",
@@ -18,7 +18,7 @@
     "notifications"
   ],
   "bugs": {
-    "url": "https://github.com/ThomasGaubert/openvr-notifications/issues"
+    "url": "https://github.com/ThomasGaubert/zephyr/issues"
   },
   "dependencies": {
     "body-parser": "^1.15.1",

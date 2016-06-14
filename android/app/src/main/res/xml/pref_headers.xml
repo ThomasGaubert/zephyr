@@ -3,17 +3,17 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.texasgamer.openvrnotif.PreferencesActivity$GeneralPreferenceFragment"
+        android:fragment="com.texasgamer.zephyr.PreferencesActivity$GeneralPreferenceFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="com.texasgamer.openvrnotif.PreferencesActivity$NotificationPreferenceFragment"
+        android:fragment="com.texasgamer.zephyr.PreferencesActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_notif"
         android:title="@string/pref_header_notifications" />
 
     <header
-        android:fragment="com.texasgamer.openvrnotif.PreferencesActivity$AboutPreferenceFragment"
+        android:fragment="com.texasgamer.zephyr.PreferencesActivity$AboutPreferenceFragment"
         android:icon="@drawable/ic_about"
         android:title="@string/pref_header_about" />
 

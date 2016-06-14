@@ -1,4 +1,4 @@
-package com.texasgamer.openvrnotif;
+package com.texasgamer.zephyr;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

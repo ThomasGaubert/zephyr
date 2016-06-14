@@ -16,10 +16,10 @@ build_script:
   - npm --version
   - npm run dist
   - cd dist/win
-  - rename *.exe openvr-notifications-desktop-%version%-setup.exe
-  - move openvr-notifications-desktop-%version%-setup.exe ../../..
-  - move openvr-notifications-desktop-%version%-delta.nupkg ../../..
-  - move openvr-notifications-desktop-%version%-full.nupkg ../../..
+  - rename *.exe zephyr-%version%-setup.exe
+  - move zephyr-%version%-setup.exe ../../..
+  - move zephyr-%version%-delta.nupkg ../../..
+  - move zephyr-%version%-full.nupkg ../../..
   - move RELEASES ../../..
   - cd ../..
   - rmdir dist /s /q

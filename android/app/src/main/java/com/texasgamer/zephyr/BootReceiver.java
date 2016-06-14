@@ -1,4 +1,4 @@
-package com.texasgamer.openvrnotif;
+package com.texasgamer.zephyr;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

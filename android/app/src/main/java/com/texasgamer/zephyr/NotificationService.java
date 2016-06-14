@@ -1,4 +1,4 @@
-package com.texasgamer.openvrnotif;
+package com.texasgamer.zephyr;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class NotificationService extends NotificationListenerService {
             String text = n.extras.getString(Notification.EXTRA_TEXT);
 
             Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getPackageName() + "\t" + title + "\t" + text);
-            Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+            Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
             i.putExtra("type", "notification");
             i.putExtra("id", sbn.getId());
             i.putExtra("package", sbn.getPackageName());

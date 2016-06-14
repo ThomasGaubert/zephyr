@@ -1,4 +1,4 @@
-package com.texasgamer.openvrnotif;
+package com.texasgamer.zephyr;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         String enabledNotificationListeners =
                 android.provider.Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
-        if(enabledNotificationListeners.contains("com.texasgamer.openvrnotif.NotificationService")) {
+        if(enabledNotificationListeners.contains("com.texasgamer.zephyr.NotificationService")) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
             firebaseAnalytics.logEvent(getString(R.string.analytics_show_enable_notif_perm), null);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainAcvitiyReceiver = new MainAcvitiyReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+        filter.addAction("com.texasgamer.zephyr.MAIN_ACTIVITY");
         registerReceiver(mainAcvitiyReceiver, filter);
     }
 
@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupUi() {
-        getSupportActionBar().setTitle(R.string.app_name);
-
         final Button connectBtn = (Button) findViewById(R.id.connectBtn);
         final Button testNotifBtn = (Button) findViewById(R.id.testNotifBtn);
         final EditText serverAddrField = ((EditText) findViewById(R.id.serverAddrField));
@@ -111,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!connected) {
                     serverAddr = serverAddrField.getText().toString();
                     connectBtn.setText(R.string.btn_connecting);
-                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
                     i.putExtra("type", "connect");
                     i.putExtra("address", serverAddrField.getText().toString());
                     sendBroadcast(i);
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     firebaseAnalytics.logEvent(getString(R.string.analytics_tap_connect), b);
                 } else {
                     connectBtn.setText(R.string.btn_disconnecting);
-                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
                     i.putExtra("type", "disconnect");
                     sendBroadcast(i);
 
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 if(connected) {
                     firebaseAnalytics.logEvent(getString(R.string.analytics_tap_test_notif_connected), null);
 
-                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
                     i.putExtra("type", "test");
                     sendBroadcast(i);
                 } else {
@@ -191,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestConnectionStatus() {
-        Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+        Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
         i.putExtra("type", "status");
         sendBroadcast(i);
     }

@@ -1,4 +1,4 @@
-# openvr-notifications-android
+# zephyr-android
 
 Android application which sends notifications for mirroring.
 

@@ -1,7 +1,6 @@
 <resources>
     <!-- General strings -->
-    <string name="app_name">OpenVR Notifications</string>
-    <string name="app_name_short">VR Notifications</string>
+    <string name="app_name">Zephyr</string>
 
     <!-- WelcomeActivity -->
     <string name="section_format">Page %1$d</string>
@@ -10,7 +9,7 @@
     <string name="welcome_section_two_title">Simply Secure</string>
     <string name="welcome_section_two_text">Notifications are kept on the local network.</string>
     <string name="welcome_section_three_title">One More Thing</string>
-    <string name="welcome_section_three_text">Make sure the OpenVR Notifications desktop app is running.</string>
+    <string name="welcome_section_three_text">Make sure the Zephyr desktop app is running.</string>
 
     <!-- MainActivity -->
     <string name="action_settings">Settings</string>
@@ -27,7 +26,7 @@
     <string name="snackbar_notif_confirm">Notification successfully delivered.</string>
     <string name="snackbar_notif_fail">Unable to deliver notification.</string>
     <string name="sheet_notif_title">Enable Notification Access</string>
-    <string name="sheet_notif_text">OpenVR Notifications needs access to your notifications to operate properly.</string>
+    <string name="sheet_notif_text">Zephyr needs access to your notifications to operate properly.</string>
     <string name="sheet_notif_btn">Enable</string>
 
     <!-- Preferences -->

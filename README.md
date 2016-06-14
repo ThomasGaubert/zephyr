@@ -1,8 +1,8 @@
-# openvr-notifications
+# zephyr
 
 [![Build status](https://ci.appveyor.com/api/projects/status/n8cwsdbepynkqe4i?svg=true)](https://ci.appveyor.com/project/ThomasGaubert/openvr-notifications)
 
-Mirror Android notifications to OpenVR.
+Mirror Android notifications to VR.
 
 Built using these technologies:
 

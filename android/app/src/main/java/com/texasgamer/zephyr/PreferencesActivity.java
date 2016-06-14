@@ -1,4 +1,4 @@
-package com.texasgamer.openvrnotif;
+package com.texasgamer.zephyr;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -16,7 +16,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
@@ -157,7 +156,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     p.setSummary(newValue.toString());
 
-                    Intent i = new  Intent("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+                    Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
                     i.putExtra("type", "update-devices");
                     getActivity().sendBroadcast(i);
 

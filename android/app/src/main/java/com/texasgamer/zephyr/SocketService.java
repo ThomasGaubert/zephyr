@@ -1,4 +1,4 @@
-package com.texasgamer.openvrnotif;
+package com.texasgamer.zephyr;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -42,7 +42,7 @@ public class SocketService extends Service {
             firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
             IntentFilter filter = new IntentFilter();
-            filter.addAction("com.texasgamer.openvrnotif.SOCKET_SERVICE");
+            filter.addAction("com.texasgamer.zephyr.SOCKET_SERVICE");
             registerReceiver(serviceReceiver, filter);
 
             serverAddr = PreferenceManager.getDefaultSharedPreferences(this).getString(getString(R.string.pref_last_addr), "");
@@ -137,7 +137,7 @@ public class SocketService extends Service {
                         b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
                         firebaseAnalytics.logEvent(getString(R.string.analytics_event_connected), b);
 
-                        Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+                        Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                         i.putExtra("type", "connected");
                         i.putExtra("address", serverAddr);
                         sendBroadcast(i);
@@ -152,7 +152,7 @@ public class SocketService extends Service {
                             b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
                             firebaseAnalytics.logEvent(getString(R.string.analytics_event_notif_sent), b);
 
-                            Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+                            Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                             i.putExtra("type", "notif-sent");
                             sendBroadcast(i);
                         } else {
@@ -162,7 +162,7 @@ public class SocketService extends Service {
                             b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
                             firebaseAnalytics.logEvent(getString(R.string.analytics_event_notif_failed), b);
 
-                            Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+                            Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                             i.putExtra("type", "notif-failed");
                             sendBroadcast(i);
                         }
@@ -199,7 +199,7 @@ public class SocketService extends Service {
                 b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
                 firebaseAnalytics.logEvent(getString(R.string.analytics_event_disconnected), b);
 
-                Intent i = new  Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+                Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                 i.putExtra("type", "disconnected");
                 i.putExtra("address", serverAddr);
                 sendBroadcast(i);
@@ -284,7 +284,7 @@ public class SocketService extends Service {
             } else if(type.equals("disconnect")) {
                 disconnect();
             } else if(type.equals("status")) {
-                Intent i = new Intent("com.texasgamer.openvrnotif.MAIN_ACTIVITY");
+                Intent i = new Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                 i.putExtra("type", "connected");
                 i.putExtra("address", serverAddr);
                 sendBroadcast(i);

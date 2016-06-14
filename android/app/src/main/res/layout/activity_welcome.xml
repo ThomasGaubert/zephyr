@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.texasgamer.openvrnotif.WelcomeActivity">
+    tools:context="com.texasgamer.zephyr.WelcomeActivity">
 
 
     <android.support.v4.view.ViewPager

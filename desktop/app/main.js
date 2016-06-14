@@ -149,7 +149,7 @@ function startServer() {
 function startOverlay() {
   if(process.platform == 'win32') {
     const execFile = require('child_process').execFile
-    const child = execFile('./build/overlay/openvr-notifications.exe', (error, stdout, stderr) => {
+    const child = execFile('./build/overlay/zephyr.exe', (error, stdout, stderr) => {
       console.log('Overlay not running! (died)')
       broadcastOverlayNotRunning()
     })
@@ -322,7 +322,7 @@ function setupAutoUpdater() {
         }))
     })
 
-    const feedURL = 'https://openvr-notifications-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
+    const feedURL = 'https://zephyr-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
     console.log('Checking for updates at ' + feedURL + '...')
     autoUpdater.setFeedURL(feedURL)
     autoUpdater.checkForUpdates()

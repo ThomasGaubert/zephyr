@@ -1,4 +1,4 @@
-# openvr-notifications-overlay
+# zephyr-overlay
 
 OpenVR overlay which displays notifications inside VR.
 
