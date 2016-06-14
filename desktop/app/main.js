@@ -5,10 +5,6 @@ const electron = require('electron')
 // Module to control application life.
 const app = electron.app
 
-// Setup auto-updater
-const autoUpdater = electron.autoUpdater
-setupAutoUpdater()
-
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -24,6 +20,10 @@ web.use(bodyParser.json())
 var http = require('http').Server(web)
 var io = require('socket.io')(http)
 var serverId = 'nodejs-server'
+
+// Setup auto-updater
+const autoUpdater = electron.autoUpdater
+setupAutoUpdater()
 
 function createWindow () {
   // Create the browser window.
