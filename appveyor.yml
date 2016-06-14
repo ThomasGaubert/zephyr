@@ -7,13 +7,14 @@ install:
   - cd desktop
   - ps: Install-Product node $env:nodejs_version
   - npm install
+  - cd app
+  - npm install
+  - cd ..
 
 build_script:
   - cd app
   - ps: Set-AppveyorBuildVariable -Name version -Value (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
   - cd ..
-  - node --version
-  - npm --version
   - npm run dist
   - cd dist/win
   - rename *.exe zephyr-%version%-setup.exe

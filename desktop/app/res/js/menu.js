@@ -52,15 +52,15 @@ function setupMenu() {
 	    submenu: [
 	      {
 	        label: 'GitHub',
-	        click() { require('electron').shell.openExternal('http://github.com/ThomasGaubert/openvr-notifications'); }
+	        click() { require('electron').shell.openExternal('http://github.com/ThomasGaubert/zephyr'); }
 	      },
 	      {
 	        label: 'Documentation',
-	        click() { require('electron').shell.openExternal('http://github.com/ThomasGaubert/openvr-notifications/wiki'); }
+	        click() { require('electron').shell.openExternal('http://github.com/ThomasGaubert/zephyr/wiki'); }
 	      },
 	      {
 	        label: 'Play Store',
-	        click() { require('electron').shell.openExternal('https://play.google.com/store/apps/details?id=com.texasgamer.openvrnotif'); }
+	        click() { require('electron').shell.openExternal('https://play.google.com/store/apps/details?id=com.texasgamer.zephyr'); }
 	      },
 	    ]
 	  },
