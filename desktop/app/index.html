@@ -4,16 +4,27 @@
   <title>Zephyr</title>
   <link rel="stylesheet" type="text/css" href="./res/css/style.css">
   <link rel="stylesheet" type="text/css" href="./res/css/toolbar.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/reveal.css">
   <link rel="stylesheet" type="text/css" href="./res/css/cards.css">
   <link rel="stylesheet" type="text/css" href="./res/css/material.css">
   <link rel="stylesheet" type="text/css" href="./res/css/snackbar.min.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/materialdesignicons.min.css" media="all" />
 
   <script src="./res/js/util.js"></script>
 </head>
 <body>
   <header class="app-bar promote-layer paper-toolbar paper-shadow">
+    <div class="app-bar-container-upper paper-toolbar-dark">
+      <div class="controls">
+        <a id="minimize"><i class="mdi mdi-window-minimize"></i></a>
+        <a id="close"><i class="mdi mdi-window-close"></i></a>
+      </div>
+    </div>
     <div class="app-bar-container paper-toolbar">
-      <h1 class="logo">Zephyr</h1>
+      <h1 class="logo">Zephyr</i></h1>
+      <div class="controls controls-large">
+        <a id="menu"><i class="mdi mdi-dots-vertical"></i></a>
+      </div>
     </div>
   </header>
 
@@ -53,11 +64,34 @@
     </div>
   </div>
 
+  <div id="reveal-effect">
+      <div class="reveal-container">
+        <img class="app-icon" src="./res/img/icon.png"/>
+        <div class="app-title">Zephyr</div>
+        <div class="app-version">1.0.0</div>
+        <ul class="app-links">
+          <li><a href="https://play.google.com/store/apps/details?id=com.texasgamer.zephyr">Play Store</a></li>
+          <li><a href="https://github.com/ThomasGaubert/zephyr">GitHub</a></li>
+          <li><a href="http://gaubert.io/projects/zephyr">Website</a></li>
+        </ul>
+        <hr>
+        <ul class="app-links">
+          <li><a id="reveal-open-dev-tools">Toggle Dev Tools</a></li>
+          <li><a id="reveal-check-for-updates">Check For Updates</a></li>
+          <li><a id="reveal-close">Close</a></li>
+        </ul>
+        <hr>
+        <div class="app-copyright">&copy; 2016 Thomas Gaubert</div>
+      </div>
+    </div>
+
   <script>
     window.$ = window.jQuery = require('./res/js/jquery.js')
   </script>
   <script src="./res/js/socket.io.js"></script>
   <script src="./res/js/menu.js"></script>
+  <script src="./res/js/toolbar.js"></script>
+  <script src="./res/js/reveal.js"></script>
   <script src="./res/js/snackbar.min.js"></script>
 </body>
 <script> require('./renderer.js') </script>

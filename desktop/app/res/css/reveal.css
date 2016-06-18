@@ -1,0 +1,68 @@
+#reveal-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0px;
+  height: 0px;
+  background-color: #0D253A;
+  border-radius: 50%;
+  transition: all .2s ease-out;
+}
+
+.reveal-container {
+	color: white;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -250px;
+    width: 500px;
+    height: 500px;
+    display: none;
+    text-align: center;
+}
+
+.reveal-container hr {
+	border: 0;
+	height: 1px;
+	background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+}
+
+.reveal-container a {
+	text-decoration: none;
+	color: white;
+}
+
+.reveal-container a:hover {
+	cursor:pointer;
+}
+
+.app-icon {
+	width: 100px;
+	height: 100px;
+}
+
+.app-title {
+	font-family: Righteous;
+	font-size: 4em;
+}
+
+.app-verison {
+	font-size: 1em;
+}
+
+.app-links {
+	list-style-type: none;
+	text-transform: uppercase;
+	margin-left: -35px;
+}
+
+.app-links li {
+	padding: 10px;
+}
+
+.app-copyright {
+	padding: 10px;
+	font-size: 0.9em;
+}

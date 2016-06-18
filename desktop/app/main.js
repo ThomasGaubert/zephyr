@@ -32,6 +32,7 @@ function createWindow () {
     height: 600,
     minWidth: 400,
     minHeight: 600,
+    frame: false,
     icon: __dirname + '/res/img/icon.ico'
   })
 

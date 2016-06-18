@@ -10,6 +10,12 @@
     src: url(../fonts/RobotoCondensed.ttf);
 }
 
+@font-face {
+    font-family: righteous;
+    font-stretch: condensed;
+    src: url(../fonts/Righteous.ttf);
+}
+
 * {
 	font-family: roboto;
 }

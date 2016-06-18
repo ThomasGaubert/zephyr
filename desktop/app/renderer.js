@@ -74,6 +74,12 @@ socket.on('updates', function(msg) {
   var u = JSON.parse(msg)
   if(u.metadata.type == 'update-downloaded') {
     $.snackbar({content: 'Update downloaded, restart to apply.'})
+  } else if(u.metadata.type == 'update-checking') {
+    $.snackbar({content: 'Checking for updates...'})
+  } else if(u.metadata.type == 'update-not-available') {
+    $.snackbar({content: 'Zephyr is up to date.'})
+  } else if(u.metadata.type == 'update-available') {
+    $.snackbar({content: 'Downloading update...'})
   }
 })
 
@@ -120,7 +126,7 @@ function getVersionInfo() {
     },
     payload: {
       name: 'NodeJS/Electron Client',
-      version: '0.0.9',
+      version: require('electron').remote.app.getVersion(),
       versionCode: 1,
       versions: []
     }

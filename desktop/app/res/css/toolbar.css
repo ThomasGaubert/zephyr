@@ -7,6 +7,11 @@
   background: #3F51B5;
 }
 
+.paper-toolbar-dark {
+  color: #fff;
+  background: #303F9F;
+}
+
 .app-bar, .navdrawer-container, main {
   -webkit-transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
@@ -23,6 +28,20 @@
   display: flex;
   width: 100%;
   height: 64px;
+  position: relative;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.app-bar-container-upper {
+  -webkit-app-region: drag;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 30px;
   position: relative;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
@@ -55,6 +74,20 @@
   line-height: 64px;
 }
 
+.app-bar .logo {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 1.3em;
+  margin: 0 16px;
+  padding: 0;
+  color: #fefefe;
+  float: none;
+  max-width: none;
+  font-weight: 400;
+  line-height: 64px;
+}
+
 .app-bar button {
   width: 64px;
   height: 64px;
@@ -70,4 +103,38 @@
 button.menu img {
   height: 24px;
   width: 24px;
+}
+
+.controls {
+  position: absolute;
+  right: 13px;
+  width: 80px;
+  text-align: right;
+}
+
+.controls a {
+  -webkit-app-region: no-drag;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  display:table-cell;    /*Add this*/
+  vertical-align:middle;
+}
+
+.controls a:hover {
+  background-color: #3F51B5;
+}
+
+.controls-large {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 1.7em;
+  color: #fefefe;
+  width: 40px;
+}
+
+.controls-large a {
+  padding-top: 15px;
 }
