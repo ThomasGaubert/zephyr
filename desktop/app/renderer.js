@@ -1,7 +1,3 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
 setupMenu()
 
 var socket = io('http://localhost:3753')
@@ -125,7 +121,7 @@ function getVersionInfo() {
       to: ''
     },
     payload: {
-      name: 'NodeJS/Electron Client',
+      name: 'Zephyr Desktop Client',
       version: require('electron').remote.app.getVersion(),
       versionCode: 1,
       versions: []
@@ -137,9 +133,9 @@ function verifyVersion(msg) {
   var v = JSON.parse(msg)
   if (v.metadata.version == 1) {
     if(v.payload.versionCode == 1) {
-      console.log('Connected to server "' + v.payload.name + '" ' + v.payload.version + ' (' + v.payload.versionCode + ')')
+      console.log('Connected to ' + v.payload.name + ' ' + v.payload.version + ' (' + v.payload.versionCode + ')')
       $.snackbar({content: 'Connected to server.'})
-      $('#status').text('Connected to server "' + v.payload.name + '" ' + v.payload.version + ' (' + v.payload.versionCode + ')')
+      $('#status').text('Connected to ' + v.payload.name + ' ' + v.payload.version)
     } else {
       console.log('Server is running incompatible version!')
       $.snackbar({content: 'Unable to connect: Server is running incompatible version.', timeout: 0})

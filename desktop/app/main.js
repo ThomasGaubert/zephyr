@@ -241,7 +241,7 @@ function handleVersionRequest(msg) {
       to: t
     },
     payload: {
-      name: 'NodeJS/Electron Server',
+      name: 'Zephyr Server',
       version: app.getVersion(),
       versionCode: 1,
       versions: [
