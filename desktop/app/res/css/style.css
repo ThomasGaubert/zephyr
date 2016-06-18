@@ -18,6 +18,7 @@
 
 * {
 	font-family: roboto;
+	overflow: hidden;
 }
 
 .status {
