@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zephyr</title>
+  <link rel="stylesheet" type="text/css" href="./res/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/toolbar.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/welcome.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/materialdesignicons.min.css" media="all" />
+
+  <script src="./res/js/util.js"></script>
+</head>
+<body>
+  <header class="app-bar promote-layer paper-toolbar paper-shadow">
+    <div class="app-bar-container-upper paper-toolbar-dark">
+      <div class="controls">
+        <a id="minimize"><i class="mdi mdi-window-minimize"></i></a>
+        <a id="close"><i class="mdi mdi-window-close"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <img class="icon" src="./res/img/icon.png"/>
+    <div class="title">Zephyr</div>
+    <p class="subtitle">Mirror Android notifications to VR</p>
+
+    <div class="contents">
+      <p>To begin, download Zephyr on your Android device.</p>
+
+      <p>Notifications will appear when SteamVR is running.</p>
+    </div>
+
+
+    <!-- Floating Action Button -->
+    <div class="fab">
+      <button class="fab_button" id="btn-continue"><i class="mdi mdi-check"></i></button>
+    </div>
+
+    <!-- Google Play Banner -->
+    <a href='https://play.google.com/store/apps/details?id=com.texasgamer.zephyr&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img class="play-banner" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+    <p class="legal">Android, Google Play, and the Google Play logo are trademarks of Google Inc.</p>
+    <p class="legal">SteamVR is trademark of Valve Corporation.</p>
+  </div>
+
+  <script>
+    window.$ = window.jQuery = require('./res/js/jquery.js')
+  </script>
+  <script src="./res/js/menu.js"></script>
+  <script src="./res/js/toolbar.js"></script>
+  <script>
+    $(document).on('click', 'a[href^="http"]', function(event) {
+      event.preventDefault()
+      require('electron').shell.openExternal(this.href)
+    })
+
+    $('#btn-continue').click(function () {
+      const Config = require('electron-config')
+      const conf = new Config()
+      conf.set('firstRun', false)
+      require ('electron').remote.getCurrentWindow().loadURL('file://' + __dirname + '/index.html')
+    })
+  </script>
+</body>
+</html>

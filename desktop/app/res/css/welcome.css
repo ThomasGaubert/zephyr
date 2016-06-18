@@ -1,0 +1,70 @@
+body {
+	background-color: #0D253A;
+	color: white;
+	text-align: center;
+}
+
+.container {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.icon {
+  height: 100px;
+}
+
+.title {
+	font-family: Righteous;
+	font-size: 4em;
+}
+
+.subtitle {
+  font-size: 0.9em;
+}
+
+.contents {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.fab {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 20px;
+  text-align: center;
+}
+
+.fab button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  position: relative;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 1.7em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-transition-property: box-shadow, opacity, -webkit-transform;
+  transition-property: box-shadow, opacity, -webkit-transform;
+  transition-property: box-shadow, opacity, transform;
+  transition-property: box-shadow, opacity, transform, -webkit-transform;
+}
+
+.fab button.fab_button {
+  width: 56px;
+  height: 56px;
+  background-color: #FF4081;
+  z-index: 1;
+}
+
+.play-banner {
+	padding-top: 20px;
+	height: 75px;
+}
+
+.legal {
+	font-size: 0.7em;
+}

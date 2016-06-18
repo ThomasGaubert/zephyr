@@ -21,6 +21,10 @@ var http = require('http').Server(web)
 var io = require('socket.io')(http)
 var serverId = 'nodejs-server'
 
+// Preferences
+const Config = require('electron-config')
+const conf = new Config()
+
 // Setup auto-updater
 const autoUpdater = electron.autoUpdater
 setupAutoUpdater()
@@ -36,8 +40,12 @@ function createWindow () {
     icon: __dirname + '/res/img/icon.ico'
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html')
+  // Start onboarding if needed, otherwise load app
+  if (!conf.has('firstRun') || conf.get('firstRun')) {
+    mainWindow.loadURL('file://' + __dirname + '/welcome.html')
+  } else {
+    mainWindow.loadURL('file://' + __dirname + '/index.html')
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
