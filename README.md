@@ -4,14 +4,7 @@
 
 Mirror Android notifications to VR.
 
-Built using these technologies:
-
- * Android
- * C++
- * Electron
- * NodeJS
- * Qt
- * SocketIO
+[![Get it on the Play Store](https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
  
 ## Disclaimer
 This project, for now, is a quick hack. Things work, but aren't polished.
@@ -35,7 +28,7 @@ the disclaimer above). To get things up and running:
  2. Connect and setup your OpenVR HMD (Vive, Oculus Rift, etc.)
  3. Clone this repo
  4. Run `npm run dev` within the `desktop` directory
- 5. Open and run the Android app on your phone
+ 5. Download the Android app from the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
  6. Follow directions within the desktop application to connect the app
 
 Expect this process to be streamlined in the future.
