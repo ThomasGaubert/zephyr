@@ -285,8 +285,9 @@ public class SocketService extends Service {
                 disconnect();
             } else if(type.equals("status")) {
                 Intent i = new Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
-                i.putExtra("type", "connected");
+                i.putExtra("type", connected ? "connected" : "disconnected");
                 i.putExtra("address", serverAddr);
+                i.putExtra("silent", true);
                 sendBroadcast(i);
             } else if(type.equals("test")) {
                 if(connected) {

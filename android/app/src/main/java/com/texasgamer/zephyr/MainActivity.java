@@ -106,13 +106,24 @@ public class MainActivity extends AppCompatActivity {
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!connected && serverAddrField.getText().toString().isEmpty()) {
+                    return;
+                }
+
                 if(!connected) {
                     serverAddr = serverAddrField.getText().toString();
-                    connectBtn.setText(R.string.btn_connecting);
-                    Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
-                    i.putExtra("type", "connect");
-                    i.putExtra("address", serverAddrField.getText().toString());
-                    sendBroadcast(i);
+                    if(connectBtn.getText().toString().equals(getString(R.string.btn_connecting))) {
+                        connectBtn.setText(R.string.btn_connect);
+                        Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
+                        i.putExtra("type", "disconnect");
+                        sendBroadcast(i);
+                    } else {
+                        connectBtn.setText(R.string.btn_connecting);
+                        Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
+                        i.putExtra("type", "connect");
+                        i.putExtra("address", serverAddrField.getText().toString());
+                        sendBroadcast(i);
+                    }
 
                     Bundle b = new Bundle();
                     b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
@@ -199,20 +210,29 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra("type");
-            if (type.equals("connected")) {
-                connected = true;
-                serverAddr = intent.getStringExtra("address");
-                ((EditText) findViewById(R.id.serverAddrField)).setText(serverAddr);
-                updateConnectBtn();
-                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
-            } else if (type.equals("disconnected")) {
-                connected = false;
-                updateConnectBtn();
-                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_disconnected, Snackbar.LENGTH_SHORT).show();
-            } else if (type.equals("notif-sent")) {
-                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_notif_confirm, Snackbar.LENGTH_SHORT).show();
-            } else if (type.equals("notif-failed")) {
-                Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_notif_fail, Snackbar.LENGTH_SHORT).show();
+            switch (type) {
+                case "connected":
+                    connected = true;
+                    serverAddr = intent.getStringExtra("address");
+                    ((EditText) findViewById(R.id.serverAddrField)).setText(serverAddr);
+                    updateConnectBtn();
+                    if (!intent.getBooleanExtra("silent", false)) {
+                        Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_connected, Snackbar.LENGTH_SHORT).show();
+                    }
+                    break;
+                case "disconnected":
+                    connected = false;
+                    updateConnectBtn();
+                    if (!intent.getBooleanExtra("silent", false)) {
+                        Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_disconnected, Snackbar.LENGTH_SHORT).show();
+                    }
+                    break;
+                case "notif-sent":
+                    Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_notif_confirm, Snackbar.LENGTH_SHORT).show();
+                    break;
+                case "notif-failed":
+                    Snackbar.make(findViewById(R.id.main_content), R.string.snackbar_notif_fail, Snackbar.LENGTH_SHORT).show();
+                    break;
             }
         }
     }
