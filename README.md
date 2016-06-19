@@ -4,7 +4,7 @@
 
 Mirror Android notifications to VR.
 
-[<img alt="Get it on Google Play" height="100px" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
+[<img alt="Get it on Google Play" height="75px" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
  
 ## Disclaimer
 This project, for now, is a quick hack. Things work, but aren't polished.
