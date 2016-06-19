@@ -17,6 +17,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -37,6 +38,7 @@ import java.util.List;
 public class PreferencesActivity extends AppCompatPreferenceActivity {
 
     private FirebaseAnalytics firebaseAnalytics;
+    private boolean basePreferenceActivity = true;
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
@@ -124,6 +126,19 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(basePreferenceActivity) {
+            startActivity(new Intent(PreferencesActivity.this, MainActivity.class));
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void setBasePreferenceActivity(boolean basePreferenceActivity) {
+        this.basePreferenceActivity = basePreferenceActivity;
+    }
+
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
@@ -138,6 +153,8 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+
+            ((PreferencesActivity) getActivity()).setBasePreferenceActivity(false);
 
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_general);
             ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_general_prefs), null);
@@ -183,7 +200,9 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), PreferencesActivity.class));
+                Intent i = new Intent(getActivity(), PreferencesActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 return true;
             }
             return super.onOptionsItemSelected(item);
@@ -197,6 +216,8 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
+
+            ((PreferencesActivity) getActivity()).setBasePreferenceActivity(false);
 
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_notifications);
             ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_notif_prefs), null);
@@ -214,7 +235,9 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), PreferencesActivity.class));
+                Intent i = new Intent(getActivity(), PreferencesActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 return true;
             } else if(id == R.id.enable_all) {
                 PreferenceScreen screen = getPreferenceScreen();
@@ -276,6 +299,8 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_about);
             setHasOptionsMenu(true);
 
+            ((PreferencesActivity) getActivity()).setBasePreferenceActivity(false);
+
             ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_about);
             ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_about_prefs), null);
 
@@ -310,7 +335,9 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), PreferencesActivity.class));
+                Intent i = new Intent(getActivity(), PreferencesActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 return true;
             }
             return super.onOptionsItemSelected(item);

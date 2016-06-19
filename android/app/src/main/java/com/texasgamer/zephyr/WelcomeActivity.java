@@ -54,6 +54,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_welcome);
 
+        setDefaultDeviceName();
+
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mSectionsPagerAdapter = new WelcomePagerAdapter(getSupportFragmentManager());
 
@@ -178,6 +180,12 @@ public class WelcomeActivity extends AppCompatActivity {
                     i == position ? R.drawable.indicator_selected : R.drawable.indicator_unselected
             );
         }
+    }
+
+    private void setDefaultDeviceName() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString(getString(R.string.pref_device_name), Build.MANUFACTURER + " " + Build.MODEL)
+                .commit();
     }
 
     public static class PlaceholderFragment extends Fragment {
