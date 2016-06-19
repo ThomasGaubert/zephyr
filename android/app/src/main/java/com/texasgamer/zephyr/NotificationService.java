@@ -28,11 +28,10 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         Log.i(TAG, "onNotificationPosted");
 
-        if(PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(getString(R.string.pref_app_notif_base) + "-" + sbn.getPackageName(), true)) {
+        if (isValidNotification(sbn)) {
             Notification n = sbn.getNotification();
-            String title = null;
-            String text = null;
+            String title;
+            String text;
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 title = n.extras.getString(Notification.EXTRA_TITLE);
@@ -40,7 +39,7 @@ public class NotificationService extends NotificationListenerService {
             } else {
                 try {
                     title = getPackageManager().getApplicationLabel(getPackageManager()
-                                .getApplicationInfo(sbn.getPackageName(), PackageManager.GET_META_DATA)).toString();
+                            .getApplicationInfo(sbn.getPackageName(), PackageManager.GET_META_DATA)).toString();
                 } catch (PackageManager.NameNotFoundException e) {
                     title = getString(R.string.notif_default_title);
                 }
@@ -48,7 +47,7 @@ public class NotificationService extends NotificationListenerService {
             }
 
             Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getPackageName() + "\t" + title + "\t" + text);
-            Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
+            Intent i = new Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
             i.putExtra("type", "notification");
             i.putExtra("id", sbn.getId());
             i.putExtra("package", sbn.getPackageName());
@@ -64,5 +63,11 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification sbn) {
         Log.i(TAG, "onNotificationRemoved");
         Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
+    }
+
+    private boolean isValidNotification(StatusBarNotification sbn) {
+        return PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(getString(R.string.pref_app_notif_base) + "-" + sbn.getPackageName(), true) &&
+                getPackageManager().getLaunchIntentForPackage(sbn.getPackageName()) != null;
     }
 }
