@@ -69,7 +69,7 @@ socket.on('updates', function(msg) {
   console.log(msg)
   var u = JSON.parse(msg)
   if(u.metadata.type == 'update-downloaded') {
-    $.snackbar({content: 'Update downloaded, restart to apply.'})
+    $.snackbar({content: 'Update downloaded, restart to apply.', timeout: 0})
   } else if(u.metadata.type == 'update-checking') {
     $.snackbar({content: 'Checking for updates...'})
   } else if(u.metadata.type == 'update-not-available') {
