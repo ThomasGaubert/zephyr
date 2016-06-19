@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -45,9 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String enabledNotificationListeners =
-                android.provider.Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
-        if(enabledNotificationListeners.contains("com.texasgamer.zephyr.NotificationService")) {
+        if(NotificationManagerCompat.getEnabledListenerPackages(this).contains("com.texasgamer.zephyr")) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         } else {
             firebaseAnalytics.logEvent(getString(R.string.analytics_show_enable_notif_perm), null);
