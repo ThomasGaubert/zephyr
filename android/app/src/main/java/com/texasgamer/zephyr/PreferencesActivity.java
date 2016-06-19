@@ -23,6 +23,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +34,8 @@ import android.webkit.WebView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class PreferencesActivity extends AppCompatPreferenceActivity {
@@ -129,9 +132,13 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     @Override
     public void onBackPressed() {
         if(basePreferenceActivity) {
-            startActivity(new Intent(PreferencesActivity.this, MainActivity.class));
+            Intent i = new Intent(PreferencesActivity.this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
         } else {
-            super.onBackPressed();
+            Intent i = new Intent(PreferencesActivity.this, PreferencesActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
         }
     }
 
@@ -265,10 +272,21 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         }
 
         private void populatePreferences() {
-            PackageManager packageManager = getActivity().getPackageManager();
+            final PackageManager packageManager = getActivity().getPackageManager();
             List<PackageInfo> allInstalledPackages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA);
             PreferenceScreen screen = getPreferenceScreen();
+            Collections.sort(allInstalledPackages, new Comparator<PackageInfo>() {
+                @Override
+                public int compare(PackageInfo p1, PackageInfo p2) {
+                    return packageManager.getApplicationLabel(p1.applicationInfo).toString()
+                            .compareTo(packageManager.getApplicationLabel(p2.applicationInfo).toString());
+                }
+            });
             for(PackageInfo p : allInstalledPackages) {
+                if(packageManager.getLaunchIntentForPackage(p.packageName) == null){
+                    continue;
+                }
+
                 CheckBoxPreference pref = new CheckBoxPreference(screen.getContext());
                 pref.setKey(getString(R.string.pref_app_notif_base) + "-" + p.packageName);
                 pref.setTitle(packageManager.getApplicationLabel(p.applicationInfo));
