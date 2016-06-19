@@ -107,8 +107,8 @@ button.menu img {
 
 .controls {
   position: absolute;
-  right: 13px;
-  width: 80px;
+  right: 0px;
+  width: 90px;
   text-align: right;
 }
 
@@ -118,8 +118,8 @@ button.menu img {
   padding-bottom: 10px;
   padding-right: 15px;
   padding-left: 15px;
-  display:table-cell;    /*Add this*/
-  vertical-align:middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .controls a:hover {
@@ -133,6 +133,7 @@ button.menu img {
   font-size: 1.7em;
   color: #fefefe;
   width: 40px;
+  padding-right: 10px;
 }
 
 .controls-large a {
