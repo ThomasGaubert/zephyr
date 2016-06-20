@@ -21,16 +21,12 @@ but does not mirror other notifications (such as those from other chat apps).
 As an added bonus, the project is open source and works with all OpenVR HMDs!
 
 ## Usage
-This project is still under development, but works in its current state (check out
-the disclaimer above). To get things up and running:
+To get things up and running:
 
  1. Download and install SteamVR
  2. Connect and setup your OpenVR HMD (Vive, Oculus Rift, etc.)
- 3. Clone this repo
- 4. Run `npm run dev` within the `desktop` directory
- 5. Download the Android app from the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
- 6. Follow directions within the desktop application to connect the app
-
-Expect this process to be streamlined in the future.
+ 3. Download and install the [latest version of the desktop application](https://github.com/ThomasGaubert/zephyr/releases/latest)
+ 4. Download and install the Android app from the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
+ 5. Follow directions within the desktop application to connect the app
 
 *More documentation coming soon...*
