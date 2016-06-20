@@ -29,4 +29,5 @@ To get things up and running:
  4. Download and install the Android app from the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
  5. Follow directions within the desktop application to connect the app
 
-*More documentation coming soon...*
+## API
+Zephyr exposes a relatively simple API over WebSockets and HTTP to allow other tools to display notifications. Check out the [wiki](https://github.com/ThomasGaubert/zephyr/wiki) for full details.
