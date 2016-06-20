@@ -9,7 +9,7 @@ $(document).on('click', 'a[href^="http"]', function(event) {
 
 $('.dev-tools').hide()
 
-var clientId = 'nodejs-electron-client-' + Math.floor((Math.random() * 100) + 1)
+var clientId = 'zephyr-desktop-client-' + Math.floor((Math.random() * 100) + 1)
 
 console.log(getVersionInfo().payload.name + ' ' + getVersionInfo().payload.version)
 console.log('Client ID: ' + clientId)
@@ -103,7 +103,7 @@ function getTestNotification() {
       id: 0,
       title: 'Test Notification',
       text: 'This is a test notification.',
-      device: 'NodeJS/Electron Client'
+      device: 'Zephyr Desktop Client'
     }
   }
 }
