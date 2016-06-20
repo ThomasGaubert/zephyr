@@ -14,6 +14,9 @@ android:
     # Design Support Library
     - extra-android-m2repository
 
+    # Google Play Services
+    - extra-google-m2repository
+
 before_install:
   - cd ./android
 
