@@ -18,4 +18,4 @@ before_install:
   - cd ./android
 
 script:
-  - ./gradlew build
+  - ./gradlew assemble
