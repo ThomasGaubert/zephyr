@@ -1,4 +1,4 @@
-# zephyr
+[<img alt="Zephyr" height="150px" src="http://i.imgur.com/GZ7Wrd7.png" />](http://gaubert.io/projects/zephyr)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/n8cwsdbepynkqe4i?svg=true)](https://ci.appveyor.com/project/ThomasGaubert/openvr-notifications)
 
