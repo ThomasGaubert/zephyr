@@ -11,58 +11,58 @@
 }
 
 .reveal-container {
-	color: white;
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -200px;
-    margin-left: -250px;
-    width: 500px;
-    height: 500px;
-    display: none;
-    text-align: center;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -250px;
+  width: 500px;
+  height: 500px;
+  display: none;
+  text-align: center;
 }
 
 .reveal-container hr {
-	border: 0;
-	height: 1px;
-	background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
 }
 
 .reveal-container a {
-	text-decoration: none;
-	color: white;
+  text-decoration: none;
+  color: white;
 }
 
 .reveal-container a:hover {
-	cursor:pointer;
+  cursor:pointer;
 }
 
 .app-icon {
-	width: 100px;
-	height: 100px;
+  width: 100px;
+  height: 100px;
 }
 
 .app-title {
-	font-family: Righteous;
-	font-size: 4em;
+  font-family: Righteous;
+  font-size: 4em;
 }
 
 .app-verison {
-	font-size: 1em;
+  font-size: 1em;
 }
 
 .app-links {
-	list-style-type: none;
-	text-transform: uppercase;
-	margin-left: -35px;
+  list-style-type: none;
+  text-transform: uppercase;
+  margin-left: -35px;
 }
 
 .app-links li {
-	padding: 10px;
+  padding: 10px;
 }
 
 .app-copyright {
-	padding: 10px;
-	font-size: 0.9em;
+  padding: 10px;
+  font-size: 0.9em;
 }
