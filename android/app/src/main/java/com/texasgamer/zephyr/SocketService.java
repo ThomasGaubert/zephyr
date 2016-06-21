@@ -316,7 +316,7 @@ public class SocketService extends Service {
             try {
                 JSONObject notif = new JSONObject();
                 JSONObject metadata = new JSONObject();
-                metadata.put("verison", 1);
+                metadata.put("version", 1);
                 metadata.put("type", "notification");
                 metadata.put("from", clientId);
                 metadata.put("to", "");
