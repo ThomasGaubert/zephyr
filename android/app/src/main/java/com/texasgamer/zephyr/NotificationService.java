@@ -25,6 +25,11 @@ public class NotificationService extends NotificationListenerService {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
+    }
+
+    @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         Log.i(TAG, "onNotificationPosted");
 
@@ -68,6 +73,7 @@ public class NotificationService extends NotificationListenerService {
     private boolean isValidNotification(StatusBarNotification sbn) {
         return PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.pref_app_notif_base) + "-" + sbn.getPackageName(), true) &&
-                getPackageManager().getLaunchIntentForPackage(sbn.getPackageName()) != null;
+                getPackageManager().getLaunchIntentForPackage(sbn.getPackageName()) != null
+                && sbn.isClearable();
     }
 }

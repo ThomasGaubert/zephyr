@@ -111,7 +111,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
             }
             return true;
         }
@@ -133,7 +133,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     public void onBackPressed() {
         if(basePreferenceActivity) {
             Intent i = new Intent(PreferencesActivity.this, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         } else {
             Intent i = new Intent(PreferencesActivity.this, PreferencesActivity.class);
