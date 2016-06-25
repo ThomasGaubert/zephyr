@@ -19,10 +19,9 @@ To get things up and running:
 
  1. Download and install SteamVR
  2. Connect and setup your OpenVR HMD (Vive, Oculus Rift, etc.)
- 3. Download and install the [x86 Visual Studio 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=48145)
- 4. Download and install the [latest version of the desktop application](https://github.com/ThomasGaubert/zephyr/releases/latest)
- 5. Download and install the Android app from the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
- 6. Follow directions within the desktop application to connect the app
+ 3. Download and install the [latest version of the desktop application](https://github.com/ThomasGaubert/zephyr/releases/latest)
+ 4. Download and install the Android app from the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
+ 5. Follow directions within the desktop application to connect the app
 
 ## API
 Zephyr exposes a relatively simple API over WebSockets and HTTP to allow other tools to display notifications. Check out the [wiki](https://github.com/ThomasGaubert/zephyr/wiki) for full details.
