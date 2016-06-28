@@ -1,3 +1,6 @@
+// Logging
+var log = require('./res/js/console').setup()
+
 setupMenu()
 
 var socket = io('http://localhost:3753')
@@ -11,8 +14,8 @@ $('.dev-tools').hide()
 
 var clientId = 'zephyr-desktop-client-' + Math.floor((Math.random() * 100) + 1)
 
-console.log(getVersionInfo().payload.name + ' ' + getVersionInfo().payload.version)
-console.log('Client ID: ' + clientId)
+log.info(getVersionInfo().payload.name + ' ' + getVersionInfo().payload.version)
+log.info('Client ID: ' + clientId)
 
 requestServerVersion()
 
@@ -41,7 +44,7 @@ socket.on('broadcast', function(msg) {
       payload: {}
     }))
   } else if (b.metadata.type == 'broadcast-overlay-not-running') {
-    console.log('Overlay not running! (' + b.payload.message + ')')
+    log.info('Overlay not running! (' + b.payload.message + ')')
     $.snackbar({content: 'Error: Overlay is not running.', timeout: 0})
     $('#status').text('Error: Overlay is not running')
   }
@@ -66,7 +69,7 @@ socket.on('notification', function(msg) {
 })
 
 socket.on('updates', function(msg) {
-  console.log(msg)
+  log.info(msg)
   var u = JSON.parse(msg)
   if(u.metadata.type == 'update-downloaded') {
     $.snackbar({content: 'Update downloaded, restart to apply.', timeout: 0})
@@ -87,7 +90,7 @@ socket.on(clientId, function(msg) {
   } else if(m.metadata.type == 'notification-response') {
     handleNotificationResponse(msg)
   } else {
-    console.log('Unknown private message: ' + m)
+    log.info('Unknown private message: ' + m)
   }
 })
 
@@ -133,16 +136,16 @@ function verifyVersion(msg) {
   var v = JSON.parse(msg)
   if (v.metadata.version == 1) {
     if(v.payload.versionCode == 1) {
-      console.log('Connected to ' + v.payload.name + ' ' + v.payload.version + ' (' + v.payload.versionCode + ')')
+      log.info('Connected to ' + v.payload.name + ' ' + v.payload.version + ' (' + v.payload.versionCode + ')')
       $.snackbar({content: 'Connected to server.'})
       $('#status').text('Connected to ' + v.payload.name + ' ' + v.payload.version)
     } else {
-      console.log('Server is running incompatible version!')
+      log.info('Server is running incompatible version!')
       $.snackbar({content: 'Unable to connect: Server is running incompatible version.', timeout: 0})
       $('#status').text('Unable to connect: Server is running incompatible version')
     }
   } else {
-    console.log('Invalid payload version!')
+    log.info('Invalid payload version!')
     $.snackbar({content: 'Unable to connect: Invalid payload version.', timeout: 0})
     $('#status').text('Unable to connect: Invalid payload version')
   }
@@ -152,14 +155,14 @@ function handleNotificationResponse(msg) {
   var r = JSON.parse(msg)
   if (r.metadata.version == 1) {
     if(r.payload.result) {
-      console.log('Notification ' + r.payload.id + ' successfully displayed. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+      log.info('Notification ' + r.payload.id + ' successfully displayed. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
       $.snackbar({content: 'Notification successfully displayed.'})
     } else {
-      console.log('Notification ' + r.payload.id + ' failed to display. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
+      log.info('Notification ' + r.payload.id + ' failed to display. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
       $.snackbar({content: 'Failed to display notification. (' + r.payload.resultCode +')'})
     }
   } else {
-    console.log('Invalid payload version!')
+    log.info('Invalid payload version!')
     $.snackbar({content: 'Notification response: Invalid payload version.'})
   }
 }

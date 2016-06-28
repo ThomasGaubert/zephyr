@@ -12,7 +12,7 @@ const BrowserWindow = electron.BrowserWindow
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-// Socket stuff
+// Networking
 var bodyParser = require('body-parser')
 var web = require('express')()
 web.use(bodyParser.urlencoded({ extended: false }))
@@ -24,6 +24,12 @@ var serverId = 'nodejs-server'
 // Preferences
 const Config = require('electron-config')
 const conf = new Config()
+
+// Logging
+var log = require('./res/js/console').setup()
+var quitting
+
+log.info('Zephyr v' + app.getVersion())
 
 // Setup auto-updater
 const autoUpdater = electron.autoUpdater
@@ -42,8 +48,10 @@ function createWindow () {
 
   // Start onboarding if needed, otherwise load app
   if (!conf.has('firstRun') || conf.get('firstRun')) {
+    log.info('Opening onboarding window...')
     mainWindow.loadURL('file://' + __dirname + '/welcome.html')
   } else {
+    log.info('Opening main window...')
     mainWindow.loadURL('file://' + __dirname + '/index.html')
   }
 
@@ -82,6 +90,7 @@ app.on('activate', function () {
 })
 
 app.on('will-quit', function () {
+  quitting = true
   io.emit('broadcast', JSON.stringify({
     metadata: {
       version: 1,
@@ -93,6 +102,8 @@ app.on('will-quit', function () {
       message: 'Server is shutting down...'
     }
   }))
+  log.info('Quitting Zephyr v' + app.getVersion())
+  log.info('------------------------------------')
 })
 
 // In this file you can include the rest of your app's specific main process
@@ -128,7 +139,7 @@ function startServer() {
     socket.on('broadcast', function(msg) {
       var b = JSON.parse(msg)
       if (b.metadata.type == 'broadcast-pong') {
-        console.log('Received response from ' + b.metadata.from)
+        log.info('Received response from ' + b.metadata.from)
 
         io.emit('devices', JSON.stringify({
           metadata: {
@@ -144,14 +155,16 @@ function startServer() {
       }
     })
 
-    socket.on('disconnect', function(){
-      console.log('Client disconnected, checking on other clients...')
-      broadcastPing()
+    socket.on('disconnect', function() {
+      if (!quitting) {
+        log.info('Client disconnected, checking on other clients...')
+        broadcastPing()
+      }
     })
   })
 
   http.listen(3753, function() {
-    console.log('Listening on *:3753')
+    log.info('Listening on *:3753')
   })
 }
 
@@ -159,11 +172,11 @@ function startOverlay() {
   if(process.platform == 'win32') {
     const execFile = require('child_process').execFile
     const child = execFile('./build/overlay/zephyr.exe', (error, stdout, stderr) => {
-      console.log('Overlay not running! (died)')
+      log.info('Overlay not running! (died)')
       broadcastOverlayNotRunning()
     })
   } else {
-    console.log('Overlay not running! (requires win32)')
+    log.info('Overlay not running! (requires win32)')
     broadcastOverlayNotRunning()
   }
 }
@@ -205,7 +218,7 @@ function broadcastPing() {
 }
 
 function handleNotification(msg) {
-  console.log('Notification: ' + msg)
+  log.info('Notification: ' + msg)
 
   io.emit('notification', msg)
 
@@ -227,8 +240,8 @@ function handleNotification(msg) {
 }
 
 function handleVersionRequest(msg) {
-  console.log('Client requested version info, sending...')
-  console.log('Client info: ' + msg)
+  log.info('Client requested version info, sending...')
+  log.info('Client info: ' + msg)
 
   var v = JSON.parse(msg)
   var t = v.metadata && v.metadata.from ? v.metadata.from : ''
@@ -261,7 +274,7 @@ function handleVersionRequest(msg) {
 function setupAutoUpdater() {
   if(process.platform == 'win32') {
     autoUpdater.addListener("update-available", function(event) {  
-      console.log("Update available!")
+      log.info("Update available!")
       io.emit('updates', JSON.stringify({
         metadata: {
           version: 1,
@@ -274,7 +287,7 @@ function setupAutoUpdater() {
     })
 
     autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
-        console.log("Update donwloaded!")
+        log.info("Update donwloaded!")
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -291,7 +304,7 @@ function setupAutoUpdater() {
     })
 
     autoUpdater.addListener("error", function(err) {  
-        console.log("Error while checking for updates: " + err)
+        log.info("Error while checking for updates: " + err)
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -306,7 +319,7 @@ function setupAutoUpdater() {
     })
 
     autoUpdater.addListener("checking-for-update", function(event) {  
-        console.log("Checking for update...")
+        log.info("Checking for update...")
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -319,7 +332,7 @@ function setupAutoUpdater() {
     })
 
     autoUpdater.addListener("update-not-available", function(event) {  
-        console.log("Update not available!")
+        log.info("Update not available!")
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -332,7 +345,7 @@ function setupAutoUpdater() {
     })
 
     const feedURL = 'https://zephyr-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
-    console.log('Checking for updates at ' + feedURL + '...')
+    log.info('Checking for updates at ' + feedURL + '...')
     autoUpdater.setFeedURL(feedURL)
     autoUpdater.checkForUpdates()
   }
