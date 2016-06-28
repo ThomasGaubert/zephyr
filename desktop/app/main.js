@@ -172,7 +172,10 @@ function startOverlay() {
   if(process.platform == 'win32') {
     const execFile = require('child_process').execFile
     const child = execFile('./build/overlay/zephyr.exe', (error, stdout, stderr) => {
-      log.info('Overlay not running! (died)')
+      log.info('Overlay no longer running!')
+      log.info('Overlay error: ' + error)
+      log.info('Overlay stdout: ' + stdout)
+      log.info('Overlay stderr: ' + stderr)
       broadcastOverlayNotRunning()
     })
   } else {
