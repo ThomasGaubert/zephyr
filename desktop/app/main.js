@@ -176,15 +176,15 @@ function startOverlay() {
       log.info('Overlay error: ' + error)
       log.info('Overlay stdout: ' + stdout)
       log.info('Overlay stderr: ' + stderr)
-      broadcastOverlayNotRunning()
+      broadcastOverlayNotRunning(error)
     })
   } else {
     log.info('Overlay not running! (requires win32)')
-    broadcastOverlayNotRunning()
+    broadcastOverlayNotRunning('Windows is required.')
   }
 }
 
-function broadcastOverlayNotRunning() {
+function broadcastOverlayNotRunning(error) {
   io.emit('broadcast', JSON.stringify({
     metadata: {
       version: 1,
@@ -193,7 +193,8 @@ function broadcastOverlayNotRunning() {
       to: ''
     },
     payload: {
-      message: 'Overlay is no longer running.'
+      message: 'Overlay is no longer running.',
+      error: error
     }
   }))
 }
@@ -290,7 +291,7 @@ function setupAutoUpdater() {
     })
 
     autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
-        log.info("Update donwloaded!")
+        log.info("Update downloaded!")
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,

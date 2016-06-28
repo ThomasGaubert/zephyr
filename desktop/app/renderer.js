@@ -44,9 +44,9 @@ socket.on('broadcast', function(msg) {
       payload: {}
     }))
   } else if (b.metadata.type == 'broadcast-overlay-not-running') {
-    log.info('Overlay not running! (' + b.payload.message + ')')
-    $.snackbar({content: 'Error: Overlay is not running.', timeout: 0})
-    $('#status').text('Error: Overlay is not running')
+    log.info('Overlay not running! (' + b.payload.message + ' : ' + b.payload.error + ' )')
+    $.snackbar({content: 'Zephyr overlay is not running. Restart Zephyr to try again.', timeout: 0})
+    $('#status').html('Zephyr overlay is not running. Restart Zephyr to try again.<br/>Error: ' + b.payload.error + '<br/><br/>If this issue persists, please post in <a href="http://reddit.com/r/zephyr_vr">/r/zephyr_vr</a>.')
   }
 })
 
