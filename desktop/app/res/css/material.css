@@ -12,6 +12,7 @@
   -webkit-transform: translateY(200%);
   transform: translateY(200%);
 }
+
 .snackbar.snackbar-opened {
   padding: 14px 15px;
   margin-bottom: 20px;
@@ -23,6 +24,14 @@
   -webkit-transform: none;
   transform: none;
 }
+
 .snackbar.toast {
   border-radius: 200px;
+}
+
+.snackbar-link {
+  color: #FF4081;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-left: 10px;
 }

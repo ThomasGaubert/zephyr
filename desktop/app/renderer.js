@@ -1,5 +1,4 @@
-// Logging
-var log = require('./res/js/console').setup()
+var log = require('electron').remote.require('electron-log')
 
 setupMenu()
 
@@ -72,7 +71,12 @@ socket.on('updates', function(msg) {
   log.info(msg)
   var u = JSON.parse(msg)
   if(u.metadata.type == 'update-downloaded') {
-    $.snackbar({content: 'Update downloaded, restart to apply.', timeout: 0})
+    var md = require('markdown-it')();
+    var result = md.render(u.payload.changelog);
+    $.snackbar({content: 'Update downloaded, restart to apply. <a href="#" class="snackbar-link" id="changelog-link">Changelog</a>', timeout: 0, htmlAllowed: true})
+    $('#changelog-link').click(function() {
+      $('#changelog').html(result)
+    })
   } else if(u.metadata.type == 'update-checking') {
     $.snackbar({content: 'Checking for updates...'})
   } else if(u.metadata.type == 'update-not-available') {
