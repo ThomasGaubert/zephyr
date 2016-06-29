@@ -1,6 +1,11 @@
+var mixpanel = require('electron').remote.require('mixpanel').init('6cae86bf1da092b800b30b27689bd665')
+
 var os = require('os');
 if (os.platform() != 'win32') {
   $('#reveal-check-for-updates').hide()
+  mixpanel.track('hide-check-for-updates', {
+    platform: os.platform()
+  })
 }
 
 $('.app-version').text(require('electron').remote.app.getVersion)
@@ -61,6 +66,7 @@ function toggleReveal() {
           $("body").css("background-color", "#0D253A")
         }
       }, 250)
+    mixpanel.track('toggle-reveal')
   }
 }
 
@@ -70,6 +76,7 @@ document.getElementById('reveal-open-dev-tools').addEventListener('click', funct
       function() {
         $(".dev-tools").toggle()
       }, 250)
+  mixpanel.track('reveal-open-dev-tools')
 })
 
 document.getElementById('reveal-check-for-updates').addEventListener('click', function() {
@@ -78,8 +85,10 @@ document.getElementById('reveal-check-for-updates').addEventListener('click', fu
       function() {
         require('electron').remote.autoUpdater.checkForUpdates()
       }, 250)
+  mixpanel.track('reveal-check-for-updates')
 })
 
 document.getElementById('reveal-close').addEventListener('click', function() {
   toggleReveal()
+  mixpanel.track('reveal-close')
 })
