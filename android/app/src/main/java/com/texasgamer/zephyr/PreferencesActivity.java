@@ -16,23 +16,18 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceScreen;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,7 +35,8 @@ import java.util.List;
 
 public class PreferencesActivity extends AppCompatPreferenceActivity {
 
-    private FirebaseAnalytics firebaseAnalytics;
+    private MetricsManager mMetricsManager;
+
     private boolean basePreferenceActivity = true;
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
@@ -95,7 +91,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mMetricsManager = new MetricsManager(this);
     }
 
     private void setupActionBar() {
@@ -161,17 +157,18 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
-            ((PreferencesActivity) getActivity()).setBasePreferenceActivity(false);
+            final PreferencesActivity activity = ((PreferencesActivity) getActivity());
 
-            ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_general);
-            ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_general_prefs), null);
+            activity.setBasePreferenceActivity(false);
+            activity.getSupportActionBar().setTitle(R.string.pref_header_general);
+            activity.mMetricsManager.logEvent(R.string.analytics_tap_general_prefs, null);
 
             final EditTextPreference p = (EditTextPreference) findPreference(getString(R.string.pref_device_name));
             bindPreferenceSummaryToValue(p);
 
             if(p.getTitle().toString().equals(getString(R.string.pref_default_device_name))
                     || p.getTitle().toString().isEmpty()) {
-                ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_event_empty_device_name), null);
+                activity.mMetricsManager.logEvent(R.string.analytics_event_empty_device_name, null);
                 p.setText(Build.MANUFACTURER + " " + Build.MODEL);
             }
 
@@ -186,7 +183,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
                     Bundle b = new Bundle();
                     b.putString(getString(R.string.analytics_param_new_value), newValue.toString());
-                    ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_device_name), b);
+                    activity.mMetricsManager.logEvent(R.string.analytics_tap_device_name, b);
                     return true;
                 }
             });
@@ -197,7 +194,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                     Bundle b = new Bundle();
                     String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
                     b.putString(getString(R.string.analytics_param_new_value), newValueStr);
-                    ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_start_on_boot), b);
+                    activity.mMetricsManager.logEvent(R.string.analytics_tap_start_on_boot, b);
                     return true;
                 }
             });
@@ -224,10 +221,12 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
 
-            ((PreferencesActivity) getActivity()).setBasePreferenceActivity(false);
+            PreferencesActivity activity = ((PreferencesActivity) getActivity());
 
-            ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_notifications);
-            ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_notif_prefs), null);
+            activity.setBasePreferenceActivity(false);
+
+            activity.getSupportActionBar().setTitle(R.string.pref_header_notifications);
+            activity.mMetricsManager.logEvent(R.string.analytics_tap_notif_prefs, null);
 
             populatePreferences();
         }
@@ -251,7 +250,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
                 Bundle b = new Bundle();
                 b.putLong(getString(R.string.analytics_param_num_apps), screen.getPreferenceCount());
-                ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_enable_all), b);
+                ((PreferencesActivity) getActivity()).mMetricsManager.logEvent(R.string.analytics_tap_enable_all, b);
 
                 for(int x = 0; x < screen.getPreferenceCount(); x++) {
                     ((CheckBoxPreference) screen.getPreference(x)).setChecked(true);
@@ -261,7 +260,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
                 Bundle b = new Bundle();
                 b.putLong(getString(R.string.analytics_param_num_apps), screen.getPreferenceCount());
-                ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_disable_all), b);
+                ((PreferencesActivity) getActivity()).mMetricsManager.logEvent(R.string.analytics_tap_disable_all, b);
 
                 for(int x = 0; x < screen.getPreferenceCount(); x++) {
                     ((CheckBoxPreference) screen.getPreference(x)).setChecked(false);
@@ -300,7 +299,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                         b.putString(getString(R.string.analytics_param_app_name), preference.getTitle().toString());
                         String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
                         b.putString(getString(R.string.analytics_param_new_value), newValueStr);
-                        ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_app), b);
+                        ((PreferencesActivity) getActivity()).mMetricsManager.logEvent(R.string.analytics_tap_app, b);
                         return true;
                     }
                 });
@@ -317,10 +316,12 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_about);
             setHasOptionsMenu(true);
 
-            ((PreferencesActivity) getActivity()).setBasePreferenceActivity(false);
+            final PreferencesActivity activity = ((PreferencesActivity) getActivity());
 
-            ((PreferencesActivity) getActivity()).getSupportActionBar().setTitle(R.string.pref_header_about);
-            ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_about_prefs), null);
+            activity.setBasePreferenceActivity(false);
+
+            activity.getSupportActionBar().setTitle(R.string.pref_header_about);
+            activity.mMetricsManager.logEvent(R.string.analytics_tap_about_prefs, null);
 
             try {
                 findPreference(getString(R.string.pref_version)).setTitle(getString(R.string.pref_title_version,
@@ -329,7 +330,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        ((PreferencesActivity) getActivity()).firebaseAnalytics.logEvent(getString(R.string.analytics_tap_licenses), null);
+                        activity.mMetricsManager.logEvent(R.string.analytics_tap_licenses, null);
 
                         final Dialog licenseDialog = new Dialog(getActivity());
                         licenseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

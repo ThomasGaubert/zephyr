@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +23,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 public class WelcomeActivity extends AppCompatActivity {
 
-    private FirebaseAnalytics firebaseAnalytics;
+    private MetricsManager mMetricsManager;
     private WelcomePagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
@@ -56,7 +54,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         setDefaultDeviceName();
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mMetricsManager = new MetricsManager(this);
         mSectionsPagerAdapter = new WelcomePagerAdapter(getSupportFragmentManager());
 
         mNextBtn = (ImageButton) findViewById(R.id.intro_btn_next);
@@ -102,7 +100,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 Bundle b = new Bundle();
                 b.putLong(getString(R.string.analytics_param_welcome_page), position);
-                firebaseAnalytics.logEvent(getString(R.string.analytics_select_page), null);
+                mMetricsManager.logEvent(R.string.analytics_select_page, null);
 
                 page = position;
 
@@ -136,7 +134,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle b = new Bundle();
                 b.putLong(getString(R.string.analytics_param_welcome_page), page);
-                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_next), null);
+                mMetricsManager.logEvent(R.string.analytics_tap_next, null);
 
                 page += 1;
                 mViewPager.setCurrentItem(page, true);
@@ -148,7 +146,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle b = new Bundle();
                 b.putLong(getString(R.string.analytics_param_welcome_page), page);
-                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_skip), null);
+                mMetricsManager.logEvent(R.string.analytics_tap_skip, null);
 
                 PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this)
                         .edit().putBoolean(getString(R.string.pref_first_run), false).apply();
@@ -163,7 +161,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle b = new Bundle();
                 b.putLong(getString(R.string.analytics_param_welcome_page), page);
-                firebaseAnalytics.logEvent(getString(R.string.analytics_tap_finish), null);
+                mMetricsManager.logEvent(R.string.analytics_tap_finish, null);
 
                 PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this)
                         .edit().putBoolean(getString(R.string.pref_first_run), false).apply();

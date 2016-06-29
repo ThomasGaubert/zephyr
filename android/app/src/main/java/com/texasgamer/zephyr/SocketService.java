@@ -11,8 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +24,7 @@ public class SocketService extends Service {
     private String TAG = this.getClass().getSimpleName();
 
     private SocketServiceReceiver serviceReceiver;
-    private FirebaseAnalytics firebaseAnalytics;
+    private MetricsManager mMetricsManager;
 
     private Socket socket;
     private String serverAddr;
@@ -39,7 +37,7 @@ public class SocketService extends Service {
         super.onCreate();
         if(!connected) {
             serviceReceiver = new SocketServiceReceiver();
-            firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+            mMetricsManager = new MetricsManager(this);
 
             IntentFilter filter = new IntentFilter();
             filter.addAction("com.texasgamer.zephyr.SOCKET_SERVICE");
@@ -85,7 +83,7 @@ public class SocketService extends Service {
 
         Bundle b = new Bundle();
         b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-        firebaseAnalytics.logEvent(getString(R.string.analytics_event_connect), b);
+        mMetricsManager.logEvent(R.string.analytics_event_connect, b);
 
         try {
             socket = IO.socket("http://" + address + "/");
@@ -105,7 +103,7 @@ public class SocketService extends Service {
         Log.i(TAG, "Disconnecting...");
         Bundle b = new Bundle();
         b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-        firebaseAnalytics.logEvent(getString(R.string.analytics_event_disconnect), b);
+        mMetricsManager.logEvent(R.string.analytics_event_disconnect, b);
 
         if(socket != null)
             socket.disconnect();
@@ -120,7 +118,7 @@ public class SocketService extends Service {
             public void call(Object... args) {
                 Bundle b = new Bundle();
                 b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-                firebaseAnalytics.logEvent(getString(R.string.analytics_event_version), b);
+                mMetricsManager.logEvent(R.string.analytics_event_version, b);
 
                 socket.emit("version", getVersionInfo().toString());
             }
@@ -135,7 +133,7 @@ public class SocketService extends Service {
 
                         Bundle b = new Bundle();
                         b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-                        firebaseAnalytics.logEvent(getString(R.string.analytics_event_connected), b);
+                        mMetricsManager.logEvent(R.string.analytics_event_connected, b);
 
                         Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                         i.putExtra("type", "connected");
@@ -150,7 +148,7 @@ public class SocketService extends Service {
 
                             Bundle b = new Bundle();
                             b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-                            firebaseAnalytics.logEvent(getString(R.string.analytics_event_notif_sent), b);
+                            mMetricsManager.logEvent(R.string.analytics_event_notif_sent, b);
 
                             Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                             i.putExtra("type", "notif-sent");
@@ -160,7 +158,7 @@ public class SocketService extends Service {
 
                             Bundle b = new Bundle();
                             b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-                            firebaseAnalytics.logEvent(getString(R.string.analytics_event_notif_failed), b);
+                            mMetricsManager.logEvent(R.string.analytics_event_notif_failed, b);
 
                             Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                             i.putExtra("type", "notif-failed");
@@ -182,7 +180,7 @@ public class SocketService extends Service {
 
                         Bundle b = new Bundle();
                         b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-                        firebaseAnalytics.logEvent(getString(R.string.analytics_event_ping), b);
+                        mMetricsManager.logEvent(R.string.analytics_event_ping, b);
 
                         socket.emit("broadcast", getPong(metadata.getString("from")).toString());
                     }
@@ -197,7 +195,7 @@ public class SocketService extends Service {
 
                 Bundle b = new Bundle();
                 b.putString(getString(R.string.analytics_param_server_addr), serverAddr);
-                firebaseAnalytics.logEvent(getString(R.string.analytics_event_disconnected), b);
+                mMetricsManager.logEvent(R.string.analytics_event_disconnected, b);
 
                 Intent i = new  Intent("com.texasgamer.zephyr.MAIN_ACTIVITY");
                 i.putExtra("type", "disconnected");
