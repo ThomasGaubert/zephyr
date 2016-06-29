@@ -8,5 +8,8 @@ Android application which sends notifications for mirroring.
 [Join the beta](https://play.google.com/apps/testing/com.texasgamer.zephyr) to get early access to updates.
 
 ## Configuration
-Firebase is used for analyitcs and crash reporting. Add your `google-services.json` file within
+Firebase is used for analytics and crash reporting. Add your `google-services.json` file within
 the `app` directory to enable these features.
+
+Fabric is also used for analytics and crash reporting. Add your `fabric.properties` within the `app`
+directory to enable these features.
