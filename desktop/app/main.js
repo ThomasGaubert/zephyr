@@ -12,6 +12,9 @@ const BrowserWindow = electron.BrowserWindow
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// Analytics
+var mixpanel = require('mixpanel').init('6cae86bf1da092b800b30b27689bd665')
+
 // Networking
 var bodyParser = require('body-parser')
 var web = require('express')()
@@ -50,9 +53,11 @@ function createWindow () {
   if (!conf.has('firstRun') || conf.get('firstRun')) {
     log.info('Opening onboarding window...')
     mainWindow.loadURL('file://' + __dirname + '/welcome.html')
+    mixpanel.track('first-run')
   } else {
     log.info('Opening main window...')
     mainWindow.loadURL('file://' + __dirname + '/index.html')
+    mixpanel.track('repeat-run')
   }
 
   // Emitted when the window is closed.
@@ -102,6 +107,7 @@ app.on('will-quit', function () {
       message: 'Server is shutting down...'
     }
   }))
+  mixpanel.track('quitting')
   log.info('Quitting Zephyr v' + app.getVersion())
   log.info('------------------------------------')
 })
@@ -112,21 +118,25 @@ function startServer() {
   web.post('/api/notification', function(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify(handleNotification(JSON.stringify(req.body))))
+    mixpanel.track('api-http-notification', req.body.payload)
   })
 
   web.get('/api/version', function(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify(handleVersionRequest(JSON.stringify(req.body))))
+    mixpanel.track('api-http-version', req.body.payload)
   })
 
   web.get('*', function(req, res) {
     res.status(404).sendFile(__dirname + '/404.html')
+    mixpanel.track('api-http-404', req.body.payload)
   })
 
   io.on('connection', function(socket) {
     socket.on('notification', function(msg) {
       var n = JSON.parse(msg)
       io.emit(n.metadata.from, JSON.stringify(handleNotification(msg)))
+      mixpanel.track('api-ws-notification', n.payload)
     })
 
     socket.on('version', function(msg) {
@@ -134,6 +144,7 @@ function startServer() {
       io.emit(v.metadata.from, JSON.stringify(handleVersionRequest(msg)))
 
       broadcastPing()
+      mixpanel.track('api-ws-version', v.payload)
     })
 
     socket.on('broadcast', function(msg) {
@@ -152,12 +163,14 @@ function startServer() {
             name: b.metadata.from
           }
         }))
+        mixpanel.track('api-ws-pong')
       }
     })
 
     socket.on('disconnect', function() {
       if (!quitting) {
         log.info('Client disconnected, checking on other clients...')
+        mixpanel.track('api-ws-disconnect')
         broadcastPing()
       }
     })
@@ -177,10 +190,16 @@ function startOverlay() {
       log.info('Overlay stdout: ' + stdout)
       log.info('Overlay stderr: ' + stderr)
       broadcastOverlayNotRunning(error)
+      mixpanel.track('overlay-error', {
+        error: error
+      })
     })
   } else {
     log.info('Overlay not running! (requires win32)')
     broadcastOverlayNotRunning('Windows is required.')
+    mixpanel.track('overlay-error-win32', {
+      platform: process.platform
+    })
   }
 }
 
@@ -288,6 +307,7 @@ function setupAutoUpdater() {
         },
         payload: {}
       }))
+      mixpanel.track('update-available')
     })
 
     autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
@@ -305,6 +325,9 @@ function setupAutoUpdater() {
             changelog: releaseNotes
           }
         }))
+        mixpanel.track('update-downloaded', {
+          releaseName: releaseName
+        })
     })
 
     autoUpdater.addListener("error", function(err) {  
@@ -320,6 +343,9 @@ function setupAutoUpdater() {
             error: err
           }
         }))
+        mixpanel.track('update-error', {
+          error: error
+        })
     })
 
     autoUpdater.addListener("checking-for-update", function(event) {  
@@ -333,6 +359,7 @@ function setupAutoUpdater() {
           },
           payload: {}
         }))
+        mixpanel.track('update-checking')
     })
 
     autoUpdater.addListener("update-not-available", function(event) {  
@@ -346,6 +373,7 @@ function setupAutoUpdater() {
           },
           payload: {}
         }))
+        mixpanel.track('update-not-available')
     })
 
     const feedURL = 'https://zephyr-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
