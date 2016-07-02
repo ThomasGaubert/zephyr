@@ -40,6 +40,7 @@
     <string name="pref_app_notif_base">appNotif</string>
     <string name="pref_version">version</string>
     <string name="pref_licenses">licenses</string>
+    <string name="pref_uuid">uuid</string>
 
     <string name="title_activity_preferences">Settings</string>
 
