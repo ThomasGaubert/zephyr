@@ -38,12 +38,17 @@ public class NotificationService extends NotificationListenerService {
             String title;
             String text;
 
+            // TODO: This is super janky and awful and needs to be cleaned up.
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 title = n.extras.getString(Notification.EXTRA_TITLE);
                 try {
                     text = n.extras.getCharSequence(Notification.EXTRA_TEXT).toString();
                 } catch (Exception e) {
-                    text = n.tickerText.toString();
+                    try {
+                        text = n.tickerText.toString();
+                    } catch (Exception ex) {
+                        text = "";
+                    }
                 }
             } else {
                 try {
@@ -52,7 +57,12 @@ public class NotificationService extends NotificationListenerService {
                 } catch (PackageManager.NameNotFoundException e) {
                     title = getString(R.string.notif_default_title);
                 }
-                text = n.tickerText.toString();
+
+                try {
+                    text = n.tickerText.toString();
+                } catch (Exception ex) {
+                    text = "";
+                }
             }
 
             Log.i(TAG, "ID :" + sbn.getId() + "\t" + sbn.getPackageName() + "\t" + title + "\t" + text);
