@@ -23,9 +23,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
-    private MetricsManager mMetricsManager;
     private WelcomePagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
@@ -54,7 +53,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         setDefaultDeviceName();
 
-        mMetricsManager = new MetricsManager(this);
         mSectionsPagerAdapter = new WelcomePagerAdapter(getSupportFragmentManager());
 
         mNextBtn = (ImageButton) findViewById(R.id.intro_btn_next);

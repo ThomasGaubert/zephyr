@@ -14,12 +14,18 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.UUID;
 
+import io.fabric.sdk.android.Fabric;
+
 public class MetricsManager {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private Context mContext;
 
     public MetricsManager(Context context) {
+        if (!Fabric.isInitialized()) {
+            Fabric.with(context, new Crashlytics());
+        }
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         mContext = context;
 
@@ -39,8 +45,11 @@ public class MetricsManager {
     }
 
     private void fabricEvent(@StringRes int iri, Bundle extras) {
-        CustomEvent event = new CustomEvent(mContext.getString(iri));
+        if (!Fabric.isInitialized()) {
+            Fabric.with(mContext, new Crashlytics());
+        }
 
+        CustomEvent event = new CustomEvent(mContext.getString(iri));
         if(extras != null) {
             for (String key : extras.keySet()) {
                 event.putCustomAttribute(key, extras.get(key).toString());

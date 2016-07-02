@@ -10,20 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.crashlytics.android.Crashlytics;
-
-import io.fabric.sdk.android.Fabric;
-
-public class MainActivity extends AppCompatActivity {
-
-    private MetricsManager mMetricsManager;
+public class MainActivity extends BaseActivity {
 
     private MainAcvitiyReceiver mainAcvitiyReceiver;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -34,12 +27,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         checkIfFirstRun();
 
-        setupAnalytics();
         startSocketService();
         requestConnectionStatus();
 
@@ -94,10 +85,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-    }
-
-    private void setupAnalytics() {
-        mMetricsManager = new MetricsManager(this);
     }
 
     @SuppressWarnings("ConstantConditions")
