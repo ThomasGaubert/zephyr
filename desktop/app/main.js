@@ -12,8 +12,16 @@ const BrowserWindow = electron.BrowserWindow
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// Preferences
+const Config = require('electron-config')
+const conf = new Config()
+
 // Analytics
 var mixpanel = require('mixpanel').init('6cae86bf1da092b800b30b27689bd665')
+if (!conf.has('uuid')) {
+  conf.set('uuid', require('node-uuid').v1())
+}
+const uuid = conf.get('uuid')
 
 // Networking
 var bodyParser = require('body-parser')
@@ -23,10 +31,6 @@ web.use(bodyParser.json())
 var http = require('http').Server(web)
 var io = require('socket.io')(http)
 var serverId = 'nodejs-server'
-
-// Preferences
-const Config = require('electron-config')
-const conf = new Config()
 
 // Logging
 var log = require('./res/js/console').setup()
@@ -53,11 +57,11 @@ function createWindow () {
   if (!conf.has('firstRun') || conf.get('firstRun')) {
     log.info('Opening onboarding window...')
     mainWindow.loadURL('file://' + __dirname + '/welcome.html')
-    mixpanel.track('first-run')
+    mixpanel.track('first-run', {uuid: uuid})
   } else {
     log.info('Opening main window...')
     mainWindow.loadURL('file://' + __dirname + '/index.html')
-    mixpanel.track('repeat-run')
+    mixpanel.track('repeat-run', {uuid: uuid})
   }
 
   // Emitted when the window is closed.
@@ -107,7 +111,7 @@ app.on('will-quit', function () {
       message: 'Server is shutting down...'
     }
   }))
-  mixpanel.track('quitting')
+  mixpanel.track('quitting', {uuid: uuid})
   log.info('Quitting Zephyr v' + app.getVersion())
   log.info('------------------------------------')
 })
@@ -124,11 +128,13 @@ function startServer() {
   web.get('/api/version', function(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify(handleVersionRequest(JSON.stringify(req.body))))
+    req.body.payload.set('uuid', uuid)
     mixpanel.track('api-http-version', req.body.payload)
   })
 
   web.get('*', function(req, res) {
     res.status(404).sendFile(__dirname + '/404.html')
+    req.body.payload.set('uuid', uuid)
     mixpanel.track('api-http-404', req.body.payload)
   })
 
@@ -136,6 +142,7 @@ function startServer() {
     socket.on('notification', function(msg) {
       var n = JSON.parse(msg)
       io.emit(n.metadata.from, JSON.stringify(handleNotification(msg)))
+      n.payload.set('uuid', uuid)
       mixpanel.track('api-ws-notification', n.payload)
     })
 
@@ -144,6 +151,7 @@ function startServer() {
       io.emit(v.metadata.from, JSON.stringify(handleVersionRequest(msg)))
 
       broadcastPing()
+      v.payload.set('uuid', uuid)
       mixpanel.track('api-ws-version', v.payload)
     })
 
@@ -163,14 +171,14 @@ function startServer() {
             name: b.metadata.from
           }
         }))
-        mixpanel.track('api-ws-pong')
+        mixpanel.track('api-ws-pong', {id: uuid})
       }
     })
 
     socket.on('disconnect', function() {
       if (!quitting) {
         log.info('Client disconnected, checking on other clients...')
-        mixpanel.track('api-ws-disconnect')
+        mixpanel.track('api-ws-disconnect', {id: uuid})
         broadcastPing()
       }
     })
@@ -191,6 +199,7 @@ function startOverlay() {
       log.info('Overlay stderr: ' + stderr)
       broadcastOverlayNotRunning(error)
       mixpanel.track('overlay-error', {
+        uuid: uuid,
         error: error
       })
     })
@@ -198,6 +207,7 @@ function startOverlay() {
     log.info('Overlay not running! (requires win32)')
     broadcastOverlayNotRunning('Windows is required.')
     mixpanel.track('overlay-error-win32', {
+      uuid: uuid,
       platform: process.platform
     })
   }
@@ -257,7 +267,7 @@ function handleNotification(msg) {
       result: true,
       resultCode: 0,
       resultMessage: 'Success',
-      id: n.payload.id
+      uuid: n.payload.id
     }
   }
 }
@@ -307,7 +317,7 @@ function setupAutoUpdater() {
         },
         payload: {}
       }))
-      mixpanel.track('update-available')
+      mixpanel.track('update-available', {uuid: uuid})
     })
 
     autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
@@ -326,6 +336,7 @@ function setupAutoUpdater() {
           }
         }))
         mixpanel.track('update-downloaded', {
+          uuid: uuid,
           releaseName: releaseName
         })
     })
@@ -344,6 +355,7 @@ function setupAutoUpdater() {
           }
         }))
         mixpanel.track('update-error', {
+          uuid: uuid,
           error: error
         })
     })
@@ -359,7 +371,7 @@ function setupAutoUpdater() {
           },
           payload: {}
         }))
-        mixpanel.track('update-checking')
+        mixpanel.track('update-checking', {uuid: uuid})
     })
 
     autoUpdater.addListener("update-not-available", function(event) {  
@@ -373,7 +385,7 @@ function setupAutoUpdater() {
           },
           payload: {}
         }))
-        mixpanel.track('update-not-available')
+        mixpanel.track('update-not-available', {uuid, uuid})
     })
 
     const feedURL = 'https://zephyr-updates.herokuapp.com/update/' + process.platform + '/' + app.getVersion() 
