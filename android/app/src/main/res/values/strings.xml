@@ -28,6 +28,11 @@
     <string name="sheet_notif_title">Enable Notification Access</string>
     <string name="sheet_notif_text">Zephyr needs access to your notifications to operate properly.</string>
     <string name="sheet_notif_btn">Enable</string>
+    <string name="card_login_title">New! Login to Pair</string>
+    <string name="card_login_text">Login to Zephyr to enable seamless pairing.</string>
+    <string name="card_login_ok">Login</string>
+    <string name="card_login_no">No Thanks</string>
+    <string name="card_profile_logout">Logout</string>
 
     <!-- Notifications -->
     <string name="notif_default_title">New Notification</string>
@@ -41,6 +46,7 @@
     <string name="pref_version">version</string>
     <string name="pref_licenses">licenses</string>
     <string name="pref_uuid">uuid</string>
+    <string name="pref_hide_login_card">hideLoginCard</string>
 
     <string name="title_activity_preferences">Settings</string>
 

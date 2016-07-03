@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr;
+package com.texasgamer.zephyr.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -10,6 +10,9 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.texasgamer.zephyr.manager.MetricsManager;
+import com.texasgamer.zephyr.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
-    tools:context="com.texasgamer.zephyr.WelcomeActivity$PlaceholderFragment">
+    tools:context=".activity.WelcomeActivity$PlaceholderFragment">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr;
+package com.texasgamer.zephyr.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

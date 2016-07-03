@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr;
+package com.texasgamer.zephyr.service;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
+import com.texasgamer.zephyr.R;
 
 public class NotificationService extends NotificationListenerService {
 

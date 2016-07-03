@@ -12,26 +12,26 @@
         android:supportsRtl="true"
         android:fullBackupContent="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.texasgamer.zephyr.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.texasgamer.zephyr.WelcomeActivity" />
+        <activity android:name=".activity.WelcomeActivity" />
         <activity
-            android:name="com.texasgamer.zephyr.PreferencesActivity"
+            android:name=".activity.PreferencesActivity"
             android:label="@string/title_activity_preferences"
-            android:parentActivityName="com.texasgamer.zephyr.MainActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.texasgamer.zephyr.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
 
-        <service android:name="com.texasgamer.zephyr.SocketService" />
+        <service android:name=".service.SocketService" />
         <service
-            android:name="com.texasgamer.zephyr.NotificationService"
+            android:name=".service.NotificationService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr;
+package com.texasgamer.zephyr.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,14 +10,33 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.texasgamer.zephyr.Constants;
+import com.texasgamer.zephyr.manager.LoginManager;
+import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.service.SocketService;
 
 public class MainActivity extends BaseActivity {
 
+    public static final int RC_SIGN_IN = 16;
+
+    private LoginManager mLoginManager;
     private MainAcvitiyReceiver mainAcvitiyReceiver;
     private BottomSheetBehavior bottomSheetBehavior;
 
@@ -28,6 +47,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mLoginManager = new LoginManager(this);
 
         checkIfFirstRun();
 
@@ -89,6 +110,46 @@ public class MainActivity extends BaseActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupUi() {
+        if (mLoginManager.shouldShowLoginCard()) {
+            showLoginCard();
+        } else if (mLoginManager.isLoggedIn()) {
+            loggedIn();
+        }
+
+        findViewById(R.id.login_card_btn_no).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideLoginCard();
+                mLoginManager.setLoginCardHidden(true);
+            }
+        });
+
+        findViewById(R.id.profile_card_btn_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AuthUI.getInstance(FirebaseApp.getInstance())
+                        .signOut(MainActivity.this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                loggedOut();
+                            }
+                        });
+            }
+        });
+
+        findViewById(R.id.login_card_btn_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(
+                        AuthUI.getInstance(FirebaseApp.getInstance())
+                                .createSignInIntentBuilder()
+                                .setLogo(R.mipmap.ic_launcher)
+                                .setProviders(AuthUI.EMAIL_PROVIDER, AuthUI.GOOGLE_PROVIDER)
+                                .build(),
+                        RC_SIGN_IN);
+            }
+        });
+
         final Button connectBtn = (Button) findViewById(R.id.connectBtn);
         final Button testNotifBtn = (Button) findViewById(R.id.testNotifBtn);
         final EditText serverAddrField = ((EditText) findViewById(R.id.serverAddrField));
@@ -192,6 +253,69 @@ public class MainActivity extends BaseActivity {
         Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
         i.putExtra("type", "status");
         sendBroadcast(i);
+    }
+
+    private void loggedIn() {
+        hideLoginCard();
+        showProfileCard();
+
+        setupFirebaseDb();
+    }
+
+    private void loggedOut() {
+        hideProfileCard();
+        showLoginCard();
+    }
+
+    private void showLoginCard() {
+        findViewById(R.id.login_card).setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoginCard() {
+        findViewById(R.id.login_card).setVisibility(View.GONE);
+    }
+
+    private void showProfileCard() {
+        findViewById(R.id.profile_card).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.profile_card_title)).setText(mLoginManager.getUser().getDisplayName());
+        ((TextView) findViewById(R.id.profile_card_text)).setText(mLoginManager.getUser().getEmail());
+    }
+
+    private void hideProfileCard() {
+        findViewById(R.id.profile_card).setVisibility(View.GONE);
+    }
+
+    private void setupFirebaseDb() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReferenceFromUrl(Constants.FIREBASE_ADDRESS +
+                mLoginManager.getUser().getUid() + "/" + "server_address");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Server address from Firebase: " + value);
+
+                if (value != null && !connected) {
+                    EditText serverAddressField = ((EditText) findViewById(R.id.serverAddrField));
+                    serverAddressField.setText("");
+                    serverAddressField.append(value);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                loggedIn();
+            }
+        }
     }
 
     class MainAcvitiyReceiver extends BroadcastReceiver {

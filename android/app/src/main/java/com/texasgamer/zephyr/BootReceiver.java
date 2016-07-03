@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 
+import com.texasgamer.zephyr.service.NotificationService;
+
 public class BootReceiver extends BroadcastReceiver {
 
     @Override

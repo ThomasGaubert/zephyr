@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr;
+package com.texasgamer.zephyr.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +11,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.texasgamer.zephyr.Constants;
+import com.texasgamer.zephyr.R;
 
 import java.util.UUID;
 
@@ -22,16 +24,22 @@ public class MetricsManager {
     private Context mContext;
 
     public MetricsManager(Context context) {
-        if (!Fabric.isInitialized()) {
-            Fabric.with(context, new Crashlytics());
-        }
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         mContext = context;
 
         String uuid = getUuid();
-        mFirebaseAnalytics.setUserId(uuid);
-        Crashlytics.setUserIdentifier(uuid);
+
+        if (Constants.FIREBASE_ANALYTICS_ENABLED) {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+            mFirebaseAnalytics.setUserId(uuid);
+        }
+
+
+        if (Constants.FABRIC_CRASHLYITCS_ENABLED) {
+            if (!Fabric.isInitialized()) {
+                Fabric.with(context, new Crashlytics());
+            }
+            Crashlytics.setUserIdentifier(uuid);
+        }
     }
 
     public void logEvent(@StringRes int iri, Bundle extras) {
@@ -41,10 +49,16 @@ public class MetricsManager {
     }
 
     private void firebaseEvent(@StringRes int iri, Bundle extras) {
-        mFirebaseAnalytics.logEvent(mContext.getString(iri), extras);
+        if (Constants.FIREBASE_ANALYTICS_ENABLED) {
+            mFirebaseAnalytics.logEvent(mContext.getString(iri), extras);
+        }
     }
 
     private void fabricEvent(@StringRes int iri, Bundle extras) {
+        if (!Constants.FABRIC_ANSWERS_ENABLED) {
+            return;
+        }
+
         if (!Fabric.isInitialized()) {
             Fabric.with(mContext, new Crashlytics());
         }

@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr;
+package com.texasgamer.zephyr.activity;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -28,6 +28,9 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+
+import com.texasgamer.zephyr.manager.MetricsManager;
+import com.texasgamer.zephyr.R;
 
 import java.util.Collections;
 import java.util.Comparator;
