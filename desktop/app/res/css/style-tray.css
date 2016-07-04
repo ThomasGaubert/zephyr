@@ -29,6 +29,10 @@
   margin-left: 10px;
 }
 
+.zephyr {
+  font-family: righteous;
+}
+
 #firebaseui-auth-container {
   margin-top: 64px;
 }
@@ -39,4 +43,16 @@
 
 #btn-sign-out {
   margin-top: 20px;
+}
+
+#login-prompt {
+  text-align: center;
+  visibility: gone;
+}
+
+#footer {
+  text-align: center;
+  visibility: gone;
+  text-transform: uppercase;
+  font-size: 0.7em;
 }

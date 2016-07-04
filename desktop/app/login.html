@@ -35,6 +35,7 @@
         'signInSuccess': function(currentUser, credential, redirectUrl) {
           const {ipcRenderer} = require('electron');
           ipcRenderer.send('login-event', JSON.stringify(credential));
+          location.reload()
           return false;
         }
       }
@@ -56,28 +57,34 @@
             var photoURL = user.photoURL;
             var uid = user.uid;
             var providerData = user.providerData;
-            user.getToken().then(function(accessToken) {
-              document.getElementById('user-name').textContent = displayName;
-              document.getElementById('user-email').textContent = email;
-              document.getElementById('firebaseui-auth-container').style.display = 'none';
-              document.getElementById('user-container').style.display = 'visible';
-              document.getElementById('login-prompt').style.display = 'none';
+            
+            document.getElementById('user-name').textContent = displayName;
+            document.getElementById('user-email').textContent = email;
+            document.getElementById('firebaseui-auth-container').style.display = 'none';
+            document.getElementById('user-container').style.display = 'visible';
+            document.getElementById('login-prompt').style.display = 'none';
+            document.getElementById('footer').style.display = 'none';
 
-              firebase.database().goOffline();
-              firebase.database().ref(uid + '/server_address').set(getIPAddress() + ':3753');
-              firebase.database().goOffline();
-            })
+            firebase.database().goOffline();
+            firebase.database().ref(uid + '/server_address').set(getIPAddress() + ':3753');
+            firebase.database().goOffline();
+            
             return false;
           } else {
             // Not signed in
             document.getElementById('user-container').style.display = 'none';
             document.getElementById('firebaseui-auth-container').style.display = 'visible';
             document.getElementById('login-prompt').style.display = 'visible';
+            document.getElementById('footer').style.display = 'visible';
           }
         }, function(error) {
           console.log(error);
         });
       };
+
+      function displayUser(user) {
+
+      }
 
       window.addEventListener('load', function() {
         initApp()
@@ -101,7 +108,8 @@
     <div id="user-email"></div>
     <button class="mui-btn mui-btn--raised" id="btn-sign-out" onclick="logout()">Logout</button>
     <br>
-    <p id="login-prompt">Login to the Zephyr Android app for faster pairing.</p>
   </div>
+  <p id="login-prompt">Login to <span class="zephyr">Zephyr</span> for faster pairing.</p>
+  <p id="footer">Beta</p>
 </body>
 </html>
