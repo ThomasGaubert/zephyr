@@ -1,6 +1,7 @@
 <resources>
     <!-- General strings -->
     <string name="app_name">Zephyr</string>
+    <string name="ok">OK</string>
 
     <!-- WelcomeActivity -->
     <string name="section_format">Page %1$d</string>
@@ -33,6 +34,10 @@
     <string name="card_login_ok">Login</string>
     <string name="card_login_no">No Thanks</string>
     <string name="card_profile_logout">Logout</string>
+    <string name="dialog_login_success_title">Login Successful</string>
+    <string name="dialog_login_success_body">
+        Login to the Zephyr desktop app by left clicking on the tray icon.\n\nYour server address will appear automatically.
+    </string>
 
     <!-- Notifications -->
     <string name="notif_default_title">New Notification</string>

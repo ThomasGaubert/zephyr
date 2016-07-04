@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -129,12 +130,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 AuthUI.getInstance(FirebaseApp.getInstance())
-                        .signOut(MainActivity.this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
-                                loggedOut();
-                            }
-                        });
+                        .signOut(MainActivity.this);
+                loggedOut();
                 mMetricsManager.logEvent(R.string.analytics_tap_profile_card_logout, null);
             }
         });
@@ -317,6 +314,12 @@ public class MainActivity extends BaseActivity {
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 loggedIn();
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                builder.setTitle(R.string.dialog_login_success_title);
+                builder.setMessage(R.string.dialog_login_success_body);
+                builder.setPositiveButton(R.string.ok, null);
+                builder.show();
                 mMetricsManager.logLogin(mLoginManager.getUser().getProviderId(), true);
             }
         }

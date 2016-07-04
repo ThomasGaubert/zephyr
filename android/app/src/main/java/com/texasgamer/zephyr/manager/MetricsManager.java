@@ -50,6 +50,8 @@ public class MetricsManager {
     }
 
     public void logLogin(String method, boolean success) {
+        Log.i("MetricsManager", "login: " + method + " " + success);
+
         if (Constants.FIREBASE_ANALYTICS_ENABLED) {
             Bundle b = new Bundle();
             b.putString(mContext.getString(R.string.analytics_param_login_method), method);
