@@ -20,6 +20,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -29,6 +30,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.texasgamer.zephyr.Constants;
+import com.texasgamer.zephyr.manager.LoginManager;
 import com.texasgamer.zephyr.manager.MetricsManager;
 import com.texasgamer.zephyr.R;
 
@@ -154,11 +161,18 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
+
+        public static final int RC_SIGN_IN = 16;
+
+        private LoginManager mLoginManager;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+
+            mLoginManager = new LoginManager(getActivity());
 
             final PreferencesActivity activity = ((PreferencesActivity) getActivity());
 
@@ -169,7 +183,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             final EditTextPreference p = (EditTextPreference) findPreference(getString(R.string.pref_device_name));
             bindPreferenceSummaryToValue(p);
 
-            if(p.getTitle().toString().equals(getString(R.string.pref_default_device_name))
+            if (p.getTitle().toString().equals(getString(R.string.pref_default_device_name))
                     || p.getTitle().toString().isEmpty()) {
                 activity.mMetricsManager.logEvent(R.string.analytics_event_empty_device_name, null);
                 p.setText(Build.MANUFACTURER + " " + Build.MODEL);
@@ -180,7 +194,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     p.setSummary(newValue.toString());
 
-                    Intent i = new  Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
+                    Intent i = new Intent("com.texasgamer.zephyr.SOCKET_SERVICE");
                     i.putExtra("type", "update-devices");
                     getActivity().sendBroadcast(i);
 
@@ -201,6 +215,43 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                     return true;
                 }
             });
+
+            final PreferenceScreen acctPref = (PreferenceScreen) findPreference(getString(R.string.pref_account));
+
+            if (!Constants.FIREBASE_LOGIN_ENABLED) {
+                ((PreferenceScreen) findPreference(getString(R.string.pref_header_general))).removePreference(acctPref);
+            } else if (mLoginManager.isLoggedIn()) {
+                acctPref.setTitle(R.string.pref_account_logout);
+                acctPref.setSummary(mLoginManager.getUser().getDisplayName());
+            } else {
+                acctPref.setTitle(R.string.pref_account_login);
+                acctPref.setSummary(R.string.pref_account_login_summary);
+            }
+
+            acctPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if (mLoginManager.isLoggedIn()) {
+                        AuthUI.getInstance(FirebaseApp.getInstance())
+                                .signOut(getActivity())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        acctPref.setTitle(R.string.pref_account_login);
+                                        acctPref.setSummary(R.string.pref_account_login_summary);
+                                    }
+                                });
+                    } else {
+                        startActivityForResult(
+                                AuthUI.getInstance(FirebaseApp.getInstance())
+                                        .createSignInIntentBuilder()
+                                        .setLogo(R.mipmap.ic_launcher)
+                                        .setProviders(AuthUI.EMAIL_PROVIDER, AuthUI.GOOGLE_PROVIDER)
+                                        .build(),
+                                RC_SIGN_IN);
+                    }
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -213,6 +264,18 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 return true;
             }
             return super.onOptionsItemSelected(item);
+        }
+
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == RC_SIGN_IN) {
+                if (resultCode == RESULT_OK) {
+                    PreferenceScreen acctPref = (PreferenceScreen) findPreference(getString(R.string.pref_account));
+                    acctPref.setTitle(R.string.pref_account_logout);
+                    acctPref.setSummary(mLoginManager.getUser().getDisplayName());
+                    ((PreferencesActivity) getActivity()).mMetricsManager.logLogin(mLoginManager.getUser().getProviderId(), true);
+                }
+            }
         }
     }
 

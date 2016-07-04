@@ -47,6 +47,7 @@
     <string name="pref_licenses">licenses</string>
     <string name="pref_uuid">uuid</string>
     <string name="pref_hide_login_card">hideLoginCard</string>
+    <string name="pref_account">account</string>
 
     <string name="title_activity_preferences">Settings</string>
 
@@ -58,6 +59,10 @@
 
     <string name="pref_title_device_name">Device Name</string>
     <string name="pref_default_device_name">Android Device</string>
+
+    <string name="pref_account_login">Login</string>
+    <string name="pref_account_login_summary">Login to Zephyr to enable faster pairing.</string>
+    <string name="pref_account_logout">Logout</string>
 
     <!-- Notification Settings -->
     <string name="pref_header_notifications">Notifications</string>

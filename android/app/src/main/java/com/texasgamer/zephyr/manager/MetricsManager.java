@@ -57,6 +57,10 @@ public class MetricsManager {
         }
 
         if (!Constants.FABRIC_ANSWERS_ENABLED) {
+            if (!Fabric.isInitialized()) {
+                Fabric.with(mContext, new Crashlytics());
+            }
+
             Answers.getInstance().logLogin(new LoginEvent().putMethod(method).putSuccess(success));
         }
     }
