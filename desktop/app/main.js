@@ -140,11 +140,6 @@ app.on('will-quit', function () {
   log.info('------------------------------------')
 })
 
-const {ipcMain} = require('electron');
-ipcMain.on('login-event', (event, arg) => {
-  mainWindow.webContents.send('login-event', arg);
-});
-
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 function startServer() {
