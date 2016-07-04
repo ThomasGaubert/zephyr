@@ -6,7 +6,8 @@ var menubar = require('menubar')
 var mb = menubar({
   icon: __dirname + '/res/img/icon-tray.png', 
   index: 'http://localhost:3753/login',
-  'show-dock-icon': true
+  'show-dock-icon': true,
+  'preload-window': true
 })
 
 mb.on('ready', function ready () {
