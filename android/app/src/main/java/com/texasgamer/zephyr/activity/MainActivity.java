@@ -314,6 +314,7 @@ public class MainActivity extends BaseActivity {
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 loggedIn();
+                mMetricsManager.logLogin(mLoginManager.getUser().getProviderId(), true);
             }
         }
     }

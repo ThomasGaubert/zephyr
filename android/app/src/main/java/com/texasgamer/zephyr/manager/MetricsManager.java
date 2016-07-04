@@ -10,6 +10,7 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.crashlytics.android.answers.LoginEvent;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
@@ -46,6 +47,18 @@ public class MetricsManager {
         Log.i("MetricsManager", mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
         firebaseEvent(iri, extras);
         fabricEvent(iri, extras);
+    }
+
+    public void logLogin(String method, boolean success) {
+        if (Constants.FIREBASE_ANALYTICS_ENABLED) {
+            Bundle b = new Bundle();
+            b.putString(mContext.getString(R.string.analytics_param_login_method), method);
+            firebaseEvent(R.string.analytics_event_login, b);
+        }
+
+        if (!Constants.FABRIC_ANSWERS_ENABLED) {
+            Answers.getInstance().logLogin(new LoginEvent().putMethod(method).putSuccess(success));
+        }
     }
 
     private void firebaseEvent(@StringRes int iri, Bundle extras) {
