@@ -12,7 +12,7 @@ import com.texasgamer.zephyr.R;
 
 public class NotificationService extends NotificationListenerService {
 
-    private String TAG = this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
 
     @Override
     public void onCreate() {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <entry>
+        <key>loginEnabled</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>loginCardNew</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>loginSuccessDialog</key>
+        <value>true</value>
+    </entry>
+</resources>

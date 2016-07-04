@@ -21,6 +21,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class MetricsManager {
 
+    private final String TAG = this.getClass().getSimpleName();
+
     private FirebaseAnalytics mFirebaseAnalytics;
     private Context mContext;
 
@@ -44,13 +46,13 @@ public class MetricsManager {
     }
 
     public void logEvent(@StringRes int iri, Bundle extras) {
-        Log.i("MetricsManager", mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
+        Log.i(TAG, mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
         firebaseEvent(iri, extras);
         fabricEvent(iri, extras);
     }
 
     public void logLogin(String method, boolean success) {
-        Log.i("MetricsManager", "login: " + method + " " + success);
+        Log.i(TAG, "login: " + method + " " + success);
 
         if (Constants.FIREBASE_ANALYTICS_ENABLED) {
             Bundle b = new Bundle();

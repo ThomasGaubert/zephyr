@@ -20,8 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.texasgamer.zephyr.Constants;
+import com.texasgamer.zephyr.manager.ConfigManager;
 import com.texasgamer.zephyr.manager.LoginManager;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.service.SocketService;
@@ -49,13 +48,14 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mConfigManager = new ConfigManager(this);
         mLoginManager = new LoginManager(this);
 
         checkIfFirstRun();
 
         startSocketService();
         requestConnectionStatus();
-
+        
         setupUi();
     }
 
@@ -106,6 +106,12 @@ public class MainActivity extends BaseActivity {
             Intent i = new Intent(this, WelcomeActivity.class);
             startActivity(i);
             finish();
+        }
+    }
+
+    private void handleRemoteConfig() {
+        if (mConfigManager.isLoginCardNew()) {
+            ((TextView) findViewById(R.id.login_card_title)).setText(R.string.card_login_title_new);
         }
     }
 
@@ -268,6 +274,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showLoginCard() {
+        handleRemoteConfig();
         findViewById(R.id.login_card).setVisibility(View.VISIBLE);
     }
 
@@ -314,12 +321,16 @@ public class MainActivity extends BaseActivity {
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 loggedIn();
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-                builder.setTitle(R.string.dialog_login_success_title);
-                builder.setMessage(R.string.dialog_login_success_body);
-                builder.setPositiveButton(R.string.ok, null);
-                builder.show();
+
+                if (mConfigManager.shouldShowLoginSuccessDialog()) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                    builder.setTitle(R.string.dialog_login_success_title);
+                    builder.setMessage(R.string.dialog_login_success_body);
+                    builder.setPositiveButton(R.string.ok, null);
+                    builder.show();
+                }
+
                 mMetricsManager.logLogin(mLoginManager.getUser().getProviderId(), true);
             }
         }

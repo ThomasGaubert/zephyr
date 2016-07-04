@@ -29,7 +29,8 @@
     <string name="sheet_notif_title">Enable Notification Access</string>
     <string name="sheet_notif_text">Zephyr needs access to your notifications to operate properly.</string>
     <string name="sheet_notif_btn">Enable</string>
-    <string name="card_login_title">New! Login to Pair</string>
+    <string name="card_login_title">Login to Pair</string>
+    <string name="card_login_title_new">New! Login to Pair</string>
     <string name="card_login_text">Login to Zephyr to enable seamless pairing.</string>
     <string name="card_login_ok">Login</string>
     <string name="card_login_no">No Thanks</string>

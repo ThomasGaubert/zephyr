@@ -5,15 +5,16 @@ import android.preference.PreferenceManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 
 public class LoginManager {
 
     private Context mContext;
+    private ConfigManager mConfigManager;
 
     public LoginManager(Context context) {
         mContext = context;
+        mConfigManager = new ConfigManager(context);
     }
 
     public boolean shouldShowLoginCard() {
@@ -21,7 +22,7 @@ public class LoginManager {
     }
 
     public boolean isLoggedIn() {
-        if (!Constants.FIREBASE_LOGIN_ENABLED) {
+        if (!mConfigManager.isLoginEnabled()) {
             return false;
         }
 
@@ -34,7 +35,7 @@ public class LoginManager {
     }
 
     public boolean isLoginCardHidden() {
-        if (!Constants.FIREBASE_LOGIN_ENABLED) {
+        if (!mConfigManager.isLoginEnabled()) {
             return true;
         }
 

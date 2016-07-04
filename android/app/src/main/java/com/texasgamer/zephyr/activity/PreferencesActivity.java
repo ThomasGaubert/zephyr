@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.texasgamer.zephyr.Constants;
+import com.texasgamer.zephyr.manager.ConfigManager;
 import com.texasgamer.zephyr.manager.LoginManager;
 import com.texasgamer.zephyr.manager.MetricsManager;
 import com.texasgamer.zephyr.R;
@@ -164,6 +165,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
         public static final int RC_SIGN_IN = 16;
 
+        private ConfigManager mConfigManager;
         private LoginManager mLoginManager;
 
         @Override
@@ -172,6 +174,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
+            mConfigManager = new ConfigManager(getActivity());
             mLoginManager = new LoginManager(getActivity());
 
             final PreferencesActivity activity = ((PreferencesActivity) getActivity());
@@ -218,7 +221,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
 
             final PreferenceScreen acctPref = (PreferenceScreen) findPreference(getString(R.string.pref_account));
 
-            if (!Constants.FIREBASE_LOGIN_ENABLED) {
+            if (!mConfigManager.isLoginEnabled()) {
                 ((PreferenceScreen) findPreference(getString(R.string.pref_header_general))).removePreference(acctPref);
             } else if (mLoginManager.isLoggedIn()) {
                 acctPref.setTitle(R.string.pref_account_logout);

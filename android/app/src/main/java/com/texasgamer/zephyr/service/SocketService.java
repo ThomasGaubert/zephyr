@@ -24,7 +24,7 @@ import io.socket.emitter.Emitter;
 
 public class SocketService extends Service {
 
-    private String TAG = this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
 
     private SocketServiceReceiver serviceReceiver;
     private MetricsManager mMetricsManager;
