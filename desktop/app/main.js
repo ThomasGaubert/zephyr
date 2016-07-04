@@ -54,7 +54,7 @@ function createMenubar() {
     'preload-window': true
   })
 
-  mb.on('ready', function ready () {
+  mb.on('ready', function ready() {
     log.info('Menubar app running')
     const contextMenu = electron.Menu.buildFromTemplate([
       {
@@ -74,6 +74,10 @@ function createMenubar() {
     mb.tray.on('right-click', function() {
       mb.tray.popUpContextMenu(contextMenu)
     });
+  })
+
+  mb.on('hide', function hide() {
+    mb.window.loadURL('http://localhost:3753/login')
   })
 }
 
@@ -394,7 +398,7 @@ function setupAutoUpdater() {
         }))
         mixpanel.track('update-error', {
           uuid: uuid,
-          error: error
+          error: err
         })
     })
 
