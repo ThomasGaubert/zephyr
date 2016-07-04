@@ -26,6 +26,7 @@
     "electron-log": "^1.0.14",
     "express": "^4.10.2",
     "markdown-it": "^7.0.0",
+    "menubar": "^4.1.2",
     "mixpanel": "^0.4.0",
     "node-uuid": "^1.4.7",
     "socket.io": "^1.4.6"

@@ -1,19 +1,19 @@
 @font-face {
-    font-family: roboto;
-    font-stretch: normal;
-    src: url(../fonts/Roboto.ttf);
+  font-family: roboto;
+  font-stretch: normal;
+  src: url(../fonts/Roboto.ttf);
 }
 
 @font-face {
-    font-family: roboto;
-    font-stretch: condensed;
-    src: url(../fonts/RobotoCondensed.ttf);
+  font-family: roboto;
+  font-stretch: condensed;
+  src: url(../fonts/RobotoCondensed.ttf);
 }
 
 @font-face {
-    font-family: righteous;
-    font-stretch: condensed;
-    src: url(../fonts/Righteous.ttf);
+  font-family: righteous;
+  font-stretch: condensed;
+  src: url(../fonts/Righteous.ttf);
 }
 
 * {
@@ -40,4 +40,11 @@
 .dev-tools h3 {
 	font-size: 20px;
 	text-transform: uppercase;
+}
+
+iframe {
+  background-color: transparent;
+  border: 0px none transparent;
+  padding: 0px;
+  overflow: hidden;
 }

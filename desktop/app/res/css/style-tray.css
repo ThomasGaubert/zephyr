@@ -1,0 +1,44 @@
+@font-face {
+  font-family: roboto;
+  font-stretch: normal;
+  src: url(../fonts/Roboto.ttf);
+}
+
+@font-face {
+  font-family: roboto;
+  font-stretch: condensed;
+  src: url(../fonts/RobotoCondensed.ttf);
+}
+
+@font-face {
+  font-family: righteous;
+  font-stretch: condensed;
+  src: url(../fonts/Righteous.ttf);
+}
+
+* {
+  font-family: roboto;
+}
+
+.app-bar {
+  margin-bottom: 90px;
+}
+
+.user-container {
+  margin-top: 70px;
+  margin-left: 10px;
+}
+
+#firebaseui-auth-container {
+  margin-top: 64px;
+}
+
+#user-name {
+  font-weight: bold;
+}
+
+#btn-sign-out {
+  margin-top: 20px;
+  margin-left: 20px;
+  visibility: gone;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zephyr Login</title>
+
+  <link rel="stylesheet" type="text/css" href="./res/css/style-tray.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/toolbar.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/material.css">
+
+  <script src="./res/js/util.js"></script>
+
+  <link href="//cdn.muicss.com/mui-0.6.0/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="//cdn.muicss.com/mui-0.6.0/js/mui.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDjfZw7Ct5LXrxUXdknN2OYJO9MUwbMaJg",
+      authDomain: "zephyr-99819.firebaseapp.com",
+      databaseURL: "https://zephyr-99819.firebaseio.com",
+      storageBucket: "zephyr-99819.appspot.com",
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+  <script>
+    // FirebaseUI config.
+    var uiConfig = {
+      'signInOptions': [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ],
+      'callbacks': {
+        'signInSuccess': function(currentUser, credential, redirectUrl) {
+          const {ipcRenderer} = require('electron');
+          ipcRenderer.send('login-event', JSON.stringify(credential));
+          return false;
+        }
+      }
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // The start method will wait until the DOM is loaded.
+    ui.start('#firebaseui-auth-container', uiConfig);
+  </script>
+  <script type="text/javascript">
+      initApp = function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // Signed in
+            var displayName = user.displayName;
+            var email = user.email;
+            var emailVerified = user.emailVerified;
+            var photoURL = user.photoURL;
+            var uid = user.uid;
+            var providerData = user.providerData;
+            user.getToken().then(function(accessToken) {
+              const {ipcRenderer} = require('electron');
+              ipcRenderer.send('login-event', JSON.stringify({
+                  displayName: displayName,
+                  email: email,
+                  emailVerified: emailVerified,
+                  photoURL: photoURL,
+                  uid: uid,
+                  accessToken: accessToken,
+                  providerData: providerData
+                }));
+              });
+              document.getElementById('user-name').textContent = displayName;
+              document.getElementById('user-email').textContent = email;
+              document.getElementById('firebaseui-auth-container').style.display = 'none';
+              document.getElementById('btn-sign-out').style.display = 'visible';
+
+              firebase.database().ref(uid + '/server_address').set(getIPAddress() + ':3753');
+            return false;
+          } else {
+            // Not signed in
+            document.getElementById('btn-sign-out').style.display = 'none';
+          }
+        }, function(error) {
+          console.log(error);
+        });
+      };
+
+      window.addEventListener('load', function() {
+        initApp()
+      });
+
+      function logout() {
+        firebase.auth().signOut()
+        location.reload()
+      }
+    </script>
+</head>
+<body>
+  <header class="app-bar promote-layer paper-toolbar paper-shadow">
+    <div class="app-bar-container paper-toolbar">
+      <h1 class="logo">Zephyr</i></h1>
+    </div>
+  </header>
+  <div id="firebaseui-auth-container"></div>
+  <div class="user-container">
+    <div id="user-name"></div>
+    <div id="user-email"></div>
+  </div>
+  <button class="mui-btn mui-btn--raised" id="btn-sign-out" onclick="logout()">Logout</button>
+</body>
+</html>

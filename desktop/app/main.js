@@ -1,6 +1,18 @@
 // Handle any Squirrel events first
 if(require('electron-squirrel-startup')) return;
 
+var menubar = require('menubar')
+
+var mb = menubar({
+  icon: __dirname + '/res/img/icon-tray.png', 
+  index: 'http://localhost:3753/login',
+  'show-dock-icon': true
+})
+
+mb.on('ready', function ready () {
+  // your app code here
+})
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
@@ -66,9 +78,6 @@ function createWindow () {
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   })
 
@@ -116,9 +125,20 @@ app.on('will-quit', function () {
   log.info('------------------------------------')
 })
 
+const {ipcMain} = require('electron');
+ipcMain.on('login-event', (event, arg) => {
+  mainWindow.webContents.send('login-event', arg);
+});
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 function startServer() {
+web.use('/res', require('express').static(__dirname + '/res'))
+
+  web.get('/login', function(req, res) {
+    res.sendFile(__dirname + '/login.html')
+  })
+
   web.post('/api/notification', function(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify(handleNotification(JSON.stringify(req.body))))
@@ -134,8 +154,7 @@ function startServer() {
 
   web.get('*', function(req, res) {
     res.status(404).sendFile(__dirname + '/404.html')
-    req.body.payload.uuid = uuid
-    mixpanel.track('api-http-404', req.body.payload)
+    mixpanel.track('api-http-404', {uuid: uuid})
   })
 
   io.on('connection', function(socket) {
