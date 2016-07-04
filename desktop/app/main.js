@@ -1,18 +1,7 @@
 // Handle any Squirrel events first
 if(require('electron-squirrel-startup')) return;
 
-var menubar = require('menubar')
-
-var mb = menubar({
-  icon: __dirname + '/res/img/icon-tray.png', 
-  index: 'http://localhost:3753/login',
-  'show-dock-icon': true,
-  'preload-window': true
-})
-
-mb.on('ready', function ready () {
-  // your app code here
-})
+createMenubar()
 
 const electron = require('electron')
 // Module to control application life.
@@ -55,6 +44,39 @@ log.info('Zephyr v' + app.getVersion())
 const autoUpdater = electron.autoUpdater
 setupAutoUpdater()
 
+function createMenubar() {
+  var menubar = require('menubar')
+
+  var mb = menubar({
+    icon: __dirname + '/res/img/icon-tray.png', 
+    index: 'http://localhost:3753/login',
+    'show-dock-icon': true,
+    'preload-window': true
+  })
+
+  mb.on('ready', function ready () {
+    log.info('Menubar app running')
+    const contextMenu = electron.Menu.buildFromTemplate([
+      {
+        label: 'Show Window', 
+        click() { 
+          if(mainWindow != null) {
+            mainWindow.show()
+          } else {
+            createWindow()
+          }
+        }
+      },
+      {type: 'separator'},
+      {label: 'Quit', role: 'quit'}
+    ]);
+    mb.tray.setToolTip('Zephyr')
+    mb.tray.on('right-click', function() {
+      mb.tray.popUpContextMenu(contextMenu)
+    });
+  })
+}
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -81,23 +103,15 @@ function createWindow () {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
-
-  startServer()
-  startOverlay()
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+app.on('ready', function() {
+  createWindow()
+  startServer()
+  startOverlay()
 })
 
 app.on('activate', function () {
@@ -191,7 +205,10 @@ web.use('/res', require('express').static(__dirname + '/res'))
             name: b.metadata.from
           }
         }))
-        mixpanel.track('api-ws-pong', {uuid: uuid})
+        mixpanel.track('api-ws-pong', {
+          uuid: uuid,
+          from: b.metadata.from
+        })
       }
     })
 

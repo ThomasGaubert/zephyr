@@ -57,27 +57,20 @@
             var uid = user.uid;
             var providerData = user.providerData;
             user.getToken().then(function(accessToken) {
-              const {ipcRenderer} = require('electron');
-              ipcRenderer.send('login-event', JSON.stringify({
-                  displayName: displayName,
-                  email: email,
-                  emailVerified: emailVerified,
-                  photoURL: photoURL,
-                  uid: uid,
-                  accessToken: accessToken,
-                  providerData: providerData
-                }));
-              });
               document.getElementById('user-name').textContent = displayName;
               document.getElementById('user-email').textContent = email;
               document.getElementById('firebaseui-auth-container').style.display = 'none';
-              document.getElementById('btn-sign-out').style.display = 'visible';
+              document.getElementById('user-container').style.display = 'visible';
+              document.getElementById('login-prompt').style.display = 'none';
 
               firebase.database().ref(uid + '/server_address').set(getIPAddress() + ':3753');
+            })
             return false;
           } else {
             // Not signed in
-            document.getElementById('btn-sign-out').style.display = 'none';
+            document.getElementById('user-container').style.display = 'none';
+            document.getElementById('firebaseui-auth-container').style.display = 'visible';
+            document.getElementById('login-prompt').style.display = 'visible';
           }
         }, function(error) {
           console.log(error);
@@ -101,10 +94,12 @@
     </div>
   </header>
   <div id="firebaseui-auth-container"></div>
-  <div class="user-container">
+  <div class="user-container" id="user-container">
     <div id="user-name"></div>
     <div id="user-email"></div>
+    <button class="mui-btn mui-btn--raised" id="btn-sign-out" onclick="logout()">Logout</button>
+    <br>
+    <p id="login-prompt">Login to the Zephyr Android app for faster pairing.</p>
   </div>
-  <button class="mui-btn mui-btn--raised" id="btn-sign-out" onclick="logout()">Logout</button>
 </body>
 </html>
