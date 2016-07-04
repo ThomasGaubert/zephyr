@@ -111,7 +111,7 @@ socket.on(clientId, function(msg) {
     handleNotificationResponse(msg)
   } else {
     log.info('Unknown private message: ' + m)
-    m.metadata.set('uuid', uuid)
+    m.metadata.uuid = uuid
     mixpanel.track('unknown-private-message', m.metadata)
   }
 })
@@ -161,20 +161,20 @@ function verifyVersion(msg) {
       log.info('Connected to ' + v.payload.name + ' ' + v.payload.version + ' (' + v.payload.versionCode + ')')
       $.snackbar({content: 'Connected to server.'})
       $('#status').text('Connected to ' + v.payload.name + ' ' + v.payload.version)
-      v.payload.set('uuid', uuid)
+      v.payload.uuid = uuid
       mixpanel.track('connect-success', v.payload)
     } else {
       log.info('Server is running incompatible version!')
       $.snackbar({content: 'Unable to connect: Server is running incompatible version.', timeout: 0})
       $('#status').text('Unable to connect: Server is running incompatible version')
-      v.payload.set('uuid', uuid)
+      v.payload.uuid = uuid
       mixpanel.track('connect-server-incompatible', v.payload)
     }
   } else {
     log.info('Invalid payload version!')
     $.snackbar({content: 'Unable to connect: Invalid payload version.', timeout: 0})
     $('#status').text('Unable to connect: Invalid payload version')
-    v.metadata.set('uuid', uuid)
+    v.metadata.uuid = uuid
     mixpanel.track('connect-invalid-version', v.metadata)
   }
 }
@@ -185,18 +185,18 @@ function handleNotificationResponse(msg) {
     if(r.payload.result) {
       log.info('Notification ' + r.payload.id + ' successfully displayed. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
       $.snackbar({content: 'Notification successfully displayed.'})
-      r.payload.set('uuid', uuid)
+      r.payload.uuid = uuid
       mixpanel.track('notification-success', r.payload)
     } else {
       log.info('Notification ' + r.payload.id + ' failed to display. (' + r.payload.resultCode + ' : ' + r.payload.resultMessage + ')')
       $.snackbar({content: 'Failed to display notification. (' + r.payload.resultCode +')'})
-      r.payload.set('uuid', uuid)
+      r.payload.uuid = uuid
       mixpanel.track('notification-failed', r.payload)
     }
   } else {
     log.info('Invalid payload version!')
     $.snackbar({content: 'Notification response: Invalid payload version.'})
-    r.metadata.set('uuid', uuid)
+    r.metadata.uuid = uuid
     mixpanel.track('notification-invalid-version', r.metadata)
   }
 }

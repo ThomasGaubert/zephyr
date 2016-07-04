@@ -128,13 +128,13 @@ function startServer() {
   web.get('/api/version', function(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify(handleVersionRequest(JSON.stringify(req.body))))
-    req.body.payload.set('uuid', uuid)
+    req.body.payload.uuid = uuid
     mixpanel.track('api-http-version', req.body.payload)
   })
 
   web.get('*', function(req, res) {
     res.status(404).sendFile(__dirname + '/404.html')
-    req.body.payload.set('uuid', uuid)
+    req.body.payload.uuid = uuid
     mixpanel.track('api-http-404', req.body.payload)
   })
 
@@ -142,7 +142,7 @@ function startServer() {
     socket.on('notification', function(msg) {
       var n = JSON.parse(msg)
       io.emit(n.metadata.from, JSON.stringify(handleNotification(msg)))
-      n.payload.set('uuid', uuid)
+      n.payload.uuid = uuid
       mixpanel.track('api-ws-notification', n.payload)
     })
 
@@ -151,7 +151,7 @@ function startServer() {
       io.emit(v.metadata.from, JSON.stringify(handleVersionRequest(msg)))
 
       broadcastPing()
-      v.payload.set('uuid', uuid)
+      v.payload.uuid = uuid
       mixpanel.track('api-ws-version', v.payload)
     })
 
@@ -171,14 +171,14 @@ function startServer() {
             name: b.metadata.from
           }
         }))
-        mixpanel.track('api-ws-pong', {id: uuid})
+        mixpanel.track('api-ws-pong', {uuid: uuid})
       }
     })
 
     socket.on('disconnect', function() {
       if (!quitting) {
         log.info('Client disconnected, checking on other clients...')
-        mixpanel.track('api-ws-disconnect', {id: uuid})
+        mixpanel.track('api-ws-disconnect', {uuid: uuid})
         broadcastPing()
       }
     })
