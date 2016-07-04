@@ -121,6 +121,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 hideLoginCard();
                 mLoginManager.setLoginCardHidden(true);
+                mMetricsManager.logEvent(R.string.analytics_tap_login_card_hide, null);
             }
         });
 
@@ -134,6 +135,7 @@ public class MainActivity extends BaseActivity {
                                 loggedOut();
                             }
                         });
+                mMetricsManager.logEvent(R.string.analytics_tap_profile_card_logout, null);
             }
         });
 
@@ -147,6 +149,7 @@ public class MainActivity extends BaseActivity {
                                 .setProviders(AuthUI.EMAIL_PROVIDER, AuthUI.GOOGLE_PROVIDER)
                                 .build(),
                         RC_SIGN_IN);
+                mMetricsManager.logEvent(R.string.analytics_tap_login_card_login, null);
             }
         });
 

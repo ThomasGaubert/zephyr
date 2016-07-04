@@ -91,6 +91,9 @@
     <string name="analytics_tap_test_notif_disconnected">tap_notif_disconnected</string>
     <string name="analytics_show_enable_notif_perm">show_enable_notif_perm</string>
     <string name="analytics_tap_enable_notif_perm">tap_enable_notif_perm</string>
+    <string name="analytics_tap_login_card_login">tap_login_card_login</string>
+    <string name="analytics_tap_login_card_hide">tap_login_card_hide</string>
+    <string name="analytics_tap_profile_card_logout">analytics_tap_profile_card_logout</string>
 
     <string name="analytics_tap_general_prefs">tap_general_prefs</string>
     <string name="analytics_tap_start_on_boot">tap_start_on_boot</string>
