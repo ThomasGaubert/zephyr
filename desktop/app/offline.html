@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zephyr Login</title>
+
+  <link rel="stylesheet" type="text/css" href="./res/css/style-tray.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/toolbar.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/material.css">
+  <link rel="stylesheet" type="text/css" href="./res/css/mui.min.css" />
+  <script src="./res/js/mui.min.js"></script>
+  <script src="./res/js/util.js"></script>
+  <script>
+    function reload() {
+      location.reload(true)
+    }
+  </script>
+</head>
+<body>
+  <header class="app-bar promote-layer paper-toolbar paper-shadow">
+    <div class="app-bar-container paper-toolbar">
+      <h1 class="logo">Zephyr</i></h1>
+    </div>
+  </header>
+  <div id="firebaseui-auth-container"></div>
+  <p class="offline-title">Whoops!</p>
+  <div class="offline-body">
+    <p>An internet connection is required to login.</p>
+    <button class="mui-btn mui-btn--raised" id="btn-sign-out" onclick="reload()">Try Again</button>
+  </div>
+</body>
+</html>

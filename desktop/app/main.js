@@ -146,7 +146,13 @@ function startServer() {
 web.use('/res', require('express').static(__dirname + '/res'))
 
   web.get('/login', function(req, res) {
-    res.sendFile(__dirname + '/login.html')
+    require('dns').resolve('www.google.com', function(err) {
+      if (err) {
+         res.sendFile(__dirname + '/offline.html')
+      } else {
+         res.sendFile(__dirname + '/login.html')
+      }
+    })
   })
 
   web.post('/api/notification', function(req, res) {

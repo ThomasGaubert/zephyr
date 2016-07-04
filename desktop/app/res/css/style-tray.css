@@ -33,6 +33,16 @@
   font-family: righteous;
 }
 
+.offline-title {
+  font-size: 2em;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.offline-body {
+  text-align: center;
+}
+
 #firebaseui-auth-container {
   margin-top: 64px;
 }
