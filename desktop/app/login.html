@@ -64,9 +64,7 @@
             document.getElementById('login-prompt').style.display = 'none';
             document.getElementById('footer').style.display = 'none';
 
-            firebase.database().goOffline();
             firebase.database().ref(uid + '/server_address').set(getIPAddress() + ':3753');
-            firebase.database().goOffline();
             
             return false;
           } else {
