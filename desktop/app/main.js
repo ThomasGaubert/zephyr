@@ -155,8 +155,7 @@ app.on('window-all-closed', function () {
   }
 })
 
-app.on('will-quit', function (event) {
-
+app.on('before-quit', function (event) {
   if (quitting) { 
     io.emit('broadcast', JSON.stringify({
       metadata: {
