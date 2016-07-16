@@ -52,11 +52,14 @@ var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) 
     }
 
     mainWindow.focus()
+  } else {
+    createWindow()
   }
   return true
 })
 
 if (shouldQuit) {
+  mixpanel.track('event-second-instance')
   quitting = true
   app.quit()
   return
