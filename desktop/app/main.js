@@ -126,22 +126,53 @@ app.on('activate', function () {
   }
 })
 
-app.on('will-quit', function () {
-  quitting = true
-  io.emit('broadcast', JSON.stringify({
-    metadata: {
-      version: 1,
-      type: 'broadcast-shutdown',
-      from: serverId,
-      to: ''
-    },
-    payload: {
-      message: 'Server is shutting down...'
-    }
-  }))
-  mixpanel.track('quitting', {uuid: uuid})
-  log.info('Quitting Zephyr v' + app.getVersion())
-  log.info('------------------------------------')
+app.on('window-all-closed', function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('will-quit', function (event) {
+
+  if (quitting) { 
+    io.emit('broadcast', JSON.stringify({
+      metadata: {
+        version: 1,
+        type: 'broadcast-shutdown',
+        from: serverId,
+        to: ''
+      },
+      payload: {
+        message: 'Server is shutting down...'
+      }
+    }))
+    mixpanel.track('quitting', {uuid: uuid})
+    log.info('Quitting Zephyr v' + app.getVersion())
+    log.info('------------------------------------')
+    return
+  }
+
+  event.preventDefault()
+
+  const options = {
+    type: 'question',
+    title: 'Confirm Quit',
+    message: 'Are you sure you want to quit?',
+    detail: 'You won\'t receive notifications in VR until you restart Zephyr.',
+    buttons: ['Yes', 'No']
+  }
+
+  electron.dialog.showMessageBox(options, function (index) {
+      if (index === 0) {
+        mixpanel.track('event-quit-confirm-yes')
+        quitting = true
+        app.quit()
+      } else {
+        mixpanel.track('event-quit-confirm-no')
+      }
+  })
 })
 
 // In this file you can include the rest of your app's specific main process
