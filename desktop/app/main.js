@@ -44,6 +44,24 @@ log.info('Zephyr v' + app.getVersion())
 const autoUpdater = electron.autoUpdater
 setupAutoUpdater()
 
+// Limit Zephyr to one instance
+var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore()
+    }
+
+    mainWindow.focus()
+  }
+  return true
+})
+
+if (shouldQuit) {
+  quitting = true
+  app.quit()
+  return
+}
+
 function createMenubar() {
   var menubar = require('menubar')
 
@@ -69,11 +87,11 @@ function createMenubar() {
       },
       {type: 'separator'},
       {label: 'Quit', role: 'quit'}
-    ]);
+    ])
     mb.tray.setToolTip('Zephyr')
     mb.tray.on('right-click', function() {
       mb.tray.popUpContextMenu(contextMenu)
-    });
+    })
   })
 
   mb.on('hide', function hide() {
@@ -379,8 +397,8 @@ function handleVersionRequest(msg) {
 
 function setupAutoUpdater() {
   if(process.platform == 'win32') {
-    autoUpdater.addListener("update-available", function(event) {  
-      log.info("Update available!")
+    autoUpdater.addListener('update-available', function(event) {  
+      log.info('Update available!')
       io.emit('updates', JSON.stringify({
         metadata: {
           version: 1,
@@ -393,8 +411,8 @@ function setupAutoUpdater() {
       mixpanel.track('update-available', {uuid: uuid})
     })
 
-    autoUpdater.addListener("update-downloaded", function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
-        log.info("Update downloaded!")
+    autoUpdater.addListener('update-downloaded', function(event, releaseNotes, releaseName, releaseDate, updateURL) {  
+        log.info('Update downloaded!')
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -414,8 +432,8 @@ function setupAutoUpdater() {
         })
     })
 
-    autoUpdater.addListener("error", function(err) {  
-        log.info("Error while checking for updates: " + err)
+    autoUpdater.addListener('error', function(err) {  
+        log.info('Error while checking for updates: ' + err)
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -433,8 +451,8 @@ function setupAutoUpdater() {
         })
     })
 
-    autoUpdater.addListener("checking-for-update", function(event) {  
-        log.info("Checking for update...")
+    autoUpdater.addListener('checking-for-update', function(event) {  
+        log.info('Checking for update...')
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
@@ -447,8 +465,8 @@ function setupAutoUpdater() {
         mixpanel.track('update-checking', {uuid: uuid})
     })
 
-    autoUpdater.addListener("update-not-available", function(event) {  
-        log.info("Update not available!")
+    autoUpdater.addListener('update-not-available', function(event) {  
+        log.info('Update not available!')
         io.emit('updates', JSON.stringify({
           metadata: {
             version: 1,
