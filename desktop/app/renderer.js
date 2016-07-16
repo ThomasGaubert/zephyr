@@ -88,10 +88,14 @@ socket.on('updates', function(msg) {
   if(u.metadata.type == 'update-downloaded') {
     var md = require('markdown-it')();
     var result = md.render(u.payload.changelog);
-    $.snackbar({content: 'Update downloaded, restart to apply. <a href="#" class="snackbar-link" id="changelog-link">Changelog</a>', timeout: 0, htmlAllowed: true})
-    $('#changelog-link').click(function() {
-      $('#changelog').html(result)
-      mixpanel.track('view-changelog', {uuid: uuid})
+    $.snackbar({
+      content: 'Update downloaded, restart to apply. <a href="#" class="snackbar-link" id="changelog-link">Changelog</a>', 
+      timeout: 0, 
+      htmlAllowed: true,
+      onClose: function() { 
+        $('#changelog').html('<h3>Version ' + u.payload.name + '</h3>' + result + '<br>Restart to apply update.')
+        mixpanel.track('view-changelog', {uuid: uuid})
+      }
     })
   } else if(u.metadata.type == 'update-checking') {
     $.snackbar({content: 'Checking for updates...'})
