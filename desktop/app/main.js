@@ -360,7 +360,7 @@ function handleNotification(msg) {
       result: true,
       resultCode: 0,
       resultMessage: 'Success',
-      uuid: n.payload.id
+      id: n.payload.id
     }
   }
 }
