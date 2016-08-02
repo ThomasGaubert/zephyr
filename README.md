@@ -26,6 +26,9 @@ To get things up and running:
 ## API
 Zephyr exposes a relatively simple API over WebSockets and HTTP to allow other tools to display notifications. Check out the [wiki](https://github.com/ThomasGaubert/zephyr/wiki) for full details.
 
+## Contributing
+Contributions are gladly accepted! Check out Zephyr's [contribution guidelines](https://github.com/ThomasGaubert/zephyr/blob/master/CONTRIBUTING.md) for more info.
+
 ## Motivation
 This project was created out of a desire to learn more about OpenVR's SDK
 and to address a glaring omission from the Vive's phone service. Currently
