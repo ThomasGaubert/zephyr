@@ -25,7 +25,7 @@ void OverlayWidget::on_notifyBtn_clicked()
     vr::IVRNotifications * notif = ( vr::IVRNotifications * ) vr::VR_GetGenericInterface(vr::IVRNotifications_Version, &eError);
 
     vr::VROverlayHandle_t overlay;
-    vr::VROverlay()->FindOverlay("texasgamer.openvr-notifications.overlay.Alerts", &overlay);
+    vr::VROverlay()->FindOverlay("texasgamer.zephyr.overlay.Alerts", &overlay);
     vr::VRNotificationId id;
     notif->CreateNotification(overlay, 0, vr::EVRNotificationType_Transient, "Alert", vr::EVRNotificationStyle_Application, NULL, &id);
 }

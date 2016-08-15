@@ -45,7 +45,7 @@ color: white;</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>OpenVR Notifications</string>
+       <string>Zephyr</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignHCenter|Qt::AlignTop</set>

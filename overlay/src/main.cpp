@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         vr::EVRInitError eError;
         vr::IVRNotifications * notif = (vr::IVRNotifications *) vr::VR_GetGenericInterface(vr::IVRNotifications_Version, &eError);
         vr::VROverlayHandle_t handle;
-        vr::VROverlay()->FindOverlay("texasgamer.openvr-notifications.overlay.Alerts", &handle);
+        vr::VROverlay()->FindOverlay("texasgamer.zephyr.overlay.Alerts", &handle);
 
         /* TODO: Load notification icon
         QImage icon(qApp->applicationDirPath() + "/resources/overlay-icon.png", nullptr);

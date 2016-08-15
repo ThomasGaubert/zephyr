@@ -116,7 +116,7 @@ bool COpenVROverlayController::Init()
 
     if( vr::VROverlay() )
 	{
-        std::string sKey = "texasgamer.openvr-notifications.overlay.Alerts";
+        std::string sKey = "texasgamer.zephyr.overlay.Alerts";
         vr::VROverlayError overlayError = vr::VROverlay()->CreateDashboardOverlay(sKey.c_str(), "Alerts", &m_ulOverlayHandle, &m_ulOverlayThumbnailHandle);
         QString name = qApp->applicationDirPath() + "/resources/overlay-icon.png";
         vr::VROverlay()->SetOverlayFromFile(m_ulOverlayThumbnailHandle, name.toUtf8().constData());
@@ -134,7 +134,7 @@ bool COpenVROverlayController::Init()
         m_pPumpEventsTimer->start();
         qInfo() << "Connected with OpenVR.";
     } else {
-        qInfo() << "Unable to start openvr-notifications. Unable to connect with OpenVR.";
+        qInfo() << "Unable to start Zephyr. Unable to connect with OpenVR.";
     }
 
 	return true;
