@@ -88,7 +88,7 @@ bool COpenVROverlayController::Init()
 {
 	bool bSuccess = true;
 
-    m_strName = "Alerts";
+    m_strName = "Zephyr";
 
 	QSurfaceFormat format;
 	format.setMajorVersion( 4 );
@@ -116,8 +116,8 @@ bool COpenVROverlayController::Init()
 
     if( vr::VROverlay() )
 	{
-        std::string sKey = "texasgamer.zephyr.overlay.Alerts";
-        vr::VROverlayError overlayError = vr::VROverlay()->CreateDashboardOverlay(sKey.c_str(), "Alerts", &m_ulOverlayHandle, &m_ulOverlayThumbnailHandle);
+        std::string sKey = "texasgamer.zephyr.overlay.Zephyr";
+        vr::VROverlayError overlayError = vr::VROverlay()->CreateDashboardOverlay(sKey.c_str(), "Zephyr", &m_ulOverlayHandle, &m_ulOverlayThumbnailHandle);
         QString name = qApp->applicationDirPath() + "/resources/overlay-icon.png";
         vr::VROverlay()->SetOverlayFromFile(m_ulOverlayThumbnailHandle, name.toUtf8().constData());
 		bSuccess = bSuccess && overlayError == vr::VROverlayError_None;

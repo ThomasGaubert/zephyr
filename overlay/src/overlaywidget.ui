@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>499</width>
+    <width>471</width>
     <height>420</height>
    </rect>
   </property>
@@ -17,16 +17,16 @@
    <double>1.000000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #4d4d4d;
+   <string notr="true">background: transparent;
 color: white;</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>0</y>
-     <width>501</width>
-     <height>111</height>
+     <y>130</y>
+     <width>471</width>
+     <height>127</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -37,7 +37,8 @@ color: white;</string>
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <pointsize>16</pointsize>
+        <family>Righteous</family>
+        <pointsize>42</pointsize>
         <stylestrategy>PreferAntialias</stylestrategy>
        </font>
       </property>
@@ -57,8 +58,14 @@ color: white;</string>
     </item>
     <item>
      <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <stylestrategy>PreferAntialias</stylestrategy>
+       </font>
+      </property>
       <property name="text">
-       <string>This is an early version, so not much is here (yet). Check the desktop UI for more info and options.</string>
+       <string>Coming soon! Check the desktop UI for more info and options.</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -67,25 +74,23 @@ color: white;</string>
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="quitBtn">
+  <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>410</x>
-     <y>372</y>
-     <width>75</width>
-     <height>31</height>
+     <x>130</x>
+     <y>370</y>
+     <width>211</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
+     <stylestrategy>PreferAntialias</stylestrategy>
     </font>
    </property>
    <property name="text">
-    <string>Quit</string>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
+    <string>To quit, close the desktop UI.</string>
    </property>
   </widget>
  </widget>

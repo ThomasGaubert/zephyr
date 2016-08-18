@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QVariantMap>
 #include <QJsonArray>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,8 @@ int main(int argc, char *argv[])
     COpenVROverlayController::SharedInstance()->Init();
 
     COpenVROverlayController::SharedInstance()->SetWidget( pOverlayWidget );
+
+    QFontDatabase::addApplicationFont(":/fonts/resources/Righteous-Regular.ttf");
 
     sio::client h;
     h.connect("http://localhost:3753");
@@ -48,7 +51,7 @@ int main(int argc, char *argv[])
         vr::EVRInitError eError;
         vr::IVRNotifications * notif = (vr::IVRNotifications *) vr::VR_GetGenericInterface(vr::IVRNotifications_Version, &eError);
         vr::VROverlayHandle_t handle;
-        vr::VROverlay()->FindOverlay("texasgamer.zephyr.overlay.Alerts", &handle);
+        vr::VROverlay()->FindOverlay("texasgamer.zephyr.overlay.Zephyr", &handle);
 
         /* TODO: Load notification icon
         QImage icon(qApp->applicationDirPath() + "/resources/overlay-icon.png", nullptr);

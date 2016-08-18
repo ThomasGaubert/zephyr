@@ -27,3 +27,6 @@ LIBS += -L../lib/win32 -lopenvr_api -lboost
 DESTDIR = ../bin/win32
 
 CONFIG+=c++11
+
+RESOURCES += \
+    resources.qrc

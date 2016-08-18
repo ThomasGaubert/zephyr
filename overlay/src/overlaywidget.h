@@ -15,11 +15,6 @@ public:
     explicit OverlayWidget(QWidget *parent = 0);
     ~OverlayWidget();
 
-private slots:
-    void on_quitBtn_clicked();
-
-    void on_notifyBtn_clicked();
-
 private:
     Ui::OverlayWidget *ui;
 };
