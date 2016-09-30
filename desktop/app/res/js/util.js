@@ -1,6 +1,11 @@
 function getIPAddress() {
   var interfaces = require('os').networkInterfaces()
   for (var devName in interfaces) {
+
+    if (devName.includes("VirtualBox")) {
+      continue
+    }
+
     var iface = interfaces[devName]
 
     for (var i = 0; i < iface.length; i++) {
