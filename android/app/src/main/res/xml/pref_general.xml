@@ -3,9 +3,9 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:key="@string/pref_start_on_boot"
-        android:summary="@string/pref_description_start_on_boot"
-        android:title="@string/pref_title_start_on_boot" />
+        android:key="@string/pref_smart_connect"
+        android:summary="@string/pref_description_smart_connect"
+        android:title="@string/pref_title_smart_connect" />
 
     <EditTextPreference
         android:capitalize="words"

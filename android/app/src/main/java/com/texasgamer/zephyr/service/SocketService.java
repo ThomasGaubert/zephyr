@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.texasgamer.zephyr.manager.MetricsManager;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.util.NetworkUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,6 +81,12 @@ public class SocketService extends Service {
             return;
         }
 
+        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_smart_connect), true) && !NetworkUtils.isConnectedToWiFi(this)) {
+            Log.i(TAG, "Not connected to WiFi, not attempting to connect!");
+        } else if(!NetworkUtils.isConnectedToWiFi(this)) {
+            Log.i(TAG, "Not connected to WiFi, but trying to connect anyways...");
+        }
+
         Log.i(TAG, "Connecting to " + address + "...");
 
         serverAddr = address;
@@ -94,10 +101,8 @@ public class SocketService extends Service {
             e.printStackTrace();
         }
 
-
         if(socket != null) {
             setUpEvents();
-
             socket.connect();
         }
     }

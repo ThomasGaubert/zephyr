@@ -46,13 +46,13 @@ public class MetricsManager {
     }
 
     public void logEvent(@StringRes int iri, Bundle extras) {
-        Log.i(TAG, mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
+        Log.v(TAG, mContext.getString(iri) + ": " + (extras != null ? extras.toString() : "null"));
         firebaseEvent(iri, extras);
         fabricEvent(iri, extras);
     }
 
     public void logLogin(String method, boolean success) {
-        Log.i(TAG, "login: " + method + " " + success);
+        Log.v(TAG, "login: " + method + " " + success);
 
         if (Constants.FIREBASE_ANALYTICS_ENABLED) {
             Bundle b = new Bundle();

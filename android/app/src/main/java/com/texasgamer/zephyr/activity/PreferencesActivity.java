@@ -34,7 +34,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.manager.ConfigManager;
 import com.texasgamer.zephyr.manager.LoginManager;
 import com.texasgamer.zephyr.manager.MetricsManager;
@@ -208,13 +207,13 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-            findPreference(getString(R.string.pref_start_on_boot)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            findPreference(getString(R.string.pref_smart_connect)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     Bundle b = new Bundle();
                     String newValueStr = newValue.toString().equals("true") ? "enabled" : "disabled";
                     b.putString(getString(R.string.analytics_param_new_value), newValueStr);
-                    activity.mMetricsManager.logEvent(R.string.analytics_tap_start_on_boot, b);
+                    activity.mMetricsManager.logEvent(R.string.analytics_tap_smart_connect, b);
                     return true;
                 }
             });

@@ -16,12 +16,9 @@ public class ConfigManager {
     private final String TAG = this.getClass().getSimpleName();
     private final int CACHE_EXPIRATION_IN_SECONDS = 3600;
 
-    private Context mContext;
     private FirebaseRemoteConfig mRemoteConfig;
 
     public ConfigManager(Context context) {
-        mContext = context;
-
         if (Constants.FIREBASE_REMOTE_CONFIG_ENABLED) {
             FirebaseRemoteConfigSettings configSettings =
                     new FirebaseRemoteConfigSettings.Builder()
@@ -41,7 +38,7 @@ public class ConfigManager {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     boolean result = mRemoteConfig.activateFetched();
-                                    Log.i(TAG, "Remote config data fetched (" + result + ")");
+                                    Log.v(TAG, "Remote config data fetched (" + result + ")");
                                 }
                             }
                     )
@@ -78,7 +75,7 @@ public class ConfigManager {
             result = fallback;
         }
 
-        Log.i(TAG, key + " --> " + result + " (" + fallback + ")");
+        Log.v(TAG, key + " --> " + result + " (" + fallback + ")");
         return result;
     }
 

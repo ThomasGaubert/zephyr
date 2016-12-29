@@ -46,7 +46,7 @@
     <!-- Preferences -->
     <string name="pref_first_run">firstRun</string>
     <string name="pref_last_addr">lastAddr</string>
-    <string name="pref_start_on_boot">startOnBoot</string>
+    <string name="pref_smart_connect">smartConnect</string>
     <string name="pref_device_name">deviceName</string>
     <string name="pref_app_notif_base">appNotif</string>
     <string name="pref_version">version</string>
@@ -60,8 +60,8 @@
     <!-- General Settings -->
     <string name="pref_header_general">General</string>
 
-    <string name="pref_title_start_on_boot">Connect on Boot</string>
-    <string name="pref_description_start_on_boot">Automatically connect when your device boots up.</string>
+    <string name="pref_title_smart_connect">Smart Connect</string>
+    <string name="pref_description_smart_connect">Automatically attempt to connect when connected to WiFi.</string>
 
     <string name="pref_title_device_name">Device Name</string>
     <string name="pref_default_device_name">Android Device</string>
@@ -107,7 +107,7 @@
     <string name="analytics_tap_profile_card_logout">analytics_tap_profile_card_logout</string>
 
     <string name="analytics_tap_general_prefs">tap_general_prefs</string>
-    <string name="analytics_tap_start_on_boot">tap_start_on_boot</string>
+    <string name="analytics_tap_smart_connect">tap_smart_connect</string>
     <string name="analytics_tap_device_name">tap_device_name</string>
     <string name="analytics_event_empty_device_name">empty_device_name</string>
     <string name="analytics_tap_notif_prefs">tap_notif_prefs</string>
