@@ -181,7 +181,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private void setDefaultDeviceName() {
         PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(getString(R.string.pref_device_name), Build.MANUFACTURER + " " + Build.MODEL)
+                .putString(getString(R.string.pref_device_name), Build.MODEL)
                 .commit();
     }
 
