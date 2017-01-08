@@ -1,0 +1,95 @@
+/*
+ * Profile
+ */
+body {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-ms-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	color: #FFFFFF;
+	background-color: #0d253a;
+}
+
+a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.content {
+	width: 100%;
+	height: 90vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.content-container {
+	display: inline-block;
+	margin: 20px;
+	text-align: center;
+}
+
+.hero-img {
+	width: 300px;
+}
+
+.title {
+	font-size: 8em;
+    text-align: center;
+}
+
+.subtitle {
+	font-size: 1.5em;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.lobster {
+	font-family: 'Righteous', cursive;
+}
+
+.client-btn {
+	margin-top: 25px;
+}
+
+.footer {
+	font-weight: 400;
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #091b2a;
+    padding: 20px;
+    margin-left: -10px;
+}
+
+.footer-text {
+	float: left;
+}
+
+.footer-links {
+	float: right;
+	margin-right: 50px;
+}
+
+@media (max-width: 825px) {
+	.hero-img {
+		display: none;
+	}
+
+	.content-container {
+		margin: 0px;
+	}
+}
+
+@media (max-width: 500px) {
+	.title {
+		font-size: 4em;
+	}
+	
+	.subtitle {
+		font-size: 1em;
+	}
+}
