@@ -1,0 +1,6 @@
+__tests__
+node_modules
+dist
+
+# Test results
+*.xml

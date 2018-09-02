@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Desktop",
+      "type": "shell",
+      "command": "yarn build",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "desktop/"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Desktop",
+      "type": "shell",
+      "command": "yarn run start",
+      "options": {
+        "cwd": "desktop/"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test Desktop",
+      "type": "shell",
+      "command": "yarn run test",
+      "group": "test",
+      "options": {
+        "cwd": "desktop/"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

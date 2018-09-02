@@ -1,0 +1,44 @@
+skip_non_tags: true
+
+environment:
+  nodejs_version: "6.2.1"
+
+install:
+  - cd desktop
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+  - cd app
+  - npm install
+
+build_script:
+  - ps: Set-AppveyorBuildVariable -Name version -Value (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+  - cd ..
+  - npm run dist
+  - cd dist/win
+  - rename *.exe zephyr-desktop-%version%-setup.exe
+  - move zephyr-desktop-%version%-setup.exe ../../..
+  - move zephyr-desktop-%version%-delta.nupkg ../../..
+  - move zephyr-desktop-%version%-full.nupkg ../../..
+  - move RELEASES ../../..
+  - cd ../..
+  - rmdir dist /s /q
+
+
+artifacts:
+  - path: '*.exe'
+  - path: '*.nupkg'
+  - path: RELEASES
+
+deploy:
+  release: Version $(version)
+  tag: v$(version)
+  description: 'Description'
+  provider: GitHub
+  auth_token:
+    secure: 4LcQfItsHFXJHdZm9zZxPj33rzkb9kZ74fe+kXcbP5g6BkUsEeRsoZG/INVGuEIl
+  artifact: /.*\.exe/,/.*\.nupkg/,RELEASES           
+  draft: true
+  prerelease: false
+  on:
+    branch: /v\d+\.\d+\.\d+/
+    appveyor_repo_tag: true
