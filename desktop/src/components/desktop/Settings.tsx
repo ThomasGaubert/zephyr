@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -107,7 +107,7 @@ class Settings extends React.Component<any, any> {
         </div>
       );
     } else {
-      return <Component/>
+      return null;
     }
   }
 

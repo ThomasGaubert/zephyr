@@ -67,8 +67,15 @@ module.exports = [
         }),
         new CopyWebpackPlugin([
           {
-            from: 'assets',
-            to: 'assets'
+            from: './src/assets',
+            to: 'assets',
+            ignore: [
+              'config/*'
+            ]
+          },
+          {
+            from: './src/assets/config/config.dev.json',
+            to: 'assets/config/config.json'
           }
         ]),
         new CspHtmlWebpackPlugin()

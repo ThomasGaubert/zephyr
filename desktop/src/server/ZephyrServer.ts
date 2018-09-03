@@ -88,7 +88,7 @@ export class ZephyrServer {
 
     // Disconnect
     socket.on('disconnect', function() {
-      LogUtils.verbose('ZephyrServer', 'Client connected.');
+      LogUtils.verbose('ZephyrServer', 'Client disconnected.');
     });
   }
 

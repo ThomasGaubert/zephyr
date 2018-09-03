@@ -1,7 +1,21 @@
 import { app, remote } from 'electron';
+import fs from 'fs';
 import os from 'os';
 
+declare var __dirname: string;
+
 export default class ConfigUtils {
+
+  static config;
+
+  static getConfig() {
+    if (!ConfigUtils.config) {
+      ConfigUtils.config = JSON.parse(fs.readFileSync(`${__dirname}/assets/config/config.json`) as any);
+    }
+
+    return this.config;
+  }
+
   /* Versions */
   static getAppVersion(): string {
     if (this.isRenderer()) {
@@ -49,19 +63,15 @@ export default class ConfigUtils {
   }
 
   static isDev(): boolean {
-    if (this.isRenderer()) {
-      return remote.getGlobal('process').env.ZEPHYR_BUILD_TYPE === 'dev';
-    } else {
-      return process.env.ZEPHYR_BUILD_TYPE === 'dev';
-    }
+    return ConfigUtils.getConfig().type === 'dev';
   }
 
   static isSteam(): boolean {
-    return false;
+    return ConfigUtils.getConfig().type === 'steam';
   }
 
   static isStandalone(): boolean {
-    return false;
+    return ConfigUtils.getConfig().type === 'standalone';
   }
 
   static isRenderer(): boolean {
