@@ -44,7 +44,7 @@ injectGlobal`
   a[title="Maximize"] {
     display: none !important;
   }
-`
+`;
 
 export const ZephyrDark = {
   primaryColor: '#0D253A',

@@ -1,4 +1,4 @@
-import keys from "../ActionTypeKeys";
+import keys from '../ActionTypeKeys';
 
 export interface IServerConnect {
   readonly type: keys.SERVER_CONNECT;

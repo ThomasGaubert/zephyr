@@ -1,17 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
 import ConnectedIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
-import LinkIcon from '@material-ui/icons/Phonelink';
-import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import LinkIcon from '@material-ui/icons/Phonelink';
+import React from 'react';
+import { connect } from 'react-redux';
 import ScrollArea from 'react-scrollbar';
 import IStoreState, { ConnectionStatus } from '../../store/IStoreState';
 import HelpUtils from '../../utils/HelpUtils';
@@ -33,27 +33,27 @@ class ConnectionInfo extends React.Component<any, any> {
 
   getStatusIcon (connectionStatus: ConnectionStatus) {
     switch (connectionStatus) {
-      case ConnectionStatus.CONNECTED:
-        return <ConnectedIcon/>;
-      case ConnectionStatus.CONNECTING:
-        return <ErrorIcon/>;
-      case ConnectionStatus.DISCONNECTED:
-        return <ErrorIcon/>;
-      case ConnectionStatus.ERROR:
-        return <ErrorIcon/>;
+    case ConnectionStatus.CONNECTED:
+      return <ConnectedIcon/>;
+    case ConnectionStatus.CONNECTING:
+      return <ErrorIcon/>;
+    case ConnectionStatus.DISCONNECTED:
+      return <ErrorIcon/>;
+    case ConnectionStatus.ERROR:
+      return <ErrorIcon/>;
     }
   }
 
   getStatusText (connectionStatus: ConnectionStatus) {
     switch (connectionStatus) {
-      case ConnectionStatus.CONNECTED:
-        return "Connected";
-      case ConnectionStatus.CONNECTING:
-        return "Connecting";
-      case ConnectionStatus.DISCONNECTED:
-        return "Disconnected";
-      case ConnectionStatus.ERROR:
-        return "Error";
+    case ConnectionStatus.CONNECTED:
+      return 'Connected';
+    case ConnectionStatus.CONNECTING:
+      return 'Connecting';
+    case ConnectionStatus.DISCONNECTED:
+      return 'Disconnected';
+    case ConnectionStatus.ERROR:
+      return 'Error';
     }
   }
 
@@ -72,22 +72,22 @@ class ConnectionInfo extends React.Component<any, any> {
 
   onClickMoreIps = () => {
     this.setState(state => ({ ipDropdownOpen: !state.ipDropdownOpen }));
-  };
+  }
 
   onClickIpHelp = () => {
     HelpUtils.openConnectionHelp();
-  };
+  }
 
   render () {
     return (
       <div className={this.props.root}>
         <ScrollArea
             speed={0.8}
-            className="area"
-            contentClassName="content"
-            style={{width: '100%', height: '429px', padidngBottom: '70px'}}
+            className='area'
+            contentClassName='content'
+            style={{ width: '100%', height: '429px', padidngBottom: '70px' }}
             horizontal={false}>
-          <List component="nav">
+          <List component='nav'>
             <ListItem>
               <ListItemIcon>
                 { this.getStatusIcon(this.props.connectionStatus) }
@@ -103,11 +103,11 @@ class ConnectionInfo extends React.Component<any, any> {
               <ListItemText primary={NetworkUtils.getPrimaryIpAddressShortFormatted()} />
               {this.state.ipDropdownOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={this.state.ipDropdownOpen} timeout="auto" unmountOnExit>
+            <Collapse in={this.state.ipDropdownOpen} timeout='auto' unmountOnExit>
               {this.getAllIps()}
-              <List component="div" disablePadding>
+              <List component='div' disablePadding>
                 <ListItem button onClick={this.onClickIpHelp}>
-                  <ListItemText primary="Need help?" />
+                  <ListItemText primary='Need help?' />
                 </ListItem>
               </List>
             </Collapse>

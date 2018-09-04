@@ -1,8 +1,8 @@
 import { app, BrowserWindow } from 'electron';
-import { VRWindow } from 'electron-openvr';
 import { ZephyrServer } from './server/ZephyrServer';
 import ConfigUtils from './utils/ConfigUtils';
 import LogUtils from './utils/LogUtils';
+import VRWindow from './vr/VRWindow';
 
 declare var __dirname: string;
 let mainWindow: Electron.BrowserWindow;
@@ -52,9 +52,6 @@ function onReady() {
       iconPath: `${__dirname}/assets/images/icon.png`
     }
   });
-  vrWindow.webContents.openDevTools();
-
-  // vrWindow.overlay.position = { x: 0, y: 0, z: -1 };
   vrWindow.loadURL(`file://${__dirname}/overlay.html`);
 
   LogUtils.info('Zephyr', `${__dirname}/assets/images/icon.png`);

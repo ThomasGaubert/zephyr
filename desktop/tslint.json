@@ -12,6 +12,7 @@
       "asyncArrow": "ignore"
     }],
     "semicolon": [true, "always"],
-    "no-unused-variable": null
+    "no-unused-variable": null,
+    "ordered-imports": true
   }
 }

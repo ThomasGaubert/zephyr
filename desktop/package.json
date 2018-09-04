@@ -4,26 +4,44 @@
   "description": "Desktop client for Zephyr.",
   "main": "dist/main.js",
   "author": "Thomas Gaubert",
+  "homepage": "https://github.com/ThomasGaubert/zephyr",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasGaubert/zephyr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ThomasGaubert/zephyr/issues"
+  },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "clean": "node ./node_modules/rimraf/bin.js ./dist",
-    "build-dev": "yarn clean && webpack --config webpack.config.dev.js",
-    "build-prod": "yarn clean && webpack --config webpack.config.prod.js",
-    "build-steam": "yarn clean && webpack --config webpack.config.steam.js",
+    "lint": "./node_modules/.bin/tslint --project tsconfig.json",
+    "lintautofix": "./node_modules/.bin/tslint --project tsconfig.json --fix",
+    "build-prep": "yarn clean && yarn lintautofix",
+    "build-dev": "yarn build-prep && webpack --config webpack.config.dev.js",
+    "build-prod": "yarn build-prep && webpack --config webpack.config.prod.js",
+    "build-steam": "yarn build-prep && webpack --config webpack.config.steam.js",
     "prestart": "yarn run build-dev",
     "start": "electron ./dist/main.js",
+    "update-bindings": "yarn upgrade node-openvr && yarn",
     "pretest": "webpack --config webpack.config.tests.js",
     "test": "jest",
-    "dist": "yarn build-prod && electron-builder",
+    "dist-prod": "yarn build-prod && electron-builder",
     "dist-steam": "yarn build-steam && electron-builder"
   },
   "build": {
     "productName": "Zephyr",
     "appId": "com.texasgamer.zephyr",
+    "directories": {
+      "buildResources": "resources"
+    },
     "files": [
       "dist"
     ],
+    "nsis": {
+      "uninstallDisplayName": "Zephyr"
+    },
     "mac": {
       "category": "public.app-category.utilities"
     },
@@ -89,9 +107,9 @@
     "body-parser": "^1.18.3",
     "electron-debug": "^2.0.0",
     "electron-log": "^2.2.17",
-    "electron-openvr": "file:./lib/electron-openvr",
     "electron-settings": "^3.2.0",
     "express": "^4.16.3",
+    "node-openvr": "file:./lib/node-openvr",
     "qrcode.react": "^0.8.0",
     "react": "^16.4.2",
     "react-desktop": "^0.3.7",

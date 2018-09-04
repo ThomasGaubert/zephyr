@@ -1,4 +1,4 @@
-import keys from "../ActionTypeKeys";
+import keys from '../ActionTypeKeys';
 
 export interface INavigateHome {
   readonly type: keys.NAVIGATE_HOME;

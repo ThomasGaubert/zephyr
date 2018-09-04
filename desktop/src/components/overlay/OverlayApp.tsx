@@ -1,9 +1,9 @@
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import React, { Component } from 'react';
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { ThemeProvider } from 'styled-components';
-import RootReducer from '../../reducers/RootReducer'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import RootReducer from '../../reducers/RootReducer';
 import { ZephyrDark } from '../../styles/Global';
 import ZephyrClient from '../common/ZephyrClient';
 import BigHistory from './BigHistory';

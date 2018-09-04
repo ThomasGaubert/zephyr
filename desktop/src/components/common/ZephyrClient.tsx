@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 import ActionTypeKeys from '../../actions/ActionTypeKeys';
 import LogUtils from '../../utils/LogUtils';
 
@@ -9,13 +9,13 @@ class ZephyrClient extends React.Component<any, any> {
     super(props);
     this.state = {
       response: false,
-      endpoint: "http://127.0.0.1:3753"
+      endpoint: 'http://127.0.0.1:3753'
     };
   }
 
   onConnect (client: ZephyrClient) {
     LogUtils.verbose('ZephyrClient', 'Connected to ZephyrServer.');
-    client.props.dispatch({type: ActionTypeKeys.SERVER_CONNECTED});
+    client.props.dispatch({ type: ActionTypeKeys.SERVER_CONNECTED });
   }
 
   componentDidMount() {

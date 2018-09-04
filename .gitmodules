@@ -2,7 +2,3 @@
 	path = desktop/lib/node-openvr
 	url = git@github.com:ZephyrVR/node-openvr.git
 	branch = master
-[submodule "desktop/lib/electron-openvr"]
-	path = desktop/lib/electron-openvr
-	url = git@github.com:ZephyrVR/electron-openvr.git
-	branch = master

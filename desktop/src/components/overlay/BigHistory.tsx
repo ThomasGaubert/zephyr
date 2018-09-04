@@ -1,26 +1,26 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
+import { withStyles } from '@material-ui/core/styles';
 import NotificationIcon from '@material-ui/icons/Notifications';
+import React from 'react';
+import { connect } from 'react-redux';
 import ScrollArea from 'react-scrollbar';
+import ZephyrNotification from '../../models/ZephyrNotification';
 import IStoreState from '../../store/IStoreState';
 import { Container, VRTitle } from '../primitives';
-import ZephyrNotification from '../../models/ZephyrNotification';
 
 const styles = _ => ({
   avatar: {
     width: 100,
-    height: 200,
+    height: 200
   },
   listItemTextPrimary: {
-    fontSize: "3em"
+    fontSize: '3em'
   },
   listItemTextSecondary: {
-    fontSize: "2.5em"
+    fontSize: '2.5em'
   }
 });
 
@@ -36,7 +36,7 @@ class BigHistory extends React.Component<any, any> {
         {this.props.notifications.reverse().map((notification) => {
           return (
             <ListItem key={notification.id}>
-              <Avatar style={{width: 75, height: 75, marginRight: '20px'}}>
+              <Avatar style={{ width: 75, height: 75, marginRight: '20px' }}>
                 <NotificationIcon style={{ fontSize: '40px' }} />
               </Avatar>
               <ListItemText
@@ -66,9 +66,9 @@ class BigHistory extends React.Component<any, any> {
         <VRTitle>Zephyr</VRTitle>
         <ScrollArea
             speed={0.8}
-            className="area"
-            contentClassName="content"
-            style={{width: '100%', height: '775px'}}
+            className='area'
+            contentClassName='content'
+            style={{ width: '100%', height: '775px' }}
             horizontal={false}>
             <List>
               {this.props.notifications.length > 0 ? this.listItems() : this.emptyList()}

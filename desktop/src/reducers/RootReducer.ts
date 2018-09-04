@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import IStoreState from '../store/IStoreState';
 import NavigationReducer from './NavigationReducer';
+import NotificationReducer from './NotificationReducer';
 import ServerReducer from './ServerReducer';
 import ToastReducer from './ToastReducer';
-import NotificationReducer from './NotificationReducer';
 
 const RootReducer = combineReducers<IStoreState>({
   navigationTarget: NavigationReducer,

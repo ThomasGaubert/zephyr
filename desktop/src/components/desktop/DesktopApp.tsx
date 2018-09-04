@@ -1,15 +1,15 @@
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import React, { Component } from 'react';
-import { Window, TitleBar } from 'react-desktop/windows';
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { TitleBar, Window } from 'react-desktop/windows';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { ThemeProvider } from 'styled-components';
-import RootReducer from '../../reducers/RootReducer'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import NavigationBar from './NavigationBar';
-import ContentView from './ContentView';
+import RootReducer from '../../reducers/RootReducer';
 import { ZephyrDark } from '../../styles/Global';
-import Toaster from './Toaster';
 import ZephyrClient from '../common/ZephyrClient';
+import ContentView from './ContentView';
+import NavigationBar from './NavigationBar';
+import Toaster from './Toaster';
 
 class DesktopApp extends Component<any, any> {
   static defaultProps = {
@@ -71,10 +71,10 @@ class DesktopApp extends Component<any, any> {
               color={this.props.backgroundColor}
               background={this.props.backgroundColor}
               theme={this.props.theme}
-              style={{height: '100%'}}
+              style={{ height: '100%' }}
               chrome>
               <TitleBar
-                title="Zephyr"
+                title='Zephyr'
                 background={this.props.toolbarColor}
                 onMinimizeClick={this.minimize}
                 onCloseClick={this.close}

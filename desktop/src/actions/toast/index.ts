@@ -1,4 +1,4 @@
-import keys from "../ActionTypeKeys";
+import keys from '../ActionTypeKeys';
 
 export interface IToastShow {
   readonly type: keys.TOAST_SHOW;
@@ -6,7 +6,7 @@ export interface IToastShow {
     readonly message: string;
     readonly type: string;
     readonly duration: number;
-  }
+  };
 }
 
 export interface IToastHide {

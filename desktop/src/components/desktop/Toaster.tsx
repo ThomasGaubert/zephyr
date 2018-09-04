@@ -1,20 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import CloseIcon from '@material-ui/icons/Close';
-import green from '@material-ui/core/colors/green';
 import amber from '@material-ui/core/colors/amber';
+import green from '@material-ui/core/colors/green';
+import Fade from '@material-ui/core/Fade';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
-import Fade from '@material-ui/core/Fade';
-import IStoreState from '../../store/IStoreState';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
+import classNames from 'classnames';
+import React from 'react';
+import { connect } from 'react-redux';
 import ActionTypeKeys from '../../actions/ActionTypeKeys';
+import IStoreState from '../../store/IStoreState';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -25,29 +25,29 @@ const variantIcon = {
 
 const toastContentStyles = theme => ({
   success: {
-    backgroundColor: green[600],
+    backgroundColor: green[600]
   },
   error: {
-    backgroundColor: theme.palette.error.dark,
+    backgroundColor: theme.palette.error.dark
   },
   info: {
     backgroundColor: theme.palette.primary.dark,
     color: '#FFFFFF'
   },
   warning: {
-    backgroundColor: amber[700],
+    backgroundColor: amber[700]
   },
   icon: {
-    fontSize: 20,
+    fontSize: 20
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing.unit
   },
   message: {
     display: 'flex',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
 
 function ToastContent(props) {
@@ -58,23 +58,23 @@ function ToastContent(props) {
   return (
     <SnackbarContent
       className={classNames(classes[variant], className)}
-      aria-describedby="client-snackbar"
+      aria-describedby='client-snackbar'
       message={
-        <span id="client-snackbar" className={classes.message}>
+        <span id='client-snackbar' className={classes.message}>
           <Icon className={classNames(classes.icon, classes.iconVariant)} />
           {message}
         </span>
       }
       action={[
         <IconButton
-          key="close"
-          aria-label="Close"
-          color="inherit"
+          key='close'
+          aria-label='Close'
+          color='inherit'
           className={classes.close}
           onClick={onClose}
         >
           <CloseIcon className={classes.icon} />
-        </IconButton>,
+        </IconButton>
       ]}
       {...other}
     />
@@ -96,8 +96,8 @@ class Toast extends React.Component<any, any> {
       return;
     }
 
-    this.props.dispatch({type: ActionTypeKeys.TOAST_HIDE});
-  };
+    this.props.dispatch({ type: ActionTypeKeys.TOAST_HIDE });
+  }
 
   render() {
     return (
@@ -105,7 +105,7 @@ class Toast extends React.Component<any, any> {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           open={this.props.open}
           autoHideDuration={this.props.duration}

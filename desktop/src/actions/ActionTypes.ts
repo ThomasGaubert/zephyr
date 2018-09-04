@@ -1,16 +1,16 @@
 import {
-  INavigateHome,
   INavigateHistory,
+  INavigateHome,
   INavigateSettings
-} from "./navigation";
-import { IToastShow, IToastHide } from "./toast";
+} from './navigation';
+import { INotificationPost } from './notification';
 import {
   IServerConnect,
   IServerConnected,
   IServerDisconnect,
   IServerError
-} from "./server";
-import { INotificationPost } from "./notification";
+} from './server';
+import { IToastHide, IToastShow } from './toast';
 
 type ActionTypes =
   | INavigateHome

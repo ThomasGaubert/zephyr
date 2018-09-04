@@ -2705,11 +2705,6 @@ electron-log@^2.2.17:
   version "2.2.17"
   resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-2.2.17.tgz#e71e2ebb949fc96ded7cdb99eeee7202e48981d2"
 
-"electron-openvr@file:./lib/electron-openvr":
-  version "0.1.0"
-  dependencies:
-    node-openvr "file:C:/Users/Thomas/AppData/Local/Yarn/Cache/v2/node-openvr"
-
 electron-osx-sign@0.4.10:
   version "0.4.10"
   resolved "https://registry.yarnpkg.com/electron-osx-sign/-/electron-osx-sign-0.4.10.tgz#be4f3b89b2a75a1dc5f1e7249081ab2929ca3a26"
@@ -5511,7 +5506,7 @@ node-notifier@^5.2.1:
     shellwords "^0.1.1"
     which "^1.3.0"
 
-"node-openvr@file:lib/node-openvr":
+"node-openvr@file:./lib/node-openvr":
   version "0.1.0"
   dependencies:
     bindings "^1.3.0"

@@ -1,7 +1,7 @@
 import ActionTypeKeys from '../actions/ActionTypeKeys';
 import ActionTypes from '../actions/ActionTypes';
-import initialState from './initialState';
 import { ConnectionStatus } from '../store/IStoreState';
+import initialState from './initialState';
 
 export default function navigationReducer(
   state = initialState.connectionStatus,
