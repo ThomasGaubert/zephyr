@@ -34,11 +34,7 @@ export default class VROverlay {
     if (!vr.overlay.Check()) {
       throw new Error("Couldn't initialize a VROverlay. Are you in Scene or Overlay mode from VR_Init?");
     }
-    // console.log('pre-create overlay')
-    console.log(this.iconPath);
     this.handle = vr.overlay.CreateDashboardOverlay(this.key, this.name, this.iconPath);
-    // console.log('post-create overlay')
-    // console.log(vr.overlay.TestHandle(this.handle), this.handle)
   }
 
   show () {
@@ -125,7 +121,6 @@ export default class VROverlay {
   }
 
   set width (v) {
-    console.log(vr.overlay);
     vr.overlay.SetOverlayWidthInMeters(this.handle, v);
   }
 }

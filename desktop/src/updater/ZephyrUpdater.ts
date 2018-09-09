@@ -21,7 +21,7 @@ export default class ZephyrUpdater {
       LogUtils.info('ZephyrUpdater', 'Update not available: ' + info);
     });
     autoUpdater.on('error', (err) => {
-      LogUtils.info('ZephyrUpdater', 'Error in auto-updater. ' + err);
+      LogUtils.info('ZephyrUpdater', 'Error in auto-updater: ' + err);
     });
     autoUpdater.on('download-progress', (progressObj) => {
       let logMessage = 'Download speed: ' + progressObj.bytesPerSecond;

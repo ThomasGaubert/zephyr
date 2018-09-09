@@ -48,12 +48,10 @@ function onReady() {
       key: 'com.texasgamer.zephyr',
       name: 'Zephyr',
       fps: 45,
-      iconPath: `${__dirname}/assets/images/icon.png`
+      iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`
     }
   });
   vrWindow.loadURL(`file://${__dirname}/overlay.html`);
-
-  LogUtils.info('Zephyr', `${__dirname}/assets/images/icon.png`);
 
   new ZephyrServer(); // tslint:disable-line
 

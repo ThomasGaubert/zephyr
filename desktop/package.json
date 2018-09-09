@@ -37,6 +37,12 @@
     "directories": {
       "buildResources": "resources"
     },
+    "extraResources":  [
+      {
+        "from": "./resources/images",
+        "to": "images"
+      }
+    ],
     "files": [
       "dist"
     ],
