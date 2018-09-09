@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { ZephyrServer } from './server/ZephyrServer';
+import ZephyrUpdater from './updater/ZephyrUpdater';
 import ConfigUtils from './utils/ConfigUtils';
 import LogUtils from './utils/LogUtils';
 import VRWindow from './vr/VRWindow';
@@ -55,6 +56,10 @@ function onReady() {
   vrWindow.loadURL(`file://${__dirname}/overlay.html`);
 
   LogUtils.info('Zephyr', `${__dirname}/assets/images/icon.png`);
+
+  if (ConfigUtils.isStandalone()) {
+    ZephyrUpdater.getInstance().checkForUpdates();
+  }
 }
 
 LogUtils.info('Zephyr', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);

@@ -2,6 +2,10 @@ import Logger from 'electron-log';
 
 export default class LogUtils {
 
+  static getLogger(): any {
+    return Logger;
+  }
+
   static silly(tag: string, message: string) {
     Logger.silly(this.formatLog(tag, message));
   }

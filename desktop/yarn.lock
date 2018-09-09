@@ -1720,7 +1720,7 @@ buffer@^5.0.3:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-builder-util-runtime@4.4.1, builder-util-runtime@^4.4.1:
+builder-util-runtime@4.4.1, builder-util-runtime@^4.4.1, builder-util-runtime@~4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.4.1.tgz#2770d03241e51fde46acacc7ed3ed8a9f45f02cb"
   dependencies:
@@ -2738,6 +2738,20 @@ electron-settings@^3.2.0:
   dependencies:
     clone "^2.1.1"
     jsonfile "^4.0.0"
+
+electron-updater@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-3.1.2.tgz#30d9790d5b16048e4afc74a31748790348b153bf"
+  dependencies:
+    bluebird-lst "^1.0.5"
+    builder-util-runtime "~4.4.1"
+    electron-is-dev "^0.3.0"
+    fs-extra-p "^4.6.1"
+    js-yaml "^3.12.0"
+    lazy-val "^1.0.3"
+    lodash.isequal "^4.5.0"
+    semver "^5.5.1"
+    source-map-support "^0.5.9"
 
 electron@^2.0.8:
   version "2.0.8"
@@ -5117,6 +5131,10 @@ lodash-es@^4.17.5:
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

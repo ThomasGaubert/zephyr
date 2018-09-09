@@ -6,7 +6,7 @@ declare var __dirname: string;
 
 export default class ConfigUtils {
 
-  static config;
+  private static config;
 
   static getConfig() {
     if (!ConfigUtils.config) {
