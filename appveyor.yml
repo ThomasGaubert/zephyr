@@ -7,8 +7,9 @@ cache:
   - "%LOCALAPPDATA%\\Yarn"
 
 install:
-  - cd desktop
+  - cmd: git submodule -q update --init
   - ps: Install-Product node $env:nodejs_version
+  - cd desktop
   - yarn
 
 build_script:
