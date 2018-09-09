@@ -72,6 +72,24 @@ function onReady() {
   ZephyrUpdater.getInstance(store).checkForUpdates();
 }
 
-LogUtils.info('Zephyr', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
-app.on('ready', () => installExtensions().then(() => onReady()));
-app.on('window-all-closed', () => app.quit());
+function init() {
+  let shouldQuit = app.makeSingleInstance(function() {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+      mainWindow.focus();
+    }
+  });
+
+  if (shouldQuit) {
+    app.quit();
+    return;
+  }
+
+  LogUtils.info('Zephyr', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
+  app.on('ready', () => installExtensions().then(() => onReady()));
+  app.on('window-all-closed', () => app.quit());
+}
+
+init();
