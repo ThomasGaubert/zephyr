@@ -1,4 +1,4 @@
 [submodule "desktop/lib/node-openvr"]
 	path = desktop/lib/node-openvr
-	url = git@github.com:ZephyrVR/node-openvr.git
+	url = https://github.com/ZephyrVR/node-openvr.git
 	branch = master
