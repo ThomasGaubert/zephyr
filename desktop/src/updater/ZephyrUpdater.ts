@@ -50,8 +50,9 @@ export default class ZephyrUpdater {
   }
 
   checkForUpdates() {
-    if (ConfigUtils.updatesEnabled()) {
+    if (!ConfigUtils.updatesEnabled()) {
       LogUtils.info('ZephyrUpdater', 'Updates disabled.');
+      return;
     }
 
     autoUpdater.checkForUpdatesAndNotify().then(result => {
