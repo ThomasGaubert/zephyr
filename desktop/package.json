@@ -1,6 +1,6 @@
 {
   "name": "zephyr-desktop",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "Desktop client for Zephyr.",
   "main": "dist/main.js",
   "author": "Thomas Gaubert",

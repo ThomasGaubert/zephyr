@@ -74,7 +74,7 @@ class Settings extends React.Component<any, any> {
           <ListItemIcon>
             <UpdateIcon />
           </ListItemIcon>
-          <ListItemText inset primary='Check for Updates (new!)' />
+          <ListItemText inset primary='Check for Updates' />
         </ListItem>
       );
     } else {
