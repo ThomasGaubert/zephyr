@@ -2,6 +2,8 @@ skip_non_tags: true
 
 environment:
   nodejs_version: "10.9.0"
+  GH_TOKEN: 
+    secure: yYbqUYxHx57pUoxn+9TzVE3UZWZ73w6vBy6zt276Ft3/uGucBvJBzVtVBDPQAsvu
 
 platform: x64
 
