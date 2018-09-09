@@ -17,6 +17,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import InfoIcon from '@material-ui/icons/Info';
 import DeviceInfo from '@material-ui/icons/PermDeviceInformation';
 import UpdateIcon from '@material-ui/icons/Update';
+import { ipcRenderer } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 import ActionTypeKeys from '../../actions/ActionTypeKeys';
@@ -39,7 +40,7 @@ class Settings extends React.Component<any, any> {
   }
 
   onClickCheckForUpdates = () => {
-    if (!ConfigUtils.isStandalone()) {
+    if (!ConfigUtils.updatesEnabled()) {
       this.props.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
         message: 'Build not eligible for updates.',
         type: 'error',
@@ -53,6 +54,8 @@ class Settings extends React.Component<any, any> {
       type: 'info',
       duration: 2000
     }});
+
+    ipcRenderer.send('check-for-updates');
   }
 
   onClickDeveloper = () => {
@@ -68,7 +71,7 @@ class Settings extends React.Component<any, any> {
   }
 
   checkForUpdatesButton() {
-    if (ConfigUtils.isStandalone()) {
+    if (ConfigUtils.updatesEnabled()) {
       return (
         <ListItem button onClick={this.onClickCheckForUpdates}>
           <ListItemIcon>
