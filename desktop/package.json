@@ -24,7 +24,7 @@
     "build-steam": "yarn build-prep && webpack --config webpack.config.steam.js",
     "prestart": "yarn run build-dev",
     "start": "electron ./dist/main.js",
-    "update-bindings": "yarn upgrade node-openvr && yarn",
+    "update-bindings": "yarn upgrade node-openvr && electron-builder install-app-deps",
     "pretest": "webpack --config webpack.config.tests.js",
     "test": "jest",
     "dist-prod": "yarn build-prod && electron-builder",

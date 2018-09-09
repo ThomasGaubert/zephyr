@@ -1,5 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import vr from 'node-openvr';
+import ZephyrNotification from '../models/ZephyrNotification';
+import EventUtils from '../utils/EventUtils';
+import LogUtils from '../utils/LogUtils';
 import VROverlay from './VROverlay';
 
 app.disableHardwareAcceleration();
@@ -48,6 +51,14 @@ export default class VRWindow extends BrowserWindow {
       setTimeout(() => {
         this.vrDraw();
       }, 1000);
+    });
+
+    EventUtils.getInstance().on('vr-show-notification', (payload: any) => {
+      let notification: ZephyrNotification = payload[0];
+      if (notification) {
+        LogUtils.verbose('VRWindow', 'Creating notification: ' + JSON.stringify(notification));
+        this.overlay.createNotification(notification.title + '\n' + notification.message);
+      }
     });
   }
 

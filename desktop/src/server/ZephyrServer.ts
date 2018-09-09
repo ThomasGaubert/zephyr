@@ -3,6 +3,7 @@ import express from 'express';
 import SocketIO from 'socket.io';
 import ZephyrNotification from '../models/ZephyrNotification';
 import ConfigUtils from '../utils/ConfigUtils';
+import EventUtils from '../utils/EventUtils';
 import LogUtils from '../utils/LogUtils';
 
 export class ZephyrServer {
@@ -83,22 +84,28 @@ export class ZephyrServer {
     LogUtils.verbose('ZephyrServer', 'Client connected.');
 
     // Notification
-    socket.on('post-notification', function(msg: any) {
-      let notification = server.deserializeNotification(msg);
-
-      if (notification !== undefined) {
-        LogUtils.verbose('ZephyrServer', 'Notification posted.');
-        server.notifications.push(notification);
-        io.emit('event-notification', notification);
-      } else {
-        LogUtils.warn('ZephyrServer', 'Invalid notification posted.');
-      }
-    });
+    socket.on('post-notification', (msg) => server.onPostNotification(io, msg, server));
 
     // Disconnect
-    socket.on('disconnect', function() {
-      LogUtils.verbose('ZephyrServer', 'Client disconnected.');
-    });
+    socket.on('disconnect', this.onSocketDisconnect);
+  }
+
+  onPostNotification(io: any, msg: any, server: ZephyrServer) {
+    let notification = server.deserializeNotification(msg);
+
+    if (notification !== undefined) {
+      LogUtils.verbose('ZephyrServer', 'Notification posted.');
+      server.notifications.push(notification);
+      io.emit('event-notification', notification);
+
+      EventUtils.getInstance().emit('vr-show-notification', notification);
+    } else {
+      LogUtils.warn('ZephyrServer', 'Invalid notification posted.');
+    }
+  }
+
+  onSocketDisconnect() {
+    LogUtils.verbose('ZephyrServer', 'Client disconnected.');
   }
 
   deserializeNotification (notification: any): ZephyrNotification | undefined {

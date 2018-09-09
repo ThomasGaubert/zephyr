@@ -37,6 +37,10 @@ export default class VROverlay {
     this.handle = vr.overlay.CreateDashboardOverlay(this.key, this.name, this.iconPath);
   }
 
+  createNotification(message: string) {
+    vr.notifications.CreateNotification(this.handle, message);
+  }
+
   show () {
     // vr.overlay.ShowOverlay(this.handle)
   }
