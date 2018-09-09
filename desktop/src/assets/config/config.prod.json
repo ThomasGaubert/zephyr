@@ -1,4 +1,5 @@
 {
   "type": "standalone",
-  "autoUpdate": true
+  "updatesEnabled": true,
+  "port": 3753
 }

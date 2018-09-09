@@ -42,9 +42,8 @@ export default class ZephyrUpdater {
   }
 
   checkForUpdates() {
-    if (ConfigUtils.isStandalone()) {
-      LogUtils.info('ZephyrUpdater', 'Updates disabled (not standlone build).');
-      // return;
+    if (ConfigUtils.updatesEnabled()) {
+      LogUtils.info('ZephyrUpdater', 'Updates disabled.');
     }
 
     autoUpdater.checkForUpdatesAndNotify().then(result => {

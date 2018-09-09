@@ -28,8 +28,6 @@ const installExtensions = () => {
 };
 
 function onReady() {
-  new ZephyrServer(); // tslint:disable-line
-
   mainWindow = new BrowserWindow({
     width: 400,
     height: 600,
@@ -57,9 +55,9 @@ function onReady() {
 
   LogUtils.info('Zephyr', `${__dirname}/assets/images/icon.png`);
 
-  if (ConfigUtils.isStandalone()) {
-    ZephyrUpdater.getInstance().checkForUpdates();
-  }
+  new ZephyrServer(); // tslint:disable-line
+
+  ZephyrUpdater.getInstance().checkForUpdates();
 }
 
 LogUtils.info('Zephyr', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);

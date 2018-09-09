@@ -77,4 +77,14 @@ export default class ConfigUtils {
   static isRenderer(): boolean {
     return (process && process.type === 'renderer' && remote !== undefined); // tslint:disable-line
   }
+
+  /* Features */
+  static updatesEnabled(): boolean {
+    return ConfigUtils.getConfig().updatesEnabled;
+  }
+
+  /* Configuration */
+  static getPort(): number {
+    return ConfigUtils.getConfig().port;
+  }
 }

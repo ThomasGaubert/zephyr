@@ -2,6 +2,7 @@ import BodyParser from 'body-parser';
 import express from 'express';
 import SocketIO from 'socket.io';
 import ZephyrNotification from '../models/ZephyrNotification';
+import ConfigUtils from '../utils/ConfigUtils';
 import LogUtils from '../utils/LogUtils';
 
 export class ZephyrServer {
@@ -15,8 +16,14 @@ export class ZephyrServer {
     const app = express();
     this.notifications = new Array<ZephyrNotification>();
 
+    let port: number = ConfigUtils.getPort();
+
+    if (!port) {
+      port = ZephyrServer.DEFAULT_PORT;
+    }
+
     // Server config
-    app.set('port', process.env.PORT || ZephyrServer.DEFAULT_PORT);
+    app.set('port', port);
     app.use(this.setupHeaders);
     app.use(BodyParser.urlencoded({ extended: false }));
     app.use(BodyParser.json());
@@ -51,8 +58,10 @@ export class ZephyrServer {
   serveVersion (_, res) {
     res.send(JSON.stringify({
       api: ZephyrServer.API_VERSION,
-      desktop: '0.0.0',
-      buildType: 'unknown'
+      desktop: ConfigUtils.getAppVersion(),
+      node: ConfigUtils.getNodeVersion(),
+      buildType: ConfigUtils.getBuildType(),
+      config: ConfigUtils.getConfig()
     }));
   }
 

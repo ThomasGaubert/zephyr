@@ -1,4 +1,5 @@
 {
   "type": "steam",
-  "autoUpdate": false
+  "updatesEnabled": false,
+  "port": 3753
 }
