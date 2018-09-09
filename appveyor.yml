@@ -3,26 +3,17 @@ skip_non_tags: true
 environment:
   nodejs_version: "6.2.1"
 
+cache:
+  - "%LOCALAPPDATA%\\Yarn"
+
 install:
   - cd desktop
   - ps: Install-Product node $env:nodejs_version
-  - npm install
-  - cd app
-  - npm install
+  - yarn
 
 build_script:
-  - ps: Set-AppveyorBuildVariable -Name version -Value (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
-  - cd ..
-  - npm run dist
-  - cd dist/win
-  - rename *.exe zephyr-desktop-%version%-setup.exe
-  - move zephyr-desktop-%version%-setup.exe ../../..
-  - move zephyr-desktop-%version%-delta.nupkg ../../..
-  - move zephyr-desktop-%version%-full.nupkg ../../..
-  - move RELEASES ../../..
-  - cd ../..
-  - rmdir dist /s /q
-
+  - yarn build-prod
+  - yarn publish-prod
 
 artifacts:
   - path: '*.exe'
