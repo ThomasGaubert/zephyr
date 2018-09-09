@@ -3,6 +3,8 @@ skip_non_tags: true
 environment:
   nodejs_version: "10.9.0"
 
+platform: x64
+
 cache:
   - "%LOCALAPPDATA%\\Yarn"
 
