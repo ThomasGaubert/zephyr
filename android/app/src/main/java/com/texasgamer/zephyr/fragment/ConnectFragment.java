@@ -7,13 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.navigation.NavigationView;
-import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.activity.AboutActivity;
-import com.texasgamer.zephyr.activity.NotificationActivity;
-import com.texasgamer.zephyr.databinding.FragmentMenuBinding;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.databinding.FragmentConnectBinding;
 import com.texasgamer.zephyr.viewmodel.MenuViewModel;
 
 import androidx.annotation.NonNull;
@@ -22,16 +18,16 @@ import androidx.databinding.DataBindingUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
+public class ConnectFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.nav_menu)
     NavigationView navigationView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_menu, container, false);
+        View root = inflater.inflate(R.layout.fragment_connect, container, false);
         ButterKnife.bind(this, root);
-        FragmentMenuBinding binding = DataBindingUtil.bind(root);
+        FragmentConnectBinding binding = DataBindingUtil.bind(root);
         binding.setViewModel(createViewModel());
         return root;
     }
@@ -48,14 +44,11 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.action_manage_notifications:
-                NavigationUtils.openActivity(getContext(), NotificationActivity.class);
+            case R.id.action_scan_code:
+                // TODO: Open QR scanner
                 break;
-            case R.id.action_help:
-                NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_HELP_URL);
-                break;
-            case R.id.action_about:
-                NavigationUtils.openActivity(getContext(), AboutActivity.class);
+            case R.id.action_enter_code:
+                // TODO: Show join code dialog
                 break;
         }
 

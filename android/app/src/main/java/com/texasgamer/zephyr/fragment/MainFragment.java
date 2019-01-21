@@ -1,30 +1,19 @@
 package com.texasgamer.zephyr.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.HomeListAdapter;
-import com.texasgamer.zephyr.databinding.MenuFragmentBinding;
-import com.texasgamer.zephyr.model.ZephyrCard;
-import com.texasgamer.zephyr.model.ZephyrCardType;
 import com.texasgamer.zephyr.provider.ZephyrCardProvider;
 import com.texasgamer.zephyr.viewmodel.MenuViewModel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainFragment extends BaseFragment<MenuViewModel> {
 

@@ -7,6 +7,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.texasgamer.zephyr.R;
 
+import androidx.annotation.NonNull;
+
 public class RoundedBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     @Override
@@ -15,9 +17,8 @@ public class RoundedBottomSheetDialogFragment extends BottomSheetDialogFragment 
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = new BottomSheetDialog(requireContext(), getTheme());
-
-        return dialog;
+    @NonNull
+    public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
+        return new BottomSheetDialog(requireContext(), getTheme());
     }
 }
