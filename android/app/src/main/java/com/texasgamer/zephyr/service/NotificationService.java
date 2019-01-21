@@ -9,8 +9,7 @@ import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.model.NotificationPayload;
-import com.texasgamer.zephyr.provider.AppProvider;
-import com.texasgamer.zephyr.util.NotificationPreferenceManager;
+import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
@@ -27,7 +26,7 @@ public class NotificationService extends NotificationListenerService {
     @Inject
     ILogger logger;
     @Inject
-    AppProvider appProvider;
+    ApplicationUtils appUtils;
     @Inject
     NotificationPreferenceRepository notificationPreferenceRepository;
 
@@ -90,7 +89,7 @@ public class NotificationService extends NotificationListenerService {
 
     @NonNull
     private String getNotificationTitle(@NonNull StatusBarNotification sbn) {
-        return sbn.getNotification().extras.getString(Notification.EXTRA_TITLE, appProvider.getAppName(sbn.getPackageName()).toString());
+        return sbn.getNotification().extras.getString(Notification.EXTRA_TITLE, appUtils.getAppName(sbn.getPackageName()).toString());
     }
 
     @NonNull

@@ -4,6 +4,8 @@
     package="com.texasgamer.zephyr">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".ZephyrApplication"
         android:allowBackup="true"
@@ -26,6 +28,12 @@
         </activity>
         <activity android:name=".activity.NotificationActivity"/>
         <activity android:name=".activity.AboutActivity"/>
+
+        <receiver android:name=".receiver.ZephyrBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="${applicationId}.action.STOP_SOCKET_SERVICE"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".service.NotificationService"

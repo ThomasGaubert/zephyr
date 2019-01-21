@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.provider.AppProvider;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.PreferenceManager;
 
@@ -38,11 +37,5 @@ public class ApplicationModule {
     @Singleton
     ApplicationUtils provideAppUtilities(Context context, PreferenceManager preferenceManager) {
         return new ApplicationUtils(context, preferenceManager);
-    }
-
-    @Provides
-    @Singleton
-    AppProvider provideAppProvider(Context context) {
-        return new AppProvider(context);
     }
 }

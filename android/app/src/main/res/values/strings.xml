@@ -24,6 +24,13 @@
     <!-- Notification Preferences -->
     <string name="app_name_unknown">Unknown App</string>
 
+    <!-- Notification Channels -->
+    <string name="status_notif_channel_title">Connection Status</string>
+    <string name="status_notif_channel_desc">Persistent notification displayed when Zephyr is enabled.</string>
+
+    <!-- Status Notification -->
+    <string name="status_notif_action_stop">Stop</string>
+
     <!-- About -->
     <string name="about_author">\u00A9 Thomas Gaubert</string>
     <string name="about_licenses">Open Source Licenses</string>
