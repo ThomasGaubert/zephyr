@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Zephyr</string>
+
+    <!-- Cards -->
+    <string name="card_notification_access_title">Enable Notification Access</string>
+    <string name="card_notification_access_body">Zephyr needs access to your notifications to operate properly.\n\nTap here to access Settings.</string>
+    <string name="card_zephyr_v2_title">Zephyr v2</string>
+    <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
+    <string name="card_connected_title">Connected</string>
+    <string name="card_connected_body">Zephyr is connected to XXX.</string>
+    <string name="card_disconnected_title">Disconnected</string>
+    <string name="card_disconnected_body">Zephyr is unable to connect to XXX.</string>
+
+    <!-- Menu -->
+    <string name="menu_manage_notifications">Manage Notifications</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
+
+    <!-- Manage Notifications -->
+    <string name="manage_notifications_title">Manage Notifications</string>
+    <string name="manage_notifications_enable_all">Enable All</string>
+    <string name="manage_notifications_disable_all">Disable All</string>
+
+    <!-- Notification Preferences -->
+    <string name="app_name_unknown">Unknown App</string>
+
+    <!-- About -->
+    <string name="about_author">\u00A9 Thomas Gaubert</string>
+    <string name="about_licenses">Open Source Licenses</string>
+    <string name="about_github">View on GitHub</string>
+</resources>

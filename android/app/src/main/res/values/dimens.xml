@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="first_keyline">16dp</dimen>
+    <dimen name="second_keyline">24dp</dimen>
+    <dimen name="third_keyline">72dp</dimen>
+
+    <dimen name="touch_target">48dp</dimen>
+
+    <dimen name="content_margin">8dp</dimen>
+
+    <dimen name="bottom_sheet_corner_radius">16dp</dimen>
+    <dimen name="bottom_sheet_top_padding">8dp</dimen>
+
+    <dimen name="bottom_app_bar_fake_elevation_height">4dp</dimen>
+
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_corner_radius">28dp</dimen>
+
+    <dimen name="account_header_size">56dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
+
+    <!-- ZephyrCard -->
+    <dimen name="card_border_radius">8dp</dimen>
+    <dimen name="card_border_width">2dp</dimen>
+    <dimen name="zephyr_card_margin_internal">12dp</dimen>
+    <dimen name="zephyr_card_margin_sides">32dp</dimen>
+    <dimen name="zephyr_card_margin_padding">12dp</dimen>
+
+    <!-- Notification settings -->
+    <dimen name="notification_setting_item_padding">4dp</dimen>
+</resources>

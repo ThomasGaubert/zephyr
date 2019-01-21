@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingStart="0dp"
+    android:paddingEnd="0dp"
+    android:padding="@dimen/zephyr_card_margin_padding">
+
+    <View
+        android:id="@+id/zephyr_card_accent"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/zephyr_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/ZephyrHeaderSmall"
+            tools:text="Card Title" />
+
+        <TextView
+            android:id="@+id/zephyr_card_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Card body" />
+    </LinearLayout>
+
+</LinearLayout>

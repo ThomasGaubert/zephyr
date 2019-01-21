@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ZephyrDarkTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:colorBackground">@color/primary</item>
+    </style>
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="BottomSheetEntryDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#EEEEEE</item>
+    </style>
+
+    <style name="ZephyrHeader">
+        <item name="android:fontFamily">@font/righteous</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="ZephyrHeaderSmall">
+        <item name="android:fontFamily">@font/righteous</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <!-- ZephyrCard -->
+    <style name="ZephryCard"/>
+
+    <style name="ZephyrCard.Default" parent="ZephryCard">
+        <item name="cardAccentColor">@color/white</item>
+    </style>
+
+    <style name="ZephyrCard.Info" parent="ZephryCard">
+        <item name="cardAccentColor">@color/accent</item>
+    </style>
+
+    <style name="ZephyrCard.Success" parent="ZephryCard">
+        <item name="cardAccentColor">@color/green</item>
+    </style>
+
+    <style name="ZephyrCard.Warning" parent="ZephryCard">
+        <item name="cardAccentColor">@color/orange</item>
+    </style>
+
+    <style name="ZephyrCard.Error" parent="ZephryCard">
+        <item name="cardAccentColor">@color/red</item>
+    </style>
+
+</resources>

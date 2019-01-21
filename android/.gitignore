@@ -1,0 +1,27 @@
+# Android Studio
+.idea
+.gradle
+build
+captures
+local.properties
+*.iml
+.externalNativeBuild
+
+# Eclipse
+.classpath
+.project
+
+# Application files
+*.apk
+*.ap_
+
+# Dex
+*.dex
+
+# Generated files
+*.class
+bin/
+gen/
+
+# Miscellaneous
+.DS_Store
