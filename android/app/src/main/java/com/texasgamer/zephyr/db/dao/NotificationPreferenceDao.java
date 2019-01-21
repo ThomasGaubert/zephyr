@@ -17,13 +17,19 @@ public interface NotificationPreferenceDao {
     LiveData<List<NotificationPreferenceEntity>> loadNotificationPreferences();
 
     @Query("SELECT * FROM notification_preferences WHERE packageName = :packageName")
-    LiveData<NotificationPreferenceEntity> loadNotificationPreference(@NonNull String packageName);
+    LiveData<NotificationPreferenceEntity> loadNotificationPreference(String packageName);
+
+    @Query("SELECT * FROM notification_preferences WHERE packageName = :packageName")
+    NotificationPreferenceEntity loadNotificationPreferenceSync(String packageName);
 
     @Query("UPDATE notification_preferences SET enabled = 1")
     void enableAll();
 
     @Query("UPDATE notification_preferences SET enabled = 0")
     void disableAll();
+
+    @Query("UPDATE notification_preferences SET enabled = :enabled WHERE packageName = :packageName")
+    void updateNotificationPreference(String packageName, boolean enabled);
 
     @Query("DELETE FROM notification_preferences WHERE packageName NOT IN (:installedPackageNames)")
     void removeOrphanedNotificationPreferences(String[] installedPackageNames);

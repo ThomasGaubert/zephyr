@@ -14,6 +14,10 @@ public interface NotificationPreferenceRepository extends IRepository {
     @NonNull
     LiveData<NotificationPreferenceEntity> getNotificationPreference(@NonNull String packageName);
 
+    NotificationPreferenceEntity getNotificationPreferenceSync(@NonNull String packageName);
+
+    void updateNotificationPreference(@NonNull String packageName, boolean enabled);
+
     void enableAll();
 
     void disableAll();

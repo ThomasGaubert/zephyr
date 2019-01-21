@@ -84,7 +84,7 @@ public class SocketService extends Service {
             return;
         }
 
-        if (serverAddress == null || serverAddress.isEmpty()) {
+        if (serverAddress.isEmpty()) {
             logger.log(LogPriority.WARNING, LOG_TAG, "No address specified!");
             return;
         }

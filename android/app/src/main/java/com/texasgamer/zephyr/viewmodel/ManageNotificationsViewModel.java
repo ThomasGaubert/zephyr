@@ -38,8 +38,6 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
 
     @Override
     protected void injectDependencies() {
-//        ManageNotificationsViewModelComponent component = ZephyrApplication.getApplicationComponent().addModule(new ManageNotificationsViewModelModule(this.mContext));
-//        component.inject(this);
         ZephyrApplication.getApplicationComponent().inject(this);
     }
 
@@ -58,11 +56,6 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     }
 
     public void updateNotificationPreference(@NonNull String packageName, boolean enabled) {
-        //NotificationPreference pref = mViewData.getNotificationPreference(packageName);
-//        if (pref.enabled != enabled) {
-//            logger.log(LogPriority.DEBUG, LOG_TAG, "Updating notification preference for %s", packageName);
-//            mViewData.getNotificationPreference(packageName).enabled = enabled;
-//            mViewData.savePreferences();
-//        }
+        mDataRepository.updateNotificationPreference(packageName, enabled);
     }
 }

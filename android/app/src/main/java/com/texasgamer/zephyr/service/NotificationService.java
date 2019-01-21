@@ -7,6 +7,7 @@ import android.service.notification.StatusBarNotification;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.AppProvider;
 import com.texasgamer.zephyr.util.NotificationPreferenceManager;
@@ -28,7 +29,7 @@ public class NotificationService extends NotificationListenerService {
     @Inject
     AppProvider appProvider;
     @Inject
-    NotificationPreferenceManager notificationPreferenceManager;
+    NotificationPreferenceRepository notificationPreferenceRepository;
 
     @Override
     public void onCreate() {
@@ -78,10 +79,10 @@ public class NotificationService extends NotificationListenerService {
             return false;
         }
 
-//        if (!notificationPreferenceManager.getNotificationPreference(sbn.getPackageName()).enabled) {
-//            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Disabled");
-//            return false;
-//        }
+        if (!notificationPreferenceRepository.getNotificationPreferenceSync(sbn.getPackageName()).getEnabled()) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Disabled");
+            return false;
+        }
 
         logger.log(LogPriority.DEBUG, LOG_TAG, "Valid notification.");
         return true;

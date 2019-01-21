@@ -26,8 +26,19 @@ public class NotificationPreferenceDataSource implements NotificationPreferenceR
     }
 
     @NonNull
+    public NotificationPreferenceEntity getNotificationPreferenceSync(@NonNull String packageName) {
+        return notificationPreferenceDao.loadNotificationPreferenceSync(packageName);
+    }
+
+    @NonNull
     public LiveData<NotificationPreferenceEntity> getNotificationPreference(@NonNull String packageName) {
         return notificationPreferenceDao.loadNotificationPreference(packageName);
+    }
+
+    public void updateNotificationPreference(@NonNull String packageName, boolean enabled) {
+        ZephyrExecutors.getDiskExecutor().execute(() -> {
+            notificationPreferenceDao.updateNotificationPreference(packageName, enabled);
+        });
     }
 
     public void enableAll() {

@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.texasgamer.zephyr.BuildConfig;
@@ -29,12 +30,12 @@ public class AboutActivity extends BaseActivity {
     }
 
     @OnClick(R.id.about_github)
-    public void onClickGitHubBtn() {
-        NavigationUtils.openUrl(getBaseContext(), Constants.ZEPHYR_GITHUB_URL);
+    public void onClickGitHubBtn(View view) {
+        NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_GITHUB_URL);
     }
 
     @OnClick(R.id.about_licenses)
-    public void onClickLicensesBtn() {
-        NavigationUtils.openUrl(getBaseContext(), Constants.ZEPHYR_GITHUB_URL);
+    public void onClickLicensesBtn(View view) {
+        NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_GITHUB_URL);
     }
 }
