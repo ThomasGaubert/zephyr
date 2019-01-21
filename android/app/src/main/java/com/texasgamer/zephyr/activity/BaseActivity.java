@@ -2,7 +2,10 @@ package com.texasgamer.zephyr.activity;
 
 import android.os.Bundle;
 
-import com.texasgamer.zephyr.util.PreferenceManager;
+import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
+
+import javax.inject.Inject;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
@@ -11,12 +14,19 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    @Inject
     protected PreferenceManager mPreferenceManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPreferenceManager = new PreferenceManager(this);
+
+        injectDependencies();
+
+        if (mPreferenceManager == null) {
+            throw new IllegalStateException("Dependencies not fulfilled for this Activity.");
+        }
+
         setupContent();
     }
 
@@ -27,4 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @LayoutRes
     protected abstract int getLayoutResource();
+
+    protected abstract void injectDependencies();
 }

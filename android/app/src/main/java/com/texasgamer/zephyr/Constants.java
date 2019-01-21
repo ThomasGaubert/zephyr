@@ -12,8 +12,7 @@ public class Constants {
     public static final String ZEPHYR_HELP_URL = "https://github.com/ThomasGaubert/zephyr";
 
     /* Preferences */
-    public static final String PREF_FRE = "completedFre";
-    public static final String PREF_LAST_KNOWN_VERSION = "lastKnownVersion";
+    public static final int PREFS_VERSION = 1;
 
     /* Android */
     public static final String ANDROID_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";

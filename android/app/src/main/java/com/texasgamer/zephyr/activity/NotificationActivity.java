@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -41,5 +42,10 @@ public class NotificationActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_notifications;
+    }
+
+    @Override
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
     }
 }

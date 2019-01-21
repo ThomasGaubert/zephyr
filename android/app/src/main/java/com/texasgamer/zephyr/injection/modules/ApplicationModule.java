@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.ApplicationUtils;
-import com.texasgamer.zephyr.util.PreferenceManager;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 

@@ -16,6 +16,8 @@ import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationChannel;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationId;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +37,8 @@ public class SocketService extends Service {
 
     private static final String LOG_TAG = "SocketService";
 
+    @Inject
+    PreferenceManager preferenceManager;
     @Inject
     ILogger logger;
     @Inject
@@ -67,10 +71,13 @@ public class SocketService extends Service {
         EventBus.getDefault().unregister(this);
 
         dismissServiceNotification();
+        preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, false);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, true);
+
         if(mServerAddress != null && !mServerAddress.isEmpty()) {
             logger.log(LogPriority.DEBUG, LOG_TAG,"Connecting to saved address %s...", mServerAddress);
             connect(mServerAddress);
@@ -125,6 +132,8 @@ public class SocketService extends Service {
         if(socket != null) {
             socket.disconnect();
         }
+
+        preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, false);
     }
 
     private void setUpEvents() {

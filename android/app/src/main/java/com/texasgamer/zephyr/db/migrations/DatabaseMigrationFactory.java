@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-public class MigrationFactory {
+public class DatabaseMigrationFactory {
 
-    private static final List<IZephyrMigration> MIGRATIONS = new ArrayList<>();
+    private static final List<IZephyrDatabaseMigration> MIGRATIONS = new ArrayList<>();
 
     static {
         // Add migrations here
@@ -19,7 +19,7 @@ public class MigrationFactory {
     public static Migration[] getMigrations() {
         Migration[] roomMigrations = new Migration[MIGRATIONS.size()];
         for (int x = 0; x < roomMigrations.length; x++) {
-            IZephyrMigration zephyrMigration = MIGRATIONS.get(x);
+            IZephyrDatabaseMigration zephyrMigration = MIGRATIONS.get(x);
             roomMigrations[x] = new Migration(zephyrMigration.fromVersion(), zephyrMigration.toVersion()) {
                 @Override
                 public void migrate(@NonNull SupportSQLiteDatabase database) {

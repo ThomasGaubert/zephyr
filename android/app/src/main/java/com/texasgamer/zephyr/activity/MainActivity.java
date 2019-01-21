@@ -8,18 +8,35 @@ import android.view.View;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.service.SocketService;
+import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
+import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 import com.texasgamer.zephyr.view.CheckableMaterialButton;
+import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.room.OnConflictStrategy;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
+    private ConnectButtonViewModel mConnectButtonViewModel;
+
     @BindView(R.id.bottom_app_bar)
     BottomAppBar bottomAppBar;
+    @BindView(R.id.connect_button)
+    CheckableMaterialButton connectButton;
 
     private MenuFragment mMenuFragment;
 
@@ -29,6 +46,9 @@ public class MainActivity extends BaseActivity {
 
         mMenuFragment = new MenuFragment();
         setSupportActionBar(bottomAppBar);
+
+        mConnectButtonViewModel = new ConnectButtonViewModel(ZephyrApplication.getInstance());
+        subscribeUi(mConnectButtonViewModel.getIsConnected());
     }
 
     @Override
@@ -47,6 +67,11 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
+    @Override
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
     @OnClick(R.id.connect_button)
     public void onClickConnectButton(View view) {
         Intent socketServiceIntent = new Intent(view.getContext(), SocketService.class);
@@ -56,5 +81,11 @@ public class MainActivity extends BaseActivity {
         } else {
             startService(socketServiceIntent);
         }
+    }
+
+    private void subscribeUi(LiveData<Boolean> liveData) {
+        liveData.observe(this, isServiceRunning -> {
+            connectButton.setChecked(isServiceRunning);
+        });
     }
 }

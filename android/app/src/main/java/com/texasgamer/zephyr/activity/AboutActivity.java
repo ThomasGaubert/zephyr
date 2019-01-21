@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.NavigationUtils;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,11 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_about;
+    }
+
+    @Override
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
     }
 
     @OnClick(R.id.about_github)

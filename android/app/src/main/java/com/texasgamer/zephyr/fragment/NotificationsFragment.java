@@ -80,6 +80,11 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         mViewModel.updateNotificationPreference(packageName, newValue);
     }
 
+    @Override
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
     private void subscribeUi(LiveData<List<NotificationPreferenceEntity>> liveData) {
         // Update the list when the data changes
         liveData.observe(this, new Observer<List<NotificationPreferenceEntity>>() {

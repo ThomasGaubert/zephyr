@@ -58,4 +58,9 @@ public class MainFragment extends BaseFragment<MenuViewModel> {
     protected MenuViewModel onCreateViewModel() {
         return new MenuViewModel(ZephyrApplication.getInstance());
     }
+
+    @Override
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
+    }
 }

@@ -1,15 +1,15 @@
 package com.texasgamer.zephyr.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +31,15 @@ public class ApplicationUtils {
     }
 
     public boolean isFre() {
-        return mPreferencesManager.getBoolean(mContext, Constants.PREF_FRE);
+        return mPreferencesManager.getBoolean(PreferenceKeys.PREF_FRE);
     }
 
     public boolean isUpgrade() {
-        return mPreferencesManager.getInt(mContext, Constants.PREF_LAST_KNOWN_VERSION) < BuildConfigUtils.getVersionCode();
+        return mPreferencesManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION) < BuildConfigUtils.getVersionCode();
     }
 
     public boolean isUpgradeFromV1() {
-        return mPreferencesManager.getInt(mContext, Constants.PREF_LAST_KNOWN_VERSION) < Constants.V2_VERSION_CODE;
+        return mPreferencesManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION) < Constants.V2_VERSION_CODE;
     }
 
     public boolean hasNotificationAccess() {
