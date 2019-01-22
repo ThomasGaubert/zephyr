@@ -62,6 +62,8 @@ public class SocketService extends Service {
             return;
         }
 
+        mServerAddress = preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE) + ":3753";
+
         EventBus.getDefault().register(this);
     }
 
@@ -69,6 +71,8 @@ public class SocketService extends Service {
     public void onDestroy() {
         logger.log(LogPriority.VERBOSE, LOG_TAG, "onDestroy");
         EventBus.getDefault().unregister(this);
+
+        disconnect();
 
         dismissServiceNotification();
         preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, false);
@@ -112,10 +116,9 @@ public class SocketService extends Service {
         }
 
         logger.log(LogPriority.DEBUG, LOG_TAG, "Connecting to %s...", serverAddress);
-        mServerAddress = serverAddress;
 
         try {
-            socket = IO.socket("http://" + serverAddress + "/");
+            socket = IO.socket("http://" + serverAddress);
         } catch (Exception e) {
             logger.log(LogPriority.ERROR, LOG_TAG, e);
         }

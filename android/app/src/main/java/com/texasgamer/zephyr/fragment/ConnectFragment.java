@@ -48,7 +48,8 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
                 // TODO: Open QR scanner
                 break;
             case R.id.action_enter_code:
-                // TODO: Show join code dialog
+                JoinCodeFragment joinCodeFragment = new JoinCodeFragment();
+                joinCodeFragment.show(getFragmentManager(), joinCodeFragment.getTag());
                 break;
         }
 

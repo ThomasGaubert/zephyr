@@ -9,6 +9,7 @@ import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.model.NotificationPayload;
+import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
@@ -46,15 +47,17 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(@NonNull StatusBarNotification sbn) {
         logger.log(LogPriority.DEBUG, LOG_TAG, "onNotificationPosted: [%s]\t%s", sbn.getId(), sbn.getPackageName());
-        if (isValidNotification(sbn)) {
-            NotificationPayload notificationPayload = new NotificationPayload();
-            notificationPayload.title = getNotificationTitle(sbn);
-            notificationPayload.message = getNotificationMessage(sbn);
-            notificationPayload.id = sbn.getId();
+        ZephyrExecutors.getDiskExecutor().execute(() -> {
+            if (isValidNotification(sbn)) {
+                NotificationPayload notificationPayload = new NotificationPayload();
+                notificationPayload.title = getNotificationTitle(sbn);
+                notificationPayload.message = getNotificationMessage(sbn);
+                notificationPayload.id = sbn.getId();
 
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.message);
-            EventBus.getDefault().post(notificationPayload);
-        }
+                logger.log(LogPriority.DEBUG, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.message);
+                EventBus.getDefault().post(notificationPayload);
+            }
+        });
     }
 
     @Override
@@ -63,6 +66,11 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isValidNotification(@NonNull StatusBarNotification sbn) {
+        if (sbn.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Zephyr");
+            return false;
+        }
+
         if (!sbn.isClearable()) {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Not clearable");
             return false;
@@ -70,11 +78,6 @@ public class NotificationService extends NotificationListenerService {
 
         if (getPackageManager().getLaunchIntentForPackage(sbn.getPackageName()) == null) {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: No launch intent");
-            return false;
-        }
-
-        if (sbn.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Zephyr");
             return false;
         }
 

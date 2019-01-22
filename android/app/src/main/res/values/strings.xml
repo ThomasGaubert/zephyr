@@ -21,6 +21,11 @@
     <string name="menu_connect_scan_code">Scan QR code</string>
     <string name="menu_connect_enter_code">Enter join code</string>
 
+    <!-- Join Code Menu -->
+    <string name="menu_join_code_title">Join Code</string>
+    <string name="menu_join_code_hint">Join Code or IP Address</string>
+    <string name="menu_join_code_invalid">Join Code invalid</string>
+
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>
     <string name="manage_notifications_enable_all">Enable All</string>
