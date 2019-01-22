@@ -9,7 +9,7 @@ public class Constants {
 
     /* URLS */
     public static final String ZEPHYR_GITHUB_URL = "https://github.com/ThomasGaubert/zephyr";
-    public static final String ZEPHYR_HELP_URL = "https://github.com/ThomasGaubert/zephyr";
+    public static final String ZEPHYR_HELP_URL = "https://zephyrvr.gitbook.io/docs/";
 
     /* Preferences */
     public static final int PREFS_VERSION = 1;

@@ -38,6 +38,8 @@ public class ZephyrApplication extends Application {
                 .build();
 
         sApplicationComponent.inject(ZephyrApplication.this);
+        sApplicationComponent.init();
+
         logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr started.");
 
         sApplicationComponent.notificationsManager().createNotificationChannels();

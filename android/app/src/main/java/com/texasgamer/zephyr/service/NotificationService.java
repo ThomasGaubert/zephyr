@@ -9,6 +9,7 @@ import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.model.NotificationPayload;
+import com.texasgamer.zephyr.model.NotificationPreference;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -46,7 +47,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(@NonNull StatusBarNotification sbn) {
-        logger.log(LogPriority.DEBUG, LOG_TAG, "onNotificationPosted: [%s]\t%s", sbn.getId(), sbn.getPackageName());
+        logger.log(LogPriority.VERBOSE, LOG_TAG, "onNotificationPosted: [%s]\t%s", sbn.getId(), sbn.getPackageName());
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
                 NotificationPayload notificationPayload = new NotificationPayload();
@@ -54,7 +55,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationPayload.message = getNotificationMessage(sbn);
                 notificationPayload.id = sbn.getId();
 
-                logger.log(LogPriority.DEBUG, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.message);
+                logger.log(LogPriority.VERBOSE, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.message);
                 EventBus.getDefault().post(notificationPayload);
             }
         });
@@ -62,7 +63,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(@NonNull StatusBarNotification sbn) {
-        logger.log(LogPriority.DEBUG, LOG_TAG, "onNotificationRemoved: [%s]\t%s", sbn.getId(), sbn.getPackageName());
+        logger.log(LogPriority.VERBOSE, LOG_TAG, "onNotificationRemoved: [%s]\t%s", sbn.getId(), sbn.getPackageName());
     }
 
     private boolean isValidNotification(@NonNull StatusBarNotification sbn) {
@@ -81,7 +82,13 @@ public class NotificationService extends NotificationListenerService {
             return false;
         }
 
-        if (!notificationPreferenceRepository.getNotificationPreferenceSync(sbn.getPackageName()).getEnabled()) {
+        NotificationPreference notificationPreference = notificationPreferenceRepository.getNotificationPreferenceSync(sbn.getPackageName());
+        if (notificationPreference == null) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: null preference");
+            return false;
+        }
+
+        if (!notificationPreference.getEnabled()) {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Disabled");
             return false;
         }

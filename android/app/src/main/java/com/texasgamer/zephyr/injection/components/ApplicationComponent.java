@@ -11,6 +11,7 @@ import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.injection.modules.DatabaseModule;
+import com.texasgamer.zephyr.injection.modules.EagerModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
 import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
@@ -27,6 +28,7 @@ import com.texasgamer.zephyr.viewmodel.MenuViewModel;
 
 import javax.inject.Singleton;
 
+import androidx.annotation.Nullable;
 import dagger.Component;
 
 @Singleton
@@ -34,11 +36,16 @@ import dagger.Component;
         modules = {
             ApplicationModule.class,
             DatabaseModule.class,
+            EagerModule.class,
             LoggerModule.class,
             PreferenceModule.class,
             NotificationsModule.class
         })
 public interface ApplicationComponent {
+    /* Init */
+    @Nullable
+    Void init();
+
     /* Getters */
     ApplicationUtils applicationUtilities();
 

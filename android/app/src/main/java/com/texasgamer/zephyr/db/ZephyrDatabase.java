@@ -8,6 +8,7 @@ import com.texasgamer.zephyr.db.dao.NotificationPreferenceDao;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.db.migrations.DatabaseMigrationFactory;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.log.ILogger;
 
 import java.util.ArrayList;
 import java.util.List;
