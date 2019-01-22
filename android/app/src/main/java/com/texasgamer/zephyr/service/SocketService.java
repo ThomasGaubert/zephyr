@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.google.gson.Gson;
+import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.MainActivity;
@@ -62,7 +63,7 @@ public class SocketService extends Service {
             return;
         }
 
-        mServerAddress = preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE) + ":3753";
+        mServerAddress = NetworkUtils.joinCodeToIp(preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE)) + ":" + Constants.ZEPHYR_SERVER_PORT;
 
         EventBus.getDefault().register(this);
     }

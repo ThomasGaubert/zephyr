@@ -7,11 +7,11 @@ import IStoreState from './store/IStoreState';
 import ZephyrUpdater from './updater/ZephyrUpdater';
 import ConfigUtils from './utils/ConfigUtils';
 import LogUtils from './utils/LogUtils';
-import VRWindow from './vr/VRWindow';
+// import VRWindow from './vr/VRWindow';
 
 declare var __dirname: string;
 let mainWindow: Electron.BrowserWindow;
-let vrWindow: VRWindow;
+// let vrWindow: VRWindow;
 
 const store: Store<IStoreState> = createStore(
   RootReducer,
@@ -54,18 +54,18 @@ function onReady() {
   mainWindow.on('ready-to-show', () => mainWindow.show());
   mainWindow.on('close', () => app.quit());
 
-  vrWindow = new VRWindow({
-    width: 7920,
-    height: 4320,
-    backgroundColor: '#0D253A',
-    vr: {
-      key: 'com.texasgamer.zephyr',
-      name: 'Zephyr',
-      fps: 45,
-      iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`
-    }
-  });
-  vrWindow.loadURL(`file://${__dirname}/overlay.html`);
+  // vrWindow = new VRWindow({
+  //   width: 7920,
+  //   height: 4320,
+  //   backgroundColor: '#0D253A',
+  //   vr: {
+  //     key: 'com.texasgamer.zephyr',
+  //     name: 'Zephyr',
+  //     fps: 45,
+  //     iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`
+  //   }
+  // });
+  // vrWindow.loadURL(`file://${__dirname}/overlay.html`);
 
   new ZephyrServer(); // tslint:disable-line
 

@@ -6,10 +6,14 @@ public class Constants {
 
     /* Versioning */
     public static final int V2_VERSION_CODE = 10;
+    public static final int ZEPHYR_API_VERSION = 1;
 
     /* URLS */
     public static final String ZEPHYR_GITHUB_URL = "https://github.com/ThomasGaubert/zephyr";
     public static final String ZEPHYR_HELP_URL = "https://zephyrvr.gitbook.io/docs/";
+
+    /* Server */
+    public static final String ZEPHYR_SERVER_PORT = "3753";
 
     /* Preferences */
     public static final int PREFS_VERSION = 1;

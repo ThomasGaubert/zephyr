@@ -5,7 +5,6 @@ import android.util.Log;
 import com.texasgamer.zephyr.Constants;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Logger implements ILogger {
     @Override

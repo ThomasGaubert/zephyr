@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 // A class to encode/decode HmdMatrix34_t values based on position/rotation.
 
 function deg2rad (val) {
