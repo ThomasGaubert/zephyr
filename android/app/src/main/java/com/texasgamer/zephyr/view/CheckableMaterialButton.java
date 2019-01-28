@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.Checkable;
 
 import com.google.android.material.button.MaterialButton;
+import com.texasgamer.zephyr.R;
 
 public class CheckableMaterialButton extends MaterialButton implements Checkable {
 
@@ -46,6 +47,12 @@ public class CheckableMaterialButton extends MaterialButton implements Checkable
         if (mChecked != checked) {
             mChecked = checked;
             refreshDrawableState();
+
+            if (mChecked) {
+                setText(R.string.btn_connection_start);
+            } else {
+                setText(R.string.btn_connection_stop);
+            }
         }
     }
 

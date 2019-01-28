@@ -60,6 +60,9 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
 
                     preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, joinCodeTextEdit.getText().toString());
                 }
+
+                dismiss();
+
                 return true;
             }
             return false;
@@ -67,7 +70,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
     }
 
     @OnTextChanged(R.id.join_code_edit_text)
-    protected void onJoinCodeChanged(CharSequence text) {
+    void onJoinCodeChanged(CharSequence text) {
         String joinCode = text.toString();
         if (joinCode.matches("[a-zA-Z]+|,+|\\s+")) {
             joinCodeTextEdit.setError(getString(R.string.menu_join_code_invalid));

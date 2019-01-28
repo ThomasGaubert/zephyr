@@ -27,7 +27,7 @@
             android:id="@+id/connect_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/fab_size"
-            android:text="Connect"
+            android:text="@string/btn_connection_start"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/fab_corner_radius"
             app:icon="@drawable/ic_connection"

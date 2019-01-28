@@ -11,6 +11,10 @@
     <string name="card_disconnected_title">Disconnected</string>
     <string name="card_disconnected_body">Zephyr is unable to connect to XXX.</string>
 
+    <!-- Connection Button -->
+    <string name="btn_connection_start">Start</string>
+    <string name="btn_connection_stop">Stop</string>
+
     <!-- Navigation Menu -->
     <string name="menu_manage_notifications">Manage Notifications</string>
     <string name="menu_help">Help</string>

@@ -172,7 +172,7 @@ public class SocketService extends Service {
                 PendingIntent.getBroadcast(this, 0, stopIntent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ZephyrNotificationChannel.STATUS)
-                .setSmallIcon(R.drawable.ic_app_icon_unknown)
+                .setSmallIcon(R.drawable.ic_status_notification)
                 .setContentTitle("Zephyr")
                 .setContentText("Connecting...")
                 .setPriority(NotificationCompat.PRIORITY_LOW)

@@ -78,17 +78,22 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick(R.id.connect_button)
-    public void onClickConnectButton(View view) {
-        if (isJoinCodeSet()) {
-            Intent socketServiceIntent = new Intent(view.getContext(), SocketService.class);
+    public void onClickConnectButton() {
+        Intent socketServiceIntent = new Intent(MainActivity.this, SocketService.class);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(socketServiceIntent);
+        if (!connectButton.isChecked()) {
+            if (isJoinCodeSet()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(socketServiceIntent);
+                } else {
+                    startService(socketServiceIntent);
+                }
             } else {
-                startService(socketServiceIntent);
+                mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
+                // TODO: Start service after showing fragment
             }
         } else {
-            mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
+            stopService(socketServiceIntent);
         }
     }
 
@@ -100,7 +105,7 @@ public class MainActivity extends BaseActivity {
 
     private void subscribeUi(LiveData<Boolean> liveData) {
         liveData.observe(this, isServiceRunning -> {
-            connectButton.setChecked(isServiceRunning);
+            connectButton.setChecked(!isServiceRunning);
         });
     }
 
