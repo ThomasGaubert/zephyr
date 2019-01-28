@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -54,6 +56,9 @@ dependencies {
     // EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
 
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     // LiveData
     implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
@@ -63,8 +68,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // Room
-    implementation "androidx.room:room-runtime:2.1.0-alpha03"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha03"
+    implementation "androidx.room:room-runtime:2.1.0-alpha04"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
 
     // SocketIO
     implementation ('io.socket:socket.io-client:1.0.0') {
