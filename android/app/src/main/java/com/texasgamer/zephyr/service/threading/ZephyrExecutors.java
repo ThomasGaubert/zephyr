@@ -15,7 +15,7 @@ public class ZephyrExecutors {
     private static final Executor MAIN_THREAD_EXECUTOR;
 
     static {
-        DISK_EXECUTOR = Executors.newSingleThreadExecutor();
+        DISK_EXECUTOR = Executors.newFixedThreadPool(3);
         NETWORK_EXECUTOR = Executors.newFixedThreadPool(3);
         MAIN_THREAD_EXECUTOR = new MainThreadExecutor();
     }

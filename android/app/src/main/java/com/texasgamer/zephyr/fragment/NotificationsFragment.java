@@ -3,6 +3,7 @@ package com.texasgamer.zephyr.fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -23,6 +24,8 @@ import butterknife.BindView;
 
 public class NotificationsFragment extends BaseFragment<ManageNotificationsViewModel> implements NotificationPreferenceView.OnPreferenceChangeListener {
 
+    @BindView(R.id.spinner)
+    ProgressBar spinner;
     @BindView(R.id.app_list)
     RecyclerView appList;
 
@@ -91,10 +94,12 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
             @Override
             public void onChanged(@Nullable List<NotificationPreferenceEntity> preferences) {
                 if (preferences != null) {
-                    // TODO: Hide loading spinner
                     mAdapter.setNotificationPreferences(preferences);
+                    spinner.setVisibility(View.GONE);
+                    appList.setVisibility(View.VISIBLE);
                 } else {
-                    // TODO: Loading spinner
+                    appList.setVisibility(View.GONE);
+                    spinner.setVisibility(View.VISIBLE);
                 }
             }
         });

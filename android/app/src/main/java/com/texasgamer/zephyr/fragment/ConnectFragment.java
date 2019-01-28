@@ -45,7 +45,8 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_scan_code:
-                // TODO: Open QR scanner
+                ScanCodeFragment scanCodeFragment = new ScanCodeFragment();
+                scanCodeFragment.show(getFragmentManager(), scanCodeFragment.getTag());
                 break;
             case R.id.action_enter_code:
                 JoinCodeFragment joinCodeFragment = new JoinCodeFragment();

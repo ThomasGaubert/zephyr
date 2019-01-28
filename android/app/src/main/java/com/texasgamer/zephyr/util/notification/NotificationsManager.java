@@ -27,9 +27,9 @@ public class NotificationsManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mLogger.log(LogPriority.INFO, LOG_TAG, "Creating notification channels...");
             // Status notification
-            CharSequence name = mContext.getString(R.string.status_notif_channel_title);
+            CharSequence name = mContext.getString(R.string.notif_channel_status_title);
             NotificationChannel channel = new NotificationChannel(ZephyrNotificationChannel.STATUS, name, NotificationManager.IMPORTANCE_LOW);
-            channel.setDescription(mContext.getString(R.string.status_notif_channel_desc));
+            channel.setDescription(mContext.getString(R.string.notif_channel_status_desc));
             channel.setLightColor(ContextCompat.getColor(mContext, R.color.primary));
             channel.setShowBadge(false);
             channel.setBypassDnd(false);

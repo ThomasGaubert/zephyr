@@ -10,6 +10,7 @@ import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.MainActivity;
+import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.receiver.ZephyrBroadcastReceiver;
 import com.texasgamer.zephyr.util.NetworkUtils;
@@ -22,7 +23,6 @@ import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -32,7 +32,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 public class SocketService extends Service {
 
@@ -47,7 +46,8 @@ public class SocketService extends Service {
 
     private boolean mConnected = false;
     private String mServerAddress;
-    private Socket socket;
+    private Socket mSocket;
+    private NotificationCompat.Builder mStatusNotificationBuilder;
 
     @Override
     public void onCreate() {
@@ -119,33 +119,35 @@ public class SocketService extends Service {
         logger.log(LogPriority.DEBUG, LOG_TAG, "Connecting to %s...", serverAddress);
 
         try {
-            socket = IO.socket("http://" + serverAddress);
+            mSocket = IO.socket("http://" + serverAddress);
         } catch (Exception e) {
             logger.log(LogPriority.ERROR, LOG_TAG, e);
         }
 
-        if(socket != null) {
+        if(mSocket != null) {
             setUpEvents();
-            socket.connect();
+            mSocket.connect();
         }
     }
 
     private void disconnect() {
         logger.log(LogPriority.INFO, LOG_TAG, "Disconnecting...");
 
-        if(socket != null) {
-            socket.disconnect();
+        if(mSocket != null) {
+            mSocket.disconnect();
         }
 
         preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, false);
     }
 
     private void setUpEvents() {
-        socket.on(Socket.EVENT_CONNECT, args -> {
+        mSocket.on(Socket.EVENT_CONNECT, args -> {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Connected to server.");
+            updateServiceNotification(ConnectionStatus.CONNECTED);
             mConnected = true;
         }).on(Socket.EVENT_DISCONNECT, args -> {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Disconnected from server.");
+            updateServiceNotification(ConnectionStatus.DISCONNECTED);
             mConnected = false;
         });
     }
@@ -156,7 +158,7 @@ public class SocketService extends Service {
             return;
         }
 
-        socket.emit("post-notification", gson.toJson(notificationPayload, NotificationPayload.class));
+        mSocket.emit("post-notification", gson.toJson(notificationPayload, NotificationPayload.class));
     }
 
     private void createServiceNotification() {
@@ -171,10 +173,10 @@ public class SocketService extends Service {
         PendingIntent snoozePendingIntent =
                 PendingIntent.getBroadcast(this, 0, stopIntent, 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ZephyrNotificationChannel.STATUS)
+        mStatusNotificationBuilder = new NotificationCompat.Builder(this, ZephyrNotificationChannel.STATUS)
                 .setSmallIcon(R.drawable.ic_status_notification)
-                .setContentTitle("Zephyr")
-                .setContentText("Connecting...")
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.status_notif_text_connecting))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setOngoing(true)
                 .setAutoCancel(false)
@@ -184,7 +186,42 @@ public class SocketService extends Service {
                 .addAction(R.drawable.ic_disconnected, getString(R.string.status_notif_action_stop),
                         snoozePendingIntent);
 
-        startForeground(ZephyrNotificationId.SOCKET_SERVICE_STATUS, builder.build());
+        startForeground(ZephyrNotificationId.SOCKET_SERVICE_STATUS, mStatusNotificationBuilder.build());
+    }
+
+    private void updateServiceNotification(@ConnectionStatus int connectionStatus) {
+        if (mStatusNotificationBuilder == null) {
+            logger.log(LogPriority.WARNING, LOG_TAG, "Unable to update status notification: null builder");
+            return;
+        }
+
+        String statusMessage = null;
+
+        switch (connectionStatus) {
+            case ConnectionStatus.CONNECTED:
+                statusMessage = getString(R.string.status_notif_text_connected);
+                break;
+            case ConnectionStatus.CONNECTING:
+                statusMessage = getString(R.string.status_notif_text_connecting);
+                break;
+            case ConnectionStatus.DISCONNECTED:
+                statusMessage = getString(R.string.status_notif_text_disconnected);
+                break;
+            case ConnectionStatus.NO_WIFI:
+                statusMessage = getString(R.string.status_notif_text_no_wifi);
+                break;
+            case ConnectionStatus.OFFLINE:
+                statusMessage = getString(R.string.status_notif_text_offline);
+                break;
+            case ConnectionStatus.UNKNOWN:
+            default:
+                statusMessage = getString(R.string.status_notif_text_unknown);
+                break;
+        }
+
+        mStatusNotificationBuilder.setContentText(statusMessage);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(ZephyrNotificationId.SOCKET_SERVICE_STATUS, mStatusNotificationBuilder.build());
     }
 
     private void dismissServiceNotification() {

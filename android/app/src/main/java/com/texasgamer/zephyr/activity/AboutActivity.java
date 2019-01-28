@@ -42,6 +42,6 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.about_licenses)
     public void onClickLicensesBtn(View view) {
-        NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_GITHUB_URL);
+        NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_LICENSES_URL);
     }
 }
