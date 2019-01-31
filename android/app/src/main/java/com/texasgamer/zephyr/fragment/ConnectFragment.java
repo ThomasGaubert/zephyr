@@ -8,6 +8,12 @@ import android.view.ViewGroup;
 
 import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.config.IConfigManager;
+import com.texasgamer.zephyr.util.log.ILogger;
+import com.texasgamer.zephyr.util.log.LogPriority;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +22,15 @@ import butterknife.ButterKnife;
 
 public class ConnectFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String LOG_TAG = "ConnectFragment";
+
     @BindView(R.id.nav_menu)
     NavigationView navigationView;
+
+    @Inject
+    ILogger logger;
+    @Inject
+    IConfigManager configManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,6 +41,16 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ZephyrApplication.getApplicationComponent().inject(this);
+
+        // Skip to entering code is QR scanning isn't enabled
+        if (!configManager.isQrCodeScanningEnabled()) {
+            logger.log(LogPriority.INFO, LOG_TAG, "QR code scanning is disabled, skipping to entering code.");
+            JoinCodeFragment joinCodeFragment = new JoinCodeFragment();
+            joinCodeFragment.show(getFragmentManager(), joinCodeFragment.getTag());
+            dismiss();
+        }
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 

@@ -25,8 +25,17 @@ public class Constants {
     /* Logging */
     @LogPriority
     public static final int MIN_LOG_LEVEL = LogPriority.VERBOSE;
+    @LogPriority
+    public static final int MIN_LOG_LEVEL_CRASHLYTICS = LogPriority.INFO;
 
     /* Database */
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "zephyr";
+
+    /* Firebase */
+    public static final boolean FIREBASE_ENABLED = true;
+    public static final boolean FIREBASE_ANALYTICS_ENABLED = true;
+    public static final boolean FIREBASE_CRASHLYTICS_ENABLED = true;
+    public static final boolean FIREBASE_REMOTE_CONFIG_ENABLED = false;
+    public static final int FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS = 10800; // 3 hours
 }

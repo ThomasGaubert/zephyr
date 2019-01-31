@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
@@ -17,6 +18,7 @@ import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.NetworkUtils;
+import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
@@ -50,6 +52,8 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     ILogger logger;
     @Inject
     PreferenceManager preferenceManager;
+    @Inject
+    IConfigManager configManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +65,13 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
+
+        if (!configManager.isQrCodeScanningEnabled()) {
+            logger.log(LogPriority.WARNING, LOG_TAG, "QR code scanning is disabled!");
+            Toast.makeText(getContext(), R.string.menu_scan_qr_error_not_supported, Toast.LENGTH_SHORT).show();
+            dismiss();
+            return;
+        }
 
         FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder()
                 .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)

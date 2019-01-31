@@ -2,14 +2,19 @@ package com.texasgamer.zephyr;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
 import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
+import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
+import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
 import javax.inject.Inject;
+
+import io.fabric.sdk.android.Fabric;
 
 public class ZephyrApplication extends Application {
 
@@ -19,6 +24,8 @@ public class ZephyrApplication extends Application {
 
     @Inject
     ILogger logger;
+    @Inject
+    IConfigManager configManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
@@ -41,7 +48,19 @@ public class ZephyrApplication extends Application {
         sApplicationComponent.inject(ZephyrApplication.this);
         sApplicationComponent.init();
 
-        FirebaseApp.initializeApp(this);
+        registerActivityLifecycleCallbacks(new ZephyrLifecycleLogger());
+
+        if (configManager.isFirebaseEnabled()) {
+            FirebaseApp.initializeApp(this);
+        } else {
+            logger.log(LogPriority.WARNING, LOG_TAG, "Firebase disabled, some features will be limited or disabled.");
+        }
+
+        if (configManager.isFirebaseCrashlyticsEnabled()) {
+            Fabric.with(this, new Crashlytics());
+        } else {
+            logger.log(LogPriority.WARNING, LOG_TAG, "Crashlytics disabled.");
+        }
 
         logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr started.");
 
