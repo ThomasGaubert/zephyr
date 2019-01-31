@@ -2,6 +2,7 @@ package com.texasgamer.zephyr;
 
 import android.app.Application;
 
+import com.google.firebase.FirebaseApp;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
 import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
@@ -39,6 +40,8 @@ public class ZephyrApplication extends Application {
 
         sApplicationComponent.inject(ZephyrApplication.this);
         sApplicationComponent.init();
+
+        FirebaseApp.initializeApp(this);
 
         logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr started.");
 

@@ -5,10 +5,22 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 
 public class NetworkUtils {
+
+    private static final String IP_ADDRESS_PATTERN =
+            "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+    private static final String JOIN_CODE_PATTERN = "\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])(\\.)?(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b";
+
+    private static Pattern ipAddressPattern = Pattern.compile(IP_ADDRESS_PATTERN);
+    private static Pattern joinCodePattern = Pattern.compile(JOIN_CODE_PATTERN);
 
     public static boolean isConnectedToWifi(Context context) {
         WifiManager wifiMgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -70,5 +82,25 @@ public class NetworkUtils {
         }
 
         return joinCode;
+    }
+
+    /**
+     * Returns if a given string is a valid join code.
+     *
+     * Valid join codes include:
+     *  - IP addresses
+     *  - A single number from 0 to 255
+     *  - Two numbers from 0 to 255 separated by a period
+     *
+     * @param joinCode Join code to validate
+     * @return If given join code is valid
+     */
+    @NonNull
+    public static boolean isValidJoinCode(@NonNull String joinCode) {
+        if (ipAddressPattern.matcher(joinCode).matches()) {
+            return true;
+        } else {
+            return joinCodePattern.matcher(joinCode).matches();
+        }
     }
 }

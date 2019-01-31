@@ -9,16 +9,12 @@ import android.view.ViewGroup;
 import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
-import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.AboutActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
-import com.texasgamer.zephyr.databinding.FragmentMenuBinding;
 import com.texasgamer.zephyr.util.NavigationUtils;
-import com.texasgamer.zephyr.viewmodel.MenuViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,18 +27,12 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
         ButterKnife.bind(this, root);
-        FragmentMenuBinding binding = DataBindingUtil.bind(root);
-        binding.setViewModel(createViewModel());
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private MenuViewModel createViewModel() {
-        return new MenuViewModel(ZephyrApplication.getInstance());
     }
 
     @Override

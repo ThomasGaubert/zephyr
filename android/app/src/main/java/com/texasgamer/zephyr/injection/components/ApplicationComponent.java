@@ -5,7 +5,6 @@ import com.texasgamer.zephyr.activity.AboutActivity;
 import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.db.ZephyrDatabase;
-import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
@@ -22,10 +21,8 @@ import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.notification.NotificationsManager;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
-import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
-import com.texasgamer.zephyr.viewmodel.MenuViewModel;
 
 import javax.inject.Singleton;
 
@@ -67,8 +64,6 @@ public interface ApplicationComponent {
     void inject(SocketService socketService);
 
     /* ViewModels */
-    void inject(MenuViewModel menuViewModel);
-
     void inject(ManageNotificationsViewModel manageNotificationsViewModel);
 
     void inject(ConnectButtonViewModel connectButtonViewModel);

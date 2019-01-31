@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,20 +15,64 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/menu_scan_qr_title"
             android:textAppearance="@style/ZephyrHeaderSmall" />
 
-        <com.camerakit.CameraKitView
+        <LinearLayout
+            android:id="@+id/scan_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_scan_qr_confirm"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/scanned_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:textSize="20sp"
+                tools:text="12.34"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="48dp">
+                <Button
+                    style="?borderlessButtonStyle"
+                    android:id="@+id/scan_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_scan_qr_btn_scan" />
+
+                <Button
+                    style="?borderlessButtonStyle"
+                    android:id="@+id/confirm_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_scan_qr_btn_confirm" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.otaliastudios.cameraview.CameraView
             android:id="@+id/camera"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:adjustViewBounds="true"
-            android:keepScreenOn="true"
-            app:camera_flash="auto"
-            app:camera_facing="back"
-            app:camera_focus="continuous"
-            app:camera_permissions="camera" />
+            android:layout_height="match_parent"
+            app:cameraMode="picture"
+            app:cameraAudio="off"
+            app:cameraPreview="texture"
+            android:keepScreenOn="true" />
 
     </LinearLayout>
 

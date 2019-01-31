@@ -1,33 +1,28 @@
 package com.texasgamer.zephyr.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.Editable;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.camerakit.CameraKitView;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
+import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
-import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -35,14 +30,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnTextChanged;
+import butterknife.OnClick;
 
 public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
     private static String LOG_TAG = "ScanCodeFragment";
 
+    private FirebaseVisionBarcodeDetector barcodeDetector;
+    private AtomicBoolean isDetectorRunning;
+
+    @BindView(R.id.scan_confirmation)
+    LinearLayout scanConfirmation;
+    @BindView(R.id.scanned_value)
+    TextView scannedValue;
     @BindView(R.id.camera)
-    CameraKitView cameraKitView;
+    CameraView cameraView;
 
     @Inject
     ILogger logger;
@@ -60,61 +62,80 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
 
-        // TODO: Replace with tap to capture until setFrameCallback is implemented
-        cameraKitView.setFrameCallback((cameraKitView, bytes) -> scanQrCode(BitmapFactory.decodeByteArray(bytes, 0, bytes.length)));
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        cameraKitView.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        cameraKitView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        cameraKitView.onPause();
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        cameraKitView.onStop();
-        super.onStop();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private void scanQrCode(@NonNull Bitmap bitmap) {
-        logger.log(LogPriority.DEBUG, LOG_TAG, "Scanning...");
         FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder()
                 .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
                 .build();
 
-        FirebaseVisionBarcodeDetector barcodeDetector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
-        FirebaseVisionImage visionImage = FirebaseVisionImage.fromBitmap(bitmap);
+        barcodeDetector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
+        isDetectorRunning = new AtomicBoolean(false);
 
-        barcodeDetector.detectInImage(visionImage).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
-            @Override
-            public void onSuccess(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
-                for (FirebaseVisionBarcode barcode : firebaseVisionBarcodes) {
-                    logger.log(LogPriority.DEBUG, LOG_TAG, barcode.getDisplayValue());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.");
+        cameraView.setLifecycleOwner(getViewLifecycleOwner());
+
+        cameraView.addFrameProcessor(frame -> {
+            try {
+                FirebaseVisionImageMetadata metadata = new FirebaseVisionImageMetadata.Builder()
+                        .setWidth(frame.getSize().getWidth())
+                        .setHeight(frame.getSize().getHeight())
+                        .setFormat(frame.getFormat())
+                        .setRotation(FirebaseVisionImageMetadata.ROTATION_90)
+                        .build();
+
+                scanQrCode(frame.getData(), metadata);
+            } catch (Exception e) {
+                logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.", e);
             }
         });
+    }
+
+    @OnClick(R.id.confirm_button)
+    public void onClickConfirm() {
+        preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, scannedValue.getText().toString());
+        dismiss();
+    }
+
+    @OnClick(R.id.scan_button)
+    public void onClickScan() {
+        startScanning();
+    }
+
+    private void startScanning() {
+        scanConfirmation.setVisibility(View.GONE);
+        cameraView.setVisibility(View.VISIBLE);
+        cameraView.open();
+        isDetectorRunning.set(false);
+    }
+
+    private void stopScanning() {
+        isDetectorRunning.set(true);
+        cameraView.close();
+        cameraView.setVisibility(View.GONE);
+        scanConfirmation.setVisibility(View.VISIBLE);
+    }
+
+    private void scanQrCode(@NonNull byte[] bytes, @NonNull FirebaseVisionImageMetadata metadata) {
+        if (isDetectorRunning.get()) {
+            return;
+        }
+
+        FirebaseVisionImage visionImage = FirebaseVisionImage.fromByteArray(bytes, metadata);
+
+        isDetectorRunning.set(true);
+        barcodeDetector.detectInImage(visionImage).addOnSuccessListener(firebaseVisionBarcodes -> {
+            for (FirebaseVisionBarcode barcode : firebaseVisionBarcodes) {
+                String barcodeValue = barcode.getDisplayValue();
+                if (barcodeValue == null) {
+                    continue;
+                }
+
+                logger.log(LogPriority.DEBUG, LOG_TAG, "Barcode found: " + barcodeValue);
+                if (NetworkUtils.isValidJoinCode(barcodeValue)) {
+                    logger.log(LogPriority.DEBUG, LOG_TAG, barcodeValue + " is a valid join code.");
+                    scannedValue.setText(barcodeValue);
+                    stopScanning();
+                    return;
+                }
+            }
+            isDetectorRunning.set(false);
+        }).addOnFailureListener(e -> logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code."));
     }
 }

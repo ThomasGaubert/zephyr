@@ -27,6 +27,9 @@
 
     <!-- Scan QR Code Menu -->
     <string name="menu_scan_qr_title">Scan QR code</string>
+    <string name="menu_scan_qr_confirm">Is this correct?</string>
+    <string name="menu_scan_qr_btn_scan">Scan</string>
+    <string name="menu_scan_qr_btn_confirm">Confirm</string>
 
     <!-- Join Code Menu -->
     <string name="menu_join_code_title">Join Code</string>

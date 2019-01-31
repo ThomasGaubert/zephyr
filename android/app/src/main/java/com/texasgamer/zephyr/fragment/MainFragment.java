@@ -7,7 +7,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.HomeListAdapter;
 import com.texasgamer.zephyr.provider.ZephyrCardProvider;
-import com.texasgamer.zephyr.viewmodel.MenuViewModel;
+import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class MainFragment extends BaseFragment<MenuViewModel> {
+public class MainFragment extends BaseFragment {
 
     @BindView(R.id.home_list)
     RecyclerView homeList;
@@ -44,8 +44,8 @@ public class MainFragment extends BaseFragment<MenuViewModel> {
     }
 
     @Override
-    protected MenuViewModel onCreateViewModel() {
-        return new MenuViewModel(ZephyrApplication.getInstance());
+    protected BaseViewModel onCreateViewModel() {
+        return null;
     }
 
     @Override
