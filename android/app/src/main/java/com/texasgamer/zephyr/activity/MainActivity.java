@@ -4,30 +4,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
 import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.service.SocketService;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
-import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 import com.texasgamer.zephyr.view.CheckableMaterialButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.room.OnConflictStrategy;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
@@ -35,14 +24,13 @@ import butterknife.OnLongClick;
 public class MainActivity extends BaseActivity {
 
     private ConnectButtonViewModel mConnectButtonViewModel;
+    private MenuFragment mMenuFragment;
+    private ConnectFragment mConnectFragment;
 
     @BindView(R.id.bottom_app_bar)
     BottomAppBar bottomAppBar;
     @BindView(R.id.connect_button)
     CheckableMaterialButton connectButton;
-
-    private MenuFragment mMenuFragment;
-    private ConnectFragment mConnectFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,9 +68,15 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.connect_button)
     public void onClickConnectButton() {
         Intent socketServiceIntent = new Intent(MainActivity.this, SocketService.class);
+        boolean isJoinCodeSet = isJoinCodeSet();
+
+        Bundle params = new Bundle();
+        params.putBoolean(ZephyrEvent.Parameter.JOIN_CODE_SET, isJoinCodeSet);
+        params.putBoolean(ZephyrEvent.Parameter.CONNECTED, connectButton.isChecked());
+        analyticsManager.logEvent(ZephyrEvent.Action.TAP_CONNECTION_BUTTON, params);
 
         if (!connectButton.isChecked()) {
-            if (isJoinCodeSet()) {
+            if (isJoinCodeSet) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     startForegroundService(socketServiceIntent);
                 } else {
@@ -99,6 +93,7 @@ public class MainActivity extends BaseActivity {
 
     @OnLongClick(R.id.connect_button)
     public boolean onLongClickConnectButton() {
+        analyticsManager.logEvent(ZephyrEvent.Action.LONG_PRESS_CONNECTION_BUTTON);
         mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
         return true;
     }

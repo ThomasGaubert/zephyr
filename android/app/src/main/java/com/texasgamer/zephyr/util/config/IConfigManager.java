@@ -2,6 +2,11 @@ package com.texasgamer.zephyr.util.config;
 
 public interface IConfigManager {
 
+    /* Build */
+    boolean isDev();
+
+    boolean isProduction();
+
     /* Firebase */
     boolean isFirebaseEnabled();
 

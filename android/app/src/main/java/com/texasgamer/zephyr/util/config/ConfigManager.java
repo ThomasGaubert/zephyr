@@ -3,13 +3,12 @@ package com.texasgamer.zephyr.util.config;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 
 import androidx.annotation.NonNull;
 
 public class ConfigManager implements IConfigManager {
-
-    private static final String LOG_TAG = "ConfigManager";
 
     private Context context;
     private ZephyrConfigProvider zephyrConfigProvider;
@@ -20,18 +19,28 @@ public class ConfigManager implements IConfigManager {
     }
 
     @Override
+    public boolean isDev() {
+        return BuildConfig.FLAVOR.equals("dev");
+    }
+
+    @Override
+    public boolean isProduction() {
+        return BuildConfig.FLAVOR.equals("production");
+    }
+
+    @Override
     public boolean isFirebaseEnabled() {
         return Constants.FIREBASE_ENABLED;
     }
 
     @Override
     public boolean isFirebaseAnalyticsEnabled() {
-        return isFirebaseEnabled() && Constants.FIREBASE_ANALYTICS_ENABLED;
+        return isFirebaseEnabled() && Constants.FIREBASE_ANALYTICS_ENABLED && isProduction();
     }
 
     @Override
     public boolean isFirebaseCrashlyticsEnabled() {
-        return isFirebaseEnabled() && Constants.FIREBASE_CRASHLYTICS_ENABLED;
+        return isFirebaseEnabled() && Constants.FIREBASE_CRASHLYTICS_ENABLED && isProduction();
     }
 
     @Override

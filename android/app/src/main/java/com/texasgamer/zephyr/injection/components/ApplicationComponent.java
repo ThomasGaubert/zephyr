@@ -10,6 +10,7 @@ import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
 import com.texasgamer.zephyr.fragment.ScanCodeFragment;
+import com.texasgamer.zephyr.injection.modules.AnalyticsModule;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.injection.modules.ConfigModule;
 import com.texasgamer.zephyr.injection.modules.DatabaseModule;
@@ -35,6 +36,7 @@ import dagger.Component;
 @Singleton
 @Component(
         modules = {
+            AnalyticsModule.class,
             ApplicationModule.class,
             ConfigModule.class,
             DatabaseModule.class,
