@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 import com.texasgamer.zephyr.Constants;
-import com.texasgamer.zephyr.util.log.ILogger;
 
 import androidx.annotation.NonNull;
 
@@ -13,11 +12,11 @@ public class ConfigManager implements IConfigManager {
     private static final String LOG_TAG = "ConfigManager";
 
     private Context context;
-    private ZephyrRemoteConfig zephyrRemoteConfig;
+    private ZephyrConfigProvider zephyrConfigProvider;
 
     public ConfigManager(@NonNull Context context) {
         this.context = context;
-        this.zephyrRemoteConfig = new ZephyrRemoteConfig(context, this);
+        this.zephyrConfigProvider = new ZephyrConfigProvider(context, this);
     }
 
     @Override
@@ -44,6 +43,6 @@ public class ConfigManager implements IConfigManager {
     public boolean isQrCodeScanningEnabled() {
         return isFirebaseEnabled()
                 && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)
-                && zephyrRemoteConfig.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
+                && zephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
     }
 }
