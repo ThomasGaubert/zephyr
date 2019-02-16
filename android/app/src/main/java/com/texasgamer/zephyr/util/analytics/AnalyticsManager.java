@@ -36,10 +36,6 @@ public class AnalyticsManager implements IAnalyticsManager {
     }
 
     public void logEvent(@NonNull String eventId, @Nullable Bundle params) {
-        if (configManager.isFirebaseAnalyticsEnabled()) {
-            FirebaseAnalytics.getInstance(context).logEvent(eventId, params);
-        }
-
         if (configManager.isDev()) {
             StringBuilder paramsString = new StringBuilder("Bundle{");
             if (params != null) {
@@ -50,6 +46,10 @@ public class AnalyticsManager implements IAnalyticsManager {
             paramsString.append(" }");
 
             logger.log(LogPriority.VERBOSE, LOG_TAG, "Event: " + eventId + " - Params: " + paramsString);
+        }
+
+        if (configManager.isFirebaseAnalyticsEnabled()) {
+            FirebaseAnalytics.getInstance(context).logEvent(eventId, params);
         }
     }
 }

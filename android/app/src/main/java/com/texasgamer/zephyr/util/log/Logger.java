@@ -6,14 +6,19 @@ import com.crashlytics.android.Crashlytics;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import androidx.annotation.NonNull;
 
 public class Logger implements ILogger {
 
     private IConfigManager configManager;
+    private ILogSanitizer logSanitizer;
 
-    public Logger(IConfigManager configManager) {
+    public Logger(@NonNull IConfigManager configManager, @NonNull ILogSanitizer logSanitizer) {
         this.configManager = configManager;
+        this.logSanitizer = logSanitizer;
     }
 
     @Override
@@ -24,19 +29,19 @@ public class Logger implements ILogger {
 
         switch (priority) {
             case LogPriority.VERBOSE:
-                Log.v(tag, message);
+                Log.v(tag, logSanitizer.sanitize(message));
                 break;
             case LogPriority.DEBUG:
-                Log.d(tag, message);
+                Log.d(tag, logSanitizer.sanitize(message));
                 break;
             case LogPriority.INFO:
-                Log.i(tag, message);
+                Log.i(tag, logSanitizer.sanitize(message));
                 break;
             case LogPriority.WARNING:
-                Log.w(tag, message);
+                Log.w(tag, logSanitizer.sanitize(message));
                 break;
             case LogPriority.ERROR:
-                Log.e(tag, message);
+                Log.e(tag, logSanitizer.sanitize(message));
                 break;
         }
 
