@@ -1,9 +1,12 @@
 package com.texasgamer.zephyr.db.entity;
 
+import android.graphics.drawable.Drawable;
+
 import com.texasgamer.zephyr.model.NotificationPreference;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
@@ -19,6 +22,10 @@ public class NotificationPreferenceEntity implements NotificationPreference {
     @ColorInt
     private int color;
     private boolean enabled;
+
+    @Ignore
+    @Nullable
+    private Drawable icon;
 
     @NonNull
     @Override
@@ -55,6 +62,15 @@ public class NotificationPreferenceEntity implements NotificationPreference {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Nullable
+    public Drawable getIcon() {
+        return icon;
+    }
+
+    public void setIcon(@Nullable Drawable icon) {
+        this.icon = icon;
     }
 
     public NotificationPreferenceEntity() {

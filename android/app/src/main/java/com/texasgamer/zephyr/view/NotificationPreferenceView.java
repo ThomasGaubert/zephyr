@@ -78,12 +78,13 @@ public class NotificationPreferenceView extends LinearLayout implements View.OnC
 
         ApplicationUtils appUtils = ZephyrApplication.getApplicationComponent().applicationUtilities();
 
-        Glide.with(this)
-                .load(appUtils.getAppInfo(mPackageName))
-                .into(prefIcon);
-
         ZephyrExecutors.getDiskExecutor().execute(() -> {
-            setTitle(appUtils.getAppName(mPackageName));
+            if (pref.getIcon() == null) {
+                pref.setIcon(appUtils.getAppIcon(mPackageName));
+            }
+
+            setIcon(pref.getIcon());
+            setTitle(pref.getTitle());
             setPrefEnabled(pref.getEnabled());
         });
     }

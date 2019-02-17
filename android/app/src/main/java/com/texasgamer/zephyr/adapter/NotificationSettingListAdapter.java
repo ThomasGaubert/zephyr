@@ -6,14 +6,11 @@ import android.widget.LinearLayout;
 
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.NotificationPreference;
-import com.texasgamer.zephyr.util.ApplicationUtils;
+import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,14 +50,6 @@ public class NotificationSettingListAdapter extends RecyclerView.Adapter<Notific
     }
 
     public void setNotificationPreferences(@NonNull List<? extends NotificationPreference> notificationPreferences) {
-        Collections.sort(notificationPreferences, new Comparator<NotificationPreference>() {
-            @Override
-            public int compare(final NotificationPreference first, final NotificationPreference second) {
-                ApplicationUtils appUtils = ZephyrApplication.getApplicationComponent().applicationUtilities();
-                return appUtils.getAppName(first.getPackageName()).compareTo(appUtils.getAppName(second.getPackageName()));
-            }
-        });
-
         if (mPrefs == null) {
             mPrefs = notificationPreferences;
             notifyItemRangeInserted(0, notificationPreferences.size());
@@ -92,6 +81,14 @@ public class NotificationSettingListAdapter extends RecyclerView.Adapter<Notific
 
             mPrefs = notificationPreferences;
             result.dispatchUpdatesTo(this);
+
+            ZephyrExecutors.getDiskExecutor().execute(() -> {
+                for (NotificationPreference preference : mPrefs) {
+                    if (preference.getIcon() == null) {
+                        preference.setIcon(ZephyrApplication.getApplicationComponent().applicationUtilities().getAppIcon(preference.getPackageName()));
+                    }
+                }
+            });
         }
     }
 

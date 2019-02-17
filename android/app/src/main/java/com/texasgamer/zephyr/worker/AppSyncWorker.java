@@ -64,7 +64,7 @@ public class AppSyncWorker extends Worker {
         }
 
         notificationPreferenceDao.insertNotificationPreferences(notificationPreferenceEntities);
-        
+
         notificationPreferenceDao.removeOrphanedNotificationPreferences(applicationUtils.getInstalledPackageNames().toArray(new String[0]));
 
         logger.log(LogPriority.DEBUG, LOG_TAG, "Finished app sync. Synced %d apps.", notificationPreferenceEntities.size());

@@ -9,10 +9,14 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.NotificationSettingListAdapter;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
+import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +32,9 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     ProgressBar spinner;
     @BindView(R.id.app_list)
     RecyclerView appList;
+
+    @Inject
+    ApplicationUtils applicationUtils;
 
     private NotificationSettingListAdapter mAdapter;
 
@@ -89,7 +96,6 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     }
 
     private void subscribeUi(LiveData<List<NotificationPreferenceEntity>> liveData) {
-        // Update the list when the data changes
         liveData.observe(this, new Observer<List<NotificationPreferenceEntity>>() {
             @Override
             public void onChanged(@Nullable List<NotificationPreferenceEntity> preferences) {
