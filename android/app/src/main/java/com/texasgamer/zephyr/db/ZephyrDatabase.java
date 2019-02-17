@@ -26,30 +26,30 @@ public abstract class ZephyrDatabase extends RoomDatabase {
 
     public static ZephyrDatabase buildDatabase(final Context appContext) {
         return Room.databaseBuilder(appContext, ZephyrDatabase.class, Constants.DB_NAME)
-                .addCallback(new OnDbOpenCallback())
                 .addMigrations(DatabaseMigrationFactory.getMigrations())
+                .fallbackToDestructiveMigration()
                 .build();
     }
 
-    private static class OnDbOpenCallback extends Callback {
-        @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
-
-            List<String> packageNames = ZephyrApplication.getApplicationComponent().applicationUtilities().getInstalledPackageNames();
-            List<NotificationPreferenceEntity> notificationPreferences = new ArrayList<>();
-
-            for (String packageName : packageNames) {
-                notificationPreferences.add(new NotificationPreferenceEntity(packageName, true));
-            }
-
-            ZephyrExecutors.getDiskExecutor().execute(() -> {
-                ZephyrDatabase database = ZephyrApplication.getApplicationComponent().database();
-                database.runInTransaction(() -> {
-                    database.notificationPreferenceDao().insertNotificationPreferences(notificationPreferences);
-                    database.notificationPreferenceDao().removeOrphanedNotificationPreferences(packageNames.toArray(new String[0]));
-                });
-            });
-        }
-    }
+//    private static class OnDbOpenCallback extends Callback {
+//        @Override
+//        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+//            super.onOpen(db);
+//
+//            List<String> packageNames = ZephyrApplication.getApplicationComponent().applicationUtilities().getInstalledPackageNames();
+//            List<NotificationPreferenceEntity> notificationPreferences = new ArrayList<>();
+//
+//            for (String packageName : packageNames) {
+//                notificationPreferences.add(new NotificationPreferenceEntity(packageName, true));
+//            }
+//
+//            ZephyrExecutors.getDiskExecutor().execute(() -> {
+//                ZephyrDatabase database = ZephyrApplication.getApplicationComponent().database();
+//                database.runInTransaction(() -> {
+//                    database.notificationPreferenceDao().insertNotificationPreferences(notificationPreferences);
+//                    database.notificationPreferenceDao().removeOrphanedNotificationPreferences(packageNames.toArray(new String[0]));
+//                });
+//            });
+//        }
+//    }
 }

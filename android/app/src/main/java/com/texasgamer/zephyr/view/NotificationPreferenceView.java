@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.NotificationPreference;
@@ -74,12 +75,14 @@ public class NotificationPreferenceView extends LinearLayout implements View.OnC
 
     public void setNotificationPreference(@NonNull NotificationPreference pref) {
         mPackageName = pref.getPackageName();
-        prefIcon.setVisibility(View.INVISIBLE);
 
         ApplicationUtils appUtils = ZephyrApplication.getApplicationComponent().applicationUtilities();
 
+        Glide.with(this)
+                .load(appUtils.getAppInfo(mPackageName))
+                .into(prefIcon);
+
         ZephyrExecutors.getDiskExecutor().execute(() -> {
-            setIcon(appUtils.getAppIcon(mPackageName));
             setTitle(appUtils.getAppName(mPackageName));
             setPrefEnabled(pref.getEnabled());
         });

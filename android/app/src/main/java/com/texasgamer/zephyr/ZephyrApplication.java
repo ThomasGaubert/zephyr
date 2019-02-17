@@ -11,6 +11,7 @@ import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.worker.IWorkManager;
 
 import javax.inject.Inject;
 
@@ -26,6 +27,8 @@ public class ZephyrApplication extends Application {
     ILogger logger;
     @Inject
     IConfigManager configManager;
+    @Inject
+    IWorkManager workManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
@@ -65,5 +68,7 @@ public class ZephyrApplication extends Application {
         logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr started.");
 
         sApplicationComponent.notificationsManager().createNotificationChannels();
+
+        workManager.initWork();
     }
 }

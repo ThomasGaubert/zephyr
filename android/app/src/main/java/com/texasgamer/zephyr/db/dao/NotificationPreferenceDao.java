@@ -13,7 +13,7 @@ import androidx.room.Query;
 
 @Dao
 public interface NotificationPreferenceDao {
-    @Query("SELECT * FROM notification_preferences")
+    @Query("SELECT * FROM notification_preferences ORDER BY title DESC")
     LiveData<List<NotificationPreferenceEntity>> loadNotificationPreferences();
 
     @Query("SELECT * FROM notification_preferences WHERE packageName = :packageName")

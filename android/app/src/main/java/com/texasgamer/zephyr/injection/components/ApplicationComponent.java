@@ -18,6 +18,7 @@ import com.texasgamer.zephyr.injection.modules.EagerModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
 import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
+import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
@@ -27,6 +28,7 @@ import com.texasgamer.zephyr.util.notification.NotificationsManager;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
+import com.texasgamer.zephyr.worker.AppSyncWorker;
 
 import javax.inject.Singleton;
 
@@ -43,7 +45,8 @@ import dagger.Component;
             EagerModule.class,
             LoggerModule.class,
             PreferenceModule.class,
-            NotificationsModule.class
+            NotificationsModule.class,
+            WorkModule.class
         })
 public interface ApplicationComponent {
     /* Init */
@@ -94,4 +97,6 @@ public interface ApplicationComponent {
 
     /* Miscellaneous */
     void inject(ZephyrLifecycleLogger zephyrLifecycleLogger);
+
+    void inject(AppSyncWorker appSyncWorker);
 }

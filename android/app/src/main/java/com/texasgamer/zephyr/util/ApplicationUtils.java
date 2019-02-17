@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.util;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -47,6 +48,18 @@ public class ApplicationUtils {
     }
 
     @NonNull
+    public List<PackageInfo> getInstalledPackages() {
+        List<PackageInfo> result = new ArrayList<>();
+        for (PackageInfo packageInfo : mPackageManager.getInstalledPackages(PackageManager.GET_META_DATA)) {
+            if (mPackageManager.getLaunchIntentForPackage(packageInfo.packageName) != null && !packageInfo.packageName.equals(BuildConfig.APPLICATION_ID)) {
+                result.add(packageInfo);
+            }
+        }
+
+        return result;
+    }
+
+    @NonNull
     public List<String> getInstalledPackageNames() {
         List<String> result = new ArrayList<>();
         for (PackageInfo packageInfo : mPackageManager.getInstalledPackages(PackageManager.GET_META_DATA)) {
@@ -66,7 +79,16 @@ public class ApplicationUtils {
     @NonNull
     public String getAppName(@NonNull String packageName) {
         try {
-            return mPackageManager.getApplicationLabel(getApp(packageName).applicationInfo).toString();
+            return getAppName(getApp(packageName));
+        } catch (Exception e) {
+            return mContext.getString(R.string.app_name_unknown);
+        }
+    }
+
+    @NonNull
+    public String getAppName(@NonNull PackageInfo packageInfo) {
+        try {
+            return mPackageManager.getApplicationLabel(packageInfo.applicationInfo).toString();
         } catch (Exception e) {
             return mContext.getString(R.string.app_name_unknown);
         }
@@ -75,9 +97,26 @@ public class ApplicationUtils {
     @Nullable
     public Drawable getAppIcon(@NonNull String packageName) {
         try{
-            return mPackageManager.getApplicationIcon(getApp(packageName).applicationInfo);
+            return getAppIcon(getApp(packageName));
         } catch (Exception e) {
             return mContext.getDrawable(R.drawable.ic_app_icon_unknown);
+        }
+    }
+
+    @Nullable
+    public Drawable getAppIcon(@NonNull PackageInfo packageInfo) {
+        try{
+            return mPackageManager.getApplicationIcon(packageInfo.applicationInfo);
+        } catch (Exception e) {
+            return mContext.getDrawable(R.drawable.ic_app_icon_unknown);
+        }
+    }
+
+    public ApplicationInfo getAppInfo(@NonNull String packageName) {
+        try {
+            return mPackageManager.getApplicationInfo(packageName, 0);
+        } catch (Exception e) {
+            return null;
         }
     }
 }
