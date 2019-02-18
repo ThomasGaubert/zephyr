@@ -44,6 +44,8 @@
 
     <!-- Notification Preferences -->
     <string name="app_name_unknown">Unknown App</string>
+    <string name="notif_pref_enabled">Enabled</string>
+    <string name="notif_pref_disabled">Disabled</string>
 
     <!-- Notification Channels -->
     <string name="notif_channel_status_title">Connection Status</string>

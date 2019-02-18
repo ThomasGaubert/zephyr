@@ -3,4 +3,6 @@
     <declare-styleable name="ZephyrTheme">
         <attr name="cardAccentColor" format="reference" />
     </declare-styleable>
+
+    <attr name="windowBackground" format="color" />
 </resources>

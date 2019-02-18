@@ -25,6 +25,8 @@ public class NotificationSettingListAdapter extends RecyclerView.Adapter<Notific
     public NotificationSettingListAdapter(@Nullable NotificationPreferenceView.OnPreferenceChangeListener onPreferenceChangeListener) {
         mPrefs = new ArrayList<>();
         mOnPrefChangeListener = onPreferenceChangeListener;
+
+        setHasStableIds(true);
     }
 
     @Override
@@ -97,11 +99,21 @@ public class NotificationSettingListAdapter extends RecyclerView.Adapter<Notific
         return mPrefs.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return mPrefs.get(position).getPackageName().hashCode();
+    }
+
+    @NonNull
+    public NotificationPreference getItem(int index) {
+        return mPrefs.get(index);
+    }
+
     static class NotificationPreferenceListViewHolder extends RecyclerView.ViewHolder {
 
         private NotificationPreferenceView mView;
 
-        public NotificationPreferenceListViewHolder(@NonNull View v) {
+        NotificationPreferenceListViewHolder(@NonNull View v) {
             super(v);
             mView = (NotificationPreferenceView) v;
         }

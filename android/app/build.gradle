@@ -85,6 +85,9 @@ dependencies {
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    // IndicatorFastScroll
+    implementation 'com.reddit:indicator-fast-scroll:1.1.0-beta1'
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
