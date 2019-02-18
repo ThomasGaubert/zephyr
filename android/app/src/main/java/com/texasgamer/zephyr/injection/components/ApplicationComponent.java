@@ -10,6 +10,8 @@ import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
 import com.texasgamer.zephyr.fragment.ScanCodeFragment;
+import com.texasgamer.zephyr.fragment.WhatsNewFragment;
+import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemFragment;
 import com.texasgamer.zephyr.injection.modules.AnalyticsModule;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.injection.modules.ConfigModule;
@@ -94,6 +96,10 @@ public interface ApplicationComponent {
     void inject(ScanCodeFragment scanCodeFragment);
 
     void inject(JoinCodeFragment joinCodeFragment);
+
+    void inject(WhatsNewFragment whatsNewFragment);
+
+    void inject(WhatsNewItemFragment whatsNewItemFragment);
 
     /* Miscellaneous */
     void inject(ZephyrLifecycleLogger zephyrLifecycleLogger);

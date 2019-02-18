@@ -11,6 +11,7 @@ import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 import javax.inject.Inject;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
@@ -35,14 +36,14 @@ public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(getFragmentLayout(), container, false);
         ButterKnife.bind(this, root);
         return root;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         setViewBindings(view);

@@ -1,41 +1,44 @@
-package com.texasgamer.zephyr.fragment;
+package com.texasgamer.zephyr.fragment.whatsnew;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.adapter.HomeListAdapter;
-import com.texasgamer.zephyr.provider.ZephyrCardProvider;
+import com.texasgamer.zephyr.fragment.BaseFragment;
 import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class MainFragment extends BaseFragment {
+public class WhatsNewItemFragment extends BaseFragment {
 
-    @BindView(R.id.home_list)
-    RecyclerView homeList;
+    public static final String ARG_TITLE = "title";
+    public static final String ARG_BODY = "body";
+
+    @BindView(R.id.whats_new_item_title)
+    TextView titleTextView;
+    @BindView(R.id.whats_new_item_body)
+    TextView bodyTextView;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        homeList.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeList.setAdapter(new HomeListAdapter(ZephyrCardProvider.getCards(this)));
+        if (getArguments() != null) {
+            titleTextView.setText(getArguments().getString(ARG_TITLE));
+            bodyTextView.setText(getArguments().getString(ARG_BODY));
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeListAdapter) homeList.getAdapter()).setCards(ZephyrCardProvider.getCards(this));
-        homeList.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_main;
+        return R.layout.fragment_whats_new_item;
     }
 
     @Override
