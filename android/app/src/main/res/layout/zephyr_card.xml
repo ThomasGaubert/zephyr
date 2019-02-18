@@ -1,37 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:paddingStart="0dp"
-    android:paddingEnd="0dp"
-    android:padding="@dimen/zephyr_card_margin_padding">
-
-    <View
-        android:id="@+id/zephyr_card_accent"
-        android:layout_width="4dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="8dp"/>
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/zephyr_card_margin_padding"
+    android:paddingBottom="@dimen/zephyr_card_margin_padding">
 
     <LinearLayout
+        android:id="@+id/zephyr_card_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:foreground="@drawable/ripple"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/round_corners_top"
+        tools:ignore="UnusedAttribute">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/zephyr_card_title"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/ZephyrHeaderSmall"
+            android:layout_margin="12dp"
+            android:layout_marginStart="8dp"
+            android:includeFontPadding="false"
+            android:lines="1"
+            android:textAlignment="viewStart"
+            android:textColor="@color/white"
             tools:text="Card Title" />
 
-        <TextView
-            android:id="@+id/zephyr_card_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Card body" />
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/zephyr_card_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/ripple"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zephyr_card_top"
+        tools:background="@drawable/round_corners_bottom"
+        tools:ignore="UnusedAttribute">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/zephyr_card_body"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/white"
+            app:fontFamily="sans-serif-medium"
+            tools:text="Card Body" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

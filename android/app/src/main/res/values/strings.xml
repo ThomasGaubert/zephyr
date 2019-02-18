@@ -51,6 +51,9 @@
     <string name="notif_channel_status_title">Connection Status</string>
     <string name="notif_channel_status_desc">Persistent notification displayed when Zephyr is enabled.</string>
 
+    <!-- Notification Service -->
+    <string name="notification_service_description">Mirror notifications in VR</string>
+
     <!-- Status Notification -->
     <string name="status_notif_text_connecting">Connecting…</string>
     <string name="status_notif_text_connected">Connected</string>

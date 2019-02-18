@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ZephyrTheme">
-        <attr name="cardAccentColor" format="reference" />
+        <attr name="cardColor" format="reference" />
     </declare-styleable>
 
     <attr name="windowBackground" format="color" />

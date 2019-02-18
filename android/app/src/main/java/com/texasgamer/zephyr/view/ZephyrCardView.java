@@ -2,6 +2,9 @@ package com.texasgamer.zephyr.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -13,17 +16,21 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.model.ZephyrCardType;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
+import androidx.core.graphics.ColorUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ZephyrCardView extends LinearLayout implements View.OnClickListener {
 
-    @BindView(R.id.zephyr_card_accent)
-    View cardAccent;
+    @BindView(R.id.zephyr_card_top)
+    View cardTop;
+    @BindView(R.id.zephyr_card_bottom)
+    View cardBottom;
     @BindView(R.id.zephyr_card_title)
     TextView cardTitle;
     @BindView(R.id.zephyr_card_body)
@@ -68,8 +75,9 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
         mType = type;
 
         TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.cardAccentColor, typedValue, true);
-        cardAccent.setBackgroundColor(typedValue.data);
+        getTheme().resolveAttribute(R.attr.cardColor, typedValue, true);
+        cardTop.setBackground(createBackground(typedValue.data, false));
+        cardBottom.setBackground(createBackground(ColorUtils.blendARGB(typedValue.data, Color.BLACK, 0.2f), true));
     }
 
     @NonNull
@@ -130,5 +138,21 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
         }
 
         return theme;
+    }
+
+    private Drawable createBackground(@ColorInt int color, boolean isBottom) {
+        float cornerRadius = getResources().getDisplayMetrics().density * 8;
+
+        GradientDrawable background = new GradientDrawable();
+        background.setShape(GradientDrawable.RECTANGLE);
+
+        if (isBottom) {
+            background.setCornerRadii(new float[]{0f, 0f, 0f, 0f, cornerRadius, cornerRadius, cornerRadius, cornerRadius});
+        } else {
+            background.setCornerRadii(new float[]{cornerRadius, cornerRadius, cornerRadius, cornerRadius, 0f, 0f, 0f, 0f});
+        }
+
+        background.setColor(color);
+        return background;
     }
 }

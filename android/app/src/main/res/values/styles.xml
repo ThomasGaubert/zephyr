@@ -42,23 +42,23 @@
     <style name="ZephryCard"/>
 
     <style name="ZephyrCard.Default" parent="ZephryCard">
-        <item name="cardAccentColor">@color/white</item>
+        <item name="cardColor">@color/white</item>
     </style>
 
     <style name="ZephyrCard.Info" parent="ZephryCard">
-        <item name="cardAccentColor">@color/accent</item>
+        <item name="cardColor">@color/accent</item>
     </style>
 
     <style name="ZephyrCard.Success" parent="ZephryCard">
-        <item name="cardAccentColor">@color/green</item>
+        <item name="cardColor">@color/green</item>
     </style>
 
     <style name="ZephyrCard.Warning" parent="ZephryCard">
-        <item name="cardAccentColor">@color/orange</item>
+        <item name="cardColor">@color/orange</item>
     </style>
 
     <style name="ZephyrCard.Error" parent="ZephryCard">
-        <item name="cardAccentColor">@color/red</item>
+        <item name="cardColor">@color/red</item>
     </style>
 
 </resources>
