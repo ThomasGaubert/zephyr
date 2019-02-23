@@ -106,6 +106,11 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
         if (card.getOnClickListener() != null) {
             mOnClickListener = card.getOnClickListener();
             setOnClickListener(this);
+            setClickable(true);
+        } else {
+            mOnClickListener = null;
+            setOnClickListener(null);
+            setClickable(false);
         }
     }
 
