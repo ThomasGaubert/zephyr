@@ -16,7 +16,7 @@
     <string name="btn_connection_stop">Stop</string>
 
     <!-- Navigation Menu -->
-    <string name="menu_manage_notifications">Manage Notifications</string>
+    <string name="menu_manage_notifications">Manage notifications</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
 
@@ -34,7 +34,7 @@
 
     <!-- Join Code Menu -->
     <string name="menu_join_code_title">Join Code</string>
-    <string name="menu_join_code_hint">Join Code or IP Address</string>
+    <string name="menu_join_code_hint">Join Code or IP address</string>
     <string name="menu_join_code_invalid">Join Code invalid</string>
 
     <!-- What's New Menu -->
@@ -56,7 +56,7 @@
     <string name="notif_pref_disabled">Disabled</string>
 
     <!-- Notification Channels -->
-    <string name="notif_channel_status_title">Connection Status</string>
+    <string name="notif_channel_status_title">Connection status</string>
     <string name="notif_channel_status_desc">Persistent notification displayed when Zephyr is enabled.</string>
 
     <!-- Notification Service -->

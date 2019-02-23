@@ -48,7 +48,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
 
-        joinCodeTextEdit.setOnKeyListener((view1, keyCode, keyevent) -> {
+        joinCodeTextEdit.setOnKeyListener((v, keyCode, keyevent) -> {
             if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 Editable joinCodeEditable = joinCodeTextEdit.getText();
 

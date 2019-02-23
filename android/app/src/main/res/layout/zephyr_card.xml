@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:foreground="@drawable/ripple"
     android:paddingTop="@dimen/zephyr_card_margin_padding"
     android:paddingBottom="@dimen/zephyr_card_margin_padding">
 
@@ -12,7 +13,6 @@
         android:id="@+id/zephyr_card_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="@drawable/ripple"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,6 @@
         android:id="@+id/zephyr_card_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="@drawable/ripple"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
