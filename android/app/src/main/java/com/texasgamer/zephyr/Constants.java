@@ -11,7 +11,6 @@ public class Constants {
     /* URLS */
     public static final String ZEPHYR_GITHUB_URL = "https://github.com/ThomasGaubert/zephyr";
     public static final String ZEPHYR_HELP_URL = "https://zephyrvr.gitbook.io/docs/";
-    public static final String ZEPHYR_LICENSES_URL = "";
 
     /* Server */
     public static final String ZEPHYR_SERVER_PORT = "3753";

@@ -2,6 +2,7 @@ package com.texasgamer.zephyr.injection.components;
 
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.AboutActivity;
+import com.texasgamer.zephyr.activity.LicensesActivity;
 import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.db.ZephyrDatabase;
@@ -83,6 +84,8 @@ public interface ApplicationComponent {
     void inject(MainActivity mainActivity);
 
     void inject(AboutActivity aboutActivity);
+
+    void inject(LicensesActivity licensesActivity);
 
     void inject(NotificationActivity notificationActivity);
 

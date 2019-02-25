@@ -10,4 +10,6 @@
     <color name="orange">#FF6F00</color>
     <color name="green">#1B5E20</color>
     <color name="red">#D50000</color>
+
+    <color name="menu_icon">#b7bec4</color>
 </resources>

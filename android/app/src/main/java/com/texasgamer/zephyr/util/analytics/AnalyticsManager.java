@@ -45,7 +45,7 @@ public class AnalyticsManager implements IAnalyticsManager {
             }
             paramsString.append(" }");
 
-            logger.log(LogPriority.VERBOSE, LOG_TAG, "Event: " + eventId + " - Params: " + paramsString);
+            logger.log(LogPriority.VERBOSE, LOG_TAG, "Event: %s - Params: %s", eventId, paramsString);
         }
 
         if (configManager.isFirebaseAnalyticsEnabled()) {

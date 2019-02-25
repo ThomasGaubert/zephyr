@@ -54,7 +54,6 @@
             android:layout_margin="12dp"
             android:layout_marginStart="8dp"
             android:textColor="@color/white"
-            app:fontFamily="sans-serif-medium"
             tools:text="Card Body" />
 
     </LinearLayout>
