@@ -17,7 +17,7 @@ public class NetworkUtils {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    private static final String JOIN_CODE_PATTERN = "\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])(\\.)?(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b";
+    private static final String JOIN_CODE_PATTERN = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.)?([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
     private static Pattern ipAddressPattern = Pattern.compile(IP_ADDRESS_PATTERN);
     private static Pattern joinCodePattern = Pattern.compile(JOIN_CODE_PATTERN);
