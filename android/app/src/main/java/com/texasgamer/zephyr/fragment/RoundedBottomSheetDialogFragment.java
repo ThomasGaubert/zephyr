@@ -9,6 +9,9 @@ import com.texasgamer.zephyr.R;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Base fragment for rounded bottom sheets.
+ */
 public class RoundedBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     @Override

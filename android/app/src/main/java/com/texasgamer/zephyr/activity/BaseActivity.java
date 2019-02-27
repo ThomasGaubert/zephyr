@@ -2,7 +2,6 @@ package com.texasgamer.zephyr.activity;
 
 import android.os.Bundle;
 
-import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
@@ -13,12 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 
+/**
+ * Base activity that handles common routines.
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
-    IAnalyticsManager analyticsManager;
-    @Inject
     protected PreferenceManager mPreferenceManager;
+
+    @Inject
+    IAnalyticsManager analyticsManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

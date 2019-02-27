@@ -15,16 +15,19 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Config provider that sources from either Firebase or local configuration file.
+ */
 public class ZephyrConfigProvider {
 
-    private Context context;
-    private IConfigManager configManager;
-    private FirebaseRemoteConfig firebaseRemoteConfig;
-    private Map<String, String> localConfig;
+    private Context mContext;
+    private IConfigManager mConfigManager;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private Map<String, String> mLocalConfig;
 
     public ZephyrConfigProvider(@NonNull Context context, @NonNull IConfigManager configManager) {
-        this.context = context;
-        this.configManager = configManager;
+        this.mContext = context;
+        this.mConfigManager = configManager;
 
         if (configManager.isFirebaseRemoteConfigEnabled()) {
             initFirebaseRemoteConfig();
@@ -38,42 +41,42 @@ public class ZephyrConfigProvider {
     }
 
     public boolean getBoolean(@NonNull String key) {
-        if (firebaseRemoteConfig != null) {
-            return firebaseRemoteConfig.getBoolean(key);
+        if (mFirebaseRemoteConfig != null) {
+            return mFirebaseRemoteConfig.getBoolean(key);
         } else {
-            return Boolean.parseBoolean(localConfig.get(key));
+            return Boolean.parseBoolean(mLocalConfig.get(key));
         }
     }
 
     public String getString(@NonNull String key) {
-        if (firebaseRemoteConfig != null) {
-            return firebaseRemoteConfig.getString(key);
+        if (mFirebaseRemoteConfig != null) {
+            return mFirebaseRemoteConfig.getString(key);
         } else {
-            return localConfig.get(key);
+            return mLocalConfig.get(key);
         }
     }
 
     private void initFirebaseRemoteConfig() {
-        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build();
-        firebaseRemoteConfig.setConfigSettings(configSettings);
-        firebaseRemoteConfig.setDefaults(R.xml.config_defaults);
-        firebaseRemoteConfig.fetch(Constants.FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS).addOnCompleteListener(ZephyrExecutors.getNetworkExecutor(), task -> {
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.config_defaults);
+        mFirebaseRemoteConfig.fetch(Constants.FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS).addOnCompleteListener(ZephyrExecutors.getNetworkExecutor(), task -> {
             if (task.isSuccessful()) {
-                firebaseRemoteConfig.activateFetched();
+                mFirebaseRemoteConfig.activateFetched();
             }
         });
     }
 
     private void initLocalConfig() throws Exception {
-        XmlResourceParser xmlResourceParser = context.getResources().getXml(R.xml.config_defaults);
+        XmlResourceParser xmlResourceParser = mContext.getResources().getXml(R.xml.config_defaults);
 
         int eventType = -1;
         String key = null;
         String value = null;
-        localConfig = new HashMap<>();
+        mLocalConfig = new HashMap<>();
 
         while (eventType != xmlResourceParser.END_DOCUMENT) {
             if (eventType == xmlResourceParser.START_TAG) {
@@ -117,7 +120,7 @@ public class ZephyrConfigProvider {
                     }
 
                     // Store key-value pair
-                    localConfig.put(key, xmlResourceParser.getText());
+                    mLocalConfig.put(key, xmlResourceParser.getText());
 
                     // Reset key and value
                     key = null;

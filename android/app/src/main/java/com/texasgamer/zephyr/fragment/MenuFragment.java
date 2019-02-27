@@ -18,10 +18,13 @@ import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Menu fragment.
+ */
 public class MenuFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.nav_menu)
-    NavigationView navigationView;
+    NavigationView mNavigationView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -46,6 +49,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
                 break;
             case R.id.action_about:
                 NavigationUtils.openActivity(getContext(), AboutActivity.class);
+                break;
+            default:
                 break;
         }
 

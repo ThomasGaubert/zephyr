@@ -7,9 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-public class DatabaseMigrationFactory {
+/**
+ * Database migration factory.
+ */
+public final class DatabaseMigrationFactory {
 
     private static final List<IZephyrDatabaseMigration> MIGRATIONS = new ArrayList<>();
+
+    private DatabaseMigrationFactory() {
+    }
 
     static {
         // Add migrations here

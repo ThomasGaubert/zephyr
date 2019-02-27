@@ -13,21 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 
+/**
+ * What's new item fragment.
+ */
 public class WhatsNewItemFragment extends BaseFragment {
 
     public static final String ARG_TITLE = "title";
     public static final String ARG_BODY = "body";
 
     @BindView(R.id.whats_new_item_title)
-    TextView titleTextView;
+    TextView mTitleTextView;
     @BindView(R.id.whats_new_item_body)
-    TextView bodyTextView;
+    TextView mBodyTextView;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
-            titleTextView.setText(getArguments().getString(ARG_TITLE));
-            bodyTextView.setText(getArguments().getString(ARG_BODY));
+            mTitleTextView.setText(getArguments().getString(ARG_TITLE));
+            mBodyTextView.setText(getArguments().getString(ARG_BODY));
         }
     }
 

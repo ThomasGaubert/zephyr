@@ -7,6 +7,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+/**
+ * Notification preference repository.
+ */
 public interface NotificationPreferenceRepository extends IRepository {
     @NonNull
     LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences();

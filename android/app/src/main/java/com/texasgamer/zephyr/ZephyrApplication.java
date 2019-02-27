@@ -17,6 +17,9 @@ import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
 
+/**
+ * Zephyr application.
+ */
 public class ZephyrApplication extends Application {
 
     private static final String LOG_TAG = "ZephyrApplication";

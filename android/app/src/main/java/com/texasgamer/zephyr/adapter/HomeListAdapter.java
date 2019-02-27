@@ -1,10 +1,8 @@
 package com.texasgamer.zephyr.adapter;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.model.ZephyrCard;
@@ -15,6 +13,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Adapter for MainActivity card list.
+ */
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeListViewHolder> {
     private List<ZephyrCard> mCards;
 
@@ -51,6 +52,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
         mCards = cards;
     }
 
+    /**
+     * View holder for home list.
+     */
     static class HomeListViewHolder extends RecyclerView.ViewHolder {
 
         private ZephyrCardView mCard;

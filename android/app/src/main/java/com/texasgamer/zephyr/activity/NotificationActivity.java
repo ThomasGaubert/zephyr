@@ -10,16 +10,19 @@ import com.texasgamer.zephyr.ZephyrApplication;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
+/**
+ * Notification activity.
+ */
 public class NotificationActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -34,9 +37,9 @@ public class NotificationActivity extends BaseActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -1,7 +1,13 @@
 package com.texasgamer.zephyr.util.analytics;
 
+/**
+ * Analytics events.
+ */
 public class ZephyrEvent {
 
+    /**
+     * Navigation events.
+     */
     public static final class Navigation {
         public static final String BASE = "nav";
 
@@ -19,6 +25,9 @@ public class ZephyrEvent {
         public static final String LICENSES = "licenses";
     }
 
+    /**
+     * Action events.
+     */
     public static final class Action {
         public static final String BASE = "action";
 
@@ -33,6 +42,9 @@ public class ZephyrEvent {
         public static final String LONG_PRESS_CONNECTION_BUTTON = "long_press_connection_button";
     }
 
+    /**
+     * Event parameters.
+     */
     public static final class Parameter {
         /* Connection button */
         public static final String JOIN_CODE_SET = "join_code_set";

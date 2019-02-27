@@ -15,22 +15,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
+/**
+ * Main fragment.
+ */
 public class MainFragment extends BaseFragment {
 
     @BindView(R.id.home_list)
-    RecyclerView homeList;
+    RecyclerView mHomeList;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        homeList.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeList.setAdapter(new HomeListAdapter(ZephyrCardProvider.getCards(this)));
+        mHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mHomeList.setAdapter(new HomeListAdapter(ZephyrCardProvider.getCards(this)));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeListAdapter) homeList.getAdapter()).setCards(ZephyrCardProvider.getCards(this));
-        homeList.getAdapter().notifyDataSetChanged();
+        ((HomeListAdapter) mHomeList.getAdapter()).setCards(ZephyrCardProvider.getCards(this));
+        mHomeList.getAdapter().notifyDataSetChanged();
     }
 
     @Override

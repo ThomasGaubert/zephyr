@@ -8,11 +8,17 @@ import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 
-public class ZephyrExecutors {
+/**
+ * Provides executors for threaded operations.
+ */
+public final class ZephyrExecutors {
 
     private static final Executor DISK_EXECUTOR;
     private static final Executor NETWORK_EXECUTOR;
     private static final Executor MAIN_THREAD_EXECUTOR;
+
+    private ZephyrExecutors() {
+    }
 
     static {
         DISK_EXECUTOR = Executors.newFixedThreadPool(3);
@@ -33,11 +39,11 @@ public class ZephyrExecutors {
     }
 
     private static class MainThreadExecutor implements Executor {
-        private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+        private Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
 
         @Override
         public void execute(@NonNull Runnable command) {
-            mainThreadHandler.post(command);
+            mMainThreadHandler.post(command);
         }
     }
 }

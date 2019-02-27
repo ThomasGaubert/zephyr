@@ -10,6 +10,9 @@ import com.texasgamer.zephyr.util.log.LogPriority;
 
 import javax.inject.Inject;
 
+/**
+ * Logs lifecycle events.
+ */
 public class ZephyrLifecycleLogger implements Application.ActivityLifecycleCallbacks {
 
     private static final String LOG_TAG = "ZephyrLifecycleLogger";

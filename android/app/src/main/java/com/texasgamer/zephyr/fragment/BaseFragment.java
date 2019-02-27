@@ -16,6 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 
+/**
+ * Base fragment that performs common routines.
+ * @param <T>
+ */
 public abstract class BaseFragment<T extends BaseViewModel> extends Fragment {
 
     protected T mViewModel;

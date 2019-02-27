@@ -10,6 +10,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Notifications module.
+ */
 @Module
 public class NotificationsModule {
     @Provides

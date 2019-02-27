@@ -11,7 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
-public class NavigationUtils {
+/**
+ * Navigation utilities.
+ */
+public final class NavigationUtils {
+
+    private NavigationUtils() {
+    }
 
     public static void openActivity(@NonNull Context context, @NonNull Class activity) {
         Intent intent = new Intent(context, activity);

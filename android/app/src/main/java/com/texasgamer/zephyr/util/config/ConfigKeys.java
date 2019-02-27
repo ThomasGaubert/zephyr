@@ -1,5 +1,11 @@
 package com.texasgamer.zephyr.util.config;
 
-public class ConfigKeys {
+/**
+ * Configuration keys.
+ */
+public final class ConfigKeys {
     public static final String ENABLE_SCAN_QR_CODE = "enableScanQrCode";
+
+    private ConfigKeys() {
+    }
 }

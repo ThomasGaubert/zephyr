@@ -2,7 +2,13 @@ package com.texasgamer.zephyr.util;
 
 import com.texasgamer.zephyr.BuildConfig;
 
-public class BuildConfigUtils {
+/**
+ * BuildConfig utilities.
+ */
+public final class BuildConfigUtils {
+
+    private BuildConfigUtils() {
+    }
 
     public static int getVersionCode() {
         return BuildConfig.VERSION_CODE;

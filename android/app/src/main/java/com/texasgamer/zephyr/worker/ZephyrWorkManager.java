@@ -1,6 +1,5 @@
 package com.texasgamer.zephyr.worker;
 
-import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
@@ -12,10 +11,13 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+/**
+ * Work manager.
+ */
 public class ZephyrWorkManager implements IWorkManager {
 
-    private static String LOG_TAG = "ZephyrWorkManager";
-    private static String SYNC_WORK_TAG = "sync";
+    private static final String LOG_TAG = "ZephyrWorkManager";
+    private static final String SYNC_WORK_TAG = "sync";
 
     private ILogger mLogger;
 

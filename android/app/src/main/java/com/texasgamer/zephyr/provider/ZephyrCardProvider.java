@@ -15,7 +15,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class ZephyrCardProvider {
+/**
+ * ZephyrCard provider.
+ */
+public final class ZephyrCardProvider {
+
+    private ZephyrCardProvider() {
+    }
 
     public static List<ZephyrCard> getCards(@NonNull final BaseFragment fragment) {
         List<ZephyrCard> cards = new ArrayList<>();

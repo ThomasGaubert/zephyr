@@ -8,14 +8,17 @@ import com.texasgamer.zephyr.Constants;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Config manager.
+ */
 public class ConfigManager implements IConfigManager {
 
-    private Context context;
-    private ZephyrConfigProvider zephyrConfigProvider;
+    private Context mContext;
+    private ZephyrConfigProvider mZephyrConfigProvider;
 
     public ConfigManager(@NonNull Context context) {
-        this.context = context;
-        this.zephyrConfigProvider = new ZephyrConfigProvider(context, this);
+        this.mContext = context;
+        this.mZephyrConfigProvider = new ZephyrConfigProvider(context, this);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class ConfigManager implements IConfigManager {
     @Override
     public boolean isQrCodeScanningEnabled() {
         return isFirebaseEnabled()
-                && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)
-                && zephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
+                && mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)
+                && mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
     }
 }

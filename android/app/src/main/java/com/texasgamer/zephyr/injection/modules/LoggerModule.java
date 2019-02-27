@@ -11,6 +11,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Logger module.
+ */
 @Module
 public class LoggerModule {
     @Provides

@@ -4,13 +4,15 @@ import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+/**
+ * DAO for notification preferences.
+ */
 @Dao
 public interface NotificationPreferenceDao {
     @Query("SELECT * FROM notification_preferences ORDER BY title COLLATE NOCASE ASC")

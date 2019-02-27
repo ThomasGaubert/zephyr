@@ -5,7 +5,6 @@ import android.app.Application;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
-import com.texasgamer.zephyr.model.NotificationPreference;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
@@ -17,23 +16,27 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
+/**
+ * Manage notifications view model.
+ */
 public class ManageNotificationsViewModel extends BaseViewModel<NotificationPreferenceRepository> {
 
     private static final String LOG_TAG = "ManageNotificationsViewModel";
 
-    private final MediatorLiveData<List<NotificationPreferenceEntity>> observableNotificationPreferences;
-
     @Inject
     ILogger logger;
+
+    private final MediatorLiveData<List<NotificationPreferenceEntity>> mObservableNotificationPreferences;
+
 
     public ManageNotificationsViewModel(Application application) {
         super(application);
 
-        observableNotificationPreferences = new MediatorLiveData<>();
-        observableNotificationPreferences.setValue(null);
+        mObservableNotificationPreferences = new MediatorLiveData<>();
+        mObservableNotificationPreferences.setValue(null);
 
         LiveData<List<NotificationPreferenceEntity>> notificationPreferences = mDataRepository.getNotificationPreferences();
-        observableNotificationPreferences.addSource(notificationPreferences, observableNotificationPreferences::setValue);
+        mObservableNotificationPreferences.addSource(notificationPreferences, mObservableNotificationPreferences::setValue);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     }
 
     public LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences() {
-        return observableNotificationPreferences;
+        return mObservableNotificationPreferences;
     }
 
     public void enableAll() {

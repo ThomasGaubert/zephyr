@@ -33,6 +33,9 @@ import androidx.core.app.NotificationManagerCompat;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
+/**
+ * Socket service. Maintains connection to server.
+ */
 public class SocketService extends Service {
 
     private static final String LOG_TAG = "SocketService";
@@ -56,7 +59,7 @@ public class SocketService extends Service {
 
         createServiceNotification();
 
-        if(!mConnected) {
+        if (!mConnected) {
             logger.log(LogPriority.VERBOSE, LOG_TAG, "onCreate");
         } else {
             logger.log(LogPriority.VERBOSE, LOG_TAG, "onCreate() called while already connected!");
@@ -83,11 +86,11 @@ public class SocketService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, true);
 
-        if(mServerAddress != null && !mServerAddress.isEmpty()) {
-            logger.log(LogPriority.DEBUG, LOG_TAG,"Connecting to saved address %s...", mServerAddress);
+        if (mServerAddress != null && !mServerAddress.isEmpty()) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Connecting to saved address %s...", mServerAddress);
             connect(mServerAddress);
         } else {
-            logger.log(LogPriority.DEBUG, LOG_TAG,"No saved address found, not connecting...");
+            logger.log(LogPriority.DEBUG, LOG_TAG, "No saved address found, not connecting...");
             stopSelf();
         }
 
@@ -124,7 +127,7 @@ public class SocketService extends Service {
             logger.log(LogPriority.ERROR, LOG_TAG, e);
         }
 
-        if(mSocket != null) {
+        if (mSocket != null) {
             setUpEvents();
             mSocket.connect();
         }
@@ -133,7 +136,7 @@ public class SocketService extends Service {
     private void disconnect() {
         logger.log(LogPriority.INFO, LOG_TAG, "Disconnecting...");
 
-        if(mSocket != null) {
+        if (mSocket != null) {
             mSocket.disconnect();
         }
 
@@ -170,8 +173,7 @@ public class SocketService extends Service {
         // Stop SocketService
         Intent stopIntent = new Intent(this, ZephyrBroadcastReceiver.class);
         stopIntent.setAction(ZephyrBroadcastReceiver.ACTION_STOP_SOCKET_SERVICE);
-        PendingIntent snoozePendingIntent =
-                PendingIntent.getBroadcast(this, 0, stopIntent, 0);
+        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
 
         mStatusNotificationBuilder = new NotificationCompat.Builder(this, ZephyrNotificationChannel.STATUS)
                 .setSmallIcon(R.drawable.ic_status_notification)

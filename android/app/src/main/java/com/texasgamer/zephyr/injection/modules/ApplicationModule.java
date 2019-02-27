@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Application module.
+ */
 @Module
 public class ApplicationModule {
     private final ZephyrApplication mApplication;

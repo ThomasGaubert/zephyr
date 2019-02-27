@@ -17,12 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NotificationSettingListAdapter extends RecyclerView.Adapter<NotificationSettingListAdapter.NotificationPreferenceListViewHolder> {
+/**
+ * Notification preference list adapter.
+ */
+public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<NotificationPreferenceListAdapter.NotificationPreferenceListViewHolder> {
 
     private List<? extends NotificationPreference> mPrefs;
     private NotificationPreferenceView.OnPreferenceChangeListener mOnPrefChangeListener;
 
-    public NotificationSettingListAdapter(@Nullable NotificationPreferenceView.OnPreferenceChangeListener onPreferenceChangeListener) {
+    public NotificationPreferenceListAdapter(@Nullable NotificationPreferenceView.OnPreferenceChangeListener onPreferenceChangeListener) {
         mPrefs = new ArrayList<>();
         mOnPrefChangeListener = onPreferenceChangeListener;
 
@@ -109,6 +112,9 @@ public class NotificationSettingListAdapter extends RecyclerView.Adapter<Notific
         return mPrefs.get(index);
     }
 
+    /**
+     * Notification setting list view holder.
+     */
     static class NotificationPreferenceListViewHolder extends RecyclerView.ViewHolder {
 
         private NotificationPreferenceView mView;

@@ -23,10 +23,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
+/**
+ * Join code fragment.
+ */
 public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
 
     @BindView(R.id.join_code_edit_text)
-    TextInputEditText joinCodeTextEdit;
+    TextInputEditText mJoinCodeTextEdit;
 
     @Inject
     PreferenceManager preferenceManager;
@@ -44,13 +47,13 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
 
         Window window = getDialog().getWindow();
         if (window != null) {
-            joinCodeTextEdit.requestFocus();
+            mJoinCodeTextEdit.requestFocus();
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
 
-        joinCodeTextEdit.setOnKeyListener((v, keyCode, keyevent) -> {
+        mJoinCodeTextEdit.setOnKeyListener((v, keyCode, keyevent) -> {
             if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                Editable joinCodeEditable = joinCodeTextEdit.getText();
+                Editable joinCodeEditable = mJoinCodeTextEdit.getText();
 
                 if (joinCodeEditable != null) {
                     String joinCode = joinCodeEditable.toString();
@@ -58,7 +61,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
                         return true;
                     }
 
-                    preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, joinCodeTextEdit.getText().toString());
+                    preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mJoinCodeTextEdit.getText().toString());
                 }
 
                 dismiss();
@@ -73,9 +76,9 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
     void onJoinCodeChanged(CharSequence text) {
         String joinCode = text.toString();
         if (joinCode.matches("[a-zA-Z]+|,+|\\s+")) {
-            joinCodeTextEdit.setError(getString(R.string.menu_join_code_invalid));
+            mJoinCodeTextEdit.setError(getString(R.string.menu_join_code_invalid));
         } else {
-            joinCodeTextEdit.setError(null);
+            mJoinCodeTextEdit.setError(null);
         }
     }
 }

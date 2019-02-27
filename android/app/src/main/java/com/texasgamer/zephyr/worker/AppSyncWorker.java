@@ -26,11 +26,12 @@ import androidx.palette.graphics.Palette;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+/**
+ * Worker that syncs apps to notification preference table.
+ */
 public class AppSyncWorker extends Worker {
 
-    private static String LOG_TAG = "AppSyncWorker";
-
-    private Context mContext;
+    private static final String LOG_TAG = "AppSyncWorker";
 
     @Inject
     ILogger logger;
@@ -38,6 +39,8 @@ public class AppSyncWorker extends Worker {
     ApplicationUtils applicationUtils;
     @Inject
     NotificationPreferenceDao notificationPreferenceDao;
+
+    private Context mContext;
 
     public AppSyncWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);

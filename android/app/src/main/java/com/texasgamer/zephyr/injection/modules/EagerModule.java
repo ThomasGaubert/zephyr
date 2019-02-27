@@ -6,6 +6,9 @@ import androidx.annotation.Nullable;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Eager module. Enables certain dependencies to be instantiated on start.
+ */
 @Module
 public class EagerModule {
 

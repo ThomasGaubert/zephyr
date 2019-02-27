@@ -21,6 +21,9 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Service which listens for and processes notifications.
+ */
 public class NotificationService extends NotificationListenerService {
 
     private static final String LOG_TAG = "NotificationService";

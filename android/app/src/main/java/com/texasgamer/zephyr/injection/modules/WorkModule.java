@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Work module.
+ */
 @Module
 public class WorkModule {
     @Provides

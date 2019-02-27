@@ -1,5 +1,8 @@
 package com.texasgamer.zephyr.util.config;
 
+/**
+ * Config manager interface.
+ */
 public interface IConfigManager {
 
     /* Build */

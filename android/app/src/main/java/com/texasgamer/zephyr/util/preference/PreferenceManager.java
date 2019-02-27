@@ -8,13 +8,13 @@ import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.migrations.IZephyrPreferenceMigration;
 import com.texasgamer.zephyr.util.preference.migrations.PreferenceMigrationFactory;
-import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Preference manager.
+ */
 public class PreferenceManager {
 
     private static final String LOG_TAG = "PreferenceManager";

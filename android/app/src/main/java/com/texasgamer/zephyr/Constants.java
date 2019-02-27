@@ -2,7 +2,10 @@ package com.texasgamer.zephyr;
 
 import com.texasgamer.zephyr.util.log.LogPriority;
 
-public class Constants {
+/**
+ * Zephyr constants.
+ */
+public final class Constants {
 
     /* Versioning */
     public static final int V2_VERSION_CODE = 10;
@@ -37,4 +40,7 @@ public class Constants {
     public static final boolean FIREBASE_CRASHLYTICS_ENABLED = true;
     public static final boolean FIREBASE_REMOTE_CONFIG_ENABLED = true;
     public static final int FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS = 10800; // 3 hours
+
+    private Constants() {
+    }
 }

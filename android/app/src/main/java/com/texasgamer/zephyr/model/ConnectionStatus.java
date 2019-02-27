@@ -5,6 +5,9 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
 
+/**
+ * Connection status to Zephyr server.
+ */
 @IntDef({ConnectionStatus.UNKNOWN,
         ConnectionStatus.CONNECTED,
         ConnectionStatus.DISCONNECTED,

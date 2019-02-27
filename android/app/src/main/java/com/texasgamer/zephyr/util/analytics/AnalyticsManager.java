@@ -11,18 +11,21 @@ import com.texasgamer.zephyr.util.log.LogPriority;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Analytics manager.
+ */
 public class AnalyticsManager implements IAnalyticsManager {
 
     private static final String LOG_TAG = "AnalyticsManager";
 
-    private Context context;
-    private ILogger logger;
-    private IConfigManager configManager;
+    private Context mContext;
+    private ILogger mLogger;
+    private IConfigManager mConfigManager;
 
     public AnalyticsManager(@NonNull Context context, @NonNull ILogger logger, @NonNull IConfigManager configManager) {
-        this.context = context;
-        this.logger = logger;
-        this.configManager = configManager;
+        this.mContext = context;
+        this.mLogger = logger;
+        this.mConfigManager = configManager;
 
         if (configManager.isFirebaseAnalyticsEnabled()) {
             FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(true);
@@ -36,7 +39,7 @@ public class AnalyticsManager implements IAnalyticsManager {
     }
 
     public void logEvent(@NonNull String eventId, @Nullable Bundle params) {
-        if (configManager.isDev()) {
+        if (mConfigManager.isDev()) {
             StringBuilder paramsString = new StringBuilder("Bundle{");
             if (params != null) {
                 for (String key : params.keySet()) {
@@ -45,11 +48,11 @@ public class AnalyticsManager implements IAnalyticsManager {
             }
             paramsString.append(" }");
 
-            logger.log(LogPriority.VERBOSE, LOG_TAG, "Event: %s - Params: %s", eventId, paramsString);
+            mLogger.log(LogPriority.VERBOSE, LOG_TAG, "Event: %s - Params: %s", eventId, paramsString);
         }
 
-        if (configManager.isFirebaseAnalyticsEnabled()) {
-            FirebaseAnalytics.getInstance(context).logEvent(eventId, params);
+        if (mConfigManager.isFirebaseAnalyticsEnabled()) {
+            FirebaseAnalytics.getInstance(mContext).logEvent(eventId, params);
         }
     }
 }

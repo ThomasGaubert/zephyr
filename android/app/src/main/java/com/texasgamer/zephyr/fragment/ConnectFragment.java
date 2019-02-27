@@ -20,12 +20,15 @@ import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Connect fragment.
+ */
 public class ConnectFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String LOG_TAG = "ConnectFragment";
 
     @BindView(R.id.nav_menu)
-    NavigationView navigationView;
+    NavigationView mNavigationView;
 
     @Inject
     ILogger logger;
@@ -51,7 +54,7 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
             dismiss();
         }
 
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -64,6 +67,8 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
             case R.id.action_enter_code:
                 JoinCodeFragment joinCodeFragment = new JoinCodeFragment();
                 joinCodeFragment.show(getFragmentManager(), joinCodeFragment.getTag());
+                break;
+            default:
                 break;
         }
 

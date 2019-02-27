@@ -25,6 +25,9 @@ import androidx.core.graphics.ColorUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Notification preference view.
+ */
 public class NotificationPreferenceView extends ConstraintLayout implements View.OnClickListener {
 
     @BindView(R.id.notif_pref_icon)
@@ -149,10 +152,6 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
         });
     }
 
-    public interface OnPreferenceChangeListener {
-        void onPreferenceChange(@NonNull String packageName, boolean newValue);
-    }
-
     private Drawable createBackground(@ColorInt int color, boolean isBottom) {
         float cornerRadius = getResources().getDisplayMetrics().density * 8;
 
@@ -167,5 +166,12 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
 
         background.setColor(color);
         return background;
+    }
+
+    /**
+     * Listener for when the notification preference is changed.
+     */
+    public interface OnPreferenceChangeListener {
+        void onPreferenceChange(@NonNull String packageName, boolean newValue);
     }
 }

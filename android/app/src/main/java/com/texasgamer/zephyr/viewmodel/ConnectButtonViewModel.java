@@ -8,6 +8,9 @@ import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 
 import androidx.lifecycle.LiveData;
 
+/**
+ * Connect button view model.
+ */
 public class ConnectButtonViewModel extends BaseViewModel {
 
     private final SharedPreferenceLiveData<Boolean> mIsConnected;

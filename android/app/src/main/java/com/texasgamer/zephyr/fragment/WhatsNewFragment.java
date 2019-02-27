@@ -20,22 +20,25 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * What's new fragment.
+ */
 public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
     public static final String LOG_TAG = "ConnectFragment";
 
     @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    ViewPager mViewPager;
     @BindView(R.id.pager_indicator)
-    IndefinitePagerIndicator pagerIndicator;
+    IndefinitePagerIndicator mPagerIndicator;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_whats_new, container, false);
         ButterKnife.bind(this, root);
 
-        viewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
-        pagerIndicator.attachToViewPager(viewPager);
+        mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
+        mPagerIndicator.attachToViewPager(mViewPager);
 
         return root;
     }
@@ -47,7 +50,7 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 
-        private Fragment[] childFragments;
+        private Fragment[] mChildFragments;
 
         ViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -61,7 +64,7 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
             WhatsNewItemFragment feedbackFragment = new WhatsNewItemFragment();
             feedbackFragment.setArguments(getArguments(R.string.menu_whats_new_feedback_title, R.string.menu_whats_new_feedback_body));
 
-            childFragments = new Fragment[] {
+            mChildFragments = new Fragment[] {
                     zephyrV2Fragment,
                     steamFragment,
                     feedbackFragment
@@ -70,12 +73,12 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return childFragments[position];
+            return mChildFragments[position];
         }
 
         @Override
         public int getCount() {
-            return childFragments.length;
+            return mChildFragments.length;
         }
 
         @NonNull

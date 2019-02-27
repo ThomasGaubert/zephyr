@@ -11,6 +11,9 @@ import com.texasgamer.zephyr.util.log.LogPriority;
 
 import androidx.core.content.ContextCompat;
 
+/**
+ * Notifications manager.
+ */
 public class NotificationsManager {
 
     private static final String LOG_TAG = "NotificationsManager";

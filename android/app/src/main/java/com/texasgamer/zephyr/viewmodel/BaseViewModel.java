@@ -9,6 +9,10 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.AndroidViewModel;
 
+/**
+ * Base view model that performs common routines.
+ * @param <T>
+ */
 public abstract class BaseViewModel<T extends IRepository> extends AndroidViewModel {
 
     @Inject

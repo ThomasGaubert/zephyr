@@ -7,13 +7,16 @@ import android.widget.Checkable;
 import com.google.android.material.button.MaterialButton;
 import com.texasgamer.zephyr.R;
 
+/**
+ * Material Design themed button that can be toggled between two states.
+ */
 public class CheckableMaterialButton extends MaterialButton implements Checkable {
-
-    private boolean mChecked = true;
 
     private static final int[] CHECKED_STATE_SET = {
             android.R.attr.state_checked
     };
+
+    private boolean mChecked = true;
 
     public CheckableMaterialButton(Context context) {
         super(context);

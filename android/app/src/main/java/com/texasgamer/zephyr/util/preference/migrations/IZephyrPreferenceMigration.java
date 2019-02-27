@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Preference migration interface.
+ */
 public interface IZephyrPreferenceMigration {
     int fromVersion();
     int toVersion();

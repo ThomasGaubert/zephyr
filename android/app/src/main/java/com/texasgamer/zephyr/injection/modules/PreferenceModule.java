@@ -10,6 +10,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Preference module.
+ */
 @Module
 public class PreferenceModule {
     @Provides

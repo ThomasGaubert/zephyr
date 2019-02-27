@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
-public class PreferenceMigrationFactory {
+/**
+ * Preference migration factory.
+ */
+public final class PreferenceMigrationFactory {
 
     private static final List<IZephyrPreferenceMigration> MIGRATIONS = new ArrayList<>();
+
+    private PreferenceMigrationFactory() {
+    }
 
     static {
         // Add migrations here

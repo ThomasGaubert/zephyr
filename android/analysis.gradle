@@ -1,0 +1,69 @@
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+def configDir = "${rootProject.rootDir}/config"
+def reportsDir = "${project.buildDir}/reports"
+
+checkstyle {
+    toolVersion "7.6.1"
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile file("$configDir/checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionsPath = file("$configDir/checkstyle/suppressions.xml").absolutePath
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "high"
+
+    excludeFilter = new File("$configDir/findbugs/findbugs-filter.xml")
+    classes = files("${project.rootDir}/app/build/intermediates/classes")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$reportsDir/findbugs/findbugs.xml"
+        }
+        html {
+            destination "$reportsDir/findbugs/findbugs.html"
+        }
+    }
+
+    classpath = files()
+}
+
+task pmd(type: Pmd) {
+    ignoreFailures = true
+
+    ruleSetFiles = files("$configDir/pmd/pmd-ruleset.xml")
+    ruleSets = []
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml {
+            destination "$reportsDir/pmd/pmd.xml"
+        }
+        html {
+            destination "$reportsDir/pmd/pmd.html"
+        }
+    }
+}

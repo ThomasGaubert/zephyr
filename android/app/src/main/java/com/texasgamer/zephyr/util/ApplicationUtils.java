@@ -19,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 
+/**
+ * Application utilities.
+ */
 public class ApplicationUtils {
 
     private Context mContext;
@@ -96,7 +99,7 @@ public class ApplicationUtils {
 
     @Nullable
     public Drawable getAppIcon(@NonNull String packageName) {
-        try{
+        try {
             return getAppIcon(getApp(packageName));
         } catch (Exception e) {
             return mContext.getDrawable(R.drawable.ic_app_icon_unknown);
@@ -105,7 +108,7 @@ public class ApplicationUtils {
 
     @Nullable
     public Drawable getAppIcon(@NonNull PackageInfo packageInfo) {
-        try{
+        try {
             return mPackageManager.getApplicationIcon(packageInfo.applicationInfo);
         } catch (Exception e) {
             return mContext.getDrawable(R.drawable.ic_app_icon_unknown);

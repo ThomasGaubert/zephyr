@@ -38,6 +38,9 @@ import javax.inject.Singleton;
 import androidx.annotation.Nullable;
 import dagger.Component;
 
+/**
+ * Application component.
+ */
 @Singleton
 @Component(
         modules = {

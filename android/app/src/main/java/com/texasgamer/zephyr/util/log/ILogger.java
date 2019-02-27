@@ -2,6 +2,9 @@ package com.texasgamer.zephyr.util.log;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Logger interface.
+ */
 public interface ILogger {
 
     void log(@LogPriority int priority, @NonNull String tag, @NonNull String message);

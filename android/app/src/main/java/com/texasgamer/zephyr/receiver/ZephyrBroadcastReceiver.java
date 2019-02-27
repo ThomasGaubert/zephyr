@@ -9,6 +9,9 @@ import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
+/**
+ * Broadcast receiver that handles stopping SocketService.
+ */
 public class ZephyrBroadcastReceiver extends BroadcastReceiver {
 
     public static final String ACTION_STOP_SOCKET_SERVICE = BuildConfig.APPLICATION_ID + ".action.STOP_SOCKET_SERVICE";

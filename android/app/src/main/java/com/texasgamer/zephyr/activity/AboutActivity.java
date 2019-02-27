@@ -14,15 +14,18 @@ import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * About activity.
+ */
 public class AboutActivity extends BaseActivity {
 
     @BindView(R.id.about_version)
-    TextView versionTextView;
+    TextView mVersionTextView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        versionTextView.setText(BuildConfig.VERSION_NAME);
+        mVersionTextView.setText(BuildConfig.VERSION_NAME);
     }
 
     @Override

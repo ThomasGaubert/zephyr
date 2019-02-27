@@ -12,6 +12,9 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+/**
+ * Represents notification preference.
+ */
 @Entity(tableName = "notification_preferences", indices = {@Index(value = "packageName", unique = true)})
 public class NotificationPreferenceEntity implements NotificationPreference {
 

@@ -6,19 +6,19 @@ import com.crashlytics.android.Crashlytics;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import androidx.annotation.NonNull;
 
+/**
+ * Logger.
+ */
 public class Logger implements ILogger {
 
-    private IConfigManager configManager;
-    private ILogSanitizer logSanitizer;
+    private IConfigManager mConfigManager;
+    private ILogSanitizer mLogSanitizer;
 
     public Logger(@NonNull IConfigManager configManager, @NonNull ILogSanitizer logSanitizer) {
-        this.configManager = configManager;
-        this.logSanitizer = logSanitizer;
+        this.mConfigManager = configManager;
+        this.mLogSanitizer = logSanitizer;
     }
 
     @Override
@@ -29,23 +29,25 @@ public class Logger implements ILogger {
 
         switch (priority) {
             case LogPriority.VERBOSE:
-                Log.v(tag, logSanitizer.sanitize(message));
+                Log.v(tag, mLogSanitizer.sanitize(message));
                 break;
             case LogPriority.DEBUG:
-                Log.d(tag, logSanitizer.sanitize(message));
+                Log.d(tag, mLogSanitizer.sanitize(message));
                 break;
             case LogPriority.INFO:
-                Log.i(tag, logSanitizer.sanitize(message));
+                Log.i(tag, mLogSanitizer.sanitize(message));
                 break;
             case LogPriority.WARNING:
-                Log.w(tag, logSanitizer.sanitize(message));
+                Log.w(tag, mLogSanitizer.sanitize(message));
                 break;
             case LogPriority.ERROR:
-                Log.e(tag, logSanitizer.sanitize(message));
+                Log.e(tag, mLogSanitizer.sanitize(message));
                 break;
+            default:
+                Log.v(tag, mLogSanitizer.sanitize(message));
         }
 
-        if (configManager.isFirebaseCrashlyticsEnabled()) {
+        if (mConfigManager.isFirebaseCrashlyticsEnabled()) {
             logToCrashlytics(priority, tag, message);
         }
     }
@@ -86,6 +88,8 @@ public class Logger implements ILogger {
             case LogPriority.ERROR:
                 Crashlytics.log(String.format("E/%s: %s", tag, message));
                 break;
+            default:
+                Crashlytics.log(String.format("?/%s: %s", tag, message));
         }
     }
 }

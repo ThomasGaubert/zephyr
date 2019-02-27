@@ -25,6 +25,9 @@ import androidx.core.graphics.ColorUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * View for ZephyrCard.
+ */
 public class ZephyrCardView extends LinearLayout implements View.OnClickListener {
 
     @BindView(R.id.zephyr_card_top)

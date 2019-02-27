@@ -6,6 +6,9 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * BaseViewModel module.
+ */
 @Module
 public class BaseViewModelModule {
 

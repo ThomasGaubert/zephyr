@@ -13,20 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
+/**
+ * Open source licenses activity.
+ */
 public class LicensesActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.licenses_webview)
-    WebView webView;
+    WebView mWebView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
-        webView.loadUrl(String.format("file:///android_asset/license%s%sReport.html", capitalizeFirstLetter(BuildConfig.FLAVOR), capitalizeFirstLetter(BuildConfig.BUILD_TYPE)));
+        mWebView.loadUrl(String.format("file:///android_asset/license%s%sReport.html",
+                capitalizeFirstLetter(BuildConfig.FLAVOR),
+                capitalizeFirstLetter(BuildConfig.BUILD_TYPE)));
     }
 
     @Override
@@ -35,9 +40,9 @@ public class LicensesActivity extends BaseActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

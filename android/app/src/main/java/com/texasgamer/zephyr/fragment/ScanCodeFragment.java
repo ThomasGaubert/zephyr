@@ -34,19 +34,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Fragment used when scanning a join code.
+ */
 public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
-    private static String LOG_TAG = "ScanCodeFragment";
-
-    private FirebaseVisionBarcodeDetector barcodeDetector;
-    private AtomicBoolean isDetectorRunning;
+    private static final String LOG_TAG = "ScanCodeFragment";
 
     @BindView(R.id.scan_confirmation)
-    LinearLayout scanConfirmation;
+    LinearLayout mScanConfirmation;
     @BindView(R.id.scanned_value)
-    TextView scannedValue;
+    TextView mScannedValue;
     @BindView(R.id.camera)
-    CameraView cameraView;
+    CameraView mCameraView;
 
     @Inject
     ILogger logger;
@@ -54,6 +54,9 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     PreferenceManager preferenceManager;
     @Inject
     IConfigManager configManager;
+
+    private FirebaseVisionBarcodeDetector mBarcodeDetector;
+    private AtomicBoolean mIsDetectorRunning;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,12 +80,12 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                 .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
                 .build();
 
-        barcodeDetector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
-        isDetectorRunning = new AtomicBoolean(false);
+        mBarcodeDetector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
+        mIsDetectorRunning = new AtomicBoolean(false);
 
-        cameraView.setLifecycleOwner(getViewLifecycleOwner());
+        mCameraView.setLifecycleOwner(getViewLifecycleOwner());
 
-        cameraView.addFrameProcessor(frame -> {
+        mCameraView.addFrameProcessor(frame -> {
             try {
                 FirebaseVisionImageMetadata metadata = new FirebaseVisionImageMetadata.Builder()
                         .setWidth(frame.getSize().getWidth())
@@ -100,7 +103,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
     @OnClick(R.id.confirm_button)
     public void onClickConfirm() {
-        preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, scannedValue.getText().toString());
+        preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
         dismiss();
     }
 
@@ -110,28 +113,28 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     }
 
     private void startScanning() {
-        scanConfirmation.setVisibility(View.GONE);
-        cameraView.setVisibility(View.VISIBLE);
-        cameraView.open();
-        isDetectorRunning.set(false);
+        mScanConfirmation.setVisibility(View.GONE);
+        mCameraView.setVisibility(View.VISIBLE);
+        mCameraView.open();
+        mIsDetectorRunning.set(false);
     }
 
     private void stopScanning() {
-        isDetectorRunning.set(true);
-        cameraView.close();
-        cameraView.setVisibility(View.GONE);
-        scanConfirmation.setVisibility(View.VISIBLE);
+        mIsDetectorRunning.set(true);
+        mCameraView.close();
+        mCameraView.setVisibility(View.GONE);
+        mScanConfirmation.setVisibility(View.VISIBLE);
     }
 
     private void scanQrCode(@NonNull byte[] bytes, @NonNull FirebaseVisionImageMetadata metadata) {
-        if (isDetectorRunning.get()) {
+        if (mIsDetectorRunning.get()) {
             return;
         }
 
         FirebaseVisionImage visionImage = FirebaseVisionImage.fromByteArray(bytes, metadata);
 
-        isDetectorRunning.set(true);
-        barcodeDetector.detectInImage(visionImage).addOnSuccessListener(firebaseVisionBarcodes -> {
+        mIsDetectorRunning.set(true);
+        mBarcodeDetector.detectInImage(visionImage).addOnSuccessListener(firebaseVisionBarcodes -> {
             for (FirebaseVisionBarcode barcode : firebaseVisionBarcodes) {
                 String barcodeValue = barcode.getDisplayValue();
                 if (barcodeValue == null) {
@@ -141,12 +144,12 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                 logger.log(LogPriority.DEBUG, LOG_TAG, "Barcode found: " + barcodeValue);
                 if (NetworkUtils.isValidJoinCode(barcodeValue)) {
                     logger.log(LogPriority.DEBUG, LOG_TAG, barcodeValue + " is a valid join code.");
-                    scannedValue.setText(barcodeValue);
+                    mScannedValue.setText(barcodeValue);
                     stopScanning();
                     return;
                 }
             }
-            isDetectorRunning.set(false);
+            mIsDetectorRunning.set(false);
         }).addOnFailureListener(e -> logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code."));
     }
 }

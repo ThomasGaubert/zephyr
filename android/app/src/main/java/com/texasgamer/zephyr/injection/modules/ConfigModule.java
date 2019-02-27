@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Config module.
+ */
 @Module
 public class ConfigModule {
     @Provides

@@ -21,16 +21,19 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
+/**
+ * Main activity.
+ */
 public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.bottom_app_bar)
+    BottomAppBar mBottomAppBar;
+    @BindView(R.id.connect_button)
+    CheckableMaterialButton mConnectButton;
 
     private ConnectButtonViewModel mConnectButtonViewModel;
     private MenuFragment mMenuFragment;
     private ConnectFragment mConnectFragment;
-
-    @BindView(R.id.bottom_app_bar)
-    BottomAppBar bottomAppBar;
-    @BindView(R.id.connect_button)
-    CheckableMaterialButton connectButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class MainActivity extends BaseActivity {
 
         mMenuFragment = new MenuFragment();
         mConnectFragment = new ConnectFragment();
-        setSupportActionBar(bottomAppBar);
+        setSupportActionBar(mBottomAppBar);
 
         mConnectButtonViewModel = new ConnectButtonViewModel(ZephyrApplication.getInstance());
         subscribeUi(mConnectButtonViewModel.getIsConnected());
@@ -50,9 +53,9 @@ public class MainActivity extends BaseActivity {
             case android.R.id.home:
                 mMenuFragment.show(getSupportFragmentManager(), mMenuFragment.getTag());
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -72,10 +75,10 @@ public class MainActivity extends BaseActivity {
 
         Bundle params = new Bundle();
         params.putBoolean(ZephyrEvent.Parameter.JOIN_CODE_SET, isJoinCodeSet);
-        params.putBoolean(ZephyrEvent.Parameter.CONNECTED, connectButton.isChecked());
+        params.putBoolean(ZephyrEvent.Parameter.CONNECTED, mConnectButton.isChecked());
         analyticsManager.logEvent(ZephyrEvent.Action.TAP_CONNECTION_BUTTON, params);
 
-        if (!connectButton.isChecked()) {
+        if (!mConnectButton.isChecked()) {
             if (isJoinCodeSet) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     startForegroundService(socketServiceIntent);
@@ -100,7 +103,7 @@ public class MainActivity extends BaseActivity {
 
     private void subscribeUi(LiveData<Boolean> liveData) {
         liveData.observe(this, isServiceRunning -> {
-            connectButton.setChecked(!isServiceRunning);
+            mConnectButton.setChecked(!isServiceRunning);
         });
     }
 
