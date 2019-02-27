@@ -47,7 +47,7 @@ public class NetworkUtils {
     @NonNull
     public static String ipToJoinCode(@NonNull String ipAddress) {
         String joinCode = "";
-        String[] parts = ipAddress.split(".");
+        String[] parts = ipAddress.split("\\.");
 
         if (parts.length == 4 && parts[0].equals("192") && parts[1].equals("168")) {
             if (!parts[2].equals("0")) {
@@ -95,7 +95,6 @@ public class NetworkUtils {
      * @param joinCode Join code to validate
      * @return If given join code is valid
      */
-    @NonNull
     public static boolean isValidJoinCode(@NonNull String joinCode) {
         if (ipAddressPattern.matcher(joinCode).matches()) {
             return true;
