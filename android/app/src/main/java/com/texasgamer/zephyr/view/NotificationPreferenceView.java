@@ -1,34 +1,25 @@
 package com.texasgamer.zephyr.view;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.NotificationPreference;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 
-import org.w3c.dom.Text;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.ColorUtils;
 import butterknife.BindView;
