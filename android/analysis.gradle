@@ -21,12 +21,12 @@ task checkstyle(type: Checkstyle) {
 }
 
 task findbugs(type: FindBugs) {
-    ignoreFailures = true
+    ignoreFailures = false
     effort = "max"
     reportLevel = "high"
 
     excludeFilter = new File("$configDir/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    classes = files("${project.buildDir}/intermediates/javac")
 
     source 'src'
     include '**/*.java'
@@ -47,7 +47,7 @@ task findbugs(type: FindBugs) {
 }
 
 task pmd(type: Pmd) {
-    ignoreFailures = true
+    ignoreFailures = false
 
     ruleSetFiles = files("$configDir/pmd/pmd-ruleset.xml")
     ruleSets = []

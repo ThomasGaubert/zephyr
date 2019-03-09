@@ -8,7 +8,9 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.log.LogPriority;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,14 +22,14 @@ import androidx.annotation.NonNull;
  */
 public class ZephyrConfigProvider {
 
+    private static final String LOG_TAG = "ZephyrConfigProvider";
+
     private Context mContext;
-    private IConfigManager mConfigManager;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private Map<String, String> mLocalConfig;
 
     public ZephyrConfigProvider(@NonNull Context context, @NonNull IConfigManager configManager) {
         this.mContext = context;
-        this.mConfigManager = configManager;
 
         if (configManager.isFirebaseRemoteConfigEnabled()) {
             initFirebaseRemoteConfig();
@@ -35,7 +37,7 @@ public class ZephyrConfigProvider {
             try {
                 initLocalConfig();
             } catch (Exception e) {
-                e.printStackTrace();
+                ZephyrApplication.getApplicationComponent().logger().log(LogPriority.ERROR, LOG_TAG, e);
             }
         }
     }

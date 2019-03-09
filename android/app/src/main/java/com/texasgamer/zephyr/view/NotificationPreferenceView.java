@@ -69,7 +69,7 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
         return prefTitle.getText().toString();
     }
 
-    public boolean getPrefEnabled() {
+    public boolean isPrefEnabled() {
         return prefSwitch.isChecked();
     }
 
@@ -90,7 +90,7 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
             setIcon(pref.getIcon());
             setTitle(pref.getTitle());
             setColors(pref.getColor());
-            setPrefEnabled(pref.getEnabled());
+            setPrefEnabled(pref.isEnabled());
         });
     }
 
@@ -100,7 +100,7 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
         ButterKnife.bind(this);
         prefSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (mOnPrefChangeListener != null) {
-                mOnPrefChangeListener.onPreferenceChange(mPackageName, getPrefEnabled());
+                mOnPrefChangeListener.onPreferenceChange(mPackageName, isPrefEnabled());
             }
         });
     }

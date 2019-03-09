@@ -43,7 +43,7 @@ public class AnalyticsManager implements IAnalyticsManager {
             StringBuilder paramsString = new StringBuilder("Bundle{");
             if (params != null) {
                 for (String key : params.keySet()) {
-                    paramsString.append(" ").append(key).append(" => ").append(params.get(key)).append(";");
+                    paramsString.append(' ').append(key).append(" => ").append(params.get(key)).append(';');
                 }
             }
             paramsString.append(" }");

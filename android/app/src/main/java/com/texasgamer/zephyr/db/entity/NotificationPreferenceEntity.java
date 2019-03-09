@@ -59,7 +59,7 @@ public class NotificationPreferenceEntity implements NotificationPreference {
     }
 
     @Override
-    public boolean getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 

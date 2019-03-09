@@ -80,7 +80,7 @@ public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<Noti
                     NotificationPreference newProduct = notificationPreferences.get(newItemPosition);
                     NotificationPreference oldProduct = mPrefs.get(oldItemPosition);
                     return newProduct.getPackageName().equals(oldProduct.getPackageName())
-                            && newProduct.getEnabled() == oldProduct.getEnabled();
+                            && newProduct.isEnabled() == oldProduct.isEnabled();
                 }
             });
 

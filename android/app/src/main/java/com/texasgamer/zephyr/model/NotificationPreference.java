@@ -17,7 +17,7 @@ public interface NotificationPreference {
     @ColorInt
     int getColor();
 
-    boolean getEnabled();
+    boolean isEnabled();
 
     @Nullable
     Drawable getIcon();

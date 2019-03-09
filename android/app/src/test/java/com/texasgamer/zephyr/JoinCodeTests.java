@@ -6,10 +6,11 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+@SuppressWarnings({"PMD.AvoidUsingHardCodedIP", "PMD.AvoidDuplicateLiterals"})
 public class JoinCodeTests {
 
     @Test
-    public void networkUtils_JoinCodeToIp_ReturnsCorrectIp() {
+    public void networkUtilsJoinCodeToIpReturnsCorrectIp() {
         // Short
         assertThat(NetworkUtils.joinCodeToIp("1")).isEqualTo("192.168.0.1");
         assertThat(NetworkUtils.joinCodeToIp("12")).isEqualTo("192.168.0.12");
@@ -34,7 +35,7 @@ public class JoinCodeTests {
     }
 
     @Test
-    public void networkUtils_IpToJoinCode_ReturnsCorrectJoinCode() {
+    public void networkUtilsIpToJoinCodeReturnsCorrectJoinCode() {
         // Short
         assertThat(NetworkUtils.ipToJoinCode("192.168.0.1")).isEqualTo("1");
         assertThat(NetworkUtils.ipToJoinCode("192.168.0.12")).isEqualTo("12");
@@ -58,7 +59,7 @@ public class JoinCodeTests {
     }
 
     @Test
-    public void networkUtils_ValidateValidJoinCode_ReturnsTrue() {
+    public void networkUtilsValidateValidJoinCodeReturnsTrue() {
         // Short
         assertThat(NetworkUtils.isValidJoinCode("1")).isTrue();
         assertThat(NetworkUtils.isValidJoinCode("01")).isTrue();
@@ -73,7 +74,7 @@ public class JoinCodeTests {
     }
 
     @Test
-    public void networkUtils_ValidateInvalidJoinCode_ReturnsFalse() {
+    public void networkUtilsValidateInvalidJoinCodeReturnsFalse() {
         // Short
         assertThat(NetworkUtils.isValidJoinCode("256")).isFalse();
         assertThat(NetworkUtils.isValidJoinCode("0000")).isFalse();
@@ -88,7 +89,7 @@ public class JoinCodeTests {
     }
 
     @Test
-    public void networkUtils_ValidateValidIpAddress_ReturnsTrue() {
+    public void networkUtilsValidateValidIpAddressReturnsTrue() {
         assertThat(NetworkUtils.isValidJoinCode("123.123.123.123")).isTrue();
         assertThat(NetworkUtils.isValidJoinCode("20.24.255.103")).isTrue();
         assertThat(NetworkUtils.isValidJoinCode("0.0.0.0")).isTrue();
@@ -96,7 +97,7 @@ public class JoinCodeTests {
     }
 
     @Test
-    public void networkUtils_ValidateInvalidIpAddress_ReturnsFalse() {
+    public void networkUtilsValidateInvalidIpAddressReturnsFalse() {
         assertThat(NetworkUtils.isValidJoinCode("123.123.123..123")).isFalse();
         assertThat(NetworkUtils.isValidJoinCode("20.24.400.103")).isFalse();
         assertThat(NetworkUtils.isValidJoinCode("0.0.0.0.1")).isFalse();

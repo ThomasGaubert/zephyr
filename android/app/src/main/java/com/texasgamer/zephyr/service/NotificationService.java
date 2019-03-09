@@ -91,7 +91,7 @@ public class NotificationService extends NotificationListenerService {
             return false;
         }
 
-        if (!notificationPreference.getEnabled()) {
+        if (!notificationPreference.isEnabled()) {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Disabled");
             return false;
         }

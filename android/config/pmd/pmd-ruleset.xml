@@ -15,7 +15,9 @@
     <rule ref="rulesets/java/imports.xml">
         <exclude name="TooManyStaticImports" />
     </rule>
-    <rule ref="rulesets/java/logging-java.xml" />
+    <rule ref="rulesets/java/logging-java.xml">
+        <exclude name="GuardLogStatementJavaUtil" />
+    </rule>
     <rule ref="rulesets/java/braces.xml" />
     <rule ref="rulesets/java/strings.xml" />
     <rule ref="rulesets/java/basic.xml" />
@@ -26,5 +28,4 @@
         <exclude name="ShortVariable" />
         <exclude name="VariableNamingConventions" />
     </rule>
-
 </ruleset>

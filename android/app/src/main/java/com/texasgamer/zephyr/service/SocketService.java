@@ -54,8 +54,8 @@ public class SocketService extends Service {
 
     @Override
     public void onCreate() {
-        ZephyrApplication.getApplicationComponent().inject(this);
         super.onCreate();
+        ZephyrApplication.getApplicationComponent().inject(this);
 
         createServiceNotification();
 
@@ -80,6 +80,7 @@ public class SocketService extends Service {
 
         dismissServiceNotification();
         preferenceManager.putBoolean(PreferenceKeys.PREF_IS_CONNECTED, false);
+        super.onDestroy();
     }
 
     @Override
