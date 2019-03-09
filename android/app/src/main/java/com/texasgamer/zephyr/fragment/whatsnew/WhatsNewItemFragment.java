@@ -2,6 +2,7 @@ package com.texasgamer.zephyr.fragment.whatsnew;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.texasgamer.zephyr.R;
@@ -18,9 +19,12 @@ import butterknife.BindView;
  */
 public class WhatsNewItemFragment extends BaseFragment {
 
+    public static final String ARG_ICON = "icon";
     public static final String ARG_TITLE = "title";
     public static final String ARG_BODY = "body";
 
+    @BindView(R.id.whats_new_item_icon)
+    ImageView mImageView;
     @BindView(R.id.whats_new_item_title)
     TextView mTitleTextView;
     @BindView(R.id.whats_new_item_body)
@@ -29,6 +33,7 @@ public class WhatsNewItemFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
+            mImageView.setImageResource(getArguments().getInt(ARG_ICON));
             mTitleTextView.setText(getArguments().getString(ARG_TITLE));
             mBodyTextView.setText(getArguments().getString(ARG_BODY));
         }

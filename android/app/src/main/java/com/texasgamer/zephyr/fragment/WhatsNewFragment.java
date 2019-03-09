@@ -10,6 +10,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemFragment;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -56,13 +57,13 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
             super(fm);
 
             WhatsNewItemFragment zephyrV2Fragment = new WhatsNewItemFragment();
-            zephyrV2Fragment.setArguments(getArguments(R.string.menu_whats_new_zephyr_v2_title, R.string.menu_whats_new_zephyr_v2_body));
+            zephyrV2Fragment.setArguments(getArguments(R.mipmap.ic_launcher_foreground, R.string.menu_whats_new_zephyr_v2_title, R.string.menu_whats_new_zephyr_v2_body));
 
             WhatsNewItemFragment steamFragment = new WhatsNewItemFragment();
-            steamFragment.setArguments(getArguments(R.string.menu_whats_new_steam_title, R.string.menu_whats_new_steam_body));
+            steamFragment.setArguments(getArguments(R.drawable.ic_steam, R.string.menu_whats_new_steam_title, R.string.menu_whats_new_steam_body));
 
             WhatsNewItemFragment feedbackFragment = new WhatsNewItemFragment();
-            feedbackFragment.setArguments(getArguments(R.string.menu_whats_new_feedback_title, R.string.menu_whats_new_feedback_body));
+            feedbackFragment.setArguments(getArguments(R.drawable.ic_help, R.string.menu_whats_new_feedback_title, R.string.menu_whats_new_feedback_body));
 
             mChildFragments = new Fragment[] {
                     zephyrV2Fragment,
@@ -82,8 +83,9 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
         }
 
         @NonNull
-        private Bundle getArguments(@StringRes int title, @StringRes int body) {
+        private Bundle getArguments(@DrawableRes int icon, @StringRes int title, @StringRes int body) {
             Bundle arguments = new Bundle();
+            arguments.putInt(WhatsNewItemFragment.ARG_ICON, icon);
             arguments.putString(WhatsNewItemFragment.ARG_TITLE, getString(title));
             arguments.putString(WhatsNewItemFragment.ARG_BODY, getString(body));
             return arguments;

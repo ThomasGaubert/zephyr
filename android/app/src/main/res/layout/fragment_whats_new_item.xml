@@ -3,7 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="180dp">
+    android:layout_height="220dp">
+
+    <ImageView
+        android:id="@+id/whats_new_item_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        tools:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/whats_new_item_title"
@@ -22,6 +31,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:textAlignment="center"
         tools:text="Body" />
 
