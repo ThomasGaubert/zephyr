@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
@@ -30,6 +32,8 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
 
     @BindView(R.id.join_code_edit_text)
     TextInputEditText mJoinCodeTextEdit;
+    @BindView(R.id.join_code_invalid)
+    TextView joinCodeInvalidText;
 
     @Inject
     PreferenceManager preferenceManager;
@@ -51,13 +55,13 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
 
-        mJoinCodeTextEdit.setOnKeyListener((v, keyCode, keyevent) -> {
-            if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        mJoinCodeTextEdit.setOnKeyListener((v, keyCode, keyEvent) -> {
+            if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 Editable joinCodeEditable = mJoinCodeTextEdit.getText();
 
                 if (joinCodeEditable != null) {
                     String joinCode = joinCodeEditable.toString();
-                    if (joinCode.trim().isEmpty()) {
+                    if (joinCode.trim().isEmpty() || !NetworkUtils.isValidJoinCode(joinCode)) {
                         return true;
                     }
 
@@ -75,10 +79,10 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
     @OnTextChanged(R.id.join_code_edit_text)
     void onJoinCodeChanged(CharSequence text) {
         String joinCode = text.toString();
-        if (joinCode.matches("[a-zA-Z]+|,+|\\s+")) {
-            mJoinCodeTextEdit.setError(getString(R.string.menu_join_code_invalid));
+        if (!joinCode.isEmpty() && !NetworkUtils.isValidJoinCode(joinCode)) {
+            joinCodeInvalidText.setVisibility(View.VISIBLE);
         } else {
-            mJoinCodeTextEdit.setError(null);
+            joinCodeInvalidText.setVisibility(View.INVISIBLE);
         }
     }
 }
