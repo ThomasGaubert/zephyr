@@ -1,0 +1,9 @@
+Mirror all of your notifications to VR.
+
+- Security: Notifications never leave the local network.
+- Simplicity: Pair once and you're good to go.
+- Customization: Decide which apps get mirrored in VR.
+
+Requires Zephyr desktop application, SteamVR, and an OpenVR headset.
+
+SteamVR and OpenVR are trademarks of Valve Software.

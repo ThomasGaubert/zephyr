@@ -1,0 +1,3 @@
+Automatically built and published to internal track.
+
+See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
