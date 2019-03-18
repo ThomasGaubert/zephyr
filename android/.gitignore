@@ -23,5 +23,9 @@ local.properties
 bin/
 gen/
 
+# Keystore
+android-keystore.properties
+*.jks
+
 # Miscellaneous
 .DS_Store

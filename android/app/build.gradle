@@ -7,8 +7,8 @@ apply plugin: 'io.fabric'
 
 // Keystore configuration
 def keystorePropertiesFile = rootProject.file('android-keystore.properties')
+def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
-    def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
