@@ -12,8 +12,10 @@ public final class Constants {
     public static final int ZEPHYR_API_VERSION = 1;
 
     /* URLS */
+    public static final String ZEPHYR_FEEDBACK_URL = "https://github.com/ThomasGaubert/zephyr/issues/new";
     public static final String ZEPHYR_GITHUB_URL = "https://github.com/ThomasGaubert/zephyr";
     public static final String ZEPHYR_HELP_URL = "https://zephyrvr.gitbook.io/docs/";
+    public static final String ZEPHYR_STEAM_URL = "https://store.steampowered.com/app/495000";
 
     /* Server */
     public static final String ZEPHYR_SERVER_PORT = "3753";

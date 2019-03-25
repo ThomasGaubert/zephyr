@@ -38,12 +38,14 @@
     <string name="menu_join_code_invalid">Invalid code or address</string>
 
     <!-- What's New Menu -->
-    <string name="menu_whats_new_zephyr_v2_title">Zephyr v2</string>
-    <string name="menu_whats_new_zephyr_v2_body">Welcome to Zephyr v2!\n\nEvery aspect of Zephyr has been completely rewritten to address common feedback, improve performance and stability, and to make future development easier.</string>
+    <string name="menu_whats_new_zephyr_v2_title">Welcome to Zephyr v2!</string>
+    <string name="menu_whats_new_zephyr_v2_body">Every aspect of Zephyr has been completely rewritten to address common feedback, improve performance and stability, and to make future development easier.</string>
     <string name="menu_whats_new_steam_title">Steam</string>
     <string name="menu_whats_new_steam_body">The Zephyr desktop client is now available on Steam. Note that the old client is no longer supported.</string>
+    <string name="menu_whats_new_steam_button_text">Download on Steam</string>
     <string name="menu_whats_new_feedback_title">Got Feedback?</string>
     <string name="menu_whats_new_feedback_body">Please don\'t hesitate to reach out with any feature suggestions or bug reports!</string>
+    <string name="menu_whats_new_feedback_button_text">Submit Feedback</string>
 
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>
