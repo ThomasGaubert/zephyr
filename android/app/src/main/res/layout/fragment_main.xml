@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -12,10 +12,20 @@
         android:layout_marginTop="32dp"
         android:layout_marginStart="32dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_list"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp">
+
+        <com.texasgamer.zephyr.view.ZephyrCardViewPager
+            android:id="@+id/main_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"/>
+
+    </ScrollView>
 
 </LinearLayout>
