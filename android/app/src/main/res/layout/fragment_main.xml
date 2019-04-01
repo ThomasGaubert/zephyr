@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,13 +19,91 @@
         android:layout_height="match_parent"
         android:layout_marginTop="16dp">
 
-        <com.texasgamer.zephyr.view.ZephyrCardViewPager
-            android:id="@+id/main_carousel"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"/>
+            android:orientation="vertical">
+
+            <com.texasgamer.zephyr.view.ZephyrCardViewPager
+                android:id="@+id/main_carousel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp" >
+
+                <ImageView
+                    android:id="@+id/connection_status_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:tint="@color/menu_icon"
+                    tools:src="@drawable/ic_error" />
+
+                <TextView
+                    android:id="@+id/connection_status_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center_vertical"
+                    tools:text="@string/status_disconnected"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="16dp" >
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:tint="@color/menu_icon"
+                    android:src="@drawable/ic_link" />
+
+                <TextView
+                    android:id="@+id/join_code_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center_vertical"
+                    tools:text="Join code: 192.168.0.1"/>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/connected_options_section"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/menu_icon" />
+
+                <Button
+                    android:id="@+id/test_notification_button"
+                    style="?borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/test_notification_btn" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 

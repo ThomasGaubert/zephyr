@@ -30,6 +30,7 @@ import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.notification.NotificationsManager;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
+import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
 import com.texasgamer.zephyr.worker.AppSyncWorker;
 
@@ -82,6 +83,8 @@ public interface ApplicationComponent {
     void inject(ManageNotificationsViewModel manageNotificationsViewModel);
 
     void inject(ConnectButtonViewModel connectButtonViewModel);
+
+    void inject(MainFragmentViewModel onboardingViewModel);
 
     /* Activities */
     void inject(MainActivity mainActivity);

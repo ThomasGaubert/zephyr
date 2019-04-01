@@ -44,10 +44,6 @@ public final class ZephyrCardProvider {
             cards.add(zephyrV2Card);
         }
 
-        cards.add(new ZephyrCard(ZephyrCardType.SUCCESS, R.string.card_connected_title, R.string.card_connected_body));
-
-        cards.add(new ZephyrCard(ZephyrCardType.WARNING, R.string.card_disconnected_title, R.string.card_disconnected_body));
-
         return cards;
     }
 }

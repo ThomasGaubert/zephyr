@@ -118,7 +118,7 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
     }
 
     private void init() {
-        inflate(getContext(), R.layout.zephyr_card, this);
+        inflate(getContext(), R.layout.view_zephyr_card, this);
         ButterKnife.bind(this);
     }
 

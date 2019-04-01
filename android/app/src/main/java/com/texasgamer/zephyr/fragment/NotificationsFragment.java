@@ -21,6 +21,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 /**
  * Notifications fragment.
  */
-public class NotificationsFragment extends BaseFragment<ManageNotificationsViewModel> implements NotificationPreferenceView.OnPreferenceChangeListener {
+public class NotificationsFragment extends BaseFragment<ManageNotificationsViewModel, ViewDataBinding> implements NotificationPreferenceView.OnPreferenceChangeListener {
 
     @BindView(R.id.spinner)
     ProgressBar mSpinner;
@@ -49,10 +50,16 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         subscribeUi(mViewModel.getNotificationPreferences());
         setupFastScroll();
+
+        mAdapter = new NotificationPreferenceListAdapter(this);
+
+        mAppList.setHasFixedSize(true);
+        mAppList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAppList.setAdapter(mAdapter);
     }
 
     @Override
@@ -78,11 +85,7 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
 
     @Override
     protected void setViewBindings(View view) {
-        mAdapter = new NotificationPreferenceListAdapter(this);
 
-        mAppList.setHasFixedSize(true);
-        mAppList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAppList.setAdapter(mAdapter);
     }
 
     @Override

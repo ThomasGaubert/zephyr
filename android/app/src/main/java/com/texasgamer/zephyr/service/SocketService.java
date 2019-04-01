@@ -177,7 +177,7 @@ public class SocketService extends Service {
         PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
 
         mStatusNotificationBuilder = new NotificationCompat.Builder(this, ZephyrNotificationChannel.STATUS)
-                .setSmallIcon(R.drawable.ic_status_notification)
+                .setSmallIcon(R.drawable.ic_link)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.status_notif_text_connecting))
                 .setPriority(NotificationCompat.PRIORITY_LOW)

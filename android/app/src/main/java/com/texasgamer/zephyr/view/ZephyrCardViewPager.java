@@ -25,7 +25,9 @@ public class ZephyrCardViewPager extends ViewPager {
             View child = getChildAt(i);
             child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             int h = child.getMeasuredHeight();
-            if(h > height) height = h;
+            if(h > height) {
+                height = h;
+            }
         }
 
         if (height != 0) {

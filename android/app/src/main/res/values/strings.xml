@@ -6,14 +6,23 @@
     <string name="card_notification_access_body">Zephyr needs access to your notifications to operate properly.\n\nTap here to access Settings.</string>
     <string name="card_zephyr_v2_title">Zephyr v2</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
-    <string name="card_connected_title">Connected</string>
-    <string name="card_connected_body">Zephyr is connected to XXX.</string>
-    <string name="card_disconnected_title">Disconnected</string>
-    <string name="card_disconnected_body">Zephyr is unable to connect to XXX.</string>
 
     <!-- Connection Button -->
     <string name="btn_connection_start">Start</string>
     <string name="btn_connection_stop">Stop</string>
+
+    <!-- Connection status -->
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+
+    <!-- Join code status -->
+    <string name="join_code_saved">Join code: %s</string>
+    <string name="join_code_none">No join code saved.</string>
+
+    <!-- Buttons shown when connected -->
+    <string name="test_notification_btn">Send test notification</string>
+    <string name="test_notification_title">Test notification</string>
+    <string name="test_notification_message">This is a test sent from Zephyr.</string>
 
     <!-- Navigation Menu -->
     <string name="menu_manage_notifications">Manage notifications</string>
@@ -49,8 +58,8 @@
 
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>
-    <string name="manage_notifications_enable_all">Enable All</string>
-    <string name="manage_notifications_disable_all">Disable All</string>
+    <string name="manage_notifications_enable_all">Enable all</string>
+    <string name="manage_notifications_disable_all">Disable all</string>
 
     <!-- Notification Preferences -->
     <string name="app_name_unknown">Unknown App</string>
