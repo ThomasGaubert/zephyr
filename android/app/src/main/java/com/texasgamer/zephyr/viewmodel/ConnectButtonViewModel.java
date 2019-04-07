@@ -17,7 +17,7 @@ public class ConnectButtonViewModel extends BaseViewModel {
 
     public ConnectButtonViewModel(Application application) {
         super(application);
-        mIsConnected = new SharedPreferenceLiveData<>(PreferenceKeys.PREF_IS_CONNECTED, false);
+        mIsConnected = new SharedPreferenceLiveData<>(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
     }
 
     @Override

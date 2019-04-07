@@ -3,6 +3,7 @@ package com.texasgamer.zephyr.viewmodel;
 import android.app.Application;
 
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 
@@ -10,12 +11,12 @@ import androidx.annotation.NonNull;
 
 public class MainFragmentViewModel extends BaseViewModel {
 
-    private final SharedPreferenceLiveData<Boolean> mIsConnected;
+    private final SharedPreferenceLiveData<Integer> mConnectionStatus;
     private final SharedPreferenceLiveData<String> mJoinCode;
 
     public MainFragmentViewModel(Application application) {
         super(application);
-        mIsConnected = new SharedPreferenceLiveData<>(PreferenceKeys.PREF_IS_CONNECTED, false);
+        mConnectionStatus = new SharedPreferenceLiveData<>(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
         mJoinCode = new SharedPreferenceLiveData<>(PreferenceKeys.PREF_JOIN_CODE, "");
     }
 
@@ -25,8 +26,8 @@ public class MainFragmentViewModel extends BaseViewModel {
     }
 
     @NonNull
-    public SharedPreferenceLiveData<Boolean> getIsConnected() {
-        return mIsConnected;
+    public SharedPreferenceLiveData<Integer> getConnectionStatus() {
+        return mConnectionStatus;
     }
 
     @NonNull

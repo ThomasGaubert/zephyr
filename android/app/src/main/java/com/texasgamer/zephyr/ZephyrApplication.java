@@ -7,10 +7,14 @@ import com.google.firebase.FirebaseApp;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
 import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
+import com.texasgamer.zephyr.model.ConnectionStatus;
+import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.worker.IWorkManager;
 
 import javax.inject.Inject;
@@ -32,6 +36,8 @@ public class ZephyrApplication extends Application {
     IConfigManager configManager;
     @Inject
     IWorkManager workManager;
+    @Inject
+    PreferenceManager preferenceManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
@@ -73,5 +79,16 @@ public class ZephyrApplication extends Application {
         sApplicationComponent.notificationsManager().createNotificationChannels();
 
         workManager.initWork();
+
+        verifyConnectionStatus();
+    }
+
+    private void verifyConnectionStatus() {
+        if (!preferenceManager.getBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING)) {
+            preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+        } else if (!SocketService.instanceCreated) {
+            preferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
+            preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+        }
     }
 }

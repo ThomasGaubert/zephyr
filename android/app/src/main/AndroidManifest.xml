@@ -44,7 +44,7 @@
 
         <receiver android:name=".receiver.ZephyrBroadcastReceiver" android:exported="false">
             <intent-filter>
-                <action android:name="${applicationId}.action.STOP_SOCKET_SERVICE"/>
+                <action android:name="${applicationId}.action.STOP_SOCKET_SERVICE" />
             </intent-filter>
         </receiver>
 

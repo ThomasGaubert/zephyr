@@ -81,6 +81,7 @@
     <string name="status_notif_text_disconnected">Disconnected</string>
     <string name="status_notif_text_offline">No network connection</string>
     <string name="status_notif_text_no_wifi">Not connected to WiFi</string>
+    <string name="status_notif_text_no_join_code">No join code set</string>
     <string name="status_notif_text_unknown">Unknown connection status</string>
     <string name="status_notif_action_stop">Stop</string>
 

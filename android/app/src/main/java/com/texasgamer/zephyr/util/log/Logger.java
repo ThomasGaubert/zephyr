@@ -23,7 +23,7 @@ public class Logger implements ILogger {
 
     @Override
     public void log(@LogPriority int priority, @NonNull String tag, @NonNull String message) {
-        if (priority < Constants.MIN_LOG_LEVEL || !Log.isLoggable(tag, priority)) {
+        if (priority < Constants.MIN_LOG_LEVEL) {
             return;
         }
 

@@ -10,11 +10,15 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
 import com.texasgamer.zephyr.fragment.MenuFragment;
+import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
+import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
+
+import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
 import butterknife.BindView;
@@ -45,6 +49,8 @@ public class MainActivity extends BaseActivity {
 
         mConnectButtonViewModel = new ConnectButtonViewModel(ZephyrApplication.getInstance());
         subscribeUi(mConnectButtonViewModel.getIsConnected());
+
+        verifyConnectionStatus();
     }
 
     @Override
@@ -79,15 +85,14 @@ public class MainActivity extends BaseActivity {
         analyticsManager.logEvent(ZephyrEvent.Action.TAP_CONNECTION_BUTTON, params);
 
         if (!mConnectButton.isChecked()) {
-            if (isJoinCodeSet) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(socketServiceIntent);
-                } else {
-                    startService(socketServiceIntent);
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(socketServiceIntent);
             } else {
+                startService(socketServiceIntent);
+            }
+
+            if (!isJoinCodeSet) {
                 mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
-                // TODO: Start service after showing fragment
             }
         } else {
             stopService(socketServiceIntent);
@@ -108,7 +113,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private boolean isJoinCodeSet() {
-        String joinCode = mPreferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE);
+        String joinCode = preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE);
         return joinCode != null && !joinCode.isEmpty();
+    }
+
+    private void verifyConnectionStatus() {
+        if (!preferenceManager.getBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING)) {
+            preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+        } else if (!SocketService.instanceCreated) {
+            preferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
+            preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+        }
     }
 }

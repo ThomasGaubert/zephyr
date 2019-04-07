@@ -8,9 +8,11 @@ import android.widget.TextView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
+import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.ZephyrCardProvider;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.view.ZephyrCardViewPager;
@@ -55,8 +57,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
 
         if (getActivity() != null) {
-            mViewModel.getIsConnected().observe(getActivity(), this::updateConnectionStatus);
-
+            mViewModel.getConnectionStatus().observe(getActivity(), this::updateConnectionStatus);
             mViewModel.getJoinCode().observe(getActivity(), this::updateJoinCodeStatus);
         }
     }
@@ -106,9 +107,10 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         connectFragment.show(getFragmentManager(), connectFragment.getTag());
     }
 
-    private void updateConnectionStatus(boolean isConnected) {
+    private void updateConnectionStatus(@ConnectionStatus int connectionStatus) {
+        boolean isConnected = NetworkUtils.connectionStatusToIsConnected(connectionStatus);
         mConnectionStatusIcon.setImageResource(isConnected ? R.drawable.ic_check : R.drawable.ic_error);
-        mConnectionStatusText.setText(isConnected ? R.string.status_connected : R.string.status_disconnected);
+        mConnectionStatusText.setText(NetworkUtils.connectionStatusToString(getContext(), connectionStatus));
         mConnectedOptionsSection.setVisibility(isConnected ? View.VISIBLE : View.GONE);
     }
 

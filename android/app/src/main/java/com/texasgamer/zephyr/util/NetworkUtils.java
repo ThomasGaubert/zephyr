@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.model.ConnectionStatus;
+
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -35,6 +38,30 @@ public final class NetworkUtils {
             return wifiInfo.getNetworkId() != -1;
         } else {
             return false;
+        }
+    }
+
+    public static boolean connectionStatusToIsConnected(@ConnectionStatus int connectionStatus) {
+        return connectionStatus == ConnectionStatus.CONNECTED;
+    }
+
+    public static String connectionStatusToString(@NonNull Context context, @ConnectionStatus int connectionStatus) {
+        switch (connectionStatus) {
+            case ConnectionStatus.CONNECTED:
+                return context.getString(R.string.status_notif_text_connected);
+            case ConnectionStatus.CONNECTING:
+                return context.getString(R.string.status_notif_text_connecting);
+            case ConnectionStatus.DISCONNECTED:
+                return context.getString(R.string.status_notif_text_disconnected);
+            case ConnectionStatus.NO_WIFI:
+                return context.getString(R.string.status_notif_text_no_wifi);
+            case ConnectionStatus.OFFLINE:
+                return context.getString(R.string.status_notif_text_offline);
+            case ConnectionStatus.NO_JOIN_CODE:
+                return context.getString(R.string.status_notif_text_no_join_code);
+            case ConnectionStatus.UNKNOWN:
+            default:
+                return context.getString(R.string.status_notif_text_unknown);
         }
     }
 

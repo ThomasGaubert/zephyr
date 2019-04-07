@@ -13,7 +13,8 @@ import androidx.annotation.IntDef;
         ConnectionStatus.DISCONNECTED,
         ConnectionStatus.CONNECTING,
         ConnectionStatus.OFFLINE,
-        ConnectionStatus.NO_WIFI})
+        ConnectionStatus.NO_WIFI,
+        ConnectionStatus.NO_JOIN_CODE})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ConnectionStatus {
     int UNKNOWN = 0;
@@ -22,4 +23,5 @@ public @interface ConnectionStatus {
     int CONNECTING = 3;
     int OFFLINE = 4;
     int NO_WIFI = 5;
+    int NO_JOIN_CODE = 6;
 }
