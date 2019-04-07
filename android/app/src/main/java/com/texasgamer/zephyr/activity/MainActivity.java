@@ -13,7 +13,7 @@ import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.view.CheckableMaterialButton;
+import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 
 import androidx.lifecycle.LiveData;
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bottom_app_bar)
     BottomAppBar mBottomAppBar;
     @BindView(R.id.connect_button)
-    CheckableMaterialButton mConnectButton;
+    ZephyrServiceButton mConnectButton;
 
     private ConnectButtonViewModel mConnectButtonViewModel;
     private MenuFragment mMenuFragment;

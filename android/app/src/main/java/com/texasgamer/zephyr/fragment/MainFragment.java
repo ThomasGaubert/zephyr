@@ -100,6 +100,12 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         });
     }
 
+    @OnClick(R.id.join_code_summary)
+    void openConnectFragment() {
+        ConnectFragment connectFragment = new ConnectFragment();
+        connectFragment.show(getFragmentManager(), connectFragment.getTag());
+    }
+
     private void updateConnectionStatus(boolean isConnected) {
         mConnectionStatusIcon.setImageResource(isConnected ? R.drawable.ic_check : R.drawable.ic_error);
         mConnectionStatusText.setText(isConnected ? R.string.status_connected : R.string.status_disconnected);

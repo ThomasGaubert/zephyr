@@ -23,7 +23,7 @@
             app:backgroundTint="@color/primaryDark"
             app:navigationIcon="@drawable/ic_menu" />
 
-        <com.texasgamer.zephyr.view.CheckableMaterialButton
+        <com.texasgamer.zephyr.view.ZephyrServiceButton
             android:id="@+id/connect_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/fab_size"

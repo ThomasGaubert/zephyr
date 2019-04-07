@@ -8,9 +8,9 @@ import com.google.android.material.button.MaterialButton;
 import com.texasgamer.zephyr.R;
 
 /**
- * Material Design themed button that can be toggled between two states.
+ * Material Design themed button that can be toggled between two states to control the Zephyr socket service.
  */
-public class CheckableMaterialButton extends MaterialButton implements Checkable {
+public class ZephyrServiceButton extends MaterialButton implements Checkable {
 
     private static final int[] CHECKED_STATE_SET = {
             android.R.attr.state_checked
@@ -18,15 +18,15 @@ public class CheckableMaterialButton extends MaterialButton implements Checkable
 
     private boolean mChecked = true;
 
-    public CheckableMaterialButton(Context context) {
+    public ZephyrServiceButton(Context context) {
         super(context);
     }
 
-    public CheckableMaterialButton(Context context, AttributeSet attrs) {
+    public ZephyrServiceButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CheckableMaterialButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ZephyrServiceButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
