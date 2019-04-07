@@ -4,7 +4,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 
+import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.R;
 
 import androidx.annotation.NonNull;
@@ -34,5 +36,13 @@ public final class NavigationUtils {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             context.startActivity(browserIntent);
         }
+    }
+
+    public static void openZephyrAppInfo(@NonNull Context context) {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
+        intent.setData(uri);
+        context.startActivity(intent);
     }
 }

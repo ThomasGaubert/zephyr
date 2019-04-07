@@ -1,5 +1,7 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +16,12 @@ import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -24,6 +29,7 @@ import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
@@ -41,6 +47,8 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
     private static final String LOG_TAG = "ScanCodeFragment";
 
+    @BindView(R.id.permission_denied_alert)
+    LinearLayout mPermissionDeniedAlert;
     @BindView(R.id.scan_confirmation)
     LinearLayout mScanConfirmation;
     @BindView(R.id.scanned_value)
@@ -76,6 +84,56 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
             return;
         }
 
+        Permissions.check(getContext(), Manifest.permission.CAMERA, null, new PermissionHandler() {
+            @Override
+            public void onGranted() {
+                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission granted, starting camera...");
+                mPermissionDeniedAlert.setVisibility(View.GONE);
+                mCameraView.setVisibility(View.VISIBLE);
+                setupCamera();
+            }
+
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission denied.");
+                mCameraView.setVisibility(View.GONE);
+                mPermissionDeniedAlert.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public boolean onBlocked(Context context, ArrayList<String> blockedList) {
+                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission blocked.");
+                mCameraView.setVisibility(View.GONE);
+                mPermissionDeniedAlert.setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override
+            public void onJustBlocked(Context context, ArrayList<String> justBlockedList, ArrayList<String> deniedPermissions) {
+                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission just blocked.");
+                mCameraView.setVisibility(View.GONE);
+                mPermissionDeniedAlert.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    @OnClick(R.id.confirm_button)
+    public void onClickConfirm() {
+        preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
+        dismiss();
+    }
+
+    @OnClick(R.id.scan_button)
+    public void onClickScan() {
+        startScanning();
+    }
+
+    @OnClick(R.id.open_permissions_button)
+    public void onClickGrantPermission() {
+        NavigationUtils.openZephyrAppInfo(getContext());
+    }
+
+    private void setupCamera() {
         FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder()
                 .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
                 .build();
@@ -99,17 +157,6 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                 logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.", e);
             }
         });
-    }
-
-    @OnClick(R.id.confirm_button)
-    public void onClickConfirm() {
-        preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
-        dismiss();
-    }
-
-    @OnClick(R.id.scan_button)
-    public void onClickScan() {
-        startScanning();
     }
 
     private void startScanning() {
