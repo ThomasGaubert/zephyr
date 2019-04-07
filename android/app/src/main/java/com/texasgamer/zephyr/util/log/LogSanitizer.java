@@ -32,7 +32,7 @@ public class LogSanitizer implements ILogSanitizer {
     public String sanitize(@NonNull String stringToSanitize) {
         if (enabled()) {
             String sanitizedString = mIpV4Pattern.matcher(stringToSanitize).replaceAll("[REDACTED IP]");
-            sanitizedString = mEmailPattern.matcher(stringToSanitize).replaceAll("[REDACTED EMAIL]");
+            sanitizedString = mEmailPattern.matcher(sanitizedString).replaceAll("[REDACTED EMAIL]");
             return sanitizedString;
         }
 
