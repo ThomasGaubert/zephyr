@@ -62,4 +62,14 @@ public class ZephyrCardViewPagerAdapter extends PagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mContext.getString(mCards.get(position).getTitle());
     }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
+
+    public void setItems(@NonNull List<ZephyrCard> cards) {
+        mCards = cards;
+        notifyDataSetChanged();
+    }
 }

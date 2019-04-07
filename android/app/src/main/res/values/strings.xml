@@ -17,12 +17,12 @@
 
     <!-- Join code status -->
     <string name="join_code_saved">Join code: %s</string>
-    <string name="join_code_none">No join code saved.</string>
+    <string name="join_code_none">No join code saved</string>
 
     <!-- Buttons shown when connected -->
     <string name="test_notification_btn">Send test notification</string>
     <string name="test_notification_title">Test notification</string>
-    <string name="test_notification_message">This is a test sent from Zephyr.</string>
+    <string name="test_notification_message">This is a test sent from Zephyr</string>
 
     <!-- Navigation Menu -->
     <string name="menu_manage_notifications">Manage notifications</string>

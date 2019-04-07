@@ -45,7 +45,7 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root;
-        mDataBinding = DataBindingUtil.inflate(inflater, getFragmentLayout(), container, false);
+//        mDataBinding = DataBindingUtil.inflate(inflater, getFragmentLayout(), container, false);
 
         if (mDataBinding != null) {
             mDataBinding.setLifecycleOwner(getActivity());

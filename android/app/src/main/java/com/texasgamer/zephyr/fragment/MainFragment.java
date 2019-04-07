@@ -47,24 +47,24 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @BindView(R.id.connected_options_section)
     View mConnectedOptionsSection;
 
+    private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mZephyrCardViewPager.setAdapter(new ZephyrCardViewPagerAdapter(getContext(), ZephyrCardProvider.getCards(this)));
+        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getContext(), ZephyrCardProvider.getCards(this));
+        mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
 
         if (getActivity() != null) {
-            mViewModel.getIsConnected().observe(getActivity(), isConnected -> {
-                updateConnectionStatus(isConnected);
-            });
+            mViewModel.getIsConnected().observe(getActivity(), this::updateConnectionStatus);
 
-            mViewModel.getJoinCode().observe(getActivity(), joinCode -> {
-                updateJoinCodeStatus(joinCode);
-            });
+            mViewModel.getJoinCode().observe(getActivity(), this::updateJoinCodeStatus);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mZephyrCardViewPagerAdapter.setItems(ZephyrCardProvider.getCards(this));
     }
 
     @Override
