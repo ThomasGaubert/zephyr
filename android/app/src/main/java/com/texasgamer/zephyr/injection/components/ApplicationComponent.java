@@ -28,8 +28,8 @@ import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.notification.NotificationsManager;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
+import com.texasgamer.zephyr.util.notification.INotificationsManager;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
@@ -68,9 +68,9 @@ public interface ApplicationComponent {
 
     ZephyrDatabase database();
 
-    NotificationsManager notificationsManager();
+    INotificationsManager notificationsManager();
 
-    PreferenceManager preferenceManager();
+    IPreferenceManager preferenceManager();
 
     /* Application */
     void inject(ZephyrApplication application);

@@ -13,8 +13,8 @@ import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.worker.IWorkManager;
 
 import javax.inject.Inject;
@@ -37,7 +37,7 @@ public class ZephyrApplication extends Application {
     @Inject
     IWorkManager workManager;
     @Inject
-    PreferenceManager preferenceManager;
+    IPreferenceManager preferenceManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;

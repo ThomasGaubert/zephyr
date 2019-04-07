@@ -26,8 +26,8 @@ import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -59,7 +59,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     @Inject
     ILogger logger;
     @Inject
-    PreferenceManager preferenceManager;
+    IPreferenceManager preferenceManager;
     @Inject
     IConfigManager configManager;
 

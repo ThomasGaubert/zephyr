@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 /**
  * Notifications manager.
  */
-public class NotificationsManager {
+public class NotificationsManager implements INotificationsManager {
 
     private static final String LOG_TAG = "NotificationsManager";
 
@@ -26,6 +26,7 @@ public class NotificationsManager {
         mLogger = logger;
     }
 
+    @Override
     public void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mLogger.log(LogPriority.INFO, LOG_TAG, "Creating notification channels...");

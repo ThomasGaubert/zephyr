@@ -14,8 +14,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.NetworkUtils;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import javax.inject.Inject;
 
@@ -36,7 +36,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
     TextView joinCodeInvalidText;
 
     @Inject
-    PreferenceManager preferenceManager;
+    IPreferenceManager preferenceManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

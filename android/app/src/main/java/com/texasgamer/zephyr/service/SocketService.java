@@ -18,8 +18,8 @@ import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationChannel;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationId;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,11 +40,11 @@ import io.socket.client.Socket;
 public class SocketService extends LifecycleService implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     public static boolean instanceCreated = false;
-    
+
     private static final String LOG_TAG = "SocketService";
 
     @Inject
-    PreferenceManager preferenceManager;
+    IPreferenceManager preferenceManager;
     @Inject
     ILogger logger;
     @Inject

@@ -9,8 +9,8 @@ import android.graphics.drawable.Drawable;
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,10 @@ import androidx.core.app.NotificationManagerCompat;
 public class ApplicationUtils {
 
     private Context mContext;
-    private PreferenceManager mPreferencesManager;
+    private IPreferenceManager mPreferencesManager;
     private PackageManager mPackageManager;
 
-    public ApplicationUtils(@NonNull Context context, @NonNull PreferenceManager preferenceManager) {
+    public ApplicationUtils(@NonNull Context context, @NonNull IPreferenceManager preferenceManager) {
         mContext = context;
         mPreferencesManager = preferenceManager;
         mPackageManager = context.getPackageManager();

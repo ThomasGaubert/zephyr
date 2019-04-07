@@ -3,7 +3,7 @@ package com.texasgamer.zephyr.activity;
 import android.os.Bundle;
 
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 
 import javax.inject.Inject;
 
@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
-    protected PreferenceManager mPreferenceManager;
+    protected IPreferenceManager mPreferenceManager;
 
     @Inject
     IAnalyticsManager analyticsManager;

@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 
 import javax.inject.Inject;
@@ -29,7 +29,7 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     protected T mViewModel;
 
     @Inject
-    protected PreferenceManager mPreferenceManager;
+    protected IPreferenceManager mPreferenceManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

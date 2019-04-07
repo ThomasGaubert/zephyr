@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 /**
  * Preference manager.
  */
-public class PreferenceManager {
+public class PreferenceManager implements IPreferenceManager {
 
     private static final String LOG_TAG = "PreferenceManager";
 
@@ -28,55 +28,68 @@ public class PreferenceManager {
         checkForMigrations();
     }
 
+    @Override
     public void putString(@NonNull String key, @NonNull String value) {
         getSharedPrefs().edit().putString(key, value).apply();
     }
 
+    @Override
     public String getString(@NonNull String key) {
         return getString(key, null);
     }
 
+    @Override
     public String getString(@NonNull String key, @Nullable String defaultValue) {
         return getSharedPrefs().getString(key, defaultValue);
     }
 
+    @Override
     public void putInt(@NonNull String key, int value) {
         getSharedPrefs().edit().putInt(key, value).apply();
     }
 
+    @Override
     public int getInt(@NonNull String key) {
         return getInt(key, 0);
     }
 
+    @Override
     public int getInt(@NonNull String key, int defaultValue) {
         return getSharedPrefs().getInt(key, defaultValue);
     }
 
+    @Override
     public void putBoolean(@NonNull String key, boolean value) {
         getSharedPrefs().edit().putBoolean(key, value).apply();
     }
 
+    @Override
     public boolean getBoolean(@NonNull String key) {
         return getBoolean(key, false);
     }
 
+    @Override
     public boolean getBoolean(@NonNull String key, boolean defaultValue) {
         return getSharedPrefs().getBoolean(key, defaultValue);
     }
 
+    @Override
     public Object getObject(@NonNull String key) {
         return getObject(key, null);
     }
 
+    @Override
     public Object getObject(@NonNull String key, @Nullable Object defaultValue) {
         Object result = getSharedPrefs().getAll().get(key);
         return result != null ? result : defaultValue;
     }
 
+    @Override
     public void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         getSharedPrefs().registerOnSharedPreferenceChangeListener(listener);
     }
 
+    @Override
     public void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         getSharedPrefs().unregisterOnSharedPreferenceChangeListener(listener);
     }

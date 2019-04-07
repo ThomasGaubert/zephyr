@@ -16,7 +16,7 @@ public class SharedPreferenceLiveData<T> extends LiveData<T> {
 
     private String mKey;
     private T mDefaultValue;
-    private PreferenceManager mPreferenceManager;
+    private IPreferenceManager mPreferenceManager;
     private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
