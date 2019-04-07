@@ -60,6 +60,6 @@ public class ConfigManager implements IConfigManager {
 
     @Override
     public boolean isSettingsMenuEnabled() {
-        return isDev() || mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SETTINGS);
+        return isDev();
     }
 }

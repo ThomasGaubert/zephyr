@@ -4,8 +4,4 @@
         <key>enableScanQrCode</key>
         <value>true</value>
     </entry>
-    <entry>
-        <key>enableSettings</key>
-        <value>false</value>
-    </entry>
 </defaultsMap>
