@@ -9,9 +9,13 @@ import android.view.ViewGroup;
 import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.AboutActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.config.IConfigManager;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +27,13 @@ import butterknife.ButterKnife;
  */
 public class MenuFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
+    @BindView(R.id.settings)
+    View settingsButton;
     @BindView(R.id.nav_menu)
     NavigationView mNavigationView;
+
+    @Inject
+    IConfigManager configManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,7 +44,12 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ZephyrApplication.getApplicationComponent().inject(this);
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        if (configManager.isSettingsMenuEnabled()) {
+            settingsButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

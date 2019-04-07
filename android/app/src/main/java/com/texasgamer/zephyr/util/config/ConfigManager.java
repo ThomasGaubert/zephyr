@@ -57,4 +57,9 @@ public class ConfigManager implements IConfigManager {
                 && mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)
                 && mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
     }
+
+    @Override
+    public boolean isSettingsMenuEnabled() {
+        return isDev() || mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SETTINGS);
+    }
 }

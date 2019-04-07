@@ -9,6 +9,7 @@ import com.texasgamer.zephyr.db.ZephyrDatabase;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
 import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
+import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
 import com.texasgamer.zephyr.fragment.ScanCodeFragment;
 import com.texasgamer.zephyr.fragment.WhatsNewFragment;
@@ -99,6 +100,8 @@ public interface ApplicationComponent {
     void inject(MainFragment mainFragment);
 
     void inject(NotificationsFragment notificationsFragment);
+
+    void inject(MenuFragment menuFragment);
 
     void inject(ConnectFragment connectFragment);
 
