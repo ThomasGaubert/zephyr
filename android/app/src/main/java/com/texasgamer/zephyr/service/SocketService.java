@@ -1,7 +1,6 @@
 package com.texasgamer.zephyr.service;
 
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -28,12 +27,10 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleService;
-import androidx.lifecycle.Observer;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
@@ -42,9 +39,9 @@ import io.socket.client.Socket;
  */
 public class SocketService extends LifecycleService implements NetworkStateReceiver.NetworkStateReceiverListener {
 
-    private static final String LOG_TAG = "SocketService";
-
     public static boolean instanceCreated = false;
+    
+    private static final String LOG_TAG = "SocketService";
 
     @Inject
     PreferenceManager preferenceManager;

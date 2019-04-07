@@ -20,7 +20,8 @@ import butterknife.ButterKnife;
 
 /**
  * Base fragment that performs common routines.
- * @param <T>
+ * @param <T> ViewModel
+ * @param <B> ViewDataBinding
  */
 public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBinding> extends Fragment {
 

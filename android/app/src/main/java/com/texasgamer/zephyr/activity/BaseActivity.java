@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
-    protected PreferenceManager preferenceManager;
+    protected PreferenceManager mPreferenceManager;
 
     @Inject
     IAnalyticsManager analyticsManager;
@@ -29,7 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         injectDependencies();
 
-        if (preferenceManager == null) {
+        if (analyticsManager == null || mPreferenceManager == null) {
             throw new IllegalStateException("Dependencies not fulfilled for this Activity.");
         }
 

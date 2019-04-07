@@ -12,6 +12,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Network state BroadcastReceiver.
+ */
 public class NetworkStateReceiver extends BroadcastReceiver {
 
     private ConnectivityManager mManager;
@@ -29,8 +32,9 @@ public class NetworkStateReceiver extends BroadcastReceiver {
     }
 
     public void onReceive(Context context, Intent intent) {
-        if (intent == null || intent.getExtras() == null)
+        if (intent == null || intent.getExtras() == null) {
             return;
+        }
 
         if (checkStateChanged()) {
             notifyStateToAll();
@@ -96,6 +100,9 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         mListeners.remove(l);
     }
 
+    /**
+     * Network state listener.
+     */
     public interface NetworkStateReceiverListener {
         void onNetworkAvailable();
 

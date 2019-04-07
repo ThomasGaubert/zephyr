@@ -9,6 +9,9 @@ import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 
 import androidx.annotation.NonNull;
 
+/**
+ * MainFragment view model.
+ */
 public class MainFragmentViewModel extends BaseViewModel {
 
     private final SharedPreferenceLiveData<Integer> mConnectionStatus;

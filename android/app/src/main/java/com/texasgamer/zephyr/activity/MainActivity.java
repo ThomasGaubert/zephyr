@@ -14,11 +14,8 @@ import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-import com.texasgamer.zephyr.util.preference.PreferenceManager;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
-
-import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
 import butterknife.BindView;
@@ -113,16 +110,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private boolean isJoinCodeSet() {
-        String joinCode = preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE);
+        String joinCode = mPreferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE);
         return joinCode != null && !joinCode.isEmpty();
     }
 
     private void verifyConnectionStatus() {
-        if (!preferenceManager.getBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING)) {
-            preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+        if (!mPreferenceManager.getBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING)) {
+            mPreferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
         } else if (!SocketService.instanceCreated) {
-            preferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
-            preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+            mPreferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
+            mPreferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
         }
     }
 }

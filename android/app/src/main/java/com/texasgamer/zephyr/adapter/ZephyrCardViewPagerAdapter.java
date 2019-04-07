@@ -14,6 +14,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+/**
+ * View pager adapter for ZephyrCardViewPager.
+ */
 public class ZephyrCardViewPagerAdapter extends PagerAdapter {
 
     private Context mContext;
