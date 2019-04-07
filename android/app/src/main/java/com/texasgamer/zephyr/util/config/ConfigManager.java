@@ -27,6 +27,11 @@ public class ConfigManager implements IConfigManager {
     }
 
     @Override
+    public boolean isBeta() {
+        return BuildConfig.FLAVOR.equals("beta");
+    }
+
+    @Override
     public boolean isProduction() {
         return BuildConfig.FLAVOR.equals("production");
     }

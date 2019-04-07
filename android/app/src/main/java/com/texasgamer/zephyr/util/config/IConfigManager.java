@@ -8,6 +8,8 @@ public interface IConfigManager {
     /* Build */
     boolean isDev();
 
+    boolean isBeta();
+
     boolean isProduction();
 
     /* Firebase */

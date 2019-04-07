@@ -51,6 +51,9 @@ android {
         production {
 
         }
+        beta {
+
+        }
         dev {
 
         }
