@@ -1,7 +1,5 @@
 package com.texasgamer.zephyr.injection.modules;
 
-import android.content.Context;
-
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
 import com.texasgamer.zephyr.provider.ZephyrCardProvider;
 import com.texasgamer.zephyr.util.ApplicationUtils;

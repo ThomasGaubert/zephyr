@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
-import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.fragment.WhatsNewFragment;
 import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.model.ZephyrCardType;

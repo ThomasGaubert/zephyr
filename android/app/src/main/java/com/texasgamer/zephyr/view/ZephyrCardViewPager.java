@@ -37,8 +37,6 @@ public class ZephyrCardViewPager extends ViewPager {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         if (!mAnimating) {
             int measuredHeight = heightMeasureSpec;
             int height = 0;
@@ -49,11 +47,14 @@ public class ZephyrCardViewPager extends ViewPager {
                         continue;
                     }
 
-                    View child = getChildAt(i);
-                    child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                    int h = child.getMeasuredHeight();
-                    if (h > height) {
-                        height = h;
+                    View child = findViewWithTag(ZephyrCardView.generateTag(i));
+
+                    if (child != null) {
+                        child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+                        int h = child.getMeasuredHeight();
+                        if (h > height) {
+                            height = h;
+                        }
                     }
                 }
             }
@@ -93,7 +94,8 @@ public class ZephyrCardViewPager extends ViewPager {
 
                 mAnimating = true;
             } else {
-                heightMeasureSpec = measuredHeight;
+                super.onMeasure(widthMeasureSpec, measuredHeight);
+                return;
             }
         }
 

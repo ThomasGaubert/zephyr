@@ -41,6 +41,8 @@ public class ZephyrCardViewPagerAdapter extends PagerAdapter {
         layoutParams.setMargins(sideMargin, 0, sideMargin, 0);
         itemView.setLayoutParams(layoutParams);
 
+        itemView.setTag(ZephyrCardView.generateTag(position));
+
         collection.addView(itemView);
 
         return itemView;

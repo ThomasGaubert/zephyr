@@ -11,6 +11,8 @@ import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.NotificationPayload;
+import com.texasgamer.zephyr.model.api.ZephyrApiVersion;
+import com.texasgamer.zephyr.network.ZephyrService;
 import com.texasgamer.zephyr.receiver.NetworkStateReceiver;
 import com.texasgamer.zephyr.receiver.ZephyrBroadcastReceiver;
 import com.texasgamer.zephyr.util.NetworkUtils;
@@ -27,12 +29,18 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleService;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Socket service. Maintains connection to server.
@@ -147,16 +155,56 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
         logger.log(LogPriority.DEBUG, LOG_TAG, "Connecting to %s...", mServerAddress);
         updateServiceNotification(ConnectionStatus.CONNECTING);
 
-        try {
-            mSocket = IO.socket("http://" + mServerAddress);
-        } catch (Exception e) {
-            logger.log(LogPriority.ERROR, LOG_TAG, e);
-        }
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://" + mServerAddress + "/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        if (mSocket != null) {
-            setUpEvents();
-            mSocket.connect();
-        }
+        ZephyrService zephyrService = retrofit.create(ZephyrService.class);
+        zephyrService.listRepos().enqueue(new Callback<ZephyrApiVersion>() {
+            @Override
+            public void onResponse(@NonNull Call<ZephyrApiVersion> call, @NonNull Response<ZephyrApiVersion> response) {
+                if (!response.isSuccessful()) {
+                    logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server API request failed, abandoning!");
+                    updateServiceNotification(ConnectionStatus.UNKNOWN);
+                    return;
+                }
+
+                ZephyrApiVersion zephyrApiVersion = response.body();
+                if (zephyrApiVersion == null) {
+                    logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server returned null body, abandoning!");
+                    updateServiceNotification(ConnectionStatus.UNKNOWN);
+                    return;
+                }
+
+                logger.log(LogPriority.INFO, LOG_TAG, "Connected to server running API v%d (%s-%s)",
+                        zephyrApiVersion.getApi(), zephyrApiVersion.getDesktop(), zephyrApiVersion.getBuildType());
+
+                if (zephyrApiVersion.getApi() != Constants.ZEPHYR_API_VERSION) {
+                    logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server returned API %d but app only supports API v%d, abandoning!",
+                            zephyrApiVersion.getApi(), Constants.ZEPHYR_API_VERSION);
+                    updateServiceNotification(ConnectionStatus.UNSUPPORTED_API);
+                    return;
+                }
+
+                try {
+                    mSocket = IO.socket("http://" + mServerAddress);
+                } catch (Exception e) {
+                    logger.log(LogPriority.ERROR, LOG_TAG, e);
+                }
+
+                if (mSocket != null) {
+                    setUpEvents();
+                    mSocket.connect();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ZephyrApiVersion> call, Throwable t) {
+                logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server not found!");
+                updateServiceNotification(ConnectionStatus.SERVER_NOT_FOUND);
+            }
+        });
     }
 
     private void disconnect(@ConnectionStatus int newConnectionStatus) {

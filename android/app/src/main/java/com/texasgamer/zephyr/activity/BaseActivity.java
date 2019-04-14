@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
@@ -26,6 +27,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         injectDependencies();
 

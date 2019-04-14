@@ -43,6 +43,10 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
     @ZephyrCardType
     private int mType;
 
+    public static String generateTag(int index) {
+        return "ZephyrCard-" + index;
+    }
+
     public ZephyrCardView(Context context) {
         this(context, null);
     }

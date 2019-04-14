@@ -59,6 +59,10 @@ public final class NetworkUtils {
                 return context.getString(R.string.status_notif_text_offline);
             case ConnectionStatus.NO_JOIN_CODE:
                 return context.getString(R.string.status_notif_text_no_join_code);
+            case ConnectionStatus.UNSUPPORTED_API:
+                return context.getString(R.string.status_notif_text_unsupported_api);
+            case ConnectionStatus.SERVER_NOT_FOUND:
+                return context.getString(R.string.status_notif_text_server_not_found);
             case ConnectionStatus.UNKNOWN:
             default:
                 return context.getString(R.string.status_notif_text_unknown);

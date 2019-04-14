@@ -135,6 +135,10 @@ dependencies {
     // Permissions
     implementation 'com.nabinbhandari.android:permissions:3.8'
 
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
     // Room
     implementation "androidx.room:room-runtime:2.1.0-alpha04"
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"

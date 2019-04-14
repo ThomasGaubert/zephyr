@@ -14,7 +14,9 @@ import androidx.annotation.IntDef;
         ConnectionStatus.CONNECTING,
         ConnectionStatus.OFFLINE,
         ConnectionStatus.NO_WIFI,
-        ConnectionStatus.NO_JOIN_CODE})
+        ConnectionStatus.NO_JOIN_CODE,
+        ConnectionStatus.UNSUPPORTED_API,
+        ConnectionStatus.SERVER_NOT_FOUND})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ConnectionStatus {
     int UNKNOWN = 0;
@@ -24,4 +26,6 @@ public @interface ConnectionStatus {
     int OFFLINE = 4;
     int NO_WIFI = 5;
     int NO_JOIN_CODE = 6;
+    int UNSUPPORTED_API = 7;
+    int SERVER_NOT_FOUND = 8;
 }

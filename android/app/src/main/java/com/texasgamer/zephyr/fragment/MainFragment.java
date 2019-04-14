@@ -11,7 +11,6 @@ import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
-import com.texasgamer.zephyr.provider.ZephyrCardProvider;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -51,6 +50,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     TextView mJoinCodeText;
     @BindView(R.id.connected_options_section)
     View mConnectedOptionsSection;
+    @BindView(R.id.unsupported_api_section)
+    View mUnsupportedApiSection;
 
     private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
 
@@ -115,6 +116,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         mConnectionStatusIcon.setImageResource(isConnected ? R.drawable.ic_check : R.drawable.ic_error);
         mConnectionStatusText.setText(NetworkUtils.connectionStatusToString(getContext(), connectionStatus));
         mConnectedOptionsSection.setVisibility(isConnected ? View.VISIBLE : View.GONE);
+        mUnsupportedApiSection.setVisibility(connectionStatus == ConnectionStatus.UNSUPPORTED_API ? View.VISIBLE : View.GONE);
     }
 
     private void updateJoinCodeStatus(@NonNull String joinCode) {
