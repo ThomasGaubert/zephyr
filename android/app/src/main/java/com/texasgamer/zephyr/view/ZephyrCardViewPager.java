@@ -27,20 +27,10 @@ public class ZephyrCardViewPager extends ViewPager {
     public ZephyrCardViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        addOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        addOnPageChangeListener(new SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 requestLayout();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

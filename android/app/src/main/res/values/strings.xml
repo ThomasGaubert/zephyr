@@ -7,7 +7,7 @@
     <string name="card_zephyr_v2_title">Zephyr v2</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
     <string name="card_zephyr_beta_title">Zephyr \u03B2</string>
-    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! New in this release:\n\n- Initial beta release\n\nTap here to file feedback on GitHub.</string>
+    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! New in this release:\n\n\u2022 Initial beta release\n\nTap here to file feedback on GitHub.</string>
 
     <!-- Connection Button -->
     <string name="btn_connection_start">Start</string>
