@@ -99,16 +99,19 @@ public class PreferenceManager implements IPreferenceManager {
     }
 
     private void checkForMigrations() {
-        int currentVersion = getInt(PreferenceKeys.PREF_VERSION, 0);
+        int currentVersion = getInt(PreferenceKeys.PREF_VERSION, -1);
 
-        if (currentVersion < Constants.PREFS_VERSION) {
+        if (currentVersion == -1) {
+            mLogger.log(LogPriority.INFO, LOG_TAG, "Running initial migration for SharedPreferences.");
+            PreferenceMigrationFactory.getInitialMigration().migrate(getSharedPrefs());
+            putInt(PreferenceKeys.PREF_VERSION, Constants.PREFS_VERSION);
+        } else if (currentVersion < Constants.PREFS_VERSION) {
             mLogger.log(LogPriority.INFO, LOG_TAG, "Preferences version: %1$d - Running migrations for %1$d to %2$d.", currentVersion, Constants.PREFS_VERSION);
             for (IZephyrPreferenceMigration migration : PreferenceMigrationFactory.getMigrations(currentVersion, Constants.PREFS_VERSION)) {
                 migration.migrate(getSharedPrefs());
             }
             putInt(PreferenceKeys.PREF_VERSION, Constants.PREFS_VERSION);
             mLogger.log(LogPriority.INFO, LOG_TAG, "Migrations complete. New preferences version: %d", Constants.PREFS_VERSION);
-
         } else {
             mLogger.log(LogPriority.INFO, LOG_TAG, "Preferences version: %d - No migration needed.", currentVersion);
         }

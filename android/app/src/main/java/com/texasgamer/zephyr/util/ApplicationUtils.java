@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
 import com.texasgamer.zephyr.BuildConfig;
-import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
@@ -35,15 +34,15 @@ public class ApplicationUtils {
     }
 
     public boolean isFre() {
-        return mPreferencesManager.getBoolean(PreferenceKeys.PREF_FRE);
+        return mPreferencesManager.getBoolean(PreferenceKeys.PREF_COMPLETED_FRE);
     }
 
     public boolean isUpgrade() {
         return mPreferencesManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION) < BuildConfigUtils.getVersionCode();
     }
 
-    public boolean isUpgradeFromV1() {
-        return mPreferencesManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION) < Constants.V2_VERSION_CODE;
+    public boolean didUpgradeFromV1() {
+        return mPreferencesManager.getBoolean(PreferenceKeys.PREF_DID_UPGRADE_FROM_V1);
     }
 
     public boolean hasNotificationAccess() {

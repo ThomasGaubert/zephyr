@@ -16,7 +16,11 @@ public final class PreferenceMigrationFactory {
     }
 
     static {
-        // Add migrations here
+        // Add migrations here in ascending order
+    }
+
+    public static IZephyrPreferenceMigration getInitialMigration() {
+        return new InitialMigration();
     }
 
     @NonNull

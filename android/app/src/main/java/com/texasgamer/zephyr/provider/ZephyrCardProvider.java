@@ -44,21 +44,21 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
             cards.add(notificationAccessCard);
         }
 
-        // Zephyr V2
-        if (mApplicationUtils.isUpgradeFromV1()) {
-            ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
-            zephyrV2Card.setOnClickListener(v -> {
-                WhatsNewFragment whatsNewFragment = new WhatsNewFragment();
-                whatsNewFragment.show(fragmentManager, whatsNewFragment.getTag());
-            });
-            cards.add(zephyrV2Card);
-        }
-
         // Beta
         if (mConfigManager.isBeta()) {
             ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_beta_title, R.string.card_zephyr_beta_body);
             zephyrV2Card.setOnClickListener(v -> {
                 NavigationUtils.openUrl(context, Constants.ZEPHYR_FEEDBACK_URL);
+            });
+            cards.add(zephyrV2Card);
+        }
+
+        // Zephyr V2
+        if (mApplicationUtils.didUpgradeFromV1()) {
+            ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
+            zephyrV2Card.setOnClickListener(v -> {
+                WhatsNewFragment whatsNewFragment = new WhatsNewFragment();
+                whatsNewFragment.show(fragmentManager, whatsNewFragment.getTag());
             });
             cards.add(zephyrV2Card);
         }

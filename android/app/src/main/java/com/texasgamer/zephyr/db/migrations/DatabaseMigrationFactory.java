@@ -18,7 +18,7 @@ public final class DatabaseMigrationFactory {
     }
 
     static {
-        // Add migrations here
+        // Add migrations here in ascending order
     }
 
     @NonNull
