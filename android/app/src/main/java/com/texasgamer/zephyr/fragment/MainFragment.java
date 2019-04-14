@@ -10,6 +10,7 @@ import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.NotificationPayload;
+import com.texasgamer.zephyr.provider.IZephyrCardProvider;
 import com.texasgamer.zephyr.provider.ZephyrCardProvider;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.NetworkUtils;
@@ -37,6 +38,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
 
     @Inject
     ILogger logger;
+    @Inject
+    IZephyrCardProvider zephyrCardProvider;
 
     @BindView(R.id.main_carousel)
     ZephyrCardViewPager mZephyrCardViewPager;
@@ -53,7 +56,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getContext(), ZephyrCardProvider.getCards(this));
+        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getContext(), zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
         mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
 
         if (getActivity() != null) {
@@ -65,7 +68,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @Override
     public void onResume() {
         super.onResume();
-        mZephyrCardViewPagerAdapter.setItems(ZephyrCardProvider.getCards(this));
+        mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
     }
 
     @Override

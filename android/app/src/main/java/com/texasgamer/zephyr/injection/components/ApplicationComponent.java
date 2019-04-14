@@ -22,6 +22,7 @@ import com.texasgamer.zephyr.injection.modules.EagerModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
 import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
+import com.texasgamer.zephyr.injection.modules.ProviderModule;
 import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
 import com.texasgamer.zephyr.service.SocketService;
@@ -54,7 +55,8 @@ import dagger.Component;
             LoggerModule.class,
             PreferenceModule.class,
             NotificationsModule.class,
-            WorkModule.class
+            WorkModule.class,
+            ProviderModule.class
         })
 public interface ApplicationComponent {
     /* Init */
