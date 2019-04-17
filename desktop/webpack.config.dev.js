@@ -47,7 +47,7 @@ const commonConfig = {
     __dirname: false
   },
   externals: [nodeExternals({
-      modulesFromFile: true
+    modulesFromFile: true
   })]
 };
 

@@ -3,6 +3,11 @@
   "env": {
     "node": true
   },
+  "linterOptions": {
+    "exclude": [
+      "lib/**"
+    ]
+  },
   "rules": {
     "indent": [true, "spaces"],
     "ter-indent": [true, 2],
@@ -13,6 +18,10 @@
     }],
     "semicolon": [true, "always"],
     "no-unused-variable": null,
-    "ordered-imports": true
+    "ordered-imports": true,
+    "no-empty": true
+  },
+  "jsRules": {
+    "no-empty": true
   }
 }

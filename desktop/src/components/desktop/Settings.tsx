@@ -145,7 +145,7 @@ class Settings extends React.Component<any, any> {
           <DialogTitle id='alert-dialog-title'>{'Zephyr'}</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Version {ConfigUtils.getAppVersion()} ({ConfigUtils.getBuildType()})<br/>&copy; 2018 Thomas Gaubert
+              Version {ConfigUtils.getAppVersion()} ({ConfigUtils.getBuildType()})<br/>&copy; 2019 Thomas Gaubert
             </DialogContentText>
           </DialogContent>
           <DialogActions>

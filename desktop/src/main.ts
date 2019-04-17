@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { forwardToRenderer, replayActionMain, triggerAlias } from 'electron-redux';
+import Path from 'path';
 import { applyMiddleware, createStore, Store } from 'redux';
 import RootReducer from './reducers/RootReducer';
 import { ZephyrServer } from './server/ZephyrServer';
@@ -73,6 +74,14 @@ function onReady() {
 }
 
 function init() {
+
+  if (ConfigUtils.isDev()) {
+    LogUtils.info('Zephyr', 'Live reload enabled!');
+    require('electron-reload')(__dirname, {
+      electron: Path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
+    });
+  }
+
   let shouldQuit = app.makeSingleInstance(function() {
     if (mainWindow) {
       if (mainWindow.isMinimized()) {
