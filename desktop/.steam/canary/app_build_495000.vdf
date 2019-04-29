@@ -3,7 +3,7 @@
 	"appid"	"495000"
 	"desc" "%DESCRIPTION%"
 	"buildoutput" "..\..\steamcmd\output\canary\"
-	"contentroot" "..\..\Desktop CI\Zephyr Desktop - Steam\"
+	"contentroot" "..\..\Zephyr Desktop - Steam\"
 	"setlive" "canary"
 	"preview" "1"
 	"local"	""
