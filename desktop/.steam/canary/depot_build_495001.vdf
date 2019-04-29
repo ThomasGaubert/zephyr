@@ -1,10 +1,9 @@
 "DepotBuildConfig"
 {
 	"DepotID" "495001"
-	"ContentRoot"	"E:\Development\steamworks\sdk\tools\ContentBuilder\content\"
   "FileMapping"
   {
-    "LocalPath" ".\windows_x64\*"
+    "LocalPath" ".\*"
     "DepotPath" "."
     "recursive" "1"
   }
