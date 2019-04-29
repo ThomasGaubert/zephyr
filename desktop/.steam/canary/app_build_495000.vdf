@@ -5,7 +5,7 @@
 	"buildoutput" "..\..\steamcmd\output\canary\"
 	"contentroot" "..\..\Zephyr Desktop - Steam\"
 	"setlive" "canary"
-	"preview" "1"
+	"preview" "0"
 	"local"	""
 	"depots"
 	{
