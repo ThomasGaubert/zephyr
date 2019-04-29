@@ -8,6 +8,8 @@ There are several ways to install Zephyr.
 ### Steam
 Zephyr is coming soon to Steam.
 
+Updates are delivered through the Steam client. Opt into the canary beta branch to get builds straight from the master branch.
+
 ### Standalone installer
 To use the standalone installer, download [latest version of the desktop application from GitHub](https://github.com/ThomasGaubert/zephyr/releases/latest).
 
@@ -31,16 +33,16 @@ To get all dependencies, just run:
 yarn
 ```
 
-To build the project, run:
-
-```
-yarn build-dev
-```
-
-To run Zephyr:
+To build and run Zephyr:
 
 ```
 yarn start
+```
+
+Enable hot reloading for rapid iteration (run each command in a separate terminal):
+```
+yarn start
+yarn watch
 ```
 
 ### Build types
