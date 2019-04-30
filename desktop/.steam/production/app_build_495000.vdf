@@ -2,9 +2,9 @@
 {
 	"appid" "495000"
 	"desc" "%DESCRIPTION%"
-	"buildoutput" "..\..\steamcmd\output\canary\"
+	"buildoutput" "..\..\steamcmd\output\production\"
 	"contentroot" "..\..\Zephyr Desktop - Steam\"
-	"setlive" "canary"
+	"setlive" "default"
 	"preview" "0"
 	"local" ""
 	"depots"
