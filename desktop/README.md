@@ -51,7 +51,7 @@ yarn watch
 There are three build types:
 
 * dev - default when building from source, enables dev tools
-* prod - standalone release for Github, enables auto-updates, etc.
+* prod - standalone release for GitHub, enables auto-updates, etc.
 * steam - release for Steam
 
 There are variants of the `build` and `dist` scripts for each build type. See `package.json` for the full list of scripts.

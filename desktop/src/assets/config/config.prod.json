@@ -1,6 +1,6 @@
 {
   "type": "standalone",
-  "updatesEnabled": true,
+  "enableUpdates": true,
   "port": 3753,
   "enableOverlay": true
 }

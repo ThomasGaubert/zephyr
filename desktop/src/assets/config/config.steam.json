@@ -1,6 +1,6 @@
 {
   "type": "steam",
-  "updatesEnabled": false,
+  "enableUpdates": false,
   "port": 3753,
   "enableOverlay": true
 }

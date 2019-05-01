@@ -7,9 +7,9 @@ declare var __dirname: string;
 
 interface IZephyrConfig {
   type: string;
-  updatesEnabled: boolean;
+  enableUpdates: boolean;
   port: number;
-  overlayEnabled: boolean;
+  enableOverlay: boolean;
 }
 
 export default class ConfigUtils {
@@ -148,7 +148,7 @@ export default class ConfigUtils {
 
   /* Features */
   static updatesEnabled(): boolean {
-    return ConfigUtils.getConfig().updatesEnabled;
+    return ConfigUtils.getConfig().enableUpdates;
   }
 
   /* Configuration */
@@ -157,6 +157,6 @@ export default class ConfigUtils {
   }
 
   static overlayEnabled(): boolean {
-    return ConfigUtils.getConfig().overlayEnabled;
+    return ConfigUtils.getConfig().enableOverlay;
   }
 }
