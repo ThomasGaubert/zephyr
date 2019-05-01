@@ -3,12 +3,12 @@
 Desktop application built on [Electron](https://electronjs.org/) which provides a user interface, runs a server instance, and initializes the OpenVR overlay.
 
 ## Installation
-There are several ways to install Zephyr.
+There are several ways to install Zephyr:
 
 ### Steam
 Zephyr is coming soon to Steam.
 
-Updates are delivered through the Steam client. Opt into the canary beta branch to get builds straight from the master branch.
+Updates are delivered through the Steam client.
 
 ### Standalone installer
 To use the standalone installer, download [latest version of the desktop application from GitHub](https://github.com/ThomasGaubert/zephyr/releases/latest).
@@ -53,3 +53,6 @@ There are three build types:
 * steam - release for Steam
 
 There are variants of the `build` and `dist` scripts for each build type. See `package.json` for the full list of scripts.
+
+### OpenVR bindings
+Zephyr uses a fork of [node-openvr](https://github.com/ZephyrVR/node-openvr) to interact with OpenVR. When editing the bindings, run `yarn update-bindings` to ensure the latest changes are used by the desktop client.
