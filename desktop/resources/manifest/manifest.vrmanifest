@@ -1,0 +1,15 @@
+{
+	"applications": [{
+		"app_key": "texasgamer.Zephyr",
+		"launch_type": "binary",
+		"binary_path_windows": "../../Zephyr.exe",
+		"image_path": "../images/icon.png",
+		"is_dashboard_overlay": true,
+		"strings": {
+			"en_us": {
+				"name": "Zephyr",
+				"description": "Zephyr Overlay"
+			}
+		}
+	}]
+}
