@@ -1,5 +1,7 @@
 # zephyr-desktop
 
+[![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Desktop%20CI?branchName=v2)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=3&branchName=v2)
+
 Desktop application built on [Electron](https://electronjs.org/) which provides a user interface, runs a server instance, and initializes the OpenVR overlay.
 
 ## Installation
