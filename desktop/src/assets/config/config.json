@@ -1,5 +1,6 @@
 {
   "type": "template",
   "updatesEnabled": false,
-  "port": 3753
+  "port": 3753,
+  "enableOverlay": true
 }

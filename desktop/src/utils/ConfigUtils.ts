@@ -5,13 +5,20 @@ import path from 'path';
 
 declare var __dirname: string;
 
+interface IZephyrConfig {
+  type: string;
+  updatesEnabled: boolean;
+  port: number;
+  overlayEnabled: boolean;
+}
+
 export default class ConfigUtils {
 
-  private static config;
+  private static config: IZephyrConfig;
 
-  static getConfig() {
+  static getConfig(): IZephyrConfig {
     if (!ConfigUtils.config) {
-      ConfigUtils.config = JSON.parse(fs.readFileSync(`${__dirname}/assets/config/config.json`) as any);
+      ConfigUtils.config = JSON.parse(fs.readFileSync(`${__dirname}/assets/config/config.json`) as any) as IZephyrConfig;
     }
 
     return this.config;
@@ -147,5 +154,9 @@ export default class ConfigUtils {
   /* Configuration */
   static getPort(): number {
     return ConfigUtils.getConfig().port;
+  }
+
+  static overlayEnabled(): boolean {
+    return ConfigUtils.getConfig().overlayEnabled;
   }
 }
