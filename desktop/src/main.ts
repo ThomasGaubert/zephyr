@@ -61,7 +61,7 @@ function onReady() {
       height: 4320,
       backgroundColor: '#0D253A',
       vr: {
-        key: 'com.texasgamer.zephyr',
+        key: 'texasgamer.zephyr',
         name: 'Zephyr',
         fps: 45,
         iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`

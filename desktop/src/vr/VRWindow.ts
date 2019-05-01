@@ -32,9 +32,9 @@ export default class VRWindow extends BrowserWindow {
     this.setupOverlay(vrOpts);
   }
 
-  setupOverlay ({ key, name = 'Electron VR App', fps = 60, iconPath, system = null }) {
+  setupOverlay ({ key, name = 'Zephyr', fps = 60, iconPath, system = null }) {
     this.vrSystem = system || vr.system.VR_Init(vr.EVRApplicationType.VRApplication_Overlay);
-    this.overlay = new VROverlay({ system: this.vrSystem, key: `electronvr:${Date.now()}:${key}`, name: name, iconPath: iconPath });
+    this.overlay = new VROverlay({ system: this.vrSystem, key: key, name: name, iconPath: iconPath });
     this.webContents.setFrameRate(fps);
 
     this.overlay.width = 2;
