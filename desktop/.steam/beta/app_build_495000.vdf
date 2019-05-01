@@ -1,0 +1,14 @@
+"appbuild"
+{
+	"appid" "495000"
+	"desc" "%DESCRIPTION%"
+	"buildoutput" "..\..\steamcmd\output\canary\"
+	"contentroot" "..\..\Zephyr Desktop - Steam\"
+	"setlive" "beta"
+	"preview" "0"
+	"local" ""
+	"depots"
+	{
+		"495001" "depot_build_495001.vdf"
+	}
+}
