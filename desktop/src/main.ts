@@ -62,14 +62,14 @@ function onReady() {
       backgroundColor: '#0D253A',
       vr: {
         key: 'texasgamer.zephyr',
-        name: 'Zephyr',
+        name: 'Zephyr Beta',
         fps: 45,
         iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`
       }
     });
     vrWindow.loadURL(`file://${__dirname}/overlay.html`);
   } else {
-    LogUtils.warn('Zephyr', 'Overlay disabled!');
+    LogUtils.warn('Zephyr Beta', 'Overlay disabled!');
   }
 
   new ZephyrServer(); // tslint:disable-line
@@ -80,7 +80,7 @@ function onReady() {
 function init() {
 
   if (ConfigUtils.isDev()) {
-    LogUtils.info('Zephyr', 'Live reload enabled!');
+    LogUtils.info('Zephyr Beta', 'Live reload enabled!');
     require('electron-reload')(__dirname, {
       electron: Path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
     });
@@ -100,7 +100,7 @@ function init() {
     return;
   }
 
-  LogUtils.info('Zephyr', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
+  LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
   app.on('ready', () => installExtensions().then(() => onReady()));
   app.on('window-all-closed', () => app.quit());
 }

@@ -63,7 +63,7 @@ class BigHistory extends React.Component<any, any> {
   render() {
     return (
       <Container>
-        <VRTitle>Zephyr</VRTitle>
+        <VRTitle>Zephyr β</VRTitle>
         <ScrollArea
             speed={0.8}
             className='area'

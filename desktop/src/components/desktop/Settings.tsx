@@ -142,10 +142,10 @@ class Settings extends React.Component<any, any> {
           onClose={this.props.root}
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'>
-          <DialogTitle id='alert-dialog-title'>{'Zephyr'}</DialogTitle>
+          <DialogTitle id='alert-dialog-title'>{'Zephyr β'}</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Version {ConfigUtils.getAppVersion()} ({ConfigUtils.getBuildType()})<br/>&copy; 2019 Thomas Gaubert
+              Version {ConfigUtils.getAppVersion()} ({ConfigUtils.getBuildType()})<br/>&copy; Thomas Gaubert
             </DialogContentText>
           </DialogContent>
           <DialogActions>

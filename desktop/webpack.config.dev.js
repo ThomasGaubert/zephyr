@@ -62,7 +62,7 @@ module.exports = [
       entry: { desktop: './src/desktop.tsx' },
       plugins: [
         new HtmlWebpackPlugin({
-          title: 'Zephyr',
+          title: 'Zephyr β',
           template: './src/index.ejs',
         }),
         new CopyWebpackPlugin([
@@ -87,7 +87,7 @@ module.exports = [
     entry: { overlay: './src/overlay.tsx' },
     plugins: [
       new HtmlWebpackPlugin({
-        title: 'Zephyr',
+        title: 'Zephyr β',
         filename: 'overlay.html',
         template: './src/index.ejs',
       }),

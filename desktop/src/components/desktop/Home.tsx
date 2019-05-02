@@ -7,7 +7,7 @@ class Home extends React.Component<any, any> {
   render() {
     return (
       <Container>
-        <Title>Zephyr</Title>
+        <Title>Zephyr β</Title>
         <ConnectionInfo/>
         {/* <DownloadLinks/> */}
       </Container>

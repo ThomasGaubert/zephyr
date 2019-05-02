@@ -74,7 +74,7 @@ class DesktopApp extends Component<any, any> {
               style={{ height: '100%' }}
               chrome>
               <TitleBar
-                title='Zephyr'
+                title='Zephyr β'
                 background={this.props.toolbarColor}
                 onMinimizeClick={this.minimize}
                 onCloseClick={this.close}
