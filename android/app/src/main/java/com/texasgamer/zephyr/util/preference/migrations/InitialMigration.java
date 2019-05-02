@@ -6,6 +6,9 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Initial migration which always runs on fresh install.
+ */
 public class InitialMigration implements IZephyrPreferenceMigration {
     @Override
     public int fromVersion() {

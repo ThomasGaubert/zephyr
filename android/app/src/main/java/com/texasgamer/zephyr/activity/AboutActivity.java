@@ -43,6 +43,11 @@ public class AboutActivity extends BaseActivity {
         NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_GITHUB_URL);
     }
 
+    @OnClick(R.id.about_privacy)
+    public void onClickPrivacyBtn(View view) {
+        NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_PRIVACY_URL);
+    }
+
     @OnClick(R.id.about_licenses)
     public void onClickLicensesBtn(View view) {
         NavigationUtils.openActivity(view.getContext(), LicensesActivity.class);
