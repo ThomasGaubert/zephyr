@@ -23,27 +23,27 @@ public class ConfigManager implements IConfigManager {
 
     @Override
     public boolean isDebug() {
-        return BuildConfig.BUILD_TYPE.equals("debug");
+        return "debug".equals(BuildConfig.BUILD_TYPE);
     }
 
     @Override
     public boolean isRelease() {
-        return BuildConfig.BUILD_TYPE.equals("release");
+        return "release".equals(BuildConfig.BUILD_TYPE);
     }
 
     @Override
     public boolean isDev() {
-        return BuildConfig.FLAVOR.equals("dev");
+        return "dev".equals(BuildConfig.FLAVOR);
     }
 
     @Override
     public boolean isBeta() {
-        return BuildConfig.FLAVOR.equals("beta");
+        return "beta".equals(BuildConfig.FLAVOR);
     }
 
     @Override
     public boolean isProduction() {
-        return BuildConfig.FLAVOR.equals("production");
+        return "production".equals(BuildConfig.FLAVOR);
     }
 
     @Override

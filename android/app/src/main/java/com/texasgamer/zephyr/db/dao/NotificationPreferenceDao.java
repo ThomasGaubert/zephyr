@@ -34,7 +34,7 @@ public interface NotificationPreferenceDao {
     void updateNotificationPreference(String packageName, boolean enabled);
 
     @Query("DELETE FROM notification_preferences WHERE packageName NOT IN (:installedPackageNames)")
-    void removeOrphanedNotificationPreferences(String[] installedPackageNames);
+    void removeOrphanedNotificationPreferences(String... installedPackageNames);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertNotificationPreferences(List<NotificationPreferenceEntity> notificationPreferences);
