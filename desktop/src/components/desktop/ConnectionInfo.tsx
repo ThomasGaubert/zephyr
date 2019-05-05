@@ -1,3 +1,4 @@
+import Card from '@material-ui/core/Card';
 import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -87,6 +88,13 @@ class ConnectionInfo extends React.Component<any, any> {
             contentClassName='content'
             style={{ width: '100%', height: '429px', padidngBottom: '70px' }}
             horizontal={false}>
+          <Card style={{ padding: '1.0rem', paddingBottom: '0', backgroundColor: '#2962ff' }}>
+            <div>Thanks for beta testing! Things are still under development.</div>
+            <p>What's new:</p>
+            <ul>
+              <li>Initial beta relase</li>
+            </ul>
+          </Card>
           <List component='nav'>
             <ListItem>
               <ListItemIcon>
