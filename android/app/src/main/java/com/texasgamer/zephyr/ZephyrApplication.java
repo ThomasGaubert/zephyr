@@ -78,7 +78,7 @@ public class ZephyrApplication extends Application {
             logger.log(LogPriority.WARNING, LOG_TAG, "Crashlytics disabled.");
         }
 
-        logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr started.");
+        logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr %s (%s - %s) started.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.GIT_HASH);
 
         sApplicationComponent.notificationsManager().createNotificationChannels();
 
