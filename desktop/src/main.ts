@@ -82,7 +82,8 @@ function init() {
   if (ConfigUtils.isDev()) {
     LogUtils.info('Zephyr Beta', 'Live reload enabled!');
     require('electron-reload')(__dirname, {
-      electron: Path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
+      electron: Path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      ignored: /.*\.log/
     });
   }
 

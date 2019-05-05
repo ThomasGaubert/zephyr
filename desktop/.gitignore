@@ -6,3 +6,5 @@ dist
 *.xml
 
 build
+
+*.log

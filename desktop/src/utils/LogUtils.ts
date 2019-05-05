@@ -1,33 +1,35 @@
 import Logger from 'electron-log';
+import path from 'path';
 
 export default class LogUtils {
 
   static getLogger(): any {
+    Logger.transports.file.file = __dirname + path.sep + 'log.log';
     return Logger;
   }
 
   static silly(tag: string, message: string) {
-    Logger.silly(this.formatLog(tag, message));
+    this.getLogger().silly(this.formatLog(tag, message));
   }
 
   static debug(tag: string, message: string) {
-    Logger.debug(this.formatLog(tag, message));
+    this.getLogger().debug(this.formatLog(tag, message));
   }
 
   static verbose(tag: string, message: string) {
-    Logger.verbose(this.formatLog(tag, message));
+    this.getLogger().verbose(this.formatLog(tag, message));
   }
 
   static info(tag: string, message: string) {
-    Logger.info(this.formatLog(tag, message));
+    this.getLogger().info(this.formatLog(tag, message));
   }
 
   static warn(tag: string, message: string) {
-    Logger.warn(this.formatLog(tag, message));
+    this.getLogger().warn(this.formatLog(tag, message));
   }
 
   static error(tag: string, message: string) {
-    Logger.error(this.formatLog(tag, message));
+    this.getLogger().error(this.formatLog(tag, message));
   }
 
   static formatLog(tag: string, message: string): string {
