@@ -22,6 +22,16 @@ public class ConfigManager implements IConfigManager {
     }
 
     @Override
+    public boolean isDebug() {
+        return BuildConfig.BUILD_TYPE.equals("debug");
+    }
+
+    @Override
+    public boolean isRelease() {
+        return BuildConfig.BUILD_TYPE.equals("release");
+    }
+
+    @Override
     public boolean isDev() {
         return BuildConfig.FLAVOR.equals("dev");
     }
@@ -43,12 +53,12 @@ public class ConfigManager implements IConfigManager {
 
     @Override
     public boolean isFirebaseAnalyticsEnabled() {
-        return isFirebaseEnabled() && Constants.FIREBASE_ANALYTICS_ENABLED && isProduction();
+        return isFirebaseEnabled() && Constants.FIREBASE_ANALYTICS_ENABLED && isRelease();
     }
 
     @Override
     public boolean isFirebaseCrashlyticsEnabled() {
-        return isFirebaseEnabled() && Constants.FIREBASE_CRASHLYTICS_ENABLED && isProduction();
+        return isFirebaseEnabled() && Constants.FIREBASE_CRASHLYTICS_ENABLED && isRelease();
     }
 
     @Override

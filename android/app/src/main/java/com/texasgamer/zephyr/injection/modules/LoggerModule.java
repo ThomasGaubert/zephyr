@@ -1,10 +1,13 @@
 package com.texasgamer.zephyr.injection.modules;
 
+import androidx.annotation.NonNull;
+
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogSanitizer;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogSanitizer;
 import com.texasgamer.zephyr.util.log.Logger;
+import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
 import javax.inject.Singleton;
 
@@ -18,8 +21,8 @@ import dagger.Provides;
 public class LoggerModule {
     @Provides
     @Singleton
-    ILogger provideLogger(IConfigManager configManager, ILogSanitizer logSanitizer) {
-        return new Logger(configManager, logSanitizer);
+    ILogger provideLogger(@NonNull ILogSanitizer logSanitizer, @NonNull IPrivacyManager privacyManager) {
+        return new Logger(logSanitizer, privacyManager);
     }
 
     @Provides

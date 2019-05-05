@@ -6,6 +6,10 @@ package com.texasgamer.zephyr.util.config;
 public interface IConfigManager {
 
     /* Build */
+    boolean isDebug();
+
+    boolean isRelease();
+
     boolean isDev();
 
     boolean isBeta();

@@ -29,6 +29,7 @@
 
     <!-- Navigation Menu -->
     <string name="menu_manage_notifications">Manage notifications</string>
+    <string name="menu_privacy">Privacy</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
 
@@ -50,6 +51,21 @@
     <string name="menu_join_code_title">Join Code</string>
     <string name="menu_join_code_hint">Join Code or IP address</string>
     <string name="menu_join_code_invalid">Invalid code or address</string>
+
+    <!-- Privacy Menu -->
+    <string name="menu_privacy_title">Privacy</string>
+    <string name="menu_privacy_usage_text">Zephyr collects anonymous usage data and crash reports to improve your experience. Notifications never leave your local network.</string>
+    <string name="menu_privacy_setting_crash_reports">Crash reports</string>
+    <string name="menu_privacy_setting_usage_data">Anonymous usage data</string>
+    <string name="menu_privacy_uuid_title">Instance ID</string>
+    <string name="menu_privacy_uuid_text">Zephyr uses a randomly generated ID to track crashes and usage data. This ID is generated on a fresh install and isn\'t linked to you or other Zephyr clients.</string>
+    <string name="menu_privacy_setting_uuid">Use instance ID</string>
+    <string name="menu_privacy_uuid_generate">Generate new ID</string>
+    <string name="menu_privacy_restart_app_title">Restart required</string>
+    <string name="menu_privacy_restart_app_body">Zephyr needs to restart to apply your changes.</string>
+    <string name="menu_privacy_restart_app_btn">Restart</string>
+    <string name="menu_privacy_disabled_beta">These settings can\'t be modified while Zephyr is in beta.</string>
+    <string name="menu_privacy_disabled_config">Certain settings are disabled because of the current build configuration.</string>
 
     <!-- What's New Menu -->
     <string name="menu_whats_new_zephyr_v2_title">Welcome to Zephyr v2!</string>

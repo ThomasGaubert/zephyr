@@ -6,6 +6,10 @@
             android:icon="@drawable/ic_notifications"
             android:title="@string/menu_manage_notifications" />
         <item
+            android:id="@+id/action_privacy"
+            android:icon="@drawable/ic_privacy"
+            android:title="@string/menu_privacy" />
+        <item
             android:id="@+id/action_help"
             android:icon="@drawable/ic_help"
             android:title="@string/menu_help" />

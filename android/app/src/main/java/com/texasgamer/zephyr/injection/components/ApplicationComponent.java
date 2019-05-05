@@ -11,6 +11,7 @@ import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
+import com.texasgamer.zephyr.fragment.PrivacyFragment;
 import com.texasgamer.zephyr.fragment.ScanCodeFragment;
 import com.texasgamer.zephyr.fragment.WhatsNewFragment;
 import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemFragment;
@@ -22,6 +23,7 @@ import com.texasgamer.zephyr.injection.modules.EagerModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
 import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
+import com.texasgamer.zephyr.injection.modules.PrivacyModule;
 import com.texasgamer.zephyr.injection.modules.ProviderModule;
 import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
@@ -56,7 +58,8 @@ import dagger.Component;
             PreferenceModule.class,
             NotificationsModule.class,
             WorkModule.class,
-            ProviderModule.class
+            ProviderModule.class,
+            PrivacyModule.class
         })
 public interface ApplicationComponent {
     /* Init */
@@ -104,6 +107,8 @@ public interface ApplicationComponent {
     void inject(NotificationsFragment notificationsFragment);
 
     void inject(MenuFragment menuFragment);
+
+    void inject(PrivacyFragment privacyFragment);
 
     void inject(ConnectFragment connectFragment);
 

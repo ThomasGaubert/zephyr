@@ -3,13 +3,14 @@ package com.texasgamer.zephyr.util.analytics;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
 /**
  * Analytics manager.
@@ -21,14 +22,21 @@ public class AnalyticsManager implements IAnalyticsManager {
     private Context mContext;
     private ILogger mLogger;
     private IConfigManager mConfigManager;
+    private IPrivacyManager mPrivacyManager;
 
-    public AnalyticsManager(@NonNull Context context, @NonNull ILogger logger, @NonNull IConfigManager configManager) {
-        this.mContext = context;
-        this.mLogger = logger;
-        this.mConfigManager = configManager;
+    public AnalyticsManager(@NonNull Context context,
+                            @NonNull ILogger logger,
+                            @NonNull IConfigManager configManager,
+                            @NonNull IPrivacyManager privacyManager) {
+        mContext = context;
+        mLogger = logger;
+        mConfigManager = configManager;
+        mPrivacyManager = privacyManager;
 
-        if (configManager.isFirebaseAnalyticsEnabled()) {
-            FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(true);
+        if (mPrivacyManager.isUsageDataCollectionEnabled()) {
+            FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+            firebaseAnalytics.setAnalyticsCollectionEnabled(true);
+            firebaseAnalytics.setUserId(privacyManager.getUuid());
         } else {
             logger.log(LogPriority.WARNING, LOG_TAG, "Firebase analytics disabled.");
         }
@@ -51,7 +59,7 @@ public class AnalyticsManager implements IAnalyticsManager {
             mLogger.log(LogPriority.VERBOSE, LOG_TAG, "Event: %s - Params: %s", eventId, paramsString);
         }
 
-        if (mConfigManager.isFirebaseAnalyticsEnabled()) {
+        if (mPrivacyManager.isUsageDataCollectionEnabled()) {
             FirebaseAnalytics.getInstance(mContext).logEvent(eventId, params);
         }
     }

@@ -58,6 +58,10 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
             case R.id.action_manage_notifications:
                 NavigationUtils.openActivity(getContext(), NotificationActivity.class);
                 break;
+            case R.id.action_privacy:
+                PrivacyFragment privacyFragment = new PrivacyFragment();
+                privacyFragment.show(getFragmentManager(), privacyFragment.getTag());
+                break;
             case R.id.action_help:
                 NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_HELP_URL);
                 break;

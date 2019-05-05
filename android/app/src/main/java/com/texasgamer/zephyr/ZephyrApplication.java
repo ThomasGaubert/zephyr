@@ -15,6 +15,7 @@ import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
+import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 import com.texasgamer.zephyr.worker.IWorkManager;
 
 import javax.inject.Inject;
@@ -38,6 +39,8 @@ public class ZephyrApplication extends Application {
     IWorkManager workManager;
     @Inject
     IPreferenceManager preferenceManager;
+    @Inject
+    IPrivacyManager privacyManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
@@ -65,11 +68,12 @@ public class ZephyrApplication extends Application {
         if (configManager.isFirebaseEnabled()) {
             FirebaseApp.initializeApp(this);
         } else {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Firebase disabled, some features will be limited or disabled.");
+            logger.log(LogPriority.WARNING, LOG_TAG, "Firebase disabled, some features will be limistrted or disabled.");
         }
 
-        if (configManager.isFirebaseCrashlyticsEnabled()) {
+        if (privacyManager.isCrashReportingEnabled()) {
             Fabric.with(this, new Crashlytics());
+            Crashlytics.setUserIdentifier(privacyManager.getUuid());
         } else {
             logger.log(LogPriority.WARNING, LOG_TAG, "Crashlytics disabled.");
         }

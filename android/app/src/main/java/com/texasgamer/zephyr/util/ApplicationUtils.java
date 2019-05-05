@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -31,6 +32,13 @@ public class ApplicationUtils {
         mContext = context;
         mPreferencesManager = preferenceManager;
         mPackageManager = context.getPackageManager();
+    }
+
+    public static void restartApp(@NonNull Context context) {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+        Runtime.getRuntime().exit(0);
     }
 
     public boolean isFre() {

@@ -23,6 +23,7 @@ public final class Constants {
 
     /* Preferences */
     public static final int PREFS_VERSION = 1;
+    public static final String DEFAULT_UUID = "00000000-0000-0000-0000-000000000000";
 
     /* Android */
     public static final String ANDROID_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";

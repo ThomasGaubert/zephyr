@@ -2,23 +2,23 @@ package com.texasgamer.zephyr.util.log;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.crashlytics.android.Crashlytics;
 import com.texasgamer.zephyr.Constants;
-import com.texasgamer.zephyr.util.config.IConfigManager;
-
-import androidx.annotation.NonNull;
+import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
 /**
  * Logger.
  */
 public class Logger implements ILogger {
 
-    private IConfigManager mConfigManager;
     private ILogSanitizer mLogSanitizer;
+    private IPrivacyManager mPrivacyManager;
 
-    public Logger(@NonNull IConfigManager configManager, @NonNull ILogSanitizer logSanitizer) {
-        this.mConfigManager = configManager;
-        this.mLogSanitizer = logSanitizer;
+    public Logger(@NonNull ILogSanitizer logSanitizer, @NonNull IPrivacyManager privacyManager) {
+        mLogSanitizer = logSanitizer;
+        mPrivacyManager = privacyManager;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Logger implements ILogger {
                 Log.v(tag, mLogSanitizer.sanitize(message));
         }
 
-        if (mConfigManager.isFirebaseCrashlyticsEnabled()) {
+        if (mPrivacyManager.isCrashReportingEnabled()) {
             logToCrashlytics(priority, tag, message);
         }
     }
