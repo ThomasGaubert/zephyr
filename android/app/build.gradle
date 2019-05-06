@@ -38,6 +38,16 @@ def getGitHash = { ->
     return stdout.toString().trim()
 }
 
+// Secrets
+Properties props = new Properties()
+if (file('private.properties').exists()) {
+    props.load(file('private.properties').newDataInputStream())
+    props.setProperty('PROPS_SET', 'true')
+} else {
+    logger.warn('private.properties is missing!')
+    props.setProperty('PROPS_SET', 'false')
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -49,6 +59,8 @@ android {
         buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
         buildConfigField "String", "BUILD_DATE", "\"${new Date().format('yyyyMMddHHmmss')}\""
         buildConfigField "String", "BUILD_NUMBER", "\"${System.getenv('BUILD_NUMBER') ?: new Date().format('yyyyMMddHHmmss')}\""
+        buildConfigField "boolean", "PROPS_SET", "${props.getProperty('PROPS_SET') ?: 'false'}"
+        buildConfigField "String", "APP_CENTER_SECRET", "\"${props.getProperty('APP_CENTER_SECRET')}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -111,6 +123,9 @@ dependencies {
 
     // Android Debug Database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
+    // AppCenter
+    implementation "com.microsoft.appcenter:appcenter-distribute:2.0.0"
 
     // ButterKnife
     implementation ('com.jakewharton:butterknife:9.0.0-SNAPSHOT') {

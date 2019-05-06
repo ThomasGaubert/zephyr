@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.distribute.Distribute;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
 import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
@@ -68,7 +70,7 @@ public class ZephyrApplication extends Application {
         if (configManager.isFirebaseEnabled()) {
             FirebaseApp.initializeApp(this);
         } else {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Firebase disabled, some features will be limistrted or disabled.");
+            logger.log(LogPriority.WARNING, LOG_TAG, "Firebase disabled, some features will be limited or disabled.");
         }
 
         if (privacyManager.isCrashReportingEnabled()) {
@@ -78,6 +80,10 @@ public class ZephyrApplication extends Application {
             logger.log(LogPriority.WARNING, LOG_TAG, "Crashlytics disabled.");
         }
 
+        if (!BuildConfig.PROPS_SET) {
+            logger.log(LogPriority.WARNING, LOG_TAG, "Secret properties not set! Some features will be limited or disabled.");
+        }
+
         logger.log(LogPriority.DEBUG, LOG_TAG, "Zephyr %s (%s - %s) started.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.GIT_HASH);
 
         sApplicationComponent.notificationsManager().createNotificationChannels();
@@ -85,6 +91,14 @@ public class ZephyrApplication extends Application {
         workManager.initWork();
 
         verifyConnectionStatus();
+
+        // Check for updates from AppCenter if beta.
+        // TODO: Refactor to be generic and to support other tracks.
+        if (BuildConfig.PROPS_SET && configManager.isBeta()) {
+            AppCenter.start(this, BuildConfig.APP_CENTER_SECRET, Distribute.class);
+        } else if (!BuildConfig.PROPS_SET && configManager.isBeta()) {
+            logger.log(LogPriority.WARNING, LOG_TAG, "AppCenter update check disabled -- APP_CENTER_SECRET not set!");
+        }
     }
 
     private void verifyConnectionStatus() {
