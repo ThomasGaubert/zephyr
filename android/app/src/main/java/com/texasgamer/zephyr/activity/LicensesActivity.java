@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import com.texasgamer.zephyr.BuildConfig;
-import com.texasgamer.zephyr.R;
-import com.texasgamer.zephyr.ZephyrApplication;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+
+import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
+
 import butterknife.BindView;
 
 /**
@@ -51,10 +51,5 @@ public class LicensesActivity extends BaseActivity {
     @Override
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
-    }
-
-    @NonNull
-    private String capitalizeFirstLetter(@NonNull String original) {
-        return original.length() == 0 ? original : original.substring(0, 1).toUpperCase() + original.substring(1);
     }
 }
