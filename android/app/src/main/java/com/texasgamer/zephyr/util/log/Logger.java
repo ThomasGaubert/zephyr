@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.texasgamer.zephyr.Constants;
+import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
 /**
@@ -47,7 +48,7 @@ public class Logger implements ILogger {
                 Log.v(tag, mLogSanitizer.sanitize(message));
         }
 
-        if (mPrivacyManager.isCrashReportingEnabled()) {
+        if (mPrivacyManager.isCrashReportingEnabled() && ZephyrApplication.isFabricInitialized()) {
             logToCrashlytics(priority, tag, message);
         }
     }

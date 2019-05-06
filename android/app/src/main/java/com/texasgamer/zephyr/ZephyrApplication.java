@@ -32,6 +32,7 @@ public class ZephyrApplication extends Application {
     private static final String LOG_TAG = "ZephyrApplication";
     private static ZephyrApplication sInstance;
     private static ApplicationComponent sApplicationComponent;
+    private static boolean sFabricInitialized = false;
 
     @Inject
     ILogger logger;
@@ -50,6 +51,10 @@ public class ZephyrApplication extends Application {
 
     public static ZephyrApplication getInstance() {
         return sInstance;
+    }
+
+    public static boolean isFabricInitialized() {
+        return sFabricInitialized;
     }
 
     @Override
@@ -76,6 +81,7 @@ public class ZephyrApplication extends Application {
         if (privacyManager.isCrashReportingEnabled()) {
             Fabric.with(this, new Crashlytics());
             Crashlytics.setUserIdentifier(privacyManager.getUuid());
+            sFabricInitialized = true;
         } else {
             logger.log(LogPriority.WARNING, LOG_TAG, "Crashlytics disabled.");
         }
