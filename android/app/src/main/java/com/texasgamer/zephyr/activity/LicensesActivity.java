@@ -29,9 +29,7 @@ public class LicensesActivity extends BaseActivity {
 
         setSupportActionBar(mToolbar);
 
-        mWebView.loadUrl(String.format("file:///android_asset/license%s%sReport.html",
-                capitalizeFirstLetter(BuildConfig.FLAVOR),
-                capitalizeFirstLetter(BuildConfig.BUILD_TYPE)));
+        mWebView.loadUrl("file:///android_asset/open_source_licenses.html");
     }
 
     @Override
