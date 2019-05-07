@@ -1,4 +1,4 @@
-[<img alt="Zephyr" height="150px" src="http://i.imgur.com/GZ7Wrd7.png" />](http://gaubert.io/projects/zephyr)
+[<img alt="Zephyr" height="150px" src="https://i.imgur.com/GZ7Wrd7.png" />](http://gaubert.io/projects/zephyr)
 
 [![Build Status](https://travis-ci.org/ThomasGaubert/zephyr.svg?branch=master)](https://travis-ci.org/ThomasGaubert/zephyr) [![Build status](https://ci.appveyor.com/api/projects/status/n8cwsdbepynkqe4i?svg=true)](https://ci.appveyor.com/project/ThomasGaubert/openvr-notifications)
 
@@ -8,7 +8,12 @@ Mirror Android notifications to VR.
 
 [Discuss Zephyr on Reddit](https://www.reddit.com/r/zephyr_vr/)
 
-## Installation
+## Beta
+Zephyr v2 is almost here! Get early access to the biggest release yet.
+
+**[Enroll in the beta](https://zephyrvr.gitbook.io/docs/zephyr/beta)**
+
+## Installation (Zephyr v1)
 To get things up and running:
 
  1. Download and install SteamVR
