@@ -1,3 +1,5 @@
 Automatically built and published to beta track.
 
-See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
+- Fixed instance ID bugs
+
+See https://github.com/ThomasGaubert/zephyr/commits/v2 for full list latest changes.
