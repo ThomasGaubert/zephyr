@@ -44,7 +44,7 @@ public class PrivacyManager implements IPrivacyManager {
         mInitialUuid = mSharedPreferences.getString(PreferenceKeys.PREF_UUID, Constants.DEFAULT_UUID);
 
         if (mInitialUuidSetting && mInitialUuid.equals(Constants.DEFAULT_UUID)) {
-            generateUuid();
+            mInitialUuid = generateUuid();
         }
 
         mCurrentUsageDataSetting = mInitialUsageDataSetting;
