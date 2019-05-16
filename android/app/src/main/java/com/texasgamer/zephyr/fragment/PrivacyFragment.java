@@ -83,8 +83,11 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
 
         if (!privacyManager.isEditingUsageDataCollectionSettingEnabled()) {
             uuidSwitch.setEnabled(false);
-            generateUuidButton.setVisibility(View.GONE);
             settingDisabledFlag = true;
+        }
+
+        if (!uuidSwitch.isChecked()) {
+            generateUuidButton.setVisibility(View.GONE);
         }
 
         if (settingDisabledFlag && (!configManager.isFirebaseAnalyticsEnabled() || !configManager.isFirebaseCrashlyticsEnabled())) {
