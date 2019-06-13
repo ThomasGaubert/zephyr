@@ -146,7 +146,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
             return;
         }
 
-        if (mServerAddress.isEmpty()) {
+        if (mServerAddress == null || mServerAddress.isEmpty()) {
             logger.log(LogPriority.WARNING, LOG_TAG, "No address specified!");
             updateServiceNotification(ConnectionStatus.NO_JOIN_CODE);
             return;
