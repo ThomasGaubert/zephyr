@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 
 import javax.inject.Inject;
@@ -19,10 +20,11 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
-    protected IPreferenceManager mPreferenceManager;
-
+    protected ILogger logger;
     @Inject
-    IAnalyticsManager analyticsManager;
+    protected IPreferenceManager mPreferenceManager;
+    @Inject
+    protected IAnalyticsManager analyticsManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

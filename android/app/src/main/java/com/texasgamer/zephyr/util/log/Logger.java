@@ -9,6 +9,11 @@ import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
 /**
  * Logger.
  */
@@ -16,6 +21,7 @@ public class Logger implements ILogger {
 
     private ILogSanitizer mLogSanitizer;
     private IPrivacyManager mPrivacyManager;
+    private final Deque<LogEntry> mEntries = new ArrayDeque<>(Constants.LOG_BUFFER_SIZE + 1);
 
     public Logger(@NonNull ILogSanitizer logSanitizer, @NonNull IPrivacyManager privacyManager) {
         mLogSanitizer = logSanitizer;
@@ -48,8 +54,11 @@ public class Logger implements ILogger {
                 Log.v(tag, mLogSanitizer.sanitize(message));
         }
 
+        LogEntry logEntry = new LogEntry(priority, tag, message);
+        logToBuffer(logEntry);
+
         if (mPrivacyManager.isCrashReportingEnabled() && ZephyrApplication.isFabricInitialized()) {
-            logToCrashlytics(priority, tag, message);
+            logToCrashlytics(logEntry);
         }
     }
 
@@ -68,29 +77,23 @@ public class Logger implements ILogger {
         log(priority, tag, throwable.toString());
     }
 
-    private void logToCrashlytics(@LogPriority int priority, @NonNull String tag, @NonNull String message) {
-        if (priority < Constants.MIN_LOG_LEVEL_CRASHLYTICS) {
+    @Override
+    public List<LogEntry> getLogs() {
+        return new ArrayList<>(mEntries);
+    }
+
+    private void logToBuffer(@NonNull LogEntry logEntry) {
+        mEntries.addLast(logEntry);
+        if (mEntries.size() > Constants.LOG_BUFFER_SIZE) {
+            mEntries.removeFirst();
+        }
+    }
+
+    private void logToCrashlytics(@NonNull LogEntry logEntry) {
+        if (logEntry.getPriority() < Constants.MIN_LOG_LEVEL_CRASHLYTICS) {
             return;
         }
 
-        switch (priority) {
-            case LogPriority.VERBOSE:
-                Crashlytics.log(String.format("V/%s: %s", tag, message));
-                break;
-            case LogPriority.DEBUG:
-                Crashlytics.log(String.format("D/%s: %s", tag, message));
-                break;
-            case LogPriority.INFO:
-                Crashlytics.log(String.format("I/%s: %s", tag, message));
-                break;
-            case LogPriority.WARNING:
-                Crashlytics.log(String.format("W/%s: %s", tag, message));
-                break;
-            case LogPriority.ERROR:
-                Crashlytics.log(String.format("E/%s: %s", tag, message));
-                break;
-            default:
-                Crashlytics.log(String.format("?/%s: %s", tag, message));
-        }
+        Crashlytics.log(logEntry.toString());
     }
 }

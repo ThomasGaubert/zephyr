@@ -33,6 +33,7 @@ public final class Constants {
     public static final int MIN_LOG_LEVEL = LogPriority.VERBOSE;
     @LogPriority
     public static final int MIN_LOG_LEVEL_CRASHLYTICS = LogPriority.INFO;
+    public static final int LOG_BUFFER_SIZE = 200;
 
     /* Database */
     public static final int DB_VERSION = 1;
