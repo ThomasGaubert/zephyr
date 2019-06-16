@@ -1,6 +1,5 @@
 Automatically built and published to beta track.
 
-- Fixed crash when connecting with no join code set (thanks Matthias!)
-- Fixed automated crash reporting
+- Added "Export Logs" option in About screen
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
