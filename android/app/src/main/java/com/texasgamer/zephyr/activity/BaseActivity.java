@@ -20,11 +20,11 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
-    protected ILogger logger;
+    protected ILogger mLogger;
     @Inject
     protected IPreferenceManager mPreferenceManager;
     @Inject
-    protected IAnalyticsManager analyticsManager;
+    protected IAnalyticsManager mAnalyticsManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         injectDependencies();
 
-        if (analyticsManager == null || mPreferenceManager == null) {
+        if (mAnalyticsManager == null || mPreferenceManager == null) {
             throw new IllegalStateException("Dependencies not fulfilled for this Activity.");
         }
 

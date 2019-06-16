@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
         Bundle params = new Bundle();
         params.putBoolean(ZephyrEvent.Parameter.JOIN_CODE_SET, isJoinCodeSet);
         params.putBoolean(ZephyrEvent.Parameter.CONNECTED, mConnectButton.isChecked());
-        analyticsManager.logEvent(ZephyrEvent.Action.TAP_CONNECTION_BUTTON, params);
+        mAnalyticsManager.logEvent(ZephyrEvent.Action.TAP_CONNECTION_BUTTON, params);
 
         if (!mConnectButton.isChecked()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
 
     @OnLongClick(R.id.connect_button)
     public boolean onLongClickConnectButton() {
-        analyticsManager.logEvent(ZephyrEvent.Action.LONG_PRESS_CONNECTION_BUTTON);
+        mAnalyticsManager.logEvent(ZephyrEvent.Action.LONG_PRESS_CONNECTION_BUTTON);
         mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
         return true;
     }

@@ -57,7 +57,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.about_export_logs)
     public void onClickExportLogsBtn(View view) {
-        logger.log(LogPriority.INFO, LOG_TAG, "Exporting logs...");
+        mLogger.log(LogPriority.INFO, LOG_TAG, "Exporting logs...");
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             File file = new File(getCacheDir(), "logs/zephyr-logs.txt");
             if (!file.exists()) {
@@ -68,7 +68,7 @@ public class AboutActivity extends BaseActivity {
             try {
                 writer = new FileWriter(file);
 
-                for (LogEntry logEntry : logger.getLogs()) {
+                for (LogEntry logEntry : mLogger.getLogs()) {
                     writer.write(logEntry.toString() + "\n");
                 }
 
@@ -78,7 +78,7 @@ public class AboutActivity extends BaseActivity {
                 return;
             }
 
-            Uri contentUri = FileProvider.getUriForFile( AboutActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
+            Uri contentUri = FileProvider.getUriForFile(AboutActivity.this, BuildConfig.APPLICATION_ID + ".provider", file);
 
             Intent intent = ShareCompat.IntentBuilder.from(this)
                     .setType("text/plain")
