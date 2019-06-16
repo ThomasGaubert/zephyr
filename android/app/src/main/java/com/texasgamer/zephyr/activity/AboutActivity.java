@@ -74,7 +74,7 @@ public class AboutActivity extends BaseActivity {
 
                 writer.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                mLogger.log(LogPriority.ERROR, LOG_TAG, "Error while exporting logs!", e);
                 return;
             }
 
