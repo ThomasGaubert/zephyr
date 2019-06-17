@@ -41,7 +41,7 @@
     <!-- Scan QR Code Menu -->
     <string name="menu_scan_qr_title">Scan QR code</string>
     <string name="menu_scan_qr_confirm">Is this correct?</string>
-    <string name="menu_scan_qr_btn_scan">Scan</string>
+    <string name="menu_scan_qr_btn_scan">Scan again</string>
     <string name="menu_scan_qr_btn_confirm">Confirm</string>
     <string name="menu_scan_qr_error_not_supported">QR scanning is not supported on this device.</string>
     <string name="menu_scan_qr_error_permission_denied">Camera permission is required to scan QR codes.</string>

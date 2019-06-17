@@ -2,13 +2,18 @@ package com.texasgamer.zephyr.fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
@@ -23,19 +28,19 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
+import com.texasgamer.zephyr.util.VibrationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
+import com.texasgamer.zephyr.view.ScannerOverlayView;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,6 +58,10 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     LinearLayout mScanConfirmation;
     @BindView(R.id.scanned_value)
     TextView mScannedValue;
+    @BindView(R.id.spinner)
+    ProgressBar mSpinner;
+    @BindView(R.id.scanner_overlay)
+    ScannerOverlayView mOverlay;
     @BindView(R.id.camera)
     CameraView mCameraView;
 
@@ -182,6 +191,14 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
         mIsDetectorRunning.set(true);
         mBarcodeDetector.detectInImage(visionImage).addOnSuccessListener(firebaseVisionBarcodes -> {
+            if (configManager.isQrCodeIndicatorsEnabled()) {
+                Rect[] boundingBoxes = new Rect[firebaseVisionBarcodes.size()];
+                for (int x = 0; x < firebaseVisionBarcodes.size(); x++) {
+                    boundingBoxes[x] = firebaseVisionBarcodes.get(x).getBoundingBox();
+                }
+                mOverlay.setBoundingBoxes(boundingBoxes);
+            }
+
             for (FirebaseVisionBarcode barcode : firebaseVisionBarcodes) {
                 String barcodeValue = barcode.getDisplayValue();
                 if (barcodeValue == null) {
@@ -191,12 +208,13 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                 logger.log(LogPriority.DEBUG, LOG_TAG, "Barcode found: " + barcodeValue);
                 if (NetworkUtils.isValidJoinCode(barcodeValue)) {
                     logger.log(LogPriority.DEBUG, LOG_TAG, barcodeValue + " is a valid join code.");
+                    VibrationUtils.vibrate(getContext());
                     mScannedValue.setText(barcodeValue);
                     stopScanning();
                     return;
                 }
             }
             mIsDetectorRunning.set(false);
-        }).addOnFailureListener(e -> logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code."));
+        }).addOnFailureListener(e -> logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.", e));
     }
 }

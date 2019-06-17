@@ -28,5 +28,7 @@ public interface IConfigManager {
     /* Features */
     boolean isQrCodeScanningEnabled();
 
+    boolean isQrCodeIndicatorsEnabled();
+
     boolean isSettingsMenuEnabled();
 }

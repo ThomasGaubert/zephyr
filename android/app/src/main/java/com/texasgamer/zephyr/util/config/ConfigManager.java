@@ -73,6 +73,10 @@ public class ConfigManager implements IConfigManager {
                 && mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
     }
 
+    public boolean isQrCodeIndicatorsEnabled() {
+        return isDebug() && isQrCodeScanningEnabled();
+    }
+
     @Override
     public boolean isSettingsMenuEnabled() {
         return isDev();
