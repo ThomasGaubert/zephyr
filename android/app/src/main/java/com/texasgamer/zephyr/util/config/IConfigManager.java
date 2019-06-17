@@ -25,6 +25,8 @@ public interface IConfigManager {
 
     boolean isFirebaseRemoteConfigEnabled();
 
+    boolean isFirebasePerformanceMonitoringEnabled();
+
     /* Features */
     boolean isQrCodeScanningEnabled();
 

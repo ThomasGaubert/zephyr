@@ -63,7 +63,12 @@ public class ConfigManager implements IConfigManager {
 
     @Override
     public boolean isFirebaseRemoteConfigEnabled() {
-        return isFirebaseEnabled() && Constants.FIREBASE_REMOTE_CONFIG_ENABLED;
+        return isFirebaseEnabled() && Constants.FIREBASE_REMOTE_CONFIG_ENABLED && isRelease();
+    }
+
+    @Override
+    public boolean isFirebasePerformanceMonitoringEnabled() {
+        return isFirebaseEnabled() && Constants.FIREBASE_PERFORMANCE_MONITORING_ENABLED && isRelease();
     }
 
     @Override

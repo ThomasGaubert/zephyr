@@ -44,6 +44,7 @@ public final class Constants {
     public static final boolean FIREBASE_ANALYTICS_ENABLED = true;
     public static final boolean FIREBASE_CRASHLYTICS_ENABLED = true;
     public static final boolean FIREBASE_REMOTE_CONFIG_ENABLED = true;
+    public static final boolean FIREBASE_PERFORMANCE_MONITORING_ENABLED = true;
     public static final int FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS = 10800; // 3 hours
 
     private Constants() {

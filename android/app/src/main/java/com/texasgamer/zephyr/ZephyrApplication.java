@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.perf.FirebasePerformance;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
@@ -76,6 +77,10 @@ public class ZephyrApplication extends Application {
             FirebaseApp.initializeApp(this);
         } else {
             logger.log(LogPriority.WARNING, LOG_TAG, "Firebase disabled, some features will be limited or disabled.");
+        }
+
+        if (configManager.isFirebasePerformanceMonitoringEnabled()) {
+            FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
         }
 
         if (privacyManager.isCrashReportingEnabled()) {
