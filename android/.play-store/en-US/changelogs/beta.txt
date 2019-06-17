@@ -1,5 +1,5 @@
 Automatically built and published to beta track.
 
-- Added "Export Logs" option in About screen
+- QR scanning UX improvements
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
