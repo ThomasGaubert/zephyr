@@ -50,11 +50,11 @@ if (file('private.properties').exists()) {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.texasgamer.zephyr"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode vCode
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         buildConfigField "String", "GIT_HASH", "\"${getGitHash()}\""
