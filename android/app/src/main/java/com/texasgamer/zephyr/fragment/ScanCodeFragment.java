@@ -58,8 +58,6 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     LinearLayout mScanConfirmation;
     @BindView(R.id.scanned_value)
     TextView mScannedValue;
-    @BindView(R.id.spinner)
-    ProgressBar mSpinner;
     @BindView(R.id.scanner_overlay)
     ScannerOverlayView mOverlay;
     @BindView(R.id.camera)
@@ -74,6 +72,8 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
     private FirebaseVisionBarcodeDetector mBarcodeDetector;
     private AtomicBoolean mIsDetectorRunning;
+    private boolean mDidAlertInvalidCode;
+    private boolean mEnableQrCodeIndicators;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,6 +92,8 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
             dismiss();
             return;
         }
+
+        mEnableQrCodeIndicators = configManager.isQrCodeIndicatorsEnabled();
 
         Permissions.check(getContext(), Manifest.permission.CAMERA, null, new PermissionHandler() {
             @Override
@@ -191,7 +193,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
         mIsDetectorRunning.set(true);
         mBarcodeDetector.detectInImage(visionImage).addOnSuccessListener(firebaseVisionBarcodes -> {
-            if (configManager.isQrCodeIndicatorsEnabled()) {
+            if (mEnableQrCodeIndicators) {
                 Rect[] boundingBoxes = new Rect[firebaseVisionBarcodes.size()];
                 for (int x = 0; x < firebaseVisionBarcodes.size(); x++) {
                     boundingBoxes[x] = firebaseVisionBarcodes.get(x).getBoundingBox();
@@ -214,6 +216,12 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                     return;
                 }
             }
+
+            if (!mDidAlertInvalidCode && firebaseVisionBarcodes.size() > 0) {
+                Toast.makeText(getContext(), R.string.menu_scan_qr_invalid_code_toast, Toast.LENGTH_SHORT).show();
+                mDidAlertInvalidCode = true;
+            }
+
             mIsDetectorRunning.set(false);
         }).addOnFailureListener(e -> logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.", e));
     }

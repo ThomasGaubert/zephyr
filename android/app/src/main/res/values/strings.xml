@@ -46,6 +46,7 @@
     <string name="menu_scan_qr_error_not_supported">QR scanning is not supported on this device.</string>
     <string name="menu_scan_qr_error_permission_denied">Camera permission is required to scan QR codes.</string>
     <string name="menu_scan_qr_btn_grant_permission">Enable camera access</string>
+    <string name="menu_scan_qr_invalid_code_toast">Invalid QR code. Is it a Zephyr QR code?</string>
 
     <!-- Join Code Menu -->
     <string name="menu_join_code_title">Join Code</string>
