@@ -23,6 +23,8 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraOptions;
 import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -58,6 +60,8 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     LinearLayout mScanConfirmation;
     @BindView(R.id.scanned_value)
     TextView mScannedValue;
+    @BindView(R.id.spinner)
+    ProgressBar mSpinner;
     @BindView(R.id.scanner_overlay)
     ScannerOverlayView mOverlay;
     @BindView(R.id.camera)
@@ -154,6 +158,14 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
         mCameraView.setLifecycleOwner(getViewLifecycleOwner());
 
+        mCameraView.addCameraListener(new CameraListener() {
+            @Override
+            public void onCameraOpened(@NonNull CameraOptions options) {
+                mSpinner.setVisibility(View.GONE);
+                super.onCameraOpened(options);
+            }
+        });
+
         mCameraView.addFrameProcessor(frame -> {
             try {
                 FirebaseVisionImageMetadata metadata = new FirebaseVisionImageMetadata.Builder()
@@ -181,6 +193,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
         mIsDetectorRunning.set(true);
         mCameraView.close();
         mCameraView.setVisibility(View.GONE);
+        mSpinner.setVisibility(View.GONE);
         mScanConfirmation.setVisibility(View.VISIBLE);
     }
 

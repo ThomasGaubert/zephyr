@@ -90,6 +90,12 @@
             </LinearLayout>
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="64dp" />
+
         <com.otaliastudios.cameraview.CameraView
             android:id="@+id/camera"
             android:layout_width="match_parent"
