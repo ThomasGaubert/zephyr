@@ -157,10 +157,10 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     // Firebase / Fabric
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-config:17.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
-    implementation 'com.google.firebase:firebase-perf:17.0.2'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-config:18.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
+    implementation 'com.google.firebase:firebase-perf:18.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Gson
@@ -192,8 +192,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     // Room
-    implementation "androidx.room:room-runtime:2.1.0-alpha04"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
+    implementation "androidx.room:room-runtime:2.1.0"
+    annotationProcessor "androidx.room:room-compiler:2.1.0"
 
     // SocketIO
     implementation ('io.socket:socket.io-client:1.0.0') {

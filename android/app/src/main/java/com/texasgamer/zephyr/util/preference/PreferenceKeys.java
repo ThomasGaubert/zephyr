@@ -18,6 +18,9 @@ public final class PreferenceKeys {
     public static final String PREF_ENABLE_UUID = "enableUuid";
     public static final String PREF_UUID = "uuid";
 
+    /* Onboarding */
+    public static final String PREF_SEEN_MANAGE_NOTIFICATIONS = "seenManageNotifications";
+
     /* Zephyr v1 */
     public static final String PREF_DEVICE_NAME = "deviceName";
     public static final String PREF_FIRST_RUN = "firstRun";

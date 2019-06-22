@@ -1,5 +1,6 @@
 Automatically built and published to beta track.
 
-- QR scanning UX improvements
+- Added onboarding card for notification management
+- Added additional performance monitoring
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.

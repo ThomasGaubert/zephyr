@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -50,5 +51,8 @@ public class NotificationActivity extends BaseActivity {
     @Override
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
+        if (!mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS)) {
+            mPreferenceManager.putBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS, true);
+        }
     }
 }
