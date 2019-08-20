@@ -31,6 +31,11 @@ public final class NetworkUtils {
     }
 
     public static boolean isConnectedToWifi(Context context) {
+        // Android Q+ restricts WiFi state behind LOCATION_FINE permission, so return true for now.
+        if (AndroidUtils.isAtLeastAndroidQ(context)) {
+            return true;
+        }
+
         WifiManager wifiMgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
         if (wifiMgr != null && wifiMgr.isWifiEnabled()) {
