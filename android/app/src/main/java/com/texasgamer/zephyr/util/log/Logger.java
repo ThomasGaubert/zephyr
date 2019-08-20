@@ -83,9 +83,11 @@ public class Logger implements ILogger {
     }
 
     private void logToBuffer(@NonNull LogEntry logEntry) {
-        mEntries.addLast(logEntry);
-        if (mEntries.size() > Constants.LOG_BUFFER_SIZE) {
-            mEntries.removeFirst();
+        synchronized (mEntries) {
+            mEntries.addLast(logEntry);
+            if (mEntries.size() > Constants.LOG_BUFFER_SIZE) {
+                mEntries.removeFirst();
+            }
         }
     }
 
