@@ -1,8 +1,11 @@
 package com.texasgamer.zephyr.util;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.model.ConnectionStatus;
@@ -31,13 +34,13 @@ public final class NetworkUtils {
     }
 
     public static boolean isConnectedToWifi(Context context) {
-        // Android Q+ restricts WiFi state behind LOCATION_FINE permission, so return true for now.
-        if (AndroidUtils.isAtLeastAndroidQ(context)) {
-            return true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            return connectivityManager != null
+                    && connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork()).hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
         }
 
         WifiManager wifiMgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
         if (wifiMgr != null && wifiMgr.isWifiEnabled()) {
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             return wifiInfo.getNetworkId() != -1;

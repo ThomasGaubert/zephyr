@@ -1,7 +1,6 @@
 Automatically built and published to beta track.
 
 - Fixed crash when logging
-- Android Q: temporarily remove WiFi check
-    - Note: Android Q locks WiFi state behind location permission, a future update will add this optional permission and restore functionality
+- Android Q: fix WiFi check
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
