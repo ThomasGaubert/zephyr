@@ -54,9 +54,11 @@ public class NotificationService extends NotificationListenerService {
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
                 NotificationPayload notificationPayload = new NotificationPayload();
+                notificationPayload.timestamp = sbn.getPostTime();
+                notificationPayload.id = sbn.getId();
+                notificationPayload.packageName = sbn.getPackageName();
                 notificationPayload.title = getNotificationTitle(sbn);
                 notificationPayload.message = getNotificationMessage(sbn);
-                notificationPayload.id = sbn.getId();
 
                 logger.log(LogPriority.VERBOSE, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.message);
                 EventBus.getDefault().post(notificationPayload);
