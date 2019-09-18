@@ -1,6 +1,7 @@
 Automatically built and published to beta track.
 
-- Fixed crash when logging
-- Android Q: fix WiFi check
+- Fix phantom service notification when Zephyr isn't running
+- Target Android 10
+- Update libraries to latest versions
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
