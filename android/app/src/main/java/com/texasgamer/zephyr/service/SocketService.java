@@ -60,6 +60,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     @ConnectionStatus
     private int mConnectionStatus = ConnectionStatus.DISCONNECTED;
+    private boolean mEnableNotifications = true;
     private String mServerAddress;
     private Socket mSocket;
     private NotificationCompat.Builder mStatusNotificationBuilder;
@@ -91,6 +92,8 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Override
     public void onDestroy() {
         logger.log(LogPriority.VERBOSE, LOG_TAG, "onDestroy");
+
+        mEnableNotifications = false;
 
         preferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
         preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
@@ -200,7 +203,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
             }
 
             @Override
-            public void onFailure(Call<ZephyrApiVersion> call, Throwable t) {
+            public void onFailure(@NonNull Call<ZephyrApiVersion> call, @NonNull Throwable t) {
                 logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server not found!");
                 updateServiceNotification(ConnectionStatus.SERVER_NOT_FOUND);
             }
@@ -256,6 +259,11 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     }
 
     private void createServiceNotification() {
+        if (!mEnableNotifications) {
+            logger.log(LogPriority.WARNING, LOG_TAG, "Not creating notification: disabled");
+            return;
+        }
+
         // Tap notification to open MainActivity
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -264,7 +272,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
         // Stop SocketService
         Intent stopIntent = new Intent(this, ZephyrBroadcastReceiver.class);
         stopIntent.setAction(ZephyrBroadcastReceiver.ACTION_STOP_SOCKET_SERVICE);
-        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
+        PendingIntent stopPendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
 
         mStatusNotificationBuilder = new NotificationCompat.Builder(this, ZephyrNotificationChannel.STATUS)
                 .setSmallIcon(R.drawable.ic_link)
@@ -273,11 +281,11 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setOngoing(true)
                 .setAutoCancel(false)
+                .setLocalOnly(true)
                 .setContentIntent(pendingIntent)
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .addAction(R.drawable.ic_disconnected, getString(R.string.status_notif_action_stop),
-                        snoozePendingIntent);
+                .addAction(R.drawable.ic_disconnected, getString(R.string.status_notif_action_stop), stopPendingIntent);
 
         startForeground(ZephyrNotificationId.SOCKET_SERVICE_STATUS, mStatusNotificationBuilder.build());
     }
@@ -285,6 +293,11 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     private void updateServiceNotification(@ConnectionStatus int connectionStatus) {
         if (mStatusNotificationBuilder == null) {
             logger.log(LogPriority.WARNING, LOG_TAG, "Unable to update status notification: null builder");
+            dismissServiceNotification();
+            return;
+        } else if (!mEnableNotifications) {
+            logger.log(LogPriority.WARNING, LOG_TAG, "Not updating notification: disabled");
+            dismissServiceNotification();
             return;
         }
 
