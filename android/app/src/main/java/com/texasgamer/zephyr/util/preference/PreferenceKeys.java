@@ -25,6 +25,9 @@ public final class PreferenceKeys {
     public static final String PREF_DEVICE_NAME = "deviceName";
     public static final String PREF_FIRST_RUN = "firstRun";
 
+    /* Debug */
+    public static final String PREF_DEBUG_SHOW_ALL_CARDS = "debugShowAllCards";
+
     private PreferenceKeys() {
     }
 }

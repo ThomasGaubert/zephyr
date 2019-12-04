@@ -3,6 +3,8 @@ package com.texasgamer.zephyr.model.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Zephyr API version.
  */
@@ -23,44 +25,38 @@ public class ZephyrApiVersion {
     @Expose
     @SerializedName("config")
     private ZephyrDesktopConfig mConfig;
+    @Expose
+    @SerializedName("features")
+    private List<String> mFeatures;
+    @Expose
+    @SerializedName("socketChannels")
+    private ZephyrSocketChannels mSocketChannels;
 
     public Integer getApi() {
         return mApi;
-    }
-
-    public void setApi(Integer api) {
-        this.mApi = api;
     }
 
     public String getDesktop() {
         return mDesktop;
     }
 
-    public void setDesktop(String desktop) {
-        this.mDesktop = desktop;
-    }
-
     public String getNode() {
         return mNode;
-    }
-
-    public void setNode(String node) {
-        this.mNode = node;
     }
 
     public String getBuildType() {
         return mBuildType;
     }
 
-    public void setBuildType(String buildType) {
-        this.mBuildType = buildType;
-    }
-
     public ZephyrDesktopConfig getConfig() {
         return mConfig;
     }
 
-    public void setConfig(ZephyrDesktopConfig config) {
-        this.mConfig = config;
+    public List<String> getFeatures() {
+        return mFeatures;
+    }
+
+    public ZephyrSocketChannels getSocketChannels() {
+        return mSocketChannels;
     }
 }

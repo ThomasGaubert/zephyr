@@ -8,6 +8,7 @@ import android.service.notification.StatusBarNotification;
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
+import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPreference;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
@@ -69,6 +70,15 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(@NonNull StatusBarNotification sbn) {
         logger.log(LogPriority.VERBOSE, LOG_TAG, "onNotificationRemoved: [%s]\t%s", sbn.getId(), sbn.getPackageName());
+        ZephyrExecutors.getDiskExecutor().execute(() -> {
+            if (isValidNotification(sbn)) {
+                DismissNotificationPayload dismissNotificationPayload = new DismissNotificationPayload();
+                dismissNotificationPayload.id = sbn.getId();
+
+                logger.log(LogPriority.VERBOSE, LOG_TAG, "Dismissing notification: %s", sbn.getId());
+                EventBus.getDefault().post(dismissNotificationPayload);
+            }
+        });
     }
 
     private boolean isValidNotification(@NonNull StatusBarNotification sbn) {

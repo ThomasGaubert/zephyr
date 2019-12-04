@@ -32,5 +32,5 @@ public interface IConfigManager {
 
     boolean isQrCodeIndicatorsEnabled();
 
-    boolean isSettingsMenuEnabled();
+    boolean isDebugMenuEnabled();
 }

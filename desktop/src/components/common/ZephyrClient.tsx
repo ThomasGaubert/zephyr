@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import socketIOClient from 'socket.io-client';
 import ActionTypeKeys from '../../actions/ActionTypeKeys';
+import SocketChannels from '../../models/SocketChannels';
 import LogUtils from '../../utils/LogUtils';
 
 class ZephyrClient extends React.Component<any, any> {
@@ -26,8 +27,13 @@ class ZephyrClient extends React.Component<any, any> {
     socket.on('connect', () => this.onConnect(this));
 
     // Upon receiving a notification
-    socket.on('event-notification', notification => this.props.dispatch({type: ActionTypeKeys.NOTIFICATION_POST, payload: {
+    socket.on(SocketChannels.EVENT_NOTIFICATION_POSTED, notification => this.props.dispatch({type: ActionTypeKeys.NOTIFICATION_POST, payload: {
       notification: notification
+    }}));
+
+    // Dismiss notification
+    socket.on(SocketChannels.EVENT_NOTIFICATION_DISMISSED, dismissNotificationPayload => this.props.dispatch({type: ActionTypeKeys.NOTIFICATION_DISMISS, payload: {
+      dismissNotificationPayload: dismissNotificationPayload
     }}));
   }
 

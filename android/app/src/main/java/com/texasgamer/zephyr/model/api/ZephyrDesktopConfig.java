@@ -22,23 +22,11 @@ public class ZephyrDesktopConfig {
         return mType;
     }
 
-    public void setType(String type) {
-        this.mType = type;
-    }
-
     public Boolean getUpdatesEnabled() {
         return mUpdatesEnabled;
     }
 
-    public void setUpdatesEnabled(Boolean updatesEnabled) {
-        this.mUpdatesEnabled = updatesEnabled;
-    }
-
     public Integer getPort() {
         return mPort;
-    }
-
-    public void setPort(Integer port) {
-        this.mPort = port;
     }
 }

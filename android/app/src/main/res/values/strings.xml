@@ -80,6 +80,10 @@
     <string name="menu_whats_new_feedback_body">Please don\'t hesitate to reach out with any feature suggestions or bug reports!</string>
     <string name="menu_whats_new_feedback_button_text">Submit Feedback</string>
 
+    <!-- Debug Menu -->
+    <string name="menu_debug_title">Debug</string>
+    <string name="menu_debug_show_all_cards">Show all cards</string>
+
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>
     <string name="manage_notifications_enable_all">Enable all</string>

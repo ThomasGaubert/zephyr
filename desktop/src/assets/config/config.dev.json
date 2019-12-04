@@ -2,5 +2,5 @@
   "type": "dev",
   "enableUpdates": false,
   "port": 3753,
-  "enableOverlay": true
+  "enableOverlay": false
 }

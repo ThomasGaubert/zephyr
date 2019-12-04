@@ -3,7 +3,10 @@ import {
   INavigateHome,
   INavigateSettings
 } from './navigation';
-import { INotificationPost } from './notification';
+import {
+  INotificationDismiss,
+  INotificationPost
+} from './notification';
 import {
   IServerConnect,
   IServerConnected,
@@ -22,6 +25,7 @@ type ActionTypes =
   | IServerConnected
   | IServerDisconnect
   | IServerError
+  | INotificationDismiss
   | INotificationPost;
 
 export default ActionTypes;

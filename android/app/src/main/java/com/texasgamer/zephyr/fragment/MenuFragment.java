@@ -22,14 +22,15 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Menu fragment.
  */
 public class MenuFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.settings)
-    View settingsButton;
+    @BindView(R.id.debug_menu_btn)
+    View debugMenuButton;
     @BindView(R.id.nav_menu)
     NavigationView mNavigationView;
 
@@ -48,8 +49,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         ZephyrApplication.getApplicationComponent().inject(this);
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        if (configManager.isSettingsMenuEnabled()) {
-            settingsButton.setVisibility(View.VISIBLE);
+        if (configManager.isDebugMenuEnabled()) {
+            debugMenuButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -76,5 +77,13 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         dismiss();
 
         return false;
+    }
+
+    @OnClick(R.id.debug_menu_btn)
+    public void onClickDebugMenuButton() {
+        DebugFragment debugFragment = new DebugFragment();
+        debugFragment.show(getFragmentManager(), debugFragment.getTag());
+
+        dismiss();
     }
 }

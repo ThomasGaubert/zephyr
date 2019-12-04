@@ -83,7 +83,7 @@ public class ConfigManager implements IConfigManager {
     }
 
     @Override
-    public boolean isSettingsMenuEnabled() {
-        return isDev();
+    public boolean isDebugMenuEnabled() {
+        return isDev() || isDebug();
     }
 }

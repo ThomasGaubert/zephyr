@@ -21,6 +21,8 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 import com.texasgamer.zephyr.worker.IWorkManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
@@ -72,6 +74,8 @@ public class ZephyrApplication extends Application {
         sApplicationComponent.init();
 
         registerActivityLifecycleCallbacks(new ZephyrLifecycleLogger());
+
+        EventBus.builder().logNoSubscriberMessages(false).installDefaultEventBus();
 
         if (configManager.isFirebaseEnabled()) {
             FirebaseApp.initializeApp(this);

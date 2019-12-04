@@ -10,6 +10,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.model.ConnectionStatus;
+import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.model.api.ZephyrApiVersion;
 import com.texasgamer.zephyr.network.ZephyrService;
@@ -66,6 +67,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     private NotificationCompat.Builder mStatusNotificationBuilder;
     private SharedPreferenceLiveData<String> mJoinCode;
     private NetworkStateReceiver mNetworkStateReceiver;
+    private ZephyrApiVersion mZephyrApiVersion;
 
     @Override
     public void onCreate() {
@@ -173,19 +175,19 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
                     return;
                 }
 
-                ZephyrApiVersion zephyrApiVersion = response.body();
-                if (zephyrApiVersion == null) {
+                mZephyrApiVersion = response.body();
+                if (mZephyrApiVersion == null) {
                     logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server returned null body, abandoning!");
                     updateServiceNotification(ConnectionStatus.UNKNOWN);
                     return;
                 }
 
                 logger.log(LogPriority.INFO, LOG_TAG, "Connected to server running API v%d (%s-%s)",
-                        zephyrApiVersion.getApi(), zephyrApiVersion.getDesktop(), zephyrApiVersion.getBuildType());
+                        mZephyrApiVersion.getApi(), mZephyrApiVersion.getDesktop(), mZephyrApiVersion.getBuildType());
 
-                if (zephyrApiVersion.getApi() != Constants.ZEPHYR_API_VERSION) {
+                if (mZephyrApiVersion.getApi() != Constants.ZEPHYR_API_VERSION) {
                     logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server returned API %d but app only supports API v%d, abandoning!",
-                            zephyrApiVersion.getApi(), Constants.ZEPHYR_API_VERSION);
+                            mZephyrApiVersion.getApi(), Constants.ZEPHYR_API_VERSION);
                     updateServiceNotification(ConnectionStatus.UNSUPPORTED_API);
                     return;
                 }
@@ -237,7 +239,17 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
             return;
         }
 
-        mSocket.emit("post-notification", gson.toJson(notificationPayload, NotificationPayload.class));
+        mSocket.emit(mZephyrApiVersion.getSocketChannels().getActions().getPostNotification(), gson.toJson(notificationPayload, NotificationPayload.class));
+    }
+
+    @Subscribe
+    public void onDismissNotification(DismissNotificationPayload dismissNotificationPayload) {
+        if (!NetworkUtils.connectionStatusToIsConnected(mConnectionStatus)) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Ignoring notification since currently disconnected from server.");
+            return;
+        }
+
+        mSocket.emit(mZephyrApiVersion.getSocketChannels().getActions().getDismissNotification(), gson.toJson(dismissNotificationPayload, DismissNotificationPayload.class));
     }
 
     private void onUpdateJoinCode(@Nullable String joinCode) {

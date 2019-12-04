@@ -142,7 +142,7 @@ dependencies {
     implementation 'com.otaliastudios:cameraview:2.0.0-beta05'
 
     // Chrome Custom Tabs
-    implementation 'androidx.browser:browser:1.2.0-alpha08'
+    implementation 'androidx.browser:browser:1.2.0-beta01'
 
     // Dagger
     implementation 'com.google.dagger:dagger:2.17'
@@ -157,10 +157,10 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     // Firebase / Fabric
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-config:19.0.2'
-    implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
-    implementation 'com.google.firebase:firebase-perf:19.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-config:19.0.3'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
+    implementation 'com.google.firebase:firebase-perf:19.0.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Gson
@@ -192,8 +192,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     // Room
-    implementation "androidx.room:room-runtime:2.2.0"
-    annotationProcessor "androidx.room:room-compiler:2.2.0"
+    implementation "androidx.room:room-runtime:2.2.2"
+    annotationProcessor "androidx.room:room-compiler:2.2.2"
 
     // SocketIO
     implementation ('io.socket:socket.io-client:1.0.0') {

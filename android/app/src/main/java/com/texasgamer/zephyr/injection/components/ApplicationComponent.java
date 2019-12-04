@@ -7,6 +7,7 @@ import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.db.ZephyrDatabase;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
+import com.texasgamer.zephyr.fragment.DebugFragment;
 import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.MenuFragment;
@@ -119,6 +120,8 @@ public interface ApplicationComponent {
     void inject(WhatsNewFragment whatsNewFragment);
 
     void inject(WhatsNewItemFragment whatsNewItemFragment);
+
+    void inject(DebugFragment debugFragment);
 
     /* Miscellaneous */
     void inject(ZephyrLifecycleLogger zephyrLifecycleLogger);

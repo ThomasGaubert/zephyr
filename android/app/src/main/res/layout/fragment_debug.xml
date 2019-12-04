@@ -14,37 +14,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:text="@string/app_name"
+            android:text="@string/menu_debug_title"
             android:textAppearance="@style/ZephyrHeaderSmall"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/debug_menu_btn"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/debug_switch_show_all_cards"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/menu_icon"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/menu_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/menu_title"
-            app:srcCompat="@drawable/ic_settings"
-            tools:visibility="visible" />
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:layout_marginTop="8dp"
-            app:itemIconPadding="@dimen/second_keyline"
-            app:itemTextAppearance="?attr/textAppearanceSubtitle2"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            android:text="@string/menu_debug_show_all_cards"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/menu_title"
-            app:menu="@menu/navigation" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/menu_title" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/debug_switch_show_all_cards" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,6 +2,8 @@ import { app, remote } from 'electron';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import SocketChannels from '../models/SocketChannels';
+import ZephyrFeatures from '../models/ZephyrFeatures';
 
 declare var __dirname: string;
 
@@ -10,6 +12,22 @@ interface IZephyrConfig {
   enableUpdates: boolean;
   port: number;
   enableOverlay: boolean;
+}
+
+interface IZephyrSocketChannels {
+  actions: IZephyrSocketActionChannels;
+  events: IZephyrSocketEventChannels;
+}
+
+interface IZephyrSocketActionChannels {
+  postNotification: string;
+  dismissNotification: string;
+  disconnect: string;
+}
+
+interface IZephyrSocketEventChannels {
+  notificationPosted: string;
+  notificationDismissed: string;
 }
 
 export default class ConfigUtils {
@@ -22,6 +40,24 @@ export default class ConfigUtils {
     }
 
     return this.config;
+  }
+
+  static getAppFeatures(): Array<string> {
+    return [ZephyrFeatures.POST_NOTIFICATIONS, ZephyrFeatures.DISMISS_NOTIFICATIONS];
+  }
+
+  static getSocketChannels(): IZephyrSocketChannels {
+    return {
+      actions: {
+        postNotification: SocketChannels.ACTION_POST_NOTIFICATION,
+        dismissNotification: SocketChannels.ACTION_DISMISS_NOTIFICATION,
+        disconnect: SocketChannels.ACTION_DISCONNECT
+      },
+      events: {
+        notificationPosted: SocketChannels.EVENT_NOTIFICATION_POSTED,
+        notificationDismissed: SocketChannels.EVENT_NOTIFICATION_DISMISSED
+      }
+    };
   }
 
   /* Versions */

@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,16 +10,19 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.model.ConnectionStatus;
+import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.NetworkUtils;
+import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.view.ZephyrCardViewPager;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
@@ -64,12 +68,27 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             mViewModel.getConnectionStatus().observe(getActivity(), this::updateConnectionStatus);
             mViewModel.getJoinCode().observe(getActivity(), this::updateJoinCodeStatus);
         }
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(@Nullable String eventPayload) {
+        if (EventBusEvent.SHELL_REFRESH_CARDS.equals(eventPayload)) {
+            mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
+        }
     }
 
     @Override
@@ -103,6 +122,14 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             logger.log(LogPriority.INFO, LOG_TAG, "Test notification: %s\t%s", notificationPayload.title, notificationPayload.message);
             EventBus.getDefault().post(notificationPayload);
         });
+
+        new Handler().postDelayed(() -> {
+            DismissNotificationPayload dismissNotificationPayload = new DismissNotificationPayload();
+            dismissNotificationPayload.id = -1;
+
+            logger.log(LogPriority.INFO, LOG_TAG, "Dismissing test notification...");
+            EventBus.getDefault().post(dismissNotificationPayload);
+        }, 5000);
     }
 
     @OnClick(R.id.join_code_summary)
