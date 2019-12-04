@@ -1,7 +1,5 @@
 Automatically built and published to beta track.
 
-- Fix phantom service notification when Zephyr isn't running
-- Target Android 10
-- Update libraries to latest versions
+- Notifications are now dismissed when read (requires latest desktop client)
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
