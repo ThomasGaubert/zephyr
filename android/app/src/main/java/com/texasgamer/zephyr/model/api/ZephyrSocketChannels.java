@@ -23,6 +23,9 @@ public class ZephyrSocketChannels {
         return mEvents;
     }
 
+    /**
+     * Actions
+     */
     public static class Actions {
         @Expose
         @SerializedName("postNotification")
@@ -47,6 +50,9 @@ public class ZephyrSocketChannels {
         }
     }
 
+    /**
+     * Events
+     */
     public static class Events {
         @Expose
         @SerializedName("notificationPosted")
