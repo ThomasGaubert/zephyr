@@ -1,5 +1,7 @@
 Automatically built and published to beta track.
 
-- Notifications are now dismissed when read (requires latest desktop client)
+- Notification updates now properly reflect on desktop client (requires latest desktop client)
+- Zephyr now renders edge-to-edge on Android 10 devices
+- Update dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.

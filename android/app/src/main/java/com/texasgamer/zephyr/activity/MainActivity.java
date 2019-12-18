@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.lifecycle.LiveData;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.texasgamer.zephyr.R;
@@ -17,7 +22,6 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 
-import androidx.lifecycle.LiveData;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
@@ -27,6 +31,8 @@ import butterknife.OnLongClick;
  */
 public class MainActivity extends BaseActivity {
 
+    @BindView(R.id.main_fragment)
+    LinearLayout mMainFragment;
     @BindView(R.id.bottom_app_bar)
     BottomAppBar mBottomAppBar;
     @BindView(R.id.connect_button)
@@ -48,6 +54,10 @@ public class MainActivity extends BaseActivity {
         subscribeUi(mConnectButtonViewModel.getIsConnected());
 
         verifyConnectionStatus();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            setupEdgeToEdgeLayout();
+        }
     }
 
     @Override
@@ -121,5 +131,17 @@ public class MainActivity extends BaseActivity {
             mPreferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
             mPreferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
         }
+    }
+
+    private void setupEdgeToEdgeLayout() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        decorView.setOnApplyWindowInsetsListener((v, insets) -> {
+            CoordinatorLayout.LayoutParams mainFragmentLayoutParams = new CoordinatorLayout.LayoutParams(mMainFragment.getLayoutParams());
+            mainFragmentLayoutParams.setMargins(0, insets.getSystemWindowInsetTop(), 0, 0);
+            mMainFragment.setLayoutParams(mainFragmentLayoutParams);
+            mBottomAppBar.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+            return insets.consumeSystemWindowInsets();
+        });
     }
 }

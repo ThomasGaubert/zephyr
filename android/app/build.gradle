@@ -130,19 +130,22 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
     // AppCenter
-    implementation "com.microsoft.appcenter:appcenter-distribute:2.0.0"
+    implementation "com.microsoft.appcenter:appcenter-distribute:2.5.1"
 
     // ButterKnife
-    implementation ('com.jakewharton:butterknife:9.0.0-SNAPSHOT') {
+    implementation ('com.jakewharton:butterknife:10.2.0') {
         exclude module: 'support-compat'
     }
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 
     // CameraView
-    implementation 'com.otaliastudios:cameraview:2.0.0-beta05'
+    implementation 'com.otaliastudios:cameraview:2.5.0'
 
     // Chrome Custom Tabs
-    implementation 'androidx.browser:browser:1.2.0-beta01'
+    implementation 'androidx.browser:browser:1.2.0-rc01'
+
+    // AndroidX Core
+    implementation 'androidx.core:core:1.2.0-rc01'
 
     // Dagger
     implementation 'com.google.dagger:dagger:2.17'
@@ -158,9 +161,9 @@ dependencies {
 
     // Firebase / Fabric
     implementation 'com.google.firebase:firebase-core:17.2.1'
-    implementation 'com.google.firebase:firebase-config:19.0.3'
+    implementation 'com.google.firebase:firebase-config:19.0.4'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
-    implementation 'com.google.firebase:firebase-perf:19.0.2'
+    implementation 'com.google.firebase:firebase-perf:19.0.3'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Gson
@@ -170,7 +173,7 @@ dependencies {
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10'
 
     // IndicatorFastScroll
-    implementation 'com.reddit:indicator-fast-scroll:1.1.0-beta1'
+    implementation 'com.reddit:indicator-fast-scroll:1.2.1'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
