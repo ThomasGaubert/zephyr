@@ -43,7 +43,7 @@ export default class ConfigUtils {
   }
 
   static getAppFeatures(): Array<string> {
-    return [ZephyrFeatures.POST_NOTIFICATIONS, ZephyrFeatures.DISMISS_NOTIFICATIONS];
+    return [ZephyrFeatures.POST_NOTIFICATIONS, ZephyrFeatures.DISMISS_NOTIFICATIONS, ZephyrFeatures.UPDATE_NOTIFICATIONS];
   }
 
   static getSocketChannels(): IZephyrSocketChannels {

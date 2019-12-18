@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
@@ -115,9 +116,10 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     void sendTestNotification() {
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             NotificationPayload notificationPayload = new NotificationPayload();
+            notificationPayload.packageName = BuildConfig.APPLICATION_ID;
+            notificationPayload.id = -1;
             notificationPayload.title = getString(R.string.test_notification_title);
             notificationPayload.message = getString(R.string.test_notification_message);
-            notificationPayload.id = -1;
 
             logger.log(LogPriority.INFO, LOG_TAG, "Test notification: %s\t%s", notificationPayload.title, notificationPayload.message);
             EventBus.getDefault().post(notificationPayload);
@@ -125,6 +127,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
 
         new Handler().postDelayed(() -> {
             DismissNotificationPayload dismissNotificationPayload = new DismissNotificationPayload();
+            dismissNotificationPayload.packageName = BuildConfig.APPLICATION_ID;
             dismissNotificationPayload.id = -1;
 
             logger.log(LogPriority.INFO, LOG_TAG, "Dismissing test notification...");

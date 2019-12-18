@@ -7,17 +7,18 @@ import ZephyrNotification from '../models/ZephyrNotification';
 import ConfigUtils from '../utils/ConfigUtils';
 import EventUtils from '../utils/EventUtils';
 import LogUtils from '../utils/LogUtils';
+import NotificationUtils from '../utils/NotificationUtils';
 
 export class ZephyrServer {
 
   static API_VERSION: number = 1;
   static DEFAULT_PORT: number = 3753;
 
-  notifications: Array<ZephyrNotification>;
+  notifications: Map<string, ZephyrNotification>;
 
   constructor() {
     const app = express();
-    this.notifications = new Array<ZephyrNotification>();
+    this.notifications = new Map<string, ZephyrNotification>();
 
     let port: number = ConfigUtils.getPort();
 
@@ -72,7 +73,7 @@ export class ZephyrServer {
 
   serveNotifications (_, res, server: ZephyrServer) {
     res.send(JSON.stringify({
-      notifications: server.notifications
+      notifications: Array.from(server.notifications.values()).sort((a, b) => a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0)
     }));
   }
 
@@ -100,7 +101,7 @@ export class ZephyrServer {
 
     if (notification !== undefined) {
       LogUtils.verbose('ZephyrServer', 'Notification posted.');
-      server.notifications.push(notification);
+      server.notifications.set(NotificationUtils.getNotificationKey(notification), notification);
       io.emit(SocketChannels.EVENT_NOTIFICATION_POSTED, notification);
 
       EventUtils.getInstance().emit('vr-show-notification', notification);
@@ -114,10 +115,7 @@ export class ZephyrServer {
 
     if (dismissPayload !== undefined) {
       LogUtils.verbose('ZephyrServer', 'Notification dismissed.');
-      let idToDismiss = dismissPayload.id;
-      server.notifications = server.notifications.filter((notification) => {
-        return notification.id !== idToDismiss;
-      });
+      server.notifications.delete(NotificationUtils.getNotificationKey(dismissPayload));
       io.emit(SocketChannels.EVENT_NOTIFICATION_DISMISSED, dismissPayload);
     } else {
       LogUtils.warn('ZephyrServer', 'Unable to dismiss notification: invalid payload.');
@@ -131,12 +129,13 @@ export class ZephyrServer {
   deserializeNotification (notification: any): ZephyrNotification | undefined {
     let notificationJson = JSON.parse(notification);
 
-    // Notifications must have an id and title
-    if (notificationJson['id'] === undefined || notificationJson['title'] === undefined) {
+    // Notifications must have package name, id, and title
+    if (notificationJson['packageName'] === undefined || notificationJson['id'] === undefined || notificationJson['title'] === undefined) {
       return undefined;
     }
 
     return {
+      packageName: notificationJson['packageName'],
       id: notificationJson['id'],
       timestamp: notificationJson['timestamp'] !== undefined ? notificationJson['timestamp'] : Date.now(),
       title: notificationJson['title'],
@@ -148,11 +147,13 @@ export class ZephyrServer {
   deserializeDismissPayload (payload: any): DismissNotificationPayload | undefined {
     let payloadJson = JSON.parse(payload);
 
-    if (payloadJson['id'] === undefined) {
+    // Dismiss payloads must have a package name
+    if (payloadJson['packageName'] === undefined || payloadJson['id'] === undefined) {
       return undefined;
     }
 
     return {
+      packageName: payloadJson['packageName'],
       id: payloadJson['id']
     } as DismissNotificationPayload;
   }

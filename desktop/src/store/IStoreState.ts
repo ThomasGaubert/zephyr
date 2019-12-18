@@ -17,5 +17,5 @@ export default interface IStoreState {
   readonly navigationTarget: number;
   readonly connectionStatus: ConnectionStatus;
   readonly toast: IToastState | null;
-  readonly notifications: Array<ZephyrNotification>;
+  readonly notifications: Map<string, ZephyrNotification>;
 }

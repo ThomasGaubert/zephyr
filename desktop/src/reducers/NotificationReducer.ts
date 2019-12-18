@@ -1,5 +1,6 @@
 import ActionTypeKeys from '../actions/ActionTypeKeys';
 import ActionTypes from '../actions/ActionTypes';
+import NotificationUtils from '../utils/NotificationUtils';
 import initialState from './initialState';
 
 export default function notificationReducer(
@@ -8,12 +9,11 @@ export default function notificationReducer(
 ) {
   switch (action.type) {
   case ActionTypeKeys.NOTIFICATION_POST:
-    state.push(action.payload.notification);
-    return state.slice(0);
+    state.set(NotificationUtils.getNotificationKey(action.payload.notification), action.payload.notification);
+    return new Map(state);
   case ActionTypeKeys.NOTIFICATION_DISMISS:
-    return state.filter((notification) => {
-      return notification.id !== action.payload.dismissNotificationPayload.id;
-    });
+    state.delete(NotificationUtils.getNotificationKey(action.payload.dismissNotificationPayload));
+    return new Map(state);
   default:
     return state;
   }

@@ -64,7 +64,7 @@ class History extends React.Component<any, any> {
 
 function mapStatesToProps (state: IStoreState) {
   return {
-    notifications: state.notifications
+    notifications: Array.from(state.notifications.values()).sort((a, b) => a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0)
   };
 }
 

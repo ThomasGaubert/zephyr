@@ -5,7 +5,7 @@ const DefaultState: IStoreState = {
   navigationTarget: 0,
   connectionStatus: ConnectionStatus.DISCONNECTED,
   toast: null,
-  notifications: new Array<ZephyrNotification>()
+  notifications: new Map<string, ZephyrNotification>()
 };
 
 export default DefaultState;

@@ -55,9 +55,9 @@ public class NotificationService extends NotificationListenerService {
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
                 NotificationPayload notificationPayload = new NotificationPayload();
-                notificationPayload.timestamp = sbn.getPostTime();
-                notificationPayload.id = sbn.getId();
                 notificationPayload.packageName = sbn.getPackageName();
+                notificationPayload.id = sbn.getId();
+                notificationPayload.timestamp = sbn.getPostTime();
                 notificationPayload.title = getNotificationTitle(sbn);
                 notificationPayload.message = getNotificationMessage(sbn);
 
@@ -73,6 +73,7 @@ public class NotificationService extends NotificationListenerService {
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
                 DismissNotificationPayload dismissNotificationPayload = new DismissNotificationPayload();
+                dismissNotificationPayload.packageName = sbn.getPackageName();
                 dismissNotificationPayload.id = sbn.getId();
 
                 logger.log(LogPriority.VERBOSE, LOG_TAG, "Dismissing notification: %s", sbn.getId());
