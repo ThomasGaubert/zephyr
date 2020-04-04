@@ -166,7 +166,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
                 .build();
 
         ZephyrService zephyrService = retrofit.create(ZephyrService.class);
-        zephyrService.listRepos().enqueue(new Callback<ZephyrApiVersion>() {
+        zephyrService.getVersion().enqueue(new Callback<ZephyrApiVersion>() {
             @Override
             public void onResponse(@NonNull Call<ZephyrApiVersion> call, @NonNull Response<ZephyrApiVersion> response) {
                 if (!response.isSuccessful()) {

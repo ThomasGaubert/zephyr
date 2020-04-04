@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable */
 
 // A class to encode/decode HmdMatrix34_t values based on position/rotation.
 
@@ -146,7 +146,6 @@ class Quaterion {
 
 class Matrix3x4 {
   constructor (from) {
-    // console.log({from})
     if (from.length !== 3 || from[0].length !== 4 || from[1].length !== 4 || from[2].length !== 4) {
       return TypeError('Matrix3x4 requires 3 sets of 4 linear numbers');
     }
@@ -223,15 +222,12 @@ class Matrix3x4 {
   }
 
   static _mul (a, b) {
-    // console.log({a, b})
-
     const out = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
     for (var r = 0; r < a.length; ++r) {
       for (var c = 0; c < b[0].length; ++c) {
         for (var i = 0; i < a[0].length; ++i) {
           b[i] = b[i] || [0, 0, 0, 0];
-          // console.log({ r, c, i, o: out[r], a: a[r], b: b[i] })
           out[r][c] += a[r][i] * b[i][c];
         }
       }

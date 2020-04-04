@@ -57,7 +57,7 @@ export default class VRWindow extends BrowserWindow {
       let notification: ZephyrNotification = payload[0];
       if (notification) {
         LogUtils.verbose('VRWindow', 'Creating notification: ' + JSON.stringify(notification));
-        this.overlay.createNotification(notification.title + '\n' + notification.message);
+        this.overlay.createNotification(notification.title + '\n' + notification.body);
       }
     });
   }

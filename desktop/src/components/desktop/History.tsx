@@ -24,11 +24,11 @@ class History extends React.Component<any, any> {
           return (
             <ListItem key={notification.id}>
               <Tooltip title={notification.timestamp} placement='right'>
-                <Avatar>
+                <Avatar src={notification.icon ? 'data:image/png;base64, ' + notification.icon : ''}>
                   <NotificationIcon />
                 </Avatar>
               </Tooltip>
-              <ListItemText primary={notification.title} secondary={notification.message} />
+              <ListItemText primary={notification.title} secondary={notification.body} />
             </ListItem>
           );
         })}

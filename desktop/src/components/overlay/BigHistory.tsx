@@ -42,7 +42,7 @@ class BigHistory extends React.Component<any, any> {
               <ListItemText
                 classes={{ primary: this.props.classes.listItemTextPrimary, secondary: this.props.classes.listItemTextSecondary }}
                 primary={notification.title}
-                secondary={notification.message} />
+                secondary={notification.body} />
             </ListItem>
           );
         })}

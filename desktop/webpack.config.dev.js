@@ -26,15 +26,6 @@ const commonConfig = {
         loader: ['babel-loader', 'ts-loader']
       },
       {
-        test: /\.js$/,
-        enforce: 'pre',
-        loader: 'standard-loader',
-        options: {
-          typeCheck: true,
-          emitErrors: true
-        }
-      },
-      {
         test: /\.jsx?$/,
         loader: 'babel-loader'
       }

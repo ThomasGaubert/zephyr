@@ -37,25 +37,25 @@
     </style>
 
     <!-- ZephyrCard -->
-    <style name="ZephryCard"/>
+    <style name="ZephyrCard"/>
 
-    <style name="ZephyrCard.Default" parent="ZephryCard">
+    <style name="ZephyrCard.Default" parent="ZephyrCard">
         <item name="cardColor">@color/white</item>
     </style>
 
-    <style name="ZephyrCard.Info" parent="ZephryCard">
+    <style name="ZephyrCard.Info" parent="ZephyrCard">
         <item name="cardColor">@color/accent</item>
     </style>
 
-    <style name="ZephyrCard.Success" parent="ZephryCard">
+    <style name="ZephyrCard.Success" parent="ZephyrCard">
         <item name="cardColor">@color/green</item>
     </style>
 
-    <style name="ZephyrCard.Warning" parent="ZephryCard">
+    <style name="ZephyrCard.Warning" parent="ZephyrCard">
         <item name="cardColor">@color/orange</item>
     </style>
 
-    <style name="ZephyrCard.Error" parent="ZephryCard">
+    <style name="ZephyrCard.Error" parent="ZephyrCard">
         <item name="cardColor">@color/red</item>
     </style>
 

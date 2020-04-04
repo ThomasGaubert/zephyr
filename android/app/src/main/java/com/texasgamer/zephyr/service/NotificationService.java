@@ -2,8 +2,14 @@ package com.texasgamer.zephyr.service;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -13,14 +19,13 @@ import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPreference;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
+import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
 import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
 
 /**
  * Service which listens for and processes notifications.
@@ -59,9 +64,10 @@ public class NotificationService extends NotificationListenerService {
                 notificationPayload.id = sbn.getId();
                 notificationPayload.timestamp = sbn.getPostTime();
                 notificationPayload.title = getNotificationTitle(sbn);
-                notificationPayload.message = getNotificationMessage(sbn);
+                notificationPayload.body = getNotificationMessage(sbn);
+                notificationPayload.icon = getNotificationIcon(sbn);
 
-                logger.log(LogPriority.VERBOSE, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.message);
+                logger.log(LogPriority.VERBOSE, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.body);
                 EventBus.getDefault().post(notificationPayload);
             }
         });
@@ -130,6 +136,23 @@ public class NotificationService extends NotificationListenerService {
             return result.toString();
         } else {
             return "";
+        }
+    }
+
+    @Nullable
+    private String getNotificationIcon(@NonNull StatusBarNotification sbn) {
+        Drawable iconDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            iconDrawable = sbn.getNotification().getSmallIcon().loadDrawable(this);
+        } else {
+            iconDrawable = appUtils.getAppIcon(sbn.getPackageName());
+        }
+
+        if (iconDrawable != null) {
+            Bitmap iconBitmap = ImageUtils.drawableToBitmap(iconDrawable);
+            return ImageUtils.bitmapToBase64(iconBitmap);
+        } else {
+            return null;
         }
     }
 }

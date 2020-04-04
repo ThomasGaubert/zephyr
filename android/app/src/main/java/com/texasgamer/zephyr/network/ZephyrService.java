@@ -10,5 +10,5 @@ import retrofit2.http.GET;
  */
 public interface ZephyrService {
     @GET("api/version")
-    Call<ZephyrApiVersion> listRepos();
+    Call<ZephyrApiVersion> getVersion();
 }

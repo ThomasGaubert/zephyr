@@ -15,6 +15,7 @@ import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -119,9 +120,10 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             notificationPayload.packageName = BuildConfig.APPLICATION_ID;
             notificationPayload.id = -1;
             notificationPayload.title = getString(R.string.test_notification_title);
-            notificationPayload.message = getString(R.string.test_notification_message);
+            notificationPayload.body = getString(R.string.test_notification_message);
+            notificationPayload.icon = ImageUtils.bitmapToBase64(ImageUtils.drawableToBitmap(getResources().getDrawable(R.drawable.ic_notifications)));
 
-            logger.log(LogPriority.INFO, LOG_TAG, "Test notification: %s\t%s", notificationPayload.title, notificationPayload.message);
+            logger.log(LogPriority.INFO, LOG_TAG, "Sending test notification");
             EventBus.getDefault().post(notificationPayload);
         });
 

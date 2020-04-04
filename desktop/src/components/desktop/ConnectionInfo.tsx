@@ -92,7 +92,7 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing! Things are still under development.</div>
             <p>What's new:</p>
             <ul>
-              <li>Notification updates now properly reflect on desktop client (requires latest Android app)</li>
+              <li>Notification icons now display on the desktop client (requires latest Android app)</li>
             </ul>
           </Card>
           <List component='nav'>

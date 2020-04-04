@@ -70,6 +70,16 @@ function onReady() {
     vrWindow.loadURL(`file://${__dirname}/overlay.html`);
   } else {
     LogUtils.warn('Zephyr Beta', 'Overlay disabled!');
+    let overlayWindow = new BrowserWindow({
+      width: 1375,
+      height: 750,
+      frame: false,
+      resizable: false,
+      show: false,
+      backgroundColor: '#0D253A'
+    });
+    overlayWindow.loadURL(`file://${__dirname}/overlay.html`);
+    overlayWindow.on('ready-to-show', () => overlayWindow.show());
   }
 
   new ZephyrServer(); // tslint:disable-line

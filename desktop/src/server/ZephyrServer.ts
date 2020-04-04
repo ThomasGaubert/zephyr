@@ -139,7 +139,7 @@ export class ZephyrServer {
       id: notificationJson['id'],
       timestamp: notificationJson['timestamp'] !== undefined ? notificationJson['timestamp'] : Date.now(),
       title: notificationJson['title'],
-      message: notificationJson['message'],
+      body: notificationJson['body'],
       icon: notificationJson['icon']
     } as ZephyrNotification;
   }

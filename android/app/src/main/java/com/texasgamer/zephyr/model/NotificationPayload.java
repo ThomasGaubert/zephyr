@@ -8,6 +8,6 @@ public class NotificationPayload {
     public int id;
     public long timestamp;
     public String title;
-    public String message;
+    public String body;
     public String icon;
 }

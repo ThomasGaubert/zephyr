@@ -1,7 +1,6 @@
 Automatically built and published to beta track.
 
-- Notification updates now properly reflect on desktop client (requires latest desktop client)
-- Zephyr now renders edge-to-edge on Android 10 devices
+- Notification icons now display on the desktop client (requires latest desktop client)
 - Update dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
