@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, nativeImage } from 'electron';
 import vr from 'node-openvr';
 import ZephyrNotification from '../models/ZephyrNotification';
 import EventUtils from '../utils/EventUtils';
@@ -37,7 +37,7 @@ export default class VRWindow extends BrowserWindow {
     this.overlay = new VROverlay({ system: this.vrSystem, key: key, name: name, iconPath: iconPath });
     this.webContents.setFrameRate(fps);
 
-    this.overlay.width = 2;
+    this.overlay.width = 3;
 
     this.webContents.on('paint', (..._) => {
       this.vrDraw();
@@ -57,7 +57,11 @@ export default class VRWindow extends BrowserWindow {
       let notification: ZephyrNotification = payload[0];
       if (notification) {
         LogUtils.verbose('VRWindow', 'Creating notification: ' + JSON.stringify(notification));
-        this.overlay.createNotification(notification.title + '\n' + notification.body);
+
+        const iconImg = nativeImage.createFromDataURL('data:image/png;base64, ' + notification.icon);
+        const iconBuf = iconImg.toBitmap();
+
+        this.overlay.createNotification(notification.title + '\n' + notification.body, iconBuf, { ...iconImg.getSize() });
       }
     });
   }

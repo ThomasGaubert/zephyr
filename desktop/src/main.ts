@@ -57,8 +57,8 @@ function onReady() {
 
   if (ConfigUtils.overlayEnabled()) {
     vrWindow = new VRWindow({
-      width: 7920,
-      height: 4320,
+      width: 1920,
+      height: 1080,
       backgroundColor: '#0D253A',
       vr: {
         key: 'texasgamer.zephyr',

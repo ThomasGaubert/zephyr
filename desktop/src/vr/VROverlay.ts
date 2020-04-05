@@ -37,8 +37,12 @@ export default class VROverlay {
     this.handle = vr.overlay.CreateDashboardOverlay(this.key, this.name, this.iconPath);
   }
 
-  createNotification(message: string) {
-    vr.notifications.CreateNotification(this.handle, message);
+  createNotification(message: string, iconBuf, { width = 100, height = 100, depth = 8 } = {}) {
+    if (iconBuf.length !== width * height * 4) {
+      console.warn(`Texture is not the correct number of elements for the size given. Got ${iconBuf.length} bytes, looking for ${width * height * 4}.`);
+    }
+
+    vr.notifications.CreateNotification(this.handle, message, iconBuf, width, height, depth);
   }
 
   show () {
