@@ -36,7 +36,7 @@ class BigHistory extends React.Component<any, any> {
         {this.props.notifications.reverse().map((notification) => {
           return (
             <ListItem key={notification.id}>
-              <Avatar style={{ width: 75, height: 75, marginRight: '20px' }}>
+              <Avatar style={{ width: 75, height: 75, marginRight: '20px' }} src={notification.icon ? 'data:image/png;base64, ' + notification.icon : ''}>
                 <NotificationIcon style={{ fontSize: '40px' }} />
               </Avatar>
               <ListItemText
@@ -81,7 +81,7 @@ class BigHistory extends React.Component<any, any> {
 
 function mapStatesToProps (state: IStoreState) {
   return {
-    notifications: state.notifications
+    notifications: Array.from(state.notifications.values()).sort((a, b) => a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0)
   };
 }
 
