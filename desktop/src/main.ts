@@ -59,7 +59,7 @@ function onReady() {
     vrWindow = new VRWindow({
       width: 1920,
       height: 1080,
-      backgroundColor: '#0D253A',
+      transparent: true,
       vr: {
         key: 'texasgamer.zephyr',
         name: 'Zephyr Beta',
@@ -76,10 +76,11 @@ function onReady() {
       frame: false,
       resizable: false,
       show: false,
-      backgroundColor: '#0D253A'
+      transparent: true
     });
     overlayWindow.loadURL(`file://${__dirname}/overlay.html`);
     overlayWindow.on('ready-to-show', () => overlayWindow.show());
+    overlayWindow.webContents.openDevTools();
   }
 
   new ZephyrServer(); // tslint:disable-line

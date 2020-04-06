@@ -89,6 +89,10 @@ export default class VROverlay {
     vr.overlay.SetOverlayWidthInMeters(this.handle, w);
   }
 
+  setOverlayMouseScale(width, height) {
+    vr.overlay.SetOverlayMouseScale(this.handle, width, height);
+  }
+
   /*
   notes on how this matrix works
   [

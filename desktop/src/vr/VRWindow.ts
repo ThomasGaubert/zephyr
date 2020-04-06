@@ -38,6 +38,7 @@ export default class VRWindow extends BrowserWindow {
     this.webContents.setFrameRate(fps);
 
     this.overlay.width = 3;
+    this.overlay.setOverlayMouseScale(this.getSize()[0], this.getSize()[1]);
 
     this.webContents.on('paint', (..._) => {
       this.vrDraw();

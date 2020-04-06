@@ -89,10 +89,12 @@ class ConnectionInfo extends React.Component<any, any> {
             style={{ width: '100%', height: '429px', padidngBottom: '70px' }}
             horizontal={false}>
           <Card style={{ padding: '1.0rem', paddingBottom: '0', backgroundColor: '#2962ff' }}>
-            <div>Thanks for beta testing! Things are still under development.</div>
+            <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Notification icons now display on the desktop client (requires latest Android app)</li>
+              <li>Notification icons now display in VR (requires latest Android app)</li>
+              <li>Fix notification history in VR</li>
+              <li>Update appearance of VR dashboard</li>
             </ul>
           </Card>
           <List component='nav'>
