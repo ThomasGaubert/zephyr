@@ -2,12 +2,15 @@ package com.texasgamer.zephyr.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,15 +68,41 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.manage_notifications, menu);
+        MenuItem searchAction = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchAction.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                mViewModel.setSearchQuery(query);
+                return true;
+            }
+        });
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        RecyclerView.Adapter appListAdapter = mAppList.getAdapter();
         switch (item.getItemId()) {
             case R.id.action_notif_enable_all:
                 mViewModel.enableAll();
-                mAppList.getAdapter().notifyDataSetChanged();
+                if (appListAdapter != null) {
+                    appListAdapter.notifyDataSetChanged();
+                }
                 return true;
             case R.id.action_notif_disable_all:
                 mViewModel.disableAll();
-                mAppList.getAdapter().notifyDataSetChanged();
+                if (appListAdapter != null) {
+                    appListAdapter.notifyDataSetChanged();
+                }
                 return true;
             default:
                 return false;
@@ -106,7 +135,7 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     }
 
     private void subscribeUi(LiveData<List<NotificationPreferenceEntity>> liveData) {
-        liveData.observe(this, preferences -> {
+        liveData.observe(getViewLifecycleOwner(), preferences -> {
             if (preferences != null) {
                 mAdapter.setNotificationPreferences(preferences);
                 mSpinner.setVisibility(View.GONE);

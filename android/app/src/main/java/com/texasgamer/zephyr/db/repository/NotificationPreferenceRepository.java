@@ -15,6 +15,9 @@ public interface NotificationPreferenceRepository extends IRepository {
     LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences();
 
     @NonNull
+    LiveData<List<NotificationPreferenceEntity>> getNotificationPreferencesByName(@NonNull String name);
+
+    @NonNull
     LiveData<NotificationPreferenceEntity> getNotificationPreference(@NonNull String packageName);
 
     NotificationPreferenceEntity getNotificationPreferenceSync(@NonNull String packageName);
@@ -23,5 +26,9 @@ public interface NotificationPreferenceRepository extends IRepository {
 
     void enableAll();
 
+    void enableAll(@NonNull String name);
+
     void disableAll();
+
+    void disableAll(@NonNull String name);
 }

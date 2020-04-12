@@ -86,6 +86,7 @@
 
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>
+    <string name="manage_notifications_search">Search</string>
     <string name="manage_notifications_enable_all">Enable all</string>
     <string name="manage_notifications_disable_all">Disable all</string>
 

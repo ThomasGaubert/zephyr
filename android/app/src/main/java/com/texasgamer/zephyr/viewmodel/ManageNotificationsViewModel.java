@@ -2,6 +2,12 @@ package com.texasgamer.zephyr.viewmodel;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
@@ -11,10 +17,6 @@ import com.texasgamer.zephyr.util.log.LogPriority;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
 /**
  * Manage notifications view model.
@@ -26,17 +28,22 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     @Inject
     ILogger logger;
 
-    private final MediatorLiveData<List<NotificationPreferenceEntity>> mObservableNotificationPreferences;
-
+    private final LiveData<List<NotificationPreferenceEntity>> mObservableNotificationPreferences;
+    private final MutableLiveData<String> mSearchQuery;
 
     public ManageNotificationsViewModel(Application application) {
         super(application);
 
-        mObservableNotificationPreferences = new MediatorLiveData<>();
-        mObservableNotificationPreferences.setValue(null);
+        mSearchQuery = new MutableLiveData<>();
+        mSearchQuery.setValue(null);
 
-        LiveData<List<NotificationPreferenceEntity>> notificationPreferences = mDataRepository.getNotificationPreferences();
-        mObservableNotificationPreferences.addSource(notificationPreferences, mObservableNotificationPreferences::setValue);
+        mObservableNotificationPreferences = Transformations.switchMap(mSearchQuery, input -> {
+            if (input == null || input.trim().isEmpty()) {
+                return mDataRepository.getNotificationPreferences();
+            } else {
+                return mDataRepository.getNotificationPreferencesByName(input);
+            }
+        });
     }
 
     @Override
@@ -49,16 +56,32 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     }
 
     public void enableAll() {
-        logger.log(LogPriority.DEBUG, LOG_TAG, "Enabling all notification preferences...");
-        mDataRepository.enableAll();
+        String searchQuery = mSearchQuery.getValue();
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Enabling all notification preferences...");
+            mDataRepository.enableAll();
+        } else {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Enabling all visible notification preferences...");
+            mDataRepository.enableAll(searchQuery);
+        }
     }
 
     public void disableAll() {
-        logger.log(LogPriority.DEBUG, LOG_TAG, "Disabling all notification preferences...");
-        mDataRepository.disableAll();
+        String searchQuery = mSearchQuery.getValue();
+        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Disabling all notification preferences...");
+            mDataRepository.disableAll();
+        } else {
+            logger.log(LogPriority.DEBUG, LOG_TAG, "Disabling all visible notification preferences...");
+            mDataRepository.disableAll(searchQuery);
+        }
     }
 
     public void updateNotificationPreference(@NonNull String packageName, boolean enabled) {
         mDataRepository.updateNotificationPreference(packageName, enabled);
+    }
+
+    public void setSearchQuery(@Nullable String searchQuery) {
+        mSearchQuery.setValue(searchQuery);
     }
 }

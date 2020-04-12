@@ -82,16 +82,18 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
 
         ApplicationUtils appUtils = ZephyrApplication.getApplicationComponent().applicationUtilities();
 
-        ZephyrExecutors.getDiskExecutor().execute(() -> {
-            if (pref.getIcon() == null) {
-                pref.setIcon(appUtils.getAppIcon(mPackageName));
-            }
-
+        setTitle(pref.getTitle());
+        setColors(pref.getColor());
+        setPrefEnabled(pref.isEnabled());
+        if (pref.getIcon() != null) {
             setIcon(pref.getIcon());
-            setTitle(pref.getTitle());
-            setColors(pref.getColor());
-            setPrefEnabled(pref.isEnabled());
-        });
+        } else {
+            setIcon(null);
+            ZephyrExecutors.getDiskExecutor().execute(() -> {
+                pref.setIcon(appUtils.getAppIcon(mPackageName));
+                setIcon(pref.getIcon());
+            });
+        }
     }
 
     private void init() {

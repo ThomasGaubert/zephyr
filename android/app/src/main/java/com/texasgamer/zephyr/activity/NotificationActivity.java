@@ -1,14 +1,14 @@
 package com.texasgamer.zephyr.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
 /**
@@ -24,12 +24,6 @@ public class NotificationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.manage_notifications, menu);
-        return true;
     }
 
     @Override

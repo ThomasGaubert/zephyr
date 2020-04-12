@@ -1,5 +1,8 @@
 package com.texasgamer.zephyr.db.repository;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+
 import com.texasgamer.zephyr.db.dao.NotificationPreferenceDao;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
@@ -7,9 +10,6 @@ import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 /**
  * Notification preference data source.
@@ -26,6 +26,11 @@ public class NotificationPreferenceDataSource implements NotificationPreferenceR
     @NonNull
     public LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences() {
         return mNotificationPreferenceDao.loadNotificationPreferences();
+    }
+
+    @NonNull
+    public LiveData<List<NotificationPreferenceEntity>> getNotificationPreferencesByName(@NonNull String name) {
+        return mNotificationPreferenceDao.loadNotificationPreferencesByName("%" + name + "%");
     }
 
     @NonNull
@@ -50,9 +55,21 @@ public class NotificationPreferenceDataSource implements NotificationPreferenceR
         });
     }
 
+    public void enableAll(@NonNull String name) {
+        ZephyrExecutors.getDiskExecutor().execute(() -> {
+            mNotificationPreferenceDao.enableAll("%" + name + "%");
+        });
+    }
+
     public void disableAll() {
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             mNotificationPreferenceDao.disableAll();
+        });
+    }
+
+    public void disableAll(@NonNull String name) {
+        ZephyrExecutors.getDiskExecutor().execute(() -> {
+            mNotificationPreferenceDao.disableAll("%" + name + "%");
         });
     }
 }
