@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 /**
  * String utilities.
  */
-public class StringUtils {
+public final class StringUtils {
 
     private StringUtils() {
     }
