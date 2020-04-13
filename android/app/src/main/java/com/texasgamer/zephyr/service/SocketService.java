@@ -13,6 +13,7 @@ import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.model.api.ZephyrApiVersion;
+import com.texasgamer.zephyr.network.IOkHttpClientFactory;
 import com.texasgamer.zephyr.network.ZephyrService;
 import com.texasgamer.zephyr.receiver.NetworkStateReceiver;
 import com.texasgamer.zephyr.receiver.ZephyrBroadcastReceiver;
@@ -56,6 +57,8 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     IPreferenceManager preferenceManager;
     @Inject
     ILogger logger;
+    @Inject
+    IOkHttpClientFactory mOkHttpClientFactory;
     @Inject
     Gson gson;
 
@@ -162,6 +165,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://" + mServerAddress + "/")
+                .client(mOkHttpClientFactory.getClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

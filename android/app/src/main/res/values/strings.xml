@@ -89,6 +89,7 @@
     <string name="manage_notifications_search">Search</string>
     <string name="manage_notifications_enable_all">Enable all</string>
     <string name="manage_notifications_disable_all">Disable all</string>
+    <string name="manage_notifications_no_results_found">No results found</string>
 
     <!-- Notification Preferences -->
     <string name="app_name_unknown">Unknown App</string>

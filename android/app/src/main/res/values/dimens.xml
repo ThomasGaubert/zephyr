@@ -19,6 +19,9 @@
     <dimen name="account_header_size">56dp</dimen>
     <dimen name="avatar_size">40dp</dimen>
 
+    <!-- Text sizes -->
+    <dimen name="text_size_header">22sp</dimen>
+
     <!-- ZephyrCard -->
     <dimen name="card_border_radius">8dp</dimen>
     <dimen name="card_border_width">2dp</dimen>

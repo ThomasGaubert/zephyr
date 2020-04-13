@@ -1,5 +1,7 @@
 package com.texasgamer.zephyr.injection.components;
 
+import androidx.annotation.Nullable;
+
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.AboutActivity;
 import com.texasgamer.zephyr.activity.LicensesActivity;
@@ -21,7 +23,9 @@ import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.injection.modules.ConfigModule;
 import com.texasgamer.zephyr.injection.modules.DatabaseModule;
 import com.texasgamer.zephyr.injection.modules.EagerModule;
+import com.texasgamer.zephyr.injection.modules.FlipperModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
+import com.texasgamer.zephyr.injection.modules.NetworkModule;
 import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
 import com.texasgamer.zephyr.injection.modules.PrivacyModule;
@@ -41,7 +45,6 @@ import com.texasgamer.zephyr.worker.AppSyncWorker;
 
 import javax.inject.Singleton;
 
-import androidx.annotation.Nullable;
 import dagger.Component;
 
 /**
@@ -55,7 +58,9 @@ import dagger.Component;
             ConfigModule.class,
             DatabaseModule.class,
             EagerModule.class,
+            FlipperModule.class,
             LoggerModule.class,
+            NetworkModule.class,
             PreferenceModule.class,
             NotificationsModule.class,
             WorkModule.class,

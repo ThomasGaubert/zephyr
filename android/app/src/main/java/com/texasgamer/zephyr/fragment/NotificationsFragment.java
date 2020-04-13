@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,8 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
 
     @BindView(R.id.spinner)
     ProgressBar mSpinner;
+    @BindView(R.id.no_results_found)
+    TextView mNoResultsFound;
     @BindView(R.id.fast_scroller)
     FastScrollerView mFastScrollerView;
     @BindView(R.id.fast_scroller_thumb)
@@ -136,17 +139,29 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
 
     private void subscribeUi(LiveData<List<NotificationPreferenceEntity>> liveData) {
         liveData.observe(getViewLifecycleOwner(), preferences -> {
-            if (preferences != null) {
+            if (preferences != null && !preferences.isEmpty()) {
+                // Show results
                 mAdapter.setNotificationPreferences(preferences);
                 mSpinner.setVisibility(View.GONE);
                 mAppList.setVisibility(View.VISIBLE);
                 mFastScrollerThumbView.setVisibility(View.VISIBLE);
                 mFastScrollerView.setVisibility(View.VISIBLE);
+                mNoResultsFound.setVisibility(View.GONE);
+            } else if (mViewModel.getSearchQuery().getValue() != null
+                    && !mViewModel.getSearchQuery().getValue().isEmpty()) {
+                // Show no result found
+                mAppList.setVisibility(View.GONE);
+                mFastScrollerThumbView.setVisibility(View.GONE);
+                mFastScrollerView.setVisibility(View.GONE);
+                mSpinner.setVisibility(View.GONE);
+                mNoResultsFound.setVisibility(View.VISIBLE);
             } else {
+                // Show spinner
                 mAppList.setVisibility(View.GONE);
                 mFastScrollerThumbView.setVisibility(View.GONE);
                 mFastScrollerView.setVisibility(View.GONE);
                 mSpinner.setVisibility(View.VISIBLE);
+                mNoResultsFound.setVisibility(View.GONE);
             }
         });
     }

@@ -84,4 +84,8 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     public void setSearchQuery(@Nullable String searchQuery) {
         mSearchQuery.setValue(searchQuery);
     }
+
+    public LiveData<String> getSearchQuery() {
+        return mSearchQuery;
+    }
 }
