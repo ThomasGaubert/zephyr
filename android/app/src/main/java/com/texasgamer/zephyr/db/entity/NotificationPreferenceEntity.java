@@ -2,8 +2,6 @@ package com.texasgamer.zephyr.db.entity;
 
 import android.graphics.drawable.Drawable;
 
-import com.texasgamer.zephyr.model.NotificationPreference;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +9,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.texasgamer.zephyr.model.NotificationPreference;
 
 /**
  * Represents notification preference.

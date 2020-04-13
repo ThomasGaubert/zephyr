@@ -20,7 +20,7 @@
     <dimen name="avatar_size">40dp</dimen>
 
     <!-- Text sizes -->
-    <dimen name="text_size_header">22sp</dimen>
+    <dimen name="text_size_no_results">22sp</dimen>
 
     <!-- ZephyrCard -->
     <dimen name="card_border_radius">8dp</dimen>

@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/manage_notifications_no_results_found"
         android:textAlignment="center"
-        android:textSize="@dimen/text_size_header"
+        android:textSize="@dimen/text_size_no_results"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
  */
 public interface IPreferenceManager {
 
+    boolean hasKey(@NonNull String key);
+
+    void remove(@NonNull String key);
+
     void putString(@NonNull String key, @NonNull String value);
 
     String getString(@NonNull String key);

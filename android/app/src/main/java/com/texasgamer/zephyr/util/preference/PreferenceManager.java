@@ -29,6 +29,16 @@ public class PreferenceManager implements IPreferenceManager {
     }
 
     @Override
+    public boolean hasKey(@NonNull String key) {
+        return getSharedPrefs().contains(key);
+    }
+
+    @Override
+    public void remove(@NonNull String key) {
+        getSharedPrefs().edit().remove(key).apply();
+    }
+
+    @Override
     public void putString(@NonNull String key, @NonNull String value) {
         getSharedPrefs().edit().putString(key, value).apply();
     }
