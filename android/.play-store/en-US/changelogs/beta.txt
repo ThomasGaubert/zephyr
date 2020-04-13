@@ -1,6 +1,5 @@
 Automatically built and published to beta track.
 
-- Notification icons now display on the desktop client (requires latest desktop client)
-- Update dependencies
+- Added search in notification settings
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.

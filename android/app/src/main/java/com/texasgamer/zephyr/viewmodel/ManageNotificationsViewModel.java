@@ -11,6 +11,7 @@ import androidx.lifecycle.Transformations;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
+import com.texasgamer.zephyr.util.StringUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 
@@ -38,7 +39,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
         mSearchQuery.setValue(null);
 
         mObservableNotificationPreferences = Transformations.switchMap(mSearchQuery, input -> {
-            if (input == null || input.trim().isEmpty()) {
+            if (StringUtils.isNullOrEmpty(input)) {
                 return mDataRepository.getNotificationPreferences();
             } else {
                 return mDataRepository.getNotificationPreferencesByName(input);
@@ -57,7 +58,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
 
     public void enableAll() {
         String searchQuery = mSearchQuery.getValue();
-        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+        if (StringUtils.isNullOrEmpty(searchQuery)) {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Enabling all notification preferences...");
             mDataRepository.enableAll();
         } else {
@@ -68,7 +69,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
 
     public void disableAll() {
         String searchQuery = mSearchQuery.getValue();
-        if (searchQuery == null || searchQuery.trim().isEmpty()) {
+        if (StringUtils.isNullOrEmpty(searchQuery)) {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Disabling all notification preferences...");
             mDataRepository.disableAll();
         } else {

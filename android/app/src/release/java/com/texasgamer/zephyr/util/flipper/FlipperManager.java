@@ -10,6 +10,7 @@ import okhttp3.Interceptor;
 /**
  * Flipper manager for release builds.
  */
+@SuppressWarnings("PMD.UnusedFormalParameter")
 public class FlipperManager implements IFlipperManager {
 
     public FlipperManager(@NonNull Context context) {
