@@ -5,35 +5,42 @@ export default class NetworkUtils {
     return this.getAllIpAddresses().length > 0;
   }
 
-  static getPrimaryIpAddress(): string {
+  static getPrimaryIpAddress(): string | undefined {
     let ipAddresses = this.getAllIpAddresses();
     if (ipAddresses.length > 0) {
+      for (let i = 0; i < ipAddresses.length; i++) {
+        let parts: Array<String> = ipAddresses[i].split('.');
+        if (parts.length === 4 && parts[0] === '192' && parts[1] === '168') {
+          return ipAddresses[i];
+        }
+      }
+
       return ipAddresses[0];
     } else {
-      return 'Unable to determine local IP';
+      return undefined;
     }
   }
 
-  static getPrimaryIpAddressShort(): string {
-    let ipAddresses = this.getAllIpAddresses();
-    if (ipAddresses.length > 0) {
-      return NetworkUtils.getShortAddress(ipAddresses[0]);
+  static getPrimaryIpAddressShort(): string | undefined {
+    let primaryIpAddress = this.getPrimaryIpAddress();
+    if (primaryIpAddress !== undefined) {
+      return NetworkUtils.getShortAddress(primaryIpAddress);
     } else {
-      return 'Unable to determine local IP';
+      return undefined;
     }
   }
 
-  static getPrimaryIpAddressShortFormatted(): string {
-    let ipAddresses = this.getAllIpAddresses();
-    if (ipAddresses.length > 0) {
-      let ipAddressShort = NetworkUtils.getShortAddress(ipAddresses[0]);
-      if (ipAddressShort === ipAddresses[0]) {
-        return 'IP: ' + ipAddressShort;
+  static getPrimaryIpAddressShortFormatted(): string | undefined {
+    let primaryIpAddress = this.getPrimaryIpAddress();
+    if (primaryIpAddress !== undefined) {
+      let primaryIpAddressShort = NetworkUtils.getShortAddress(primaryIpAddress);
+      if (primaryIpAddressShort === primaryIpAddress) {
+        return 'IP: ' + primaryIpAddressShort;
       } else {
-        return 'Join code: ' + ipAddressShort;
+        return 'Join code: ' + primaryIpAddressShort;
       }
     } else {
-      return 'Unable to determine local IP';
+      return undefined;
     }
   }
 

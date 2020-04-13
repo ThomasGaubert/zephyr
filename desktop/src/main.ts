@@ -80,7 +80,6 @@ function onReady() {
     });
     overlayWindow.loadURL(`file://${__dirname}/overlay.html`);
     overlayWindow.on('ready-to-show', () => overlayWindow.show());
-    overlayWindow.webContents.openDevTools();
   }
 
   new ZephyrServer(); // tslint:disable-line

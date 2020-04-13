@@ -92,9 +92,7 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Notification icons now display in VR (requires latest Android app)</li>
-              <li>Fix notification history in VR</li>
-              <li>Update appearance of VR dashboard</li>
+              <li>Improved selection of primary IP address</li>
             </ul>
           </Card>
           <List component='nav'>
@@ -110,7 +108,7 @@ class ConnectionInfo extends React.Component<any, any> {
               <ListItemIcon>
                 <LinkIcon />
               </ListItemIcon>
-              <ListItemText primary={NetworkUtils.getPrimaryIpAddressShortFormatted()} />
+              <ListItemText primary={NetworkUtils.getPrimaryIpAddressShortFormatted() !== undefined ? NetworkUtils.getPrimaryIpAddressShortFormatted() : 'Unable to determine local IP'} />
               {this.state.ipDropdownOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={this.state.ipDropdownOpen} timeout='auto' unmountOnExit>
