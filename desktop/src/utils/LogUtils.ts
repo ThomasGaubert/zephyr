@@ -4,7 +4,10 @@ import path from 'path';
 export default class LogUtils {
 
   static getLogger(): any {
-    Logger.transports.file.file = __dirname + path.sep + 'log.log';
+    Logger.transports.file.fileName = this.getLogFileName();
+    Logger.transports.file.resolvePath = (vars: any) => {
+      return path.join(this.getLogPath(), vars.fileName);
+    };
     return Logger;
   }
 
@@ -34,5 +37,17 @@ export default class LogUtils {
 
   static formatLog(tag: string, message: string): string {
     return `[${tag}] ${message}`;
+  }
+
+  static getLogPath(): string {
+    if (process.env.PORTABLE_EXECUTABLE_DIR) {
+      return process.env.PORTABLE_EXECUTABLE_DIR;
+    } else {
+      return __dirname;
+    }
+  }
+
+  static getLogFileName(): string {
+    return 'zephyr.log';
   }
 }
