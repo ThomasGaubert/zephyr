@@ -130,6 +130,24 @@ export default class ConfigUtils {
   }
 
   /**
+   * Returns path to root of app.
+   */
+  static getAppRootDirectory(): string {
+    if (ConfigUtils.isDev()) {
+      return ConfigUtils.getAppPath();
+    } else {
+      return ConfigUtils.getInstallDirectory();
+    }
+  }
+
+  /**
+   * Returns path to user data directory.
+   */
+  static getUserDataDirectory(): string {
+    return path.join(this.getAppRootDirectory(), 'data');
+  }
+
+  /**
    * Returns path to external resources directory.
    */
   static getExternalResourcesDirectory(): string {

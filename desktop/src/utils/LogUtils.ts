@@ -1,5 +1,6 @@
 import Logger from 'electron-log';
 import path from 'path';
+import ConfigUtils from './ConfigUtils';
 
 export default class LogUtils {
 
@@ -40,11 +41,7 @@ export default class LogUtils {
   }
 
   static getLogPath(): string {
-    if (process.env.PORTABLE_EXECUTABLE_DIR) {
-      return process.env.PORTABLE_EXECUTABLE_DIR;
-    } else {
-      return __dirname;
-    }
+    return ConfigUtils.getAppRootDirectory();
   }
 
   static getLogFileName(): string {

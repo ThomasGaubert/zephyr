@@ -88,7 +88,6 @@ function onReady() {
 }
 
 function init() {
-
   if (ConfigUtils.isDev()) {
     LogUtils.info('Zephyr Beta', 'Live reload enabled!');
     require('electron-reload')(__dirname, {
@@ -112,6 +111,9 @@ function init() {
   }
 
   LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
+
+  app.setPath('userData', ConfigUtils.getUserDataDirectory());
+
   app.on('ready', () => installExtensions().then(() => onReady()));
   app.on('window-all-closed', () => app.quit());
 }
