@@ -117,7 +117,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.0.1",
-    "@material-ui/icons": "^3.0.1",
+    "@material-ui/icons": "^3.0.2",
     "body-parser": "^1.18.3",
     "electron-debug": "^2.0.0",
     "electron-log": "^4.1.1",
