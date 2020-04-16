@@ -96,24 +96,26 @@ function init() {
     });
   }
 
-  let shouldQuit = app.makeSingleInstance(function() {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-      mainWindow.focus();
-    }
-  });
+  const gotTheLock = app.requestSingleInstanceLock();
 
-  if (shouldQuit) {
+  if (!gotTheLock) {
     app.quit();
-    return;
+  } else {
+    app.on('second-instance', () => {
+      // Someone tried to run a second instance, we should focus our window.
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
+        mainWindow.focus();
+      }
+    });
+
+    LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
+
+    app.on('ready', () => installExtensions().then(() => onReady()));
+    app.on('window-all-closed', () => app.quit());
   }
-
-  LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
-
-  app.on('ready', () => installExtensions().then(() => onReady()));
-  app.on('window-all-closed', () => app.quit());
 }
 
 init();
