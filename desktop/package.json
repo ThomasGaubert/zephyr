@@ -96,7 +96,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "copy-webpack-plugin": "^4.5.2",
     "csp-html-webpack-plugin": "^2.3.0",
-    "electron": "^2.0.8",
+    "electron": "^2.0.18",
     "electron-builder": "^20.28.3",
     "electron-devtools-installer": "^2.2.4",
     "electron-react-devtools": "^0.5.3",
