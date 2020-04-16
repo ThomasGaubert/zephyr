@@ -30,9 +30,9 @@
     "update-bindings": "yarn upgrade node-openvr && electron-builder install-app-deps",
     "pretest": "webpack --config webpack.config.tests.js",
     "test": "jest",
-    "dist-prod": "yarn build-prod && electron-builder",
-    "dist-steam": "yarn build-steam && electron-builder",
-    "publish-prod": "electron-builder -p always"
+    "dist-prod": "yarn build-prod && electron-builder --publish never",
+    "dist-steam": "yarn build-steam && electron-builder --publish never",
+    "publish-prod": "electron-builder --publish always"
   },
   "build": {
     "productName": "Zephyr",
