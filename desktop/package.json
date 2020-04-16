@@ -127,7 +127,7 @@
     "express": "^4.17.1",
     "node-openvr": "file:./lib/node-openvr",
     "qrcode.react": "^1.0.0",
-    "react": "^16.4.2",
+    "react": "^16.13.1",
     "react-desktop": "^0.3.8",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
