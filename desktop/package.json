@@ -94,7 +94,7 @@
     "babel-preset-es2015-node": "^6.1.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "copy-webpack-plugin": "^4.5.2",
+    "copy-webpack-plugin": "^5.1.1",
     "csp-html-webpack-plugin": "^2.3.0",
     "electron": "^2.0.18",
     "electron-builder": "^20.28.3",
