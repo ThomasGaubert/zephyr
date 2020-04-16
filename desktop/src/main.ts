@@ -112,8 +112,6 @@ function init() {
 
   LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
 
-  app.setPath('userData', ConfigUtils.getUserDataDirectory());
-
   app.on('ready', () => installExtensions().then(() => onReady()));
   app.on('window-all-closed', () => app.quit());
 }

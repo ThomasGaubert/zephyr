@@ -141,13 +141,6 @@ export default class ConfigUtils {
   }
 
   /**
-   * Returns path to user data directory.
-   */
-  static getUserDataDirectory(): string {
-    return path.join(this.getAppRootDirectory(), 'data');
-  }
-
-  /**
    * Returns path to external resources directory.
    */
   static getExternalResourcesDirectory(): string {
