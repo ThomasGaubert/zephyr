@@ -126,7 +126,7 @@
     "electron-updater": "^3.1.2",
     "express": "^4.16.3",
     "node-openvr": "file:./lib/node-openvr",
-    "qrcode.react": "^0.8.0",
+    "qrcode.react": "^1.0.0",
     "react": "^16.4.2",
     "react-desktop": "^0.3.7",
     "react-dom": "^16.4.2",
