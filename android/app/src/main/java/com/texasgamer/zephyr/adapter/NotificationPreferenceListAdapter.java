@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.NotificationPreference;
-import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
 
 import java.util.ArrayList;

@@ -33,7 +33,7 @@ import com.texasgamer.zephyr.injection.modules.ProviderModule;
 import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
 import com.texasgamer.zephyr.service.SocketService;
-import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
+import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.notification.INotificationsManager;

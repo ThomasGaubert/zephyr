@@ -14,7 +14,7 @@ import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
-import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;

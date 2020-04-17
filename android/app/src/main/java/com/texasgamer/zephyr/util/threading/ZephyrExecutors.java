@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr.service.threading;
+package com.texasgamer.zephyr.util.threading;
 
 import android.os.Handler;
 import android.os.Looper;

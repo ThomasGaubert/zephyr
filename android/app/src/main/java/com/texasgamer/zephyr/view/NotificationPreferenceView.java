@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.NotificationPreference;
-import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 
 import androidx.annotation.ColorInt;

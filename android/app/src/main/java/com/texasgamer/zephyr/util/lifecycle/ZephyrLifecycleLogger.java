@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr.service.lifecycle;
+package com.texasgamer.zephyr.util.lifecycle;
 
 import android.app.Activity;
 import android.app.Application;

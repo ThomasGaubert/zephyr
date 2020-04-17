@@ -12,7 +12,7 @@ import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.service.SocketService;
-import com.texasgamer.zephyr.service.lifecycle.ZephyrLifecycleLogger;
+import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.flipper.IFlipperManager;
 import com.texasgamer.zephyr.util.log.ILogger;

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 
 import com.texasgamer.zephyr.db.dao.NotificationPreferenceDao;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
-import com.texasgamer.zephyr.service.threading.ZephyrExecutors;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
 import java.util.List;
 
