@@ -92,7 +92,7 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Improved selection of primary IP address</li>
+              <li>Updated dependencies</li>
             </ul>
           </Card>
           <List component='nav'>
