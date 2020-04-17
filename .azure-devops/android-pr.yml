@@ -9,7 +9,7 @@ trigger:
       - v2
   paths:
     include:
-      - .azure/android-pr.yml
+      - .azure-devops/android-pr.yml
 
 pr:
   branches:
@@ -18,7 +18,7 @@ pr:
     - v2
   paths:
     include:
-      - .azure/android-pr.yml
+      - .azure-devops/android-pr.yml
       - android/*
 
 pool:

@@ -9,7 +9,7 @@ trigger:
       - v2
   paths:
     include:
-      - .azure/desktop.yml
+      - .azure-devops/desktop.yml
       - desktop/*
     exclude:
       - desktop/README.md

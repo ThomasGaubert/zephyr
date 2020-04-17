@@ -9,7 +9,7 @@ trigger:
       - v2
   paths:
     include:
-      - .azure/android.yml
+      - .azure-devops/android.yml
       - android/*
     exclude:
       - android/README.md
