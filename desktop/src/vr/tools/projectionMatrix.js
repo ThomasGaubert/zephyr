@@ -224,9 +224,9 @@ class Matrix3x4 {
   static _mul (a, b) {
     const out = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
-    for (var r = 0; r < a.length; ++r) {
-      for (var c = 0; c < b[0].length; ++c) {
-        for (var i = 0; i < a[0].length; ++i) {
+    for (let r = 0; r < a.length; ++r) {
+      for (let c = 0; c < b[0].length; ++c) {
+        for (let i = 0; i < a[0].length; ++i) {
           b[i] = b[i] || [0, 0, 0, 0];
           out[r][c] += a[r][i] * b[i][c];
         }
@@ -239,8 +239,8 @@ class Matrix3x4 {
   static _add (a, b) {
     const out = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
-    for (var r = 0; r < a.length; ++r) {
-      for (var c = 0; c < b[0].length; ++c) {
+    for (let r = 0; r < a.length; ++r) {
+      for (let c = 0; c < b[0].length; ++c) {
         out[r][c] = a[r][c] + b[r][c];
       }
     }
@@ -251,8 +251,8 @@ class Matrix3x4 {
   static _sub (a, b) {
     const out = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
-    for (var r = 0; r < a.length; ++r) {
-      for (var c = 0; c < b[0].length; ++c) {
+    for (let r = 0; r < a.length; ++r) {
+      for (let c = 0; c < b[0].length; ++c) {
         out[r][c] = a[r][c] - b[r][c];
       }
     }

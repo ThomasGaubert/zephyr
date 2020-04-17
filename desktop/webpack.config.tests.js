@@ -12,7 +12,7 @@ const readDirRecursiveSync = (folder, filter) => {
     .reduce((cur, next) => [...cur, ...next], []);
 
   return [...files, ...directories];
-}
+};
 
 const getEntries = (folder) =>
   readDirRecursiveSync(folder, f => f.match(/.*(tests|specs)\.tsx?$/))
@@ -20,11 +20,11 @@ const getEntries = (folder) =>
       return {
         name: path.basename(file, path.extname(file)),
         path: path.resolve(file)
-      }
+      };
     })
     .reduce((memo, file) => {
-      memo[file.name] = file.path
-      return memo
+      memo[file.name] = file.path;
+      return memo;
     }, {});
 
 module.exports = [

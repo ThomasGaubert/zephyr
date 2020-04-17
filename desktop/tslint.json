@@ -5,7 +5,9 @@
   },
   "linterOptions": {
     "exclude": [
-      "lib/**"
+      "dist/**",
+      "lib/**",
+      "__tests__/**"
     ]
   },
   "rules": {
@@ -22,6 +24,7 @@
     "no-empty": true
   },
   "jsRules": {
-    "no-empty": true
+    "no-empty": true,
+    "semicolon": [true, "always"]
   }
 }

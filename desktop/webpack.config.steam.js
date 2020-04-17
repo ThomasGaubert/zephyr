@@ -54,7 +54,7 @@ module.exports = [
       plugins: [
         new HtmlWebpackPlugin({
           title: 'Zephyr β',
-          template: './src/index-desktop.ejs',
+          template: './src/index-desktop.ejs'
         }),
         new CopyWebpackPlugin([
           {
@@ -80,7 +80,7 @@ module.exports = [
       new HtmlWebpackPlugin({
         title: 'Zephyr β',
         filename: 'overlay.html',
-        template: './src/index-overlay.ejs',
+        template: './src/index-overlay.ejs'
       }),
       new CspHtmlWebpackPlugin()
     ]
