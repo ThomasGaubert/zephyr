@@ -37,6 +37,11 @@ In general, you can expect the builds to do the following:
 
 Builds from the master branch will kick off the release pipeline for the given component.
 
+- Desktop releases are uploaded directly to the canary branch on Steam.
+- Android releases are uploaded directly to the Canary and Alpha tracks on AppCenter.
+
+Releases to production must be done manually via the Steamworks or Azure DevOps interface.
+
 ## Licensing
 Zephyr is [licensed](https://github.com/ThomasGaubert/zephyr/blob/master/LICENSE) under the MIT License. 
 By contributing to Zephyr, you certify and agree to the following:

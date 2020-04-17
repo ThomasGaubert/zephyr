@@ -2,7 +2,7 @@
 
 [![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Desktop%20CI?branchName=v2)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=3&branchName=v2)
 
-Desktop application built on [Electron](https://electronjs.org/) which provides a user interface, runs a server instance, and initializes the OpenVR overlay.
+Desktop application built on [Electron](https://electronjs.org/) which provides a user interface, runs a server instance, and renders the OpenVR overlay.
 
 ## Installation
 There are several ways to install Zephyr:
@@ -11,11 +11,6 @@ There are several ways to install Zephyr:
 Zephyr is coming soon to Steam.
 
 Updates are delivered through the Steam client.
-
-### Standalone installer
-To use the standalone installer, download [latest version of the desktop application from GitHub](https://github.com/ThomasGaubert/zephyr/releases/latest).
-
-Updates are delivered automatically and are applied after restarting Zephyr.
 
 ### Build from source
 See *Building* below for how to build Zephyr.
