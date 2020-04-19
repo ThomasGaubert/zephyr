@@ -2,5 +2,11 @@
   "type": "dev",
   "enableUpdates": false,
   "port": 3753,
-  "enableOverlay": false
+  "enableOverlay": false,
+  "discovery": {
+    "enabled": true,
+    "broadcastAddress": "230.186.100.28",
+    "broadcastPort": 3752,
+    "broadcastIntervalInMs": 3000
+  }
 }

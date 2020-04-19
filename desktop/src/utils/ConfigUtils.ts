@@ -7,25 +7,33 @@ import ZephyrFeatures from '../models/ZephyrFeatures';
 
 declare var __dirname: string;
 
-interface IZephyrConfig {
+export interface IZephyrConfig {
   type: string;
   enableUpdates: boolean;
   port: number;
   enableOverlay: boolean;
+  discovery: IZephyrDiscoveryConfig;
 }
 
-interface IZephyrSocketChannels {
+export interface IZephyrDiscoveryConfig {
+  enabled: boolean;
+  broadcastAddress: string;
+  broadcastPort: number;
+  broadcastIntervalInMs: number;
+}
+
+export interface IZephyrSocketChannels {
   actions: IZephyrSocketActionChannels;
   events: IZephyrSocketEventChannels;
 }
 
-interface IZephyrSocketActionChannels {
+export interface IZephyrSocketActionChannels {
   postNotification: string;
   dismissNotification: string;
   disconnect: string;
 }
 
-interface IZephyrSocketEventChannels {
+export interface IZephyrSocketEventChannels {
   notificationPosted: string;
   notificationDismissed: string;
 }
@@ -205,5 +213,9 @@ export default class ConfigUtils {
 
   static overlayEnabled(): boolean {
     return ConfigUtils.getConfig().enableOverlay;
+  }
+
+  static getDiscoveryConfig(): IZephyrDiscoveryConfig {
+    return ConfigUtils.getConfig().discovery;
   }
 }

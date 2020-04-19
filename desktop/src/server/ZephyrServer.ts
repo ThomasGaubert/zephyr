@@ -1,12 +1,15 @@
 import BodyParser from 'body-parser';
+import dgram, { Socket } from 'dgram';
 import express from 'express';
 import SocketIO from 'socket.io';
+import DiscoveryPacket from '../models/DiscoveryPacket';
 import DismissNotificationPayload from '../models/DismissNotificationPayload';
 import SocketChannels from '../models/SocketChannels';
 import ZephyrNotification from '../models/ZephyrNotification';
-import ConfigUtils from '../utils/ConfigUtils';
+import ConfigUtils, { IZephyrDiscoveryConfig } from '../utils/ConfigUtils';
 import EventUtils from '../utils/EventUtils';
 import LogUtils from '../utils/LogUtils';
+import NetworkUtils from '../utils/NetworkUtils';
 import NotificationUtils from '../utils/NotificationUtils';
 
 export class ZephyrServer {
@@ -15,10 +18,12 @@ export class ZephyrServer {
   static DEFAULT_PORT: number = 3753;
 
   notifications: Map<string, ZephyrNotification>;
+  discoveryConfig: IZephyrDiscoveryConfig;
 
   constructor() {
     const app = express();
     this.notifications = new Map<string, ZephyrNotification>();
+    this.discoveryConfig = ConfigUtils.getDiscoveryConfig();
 
     let port: number = ConfigUtils.getPort();
 
@@ -46,6 +51,11 @@ export class ZephyrServer {
     http.listen(app.get('port'), function() {
       LogUtils.info('ZephyrServer', 'Server listening on *:' + app.get('port'));
     });
+
+    // Discovery
+    if (this.discoveryConfig.enabled) {
+      this.startDiscoveryBroadcast();
+    }
   }
 
   // HTTP
@@ -156,5 +166,31 @@ export class ZephyrServer {
       packageName: payloadJson['packageName'],
       id: payloadJson['id']
     } as DismissNotificationPayload;
+  }
+
+  startDiscoveryBroadcast () {
+    LogUtils.info('ZephyrServer', 'Starting discovery broadcast...');
+    const socket: Socket = dgram.createSocket('udp4');
+    const serverInstance: ZephyrServer = this;
+    socket.on('listening', function() {
+      socket.setBroadcast(true);
+      socket.setMulticastTTL(128);
+      NetworkUtils.getAllIpAddresses().forEach((ipAddress) => {
+        socket.addMembership(serverInstance.discoveryConfig.broadcastAddress, ipAddress);
+      });
+      setInterval(() => serverInstance.broadcast(serverInstance, socket), serverInstance.discoveryConfig.broadcastIntervalInMs);
+      LogUtils.info('ZephyrServer', 'Started discovery broadcast.');
+    });
+    socket.bind(8000);
+  }
+
+  broadcast (server: ZephyrServer, socket: Socket) {
+    const discoveryPacket = {
+      timestamp: Date.now(),
+      apiVersion: ZephyrServer.API_VERSION,
+      port: ZephyrServer.DEFAULT_PORT
+    } as DiscoveryPacket;
+    const message = Buffer.from(JSON.stringify(discoveryPacket));
+    socket.send(message, 0, message.length, server.discoveryConfig.broadcastPort, server.discoveryConfig.broadcastAddress);
   }
 }

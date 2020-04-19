@@ -92,7 +92,7 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Updated dependencies</li>
+              <li>Added support for local network discovery (requires latest Android app)</li>
             </ul>
           </Card>
           <List component='nav'>

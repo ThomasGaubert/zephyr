@@ -83,6 +83,7 @@ function onReady() {
   }
 
   new ZephyrServer(); // tslint:disable-line
+  // new ZephyrDiscoveryServer(); // tslint:disable-line
 
   ZephyrUpdater.getInstance(store).checkForUpdates();
 }
