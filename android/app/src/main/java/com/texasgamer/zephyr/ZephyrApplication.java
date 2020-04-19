@@ -2,6 +2,11 @@ package com.texasgamer.zephyr;
 
 import android.app.Application;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
+
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.perf.FirebasePerformance;
@@ -11,6 +16,7 @@ import com.texasgamer.zephyr.injection.components.ApplicationComponent;
 import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.model.ConnectionStatus;
+import com.texasgamer.zephyr.network.IDiscoveryManager;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
@@ -31,7 +37,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Zephyr application.
  */
-public class ZephyrApplication extends Application {
+public class ZephyrApplication extends Application implements LifecycleObserver {
 
     private static final String LOG_TAG = "ZephyrApplication";
     private static ZephyrApplication sInstance;
@@ -50,6 +56,8 @@ public class ZephyrApplication extends Application {
     IPrivacyManager privacyManager;
     @Inject
     IFlipperManager flipperManager;
+    @Inject
+    IDiscoveryManager discoveryManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
@@ -77,6 +85,7 @@ public class ZephyrApplication extends Application {
         sApplicationComponent.init();
 
         registerActivityLifecycleCallbacks(new ZephyrLifecycleLogger());
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
         EventBus.builder().logNoSubscriberMessages(false).installDefaultEventBus();
 
@@ -121,6 +130,28 @@ public class ZephyrApplication extends Application {
         } else if (!BuildConfig.PROPS_SET && configManager.isBeta()) {
             logger.log(LogPriority.WARNING, LOG_TAG, "AppCenter update check disabled -- APP_CENTER_SECRET not set!");
         }
+
+        if (configManager.isDiscoveryEnabled()) {
+            logger.log(LogPriority.INFO, LOG_TAG, "Starting DiscoveryManager.");
+            discoveryManager.start();
+        }
+    }
+
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    private void onAppForegrounded() {
+        logger.log(LogPriority.VERBOSE, LOG_TAG, "App is in the foreground.");
+        if (configManager.isDiscoveryEnabled()) {
+            logger.log(LogPriority.INFO, LOG_TAG, "Starting DiscoveryManager.");
+            discoveryManager.start();
+        }
+    }
+
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    private void onAppBackgrounded() {
+        logger.log(LogPriority.VERBOSE, LOG_TAG, "App is in the background.");
+        discoveryManager.stop();
     }
 
     private void verifyConnectionStatus() {

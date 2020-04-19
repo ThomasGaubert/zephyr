@@ -1,5 +1,5 @@
 Automatically built and published to beta track.
 
-- Added search in notification settings
+- Added server discovery in connect menu (requires latest desktop client)
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.

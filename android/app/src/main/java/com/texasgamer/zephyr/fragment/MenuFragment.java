@@ -16,6 +16,8 @@ import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.activity.AboutActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 
 import javax.inject.Inject;
@@ -36,6 +38,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
 
     @Inject
     IConfigManager configManager;
+    @Inject
+    IAnalyticsManager analyticsManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,16 +62,19 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_manage_notifications:
+                analyticsManager.logEvent(ZephyrEvent.Navigation.MANAGE_NOTIFICATIONS);
                 NavigationUtils.openActivity(getContext(), NotificationActivity.class);
                 break;
             case R.id.action_privacy:
                 PrivacyFragment privacyFragment = new PrivacyFragment();
-                privacyFragment.show(getFragmentManager(), privacyFragment.getTag());
+                privacyFragment.show(getParentFragmentManager(), privacyFragment.getTag());
                 break;
             case R.id.action_help:
+                analyticsManager.logEvent(ZephyrEvent.Navigation.HELP);
                 NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_HELP_URL);
                 break;
             case R.id.action_about:
+                analyticsManager.logEvent(ZephyrEvent.Navigation.ABOUT);
                 NavigationUtils.openActivity(getContext(), AboutActivity.class);
                 break;
             default:

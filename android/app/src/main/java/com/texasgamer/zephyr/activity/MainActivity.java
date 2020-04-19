@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                mAnalyticsManager.logEvent(ZephyrEvent.Action.OPEN_HAMBURGER_MENU);
                 mMenuFragment.show(getSupportFragmentManager(), mMenuFragment.getTag());
                 return true;
             default:

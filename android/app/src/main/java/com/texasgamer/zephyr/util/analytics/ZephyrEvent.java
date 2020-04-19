@@ -36,6 +36,9 @@ public class ZephyrEvent {
 
         /* Connection menu */
         public static final String OPEN_CONNECTION_MENU = "open_connection_menu";
+        public static final String TAP_QR_CODE = "tap_qr_code";
+        public static final String TAP_ENTER_CODE = "tap_entercode";
+        public static final String TAP_DISCOVERED_SERVER = "tap_discovered_server";
 
         /* Connection button */
         public static final String TAP_CONNECTION_BUTTON = "tap_connection_button";

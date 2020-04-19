@@ -5,6 +5,7 @@ import com.texasgamer.zephyr.util.log.LogPriority;
 /**
  * Zephyr constants.
  */
+@SuppressWarnings("PMD.AvoidUsingHardCodedIP")
 public final class Constants {
 
     /* Versioning */
@@ -46,6 +47,12 @@ public final class Constants {
     public static final boolean FIREBASE_REMOTE_CONFIG_ENABLED = true;
     public static final boolean FIREBASE_PERFORMANCE_MONITORING_ENABLED = true;
     public static final int FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS = 10800; // 3 hours
+
+    /* Discovery */
+    public static final String DISCOVERY_BROADCAST_ADDRESS = "230.186.100.28";
+    public static final int DISCOVERY_BROADCAST_PORT = 3752;
+    public static final int DISCOVERY_BROADCAST_INTERVAL_IN_MS = 3000; // 3 seconds
+    public static final int DISCOVERY_BROADCAST_TIMEOUT_IN_MS = 4000; // 4 seconds
 
     private Constants() {
     }

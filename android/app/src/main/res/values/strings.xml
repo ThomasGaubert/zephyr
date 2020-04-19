@@ -9,7 +9,7 @@
     <string name="card_zephyr_v2_title">Zephyr v2</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
     <string name="card_zephyr_beta_title">Zephyr \u03B2</string>
-    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Added search in notification settings\n\nTap here to file feedback on GitHub.</string>
+    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Added server discovery in connect menu (requires latest desktop client)\n\nTap here to file feedback on GitHub.</string>
 
     <!-- Connection Button -->
     <string name="btn_connection_start">Start</string>
@@ -39,6 +39,8 @@
     <string name="menu_connect_title">Connect via</string>
     <string name="menu_connect_scan_code">Scan QR code</string>
     <string name="menu_connect_enter_code">Enter join code</string>
+    <string name="menu_connect_discovered_servers">Discovered</string>
+    <string name="menu_connect_discovered_server_default_name">Zephyr Server</string>
 
     <!-- Scan QR Code Menu -->
     <string name="menu_scan_qr_title">Scan QR code</string>

@@ -16,6 +16,7 @@ import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.log.LogEntry;
@@ -99,6 +100,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.about_github)
     public void onClickGitHubBtn(View view) {
+        mAnalyticsManager.logEvent(ZephyrEvent.Navigation.GITHUB);
         NavigationUtils.openUrl(view.getContext(), Constants.ZEPHYR_GITHUB_URL);
     }
 
@@ -109,6 +111,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.about_licenses)
     public void onClickLicensesBtn(View view) {
+        mAnalyticsManager.logEvent(ZephyrEvent.Navigation.LICENSES);
         NavigationUtils.openActivity(view.getContext(), LicensesActivity.class);
     }
 }

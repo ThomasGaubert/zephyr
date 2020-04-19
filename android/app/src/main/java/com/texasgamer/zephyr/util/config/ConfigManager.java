@@ -74,12 +74,18 @@ public class ConfigManager implements IConfigManager {
     @Override
     public boolean isQrCodeScanningEnabled() {
         return isFirebaseEnabled()
-                && mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)
+                && mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
                 && mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_SCAN_QR_CODE);
     }
 
+    @Override
     public boolean isQrCodeIndicatorsEnabled() {
         return isDebug() && isQrCodeScanningEnabled();
+    }
+
+    @Override
+    public boolean isDiscoveryEnabled() {
+        return mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_DISCOVERY);
     }
 
     @Override

@@ -4,4 +4,8 @@
         <key>enableScanQrCode</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>enableDiscovery</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

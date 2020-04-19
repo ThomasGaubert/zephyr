@@ -2,9 +2,13 @@ package com.texasgamer.zephyr.injection.modules;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.texasgamer.zephyr.network.DiscoveryManager;
+import com.texasgamer.zephyr.network.IDiscoveryManager;
 import com.texasgamer.zephyr.network.IOkHttpClientFactory;
 import com.texasgamer.zephyr.network.OkHttpClientFactory;
 import com.texasgamer.zephyr.util.flipper.IFlipperManager;
+import com.texasgamer.zephyr.util.log.ILogger;
 
 import javax.inject.Singleton;
 
@@ -20,5 +24,11 @@ public class NetworkModule {
     @Singleton
     IOkHttpClientFactory provideOkHttpClientFactory(@NonNull IFlipperManager flipperManager) {
         return new OkHttpClientFactory(flipperManager);
+    }
+
+    @Provides
+    @Singleton
+    IDiscoveryManager provideDiscoveryManager(@NonNull Gson gson, @NonNull ILogger logger) {
+        return new DiscoveryManager(gson, logger);
     }
 }
