@@ -190,7 +190,7 @@ export class ZephyrServer {
       apiVersion: ZephyrServer.API_VERSION,
       port: ZephyrServer.DEFAULT_PORT
     } as DiscoveryPacket;
-    const message = Buffer.from(JSON.stringify(discoveryPacket));
+    const message = Buffer.from(JSON.stringify(discoveryPacket), 'utf8');
     socket.send(message, 0, message.length, server.discoveryConfig.broadcastPort, server.discoveryConfig.broadcastAddress);
   }
 }

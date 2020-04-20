@@ -21,6 +21,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,7 @@ public class DiscoveryManager implements IDiscoveryManager {
     }
 
     private void handlePacket(@NonNull DatagramPacket packet) {
-        String received = new String(packet.getData(), 0, packet.getLength());
+        String received = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
         DiscoveryPacket discoveryPacket = mGson.fromJson(received, DiscoveryPacket.class);
         if (discoveryPacket == null) {
             return;
