@@ -3,10 +3,14 @@ package com.texasgamer.zephyr.provider;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.fragment.WhatsNewFragment;
+import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.model.ZephyrCardType;
 import com.texasgamer.zephyr.util.ApplicationUtils;
@@ -17,9 +21,6 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 
 /**
  * ZephyrCard provider.
@@ -39,7 +40,11 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
     public List<ZephyrCard> getCards(@NonNull Context context, @NonNull final FragmentManager fragmentManager) {
         List<ZephyrCard> cards = new ArrayList<>();
 
+        @ConnectionStatus
+        int connectionStatus = mPreferenceManager.getInt(PreferenceKeys.PREF_CONNECTION_STATUS);
         boolean forceShowCards = mPreferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS) && mConfigManager.isDebug();
+        boolean everConnectedToServer = mPreferenceManager.getBoolean(PreferenceKeys.PREF_EVER_CONNECTED_TO_SERVER);
+        boolean completedFre = true;
 
         // Notification access
         if (forceShowCards || !mApplicationUtils.hasNotificationAccess()) {
@@ -49,6 +54,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 v.getContext().startActivity(intent);
             });
             cards.add(notificationAccessCard);
+            completedFre = false;
         }
 
         // Beta
@@ -60,6 +66,36 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
             cards.add(zephyrV2Card);
         }
 
+        // Onboarding: Download desktop client
+        if (forceShowCards || (mApplicationUtils.hasNotificationAccess()
+                && !mApplicationUtils.didUpgradeFromV1()
+                && !everConnectedToServer
+                && connectionStatus != ConnectionStatus.CONNECTED)) {
+            ZephyrCard manageNotificationsCard = new ZephyrCard(ZephyrCardType.INFO, R.string.card_download_desktop_title, R.string.card_download_desktop_body);
+            manageNotificationsCard.setOnClickListener(v -> {
+                NavigationUtils.openUrl(context, Constants.ZEPHYR_STEAM_URL);
+            });
+            cards.add(manageNotificationsCard);
+            completedFre = false;
+        }
+
+        // Help: Connection issues
+        boolean showConnectionHelpCard = (mPreferenceManager.getBoolean(PreferenceKeys.PREF_SHOW_CONNECTION_HELP_CARD)
+                || connectionStatus == ConnectionStatus.SERVER_NOT_FOUND)
+                && connectionStatus != ConnectionStatus.CONNECTED;
+        if (forceShowCards || (mApplicationUtils.hasNotificationAccess()
+                && !everConnectedToServer
+                && showConnectionHelpCard)) {
+            mPreferenceManager.putBoolean(PreferenceKeys.PREF_SHOW_CONNECTION_HELP_CARD, true);
+            ZephyrCard manageNotificationsCard = new ZephyrCard(ZephyrCardType.WARNING, R.string.card_connection_issues_title, R.string.card_connection_issues_body);
+            manageNotificationsCard.setOnClickListener(v -> {
+                NavigationUtils.openUrl(context, Constants.ZEPHYR_CONNECTION_HELP_URL);
+            });
+            cards.add(manageNotificationsCard);
+        } else {
+            mPreferenceManager.putBoolean(PreferenceKeys.PREF_SHOW_CONNECTION_HELP_CARD, false);
+        }
+
         // Onboarding: Configure notifications
         if (forceShowCards || (mApplicationUtils.hasNotificationAccess()
                 && !mApplicationUtils.didUpgradeFromV1()
@@ -69,6 +105,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 NavigationUtils.openActivity(v.getContext(), NotificationActivity.class);
             });
             cards.add(manageNotificationsCard);
+            completedFre = false;
         }
 
         // Zephyr V2
@@ -80,6 +117,8 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
             });
             cards.add(zephyrV2Card);
         }
+
+        mPreferenceManager.putBoolean(PreferenceKeys.PREF_COMPLETED_FRE, completedFre);
 
         return cards;
     }

@@ -18,6 +18,7 @@ import com.texasgamer.zephyr.network.ZephyrService;
 import com.texasgamer.zephyr.receiver.NetworkStateReceiver;
 import com.texasgamer.zephyr.receiver.ZephyrBroadcastReceiver;
 import com.texasgamer.zephyr.util.NetworkUtils;
+import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationChannel;
@@ -229,6 +230,9 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     private void setUpEvents() {
         mSocket.on(Socket.EVENT_CONNECT, args -> {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Connected to server.");
+            if (!preferenceManager.getBoolean(PreferenceKeys.PREF_EVER_CONNECTED_TO_SERVER)) {
+                preferenceManager.putBoolean(PreferenceKeys.PREF_EVER_CONNECTED_TO_SERVER, true);
+            }
             updateServiceNotification(ConnectionStatus.CONNECTED);
         }).on(Socket.EVENT_DISCONNECT, args -> {
             logger.log(LogPriority.DEBUG, LOG_TAG, "Disconnected from server.");
@@ -327,6 +331,8 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(ZephyrNotificationId.SOCKET_SERVICE_STATUS, mStatusNotificationBuilder.build());
+
+        EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
     }
 
     private void dismissServiceNotification() {

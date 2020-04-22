@@ -4,12 +4,16 @@
     <!-- Cards -->
     <string name="card_notification_access_title">Enable Notification Access</string>
     <string name="card_notification_access_body">Zephyr needs access to your notifications to operate properly.\n\nTap here to access Settings.</string>
+    <string name="card_download_desktop_title">Download desktop client</string>
+    <string name="card_download_desktop_body">Zephyr also runs on your desktop to display notifications in VR.\n\nTap here to download from Steam.</string>
+    <string name="card_connection_issues_title">Having trouble?</string>
+    <string name="card_connection_issues_body">It looks like you were unable to connect.\n\nTap here to view help content.</string>
     <string name="card_manage_notifications_title">Manage notifications</string>
     <string name="card_manage_notifications_body">Zephyr forwards all of your notifications to VR by default. You can adjust these settings at any time.\n\nTap here to manage notification settings.</string>
     <string name="card_zephyr_v2_title">Zephyr 2.0</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
     <string name="card_zephyr_beta_title">Zephyr \u03B2</string>
-    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Added server discovery in connect menu (requires latest desktop client)\n\nTap here to file feedback on GitHub.</string>
+    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Updated onboarding flow\n\u2022 Minor bug fixes\n\nTap here to file feedback on GitHub.</string>
 
     <!-- Connection Button -->
     <string name="btn_connection_start">Start</string>

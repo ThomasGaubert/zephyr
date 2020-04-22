@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.ViewDataBinding;
+
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -14,12 +18,12 @@ import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
-import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.view.ZephyrCardViewPager;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 
@@ -28,9 +32,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.ViewDataBinding;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -65,6 +66,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getContext(), zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
         mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
+        mZephyrCardViewPager.setOffscreenPageLimit(5);
 
         if (getActivity() != null) {
             mViewModel.getConnectionStatus().observe(getActivity(), this::updateConnectionStatus);

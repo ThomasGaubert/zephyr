@@ -18,6 +18,7 @@ import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.network.IDiscoveryManager;
 import com.texasgamer.zephyr.service.SocketService;
+import com.texasgamer.zephyr.util.BuildConfigUtils;
 import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.flipper.IFlipperManager;
@@ -135,6 +136,9 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
             logger.log(LogPriority.INFO, LOG_TAG, "Starting DiscoveryManager.");
             discoveryManager.start();
         }
+
+        // Track version code
+        preferenceManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION, BuildConfigUtils.getVersionCode());
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod")
