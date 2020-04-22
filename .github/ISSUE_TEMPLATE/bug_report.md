@@ -23,6 +23,14 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Logs**
+If applicable, please attach log files from the appropriate client after reproducing your issue:
+
+- **Android** - Menu > About > Export logs
+- **Desktop** - Right click "Zephyr" in Steam > Manage > Browse local files > zephyr.log
+
+If you prefer, you can also send logs to /u/TexasGamer on Reddit.
+
 **Desktop**
  - OS: [e.g. Windows 10]
  - Version [e.g. 2.0.0]
