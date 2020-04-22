@@ -6,7 +6,7 @@
     <string name="card_notification_access_body">Zephyr needs access to your notifications to operate properly.\n\nTap here to access Settings.</string>
     <string name="card_manage_notifications_title">Manage notifications</string>
     <string name="card_manage_notifications_body">Zephyr forwards all of your notifications to VR by default. You can adjust these settings at any time.\n\nTap here to manage notification settings.</string>
-    <string name="card_zephyr_v2_title">Zephyr v2</string>
+    <string name="card_zephyr_v2_title">Zephyr 2.0</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
     <string name="card_zephyr_beta_title">Zephyr \u03B2</string>
     <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Added server discovery in connect menu (requires latest desktop client)\n\nTap here to file feedback on GitHub.</string>
@@ -73,14 +73,15 @@
     <string name="menu_privacy_disabled_config">Certain settings are disabled because of the current build configuration.</string>
 
     <!-- What's New Menu -->
-    <string name="menu_whats_new_zephyr_v2_title">Welcome to Zephyr v2!</string>
+    <string name="menu_whats_new_zephyr_v2_title">Welcome to Zephyr 2.0!</string>
     <string name="menu_whats_new_zephyr_v2_body">Every aspect of Zephyr has been completely rewritten to address common feedback, improve performance and stability, and to make future development easier.</string>
     <string name="menu_whats_new_steam_title">Steam</string>
-    <string name="menu_whats_new_steam_body">The Zephyr desktop client is now available on Steam. Note that the old client is no longer supported.</string>
+    <string name="menu_whats_new_steam_body">The Zephyr desktop client is now available on Steam.\n\nNote that the old client is no longer supported.</string>
     <string name="menu_whats_new_steam_button_text">Download on Steam</string>
-    <string name="menu_whats_new_feedback_title">Got Feedback?</string>
-    <string name="menu_whats_new_feedback_body">Please don\'t hesitate to reach out with any feature suggestions or bug reports!</string>
-    <string name="menu_whats_new_feedback_button_text">Submit Feedback</string>
+    <string name="menu_whats_new_connect_title">Quick connect</string>
+    <string name="menu_whats_new_connect_body">Zephyr will automatically find any servers running on your local network.\n\nYou can also scan a QR code or enter a code to get connected quickly.</string>
+    <string name="menu_whats_new_notif_title">Enhanced Notifications</string>
+    <string name="menu_whats_new_notif_body">Notification icons are now displayed in VR!\n\nZephyr also lists previous notifications on the desktop and within VR.</string>
 
     <!-- Debug Menu -->
     <string name="menu_debug_title">Debug</string>

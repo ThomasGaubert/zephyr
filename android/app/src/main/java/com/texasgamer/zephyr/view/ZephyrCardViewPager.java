@@ -61,6 +61,9 @@ public class ZephyrCardViewPager extends ViewPager {
 
             if (height != 0) {
                 measuredHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            } else {
+                super.onMeasure(widthMeasureSpec, height);
+                return;
             }
 
             if (getLayoutParams().height != 0 && heightMeasureSpec != measuredHeight) {

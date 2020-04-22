@@ -59,7 +59,7 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
             super(fm);
 
             WhatsNewItemFragment zephyrV2Fragment = new WhatsNewItemZephyrFragment();
-            zephyrV2Fragment.setArguments(getArguments(R.mipmap.ic_launcher_foreground,
+            zephyrV2Fragment.setArguments(getArguments(R.drawable.ic_logo_inverse_white,
                     R.string.menu_whats_new_zephyr_v2_title,
                     R.string.menu_whats_new_zephyr_v2_body,
                     0,
@@ -72,16 +72,24 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
                     R.string.menu_whats_new_steam_button_text,
                     Constants.ZEPHYR_STEAM_URL));
 
+            WhatsNewItemFragment connectFragment = new WhatsNewItemFragment();
+            connectFragment.setArguments(getArguments(R.drawable.ic_link,
+                    R.string.menu_whats_new_connect_title,
+                    R.string.menu_whats_new_connect_body,
+                    0,
+                    null));
+
             WhatsNewItemFragment feedbackFragment = new WhatsNewItemFragment();
-            feedbackFragment.setArguments(getArguments(R.drawable.ic_help,
-                    R.string.menu_whats_new_feedback_title,
-                    R.string.menu_whats_new_feedback_body,
-                    R.string.menu_whats_new_feedback_button_text,
-                    Constants.ZEPHYR_FEEDBACK_URL));
+            feedbackFragment.setArguments(getArguments(R.drawable.ic_notifications,
+                    R.string.menu_whats_new_notif_title,
+                    R.string.menu_whats_new_notif_body,
+                    0,
+                    null));
 
             mChildFragments = new Fragment[] {
                     zephyrV2Fragment,
                     steamFragment,
+                    connectFragment,
                     feedbackFragment
             };
         }
