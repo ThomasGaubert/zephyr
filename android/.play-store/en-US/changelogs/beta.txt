@@ -1,5 +1,6 @@
 Automatically built and published to beta track.
 
-- Added server discovery in connect menu (requires latest desktop client)
+- Updated onboarding flow
+- Minor bug fixes
 
 See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
