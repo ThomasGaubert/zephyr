@@ -4,6 +4,7 @@ export interface IToastState {
   readonly message: string;
   readonly type: string;
   readonly duration: number;
+  readonly dismissable: boolean;
 }
 
 export enum ConnectionStatus {

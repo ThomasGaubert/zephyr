@@ -67,7 +67,8 @@ export default class ZephyrUpdater {
     store.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
       message: 'Update ' + info.version + ' downloaded.',
       type: 'info',
-      duration: 5000
+      duration: 5000,
+      dismissable: false
     }});
   }
 
@@ -76,7 +77,8 @@ export default class ZephyrUpdater {
     store.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
       message: 'Failed to check for updates.',
       type: 'error',
-      duration: 5000
+      duration: 5000,
+      dismissable: false
     }});
   }
 }

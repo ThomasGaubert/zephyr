@@ -1,7 +1,8 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { forwardToMain, replayActionRenderer } from 'electron-redux';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { ThemeProvider } from 'styled-components';
 import RootReducer from '../../reducers/RootReducer';
 import { ZephyrDark } from '../../styles/Global';
@@ -15,8 +16,8 @@ class OverlayApp extends Component<any, any> {
     theme: 'dark'
   };
 
-  static enhancer = window['devToolsExtension'] ? window['devToolsExtension']()(createStore) : createStore;
-  static store = OverlayApp.enhancer(RootReducer);
+  static composeEnhancers = (window as any)?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  static store = createStore(RootReducer, OverlayApp.composeEnhancers(applyMiddleware(forwardToMain)));
 
   static theme = createMuiTheme({
     palette: {
@@ -60,6 +61,7 @@ class OverlayApp extends Component<any, any> {
   close = () => this.remote.getCurrentWindow().close();
 
   render() {
+    replayActionRenderer(OverlayApp.store);
     return (
       <Provider store={OverlayApp.store}>
         <ThemeProvider theme={ZephyrDark}>

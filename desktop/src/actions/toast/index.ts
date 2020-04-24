@@ -6,6 +6,7 @@ export interface IToastShow {
     readonly message: string;
     readonly type: string;
     readonly duration: number;
+    readonly dismissable: boolean;
   };
 }
 

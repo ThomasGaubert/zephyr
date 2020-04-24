@@ -51,7 +51,7 @@ const toastContentStyles = theme => ({
 });
 
 function ToastContent(props) {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const { classes, className, message, onClose, variant, dismissable, ...other } = props;
 
   const Icon = variantIcon[variant];
 
@@ -65,17 +65,16 @@ function ToastContent(props) {
           {message}
         </span>
       }
-      action={[
+      action={dismissable ? [
         <IconButton
           key='close'
           aria-label='Close'
           color='inherit'
           className={classes.close}
-          onClick={onClose}
-        >
+          onClick={onClose}>
           <CloseIcon className={classes.icon} />
         </IconButton>
-      ]}
+      ] : null}
       {...other}
     />
   );
@@ -88,7 +87,8 @@ class Toast extends React.Component<any, any> {
     open: false,
     variant: 'info',
     content: '',
-    duration: 0
+    duration: 0,
+    dismissable: false
   };
 
   handleClose = (_, reason) => {
@@ -111,12 +111,12 @@ class Toast extends React.Component<any, any> {
           autoHideDuration={this.props.duration}
           onClose={this.handleClose}
           TransitionComponent={Fade}
-          key={this.props.content}
-        >
+          key={this.props.content}>
           <MySnackbarContentWrapper
             onClose={this.handleClose}
             variant={this.props.variant}
             message={this.props.content}
+            dismissable={this.props.dismissable}
           />
         </Snackbar>
       </div>
@@ -130,7 +130,8 @@ function mapStatesToProps (state: IStoreState) {
       open: true,
       content: state.toast.message,
       variant: state.toast.type ? state.toast.type : 'info',
-      duration: state.toast.duration
+      duration: state.toast.duration,
+      dismissable: state.toast.dismissable
     };
   } else {
     return {

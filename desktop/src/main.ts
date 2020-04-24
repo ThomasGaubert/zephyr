@@ -1,7 +1,9 @@
 import { app, BrowserWindow } from 'electron';
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import { forwardToRenderer, replayActionMain, triggerAlias } from 'electron-redux';
 import Path from 'path';
 import { applyMiddleware, createStore, Store } from 'redux';
+import ActionTypeKeys from './actions/ActionTypeKeys';
 import RootReducer from './reducers/RootReducer';
 import { ZephyrServer } from './server/ZephyrServer';
 import IStoreState from './store/IStoreState';
@@ -13,6 +15,8 @@ import VRWindow from './vr/VRWindow';
 declare var __dirname: string;
 let mainWindow: Electron.BrowserWindow;
 let vrWindow: VRWindow;
+let mainWindowReady: boolean;
+let launchError: string | undefined;
 
 const store: Store<IStoreState> = createStore(
   RootReducer,
@@ -30,19 +34,19 @@ const installExtensions = () => {
       showDevTools: false
     });
 
-    const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
-    const extensions = [
-      'REACT_DEVELOPER_TOOLS',
-      'REDUX_DEVTOOLS'
-    ];
-    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-    return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload)));
+    return installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]).then((_) => {
+      LogUtils.debug('Zephyr Beta', 'Successfully installed debug extensions.');
+    }).catch((err) => {
+      LogUtils.error('Zephyr Beta', 'Error when installing debug extensions: ' + err);
+    });
   }
 
   return Promise.resolve([]);
 };
 
 function onReady() {
+  new ZephyrServer(); // tslint:disable-line
+
   mainWindow = new BrowserWindow({
     width: 400,
     height: 600,
@@ -52,7 +56,13 @@ function onReady() {
     backgroundColor: '#0D253A'
   });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow.on('ready-to-show', () => mainWindow.show());
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show();
+    if (launchError !== undefined && launchError.length > 0) {
+      dispatchError();
+    }
+    mainWindowReady = true;
+  });
   mainWindow.on('close', () => app.quit());
 
   if (ConfigUtils.overlayEnabled()) {
@@ -82,10 +92,29 @@ function onReady() {
     overlayWindow.on('ready-to-show', () => overlayWindow.show());
   }
 
-  new ZephyrServer(); // tslint:disable-line
-  // new ZephyrDiscoveryServer(); // tslint:disable-line
-
   ZephyrUpdater.getInstance(store).checkForUpdates();
+}
+
+function onError(error: any) {
+  let errorString = 'Unknown error';
+  if (error.code === 108) {
+    errorString = 'No HMD connected. Restart Zephyr after connecting a HMD.';
+  }
+  launchError = errorString + ' (' + error.code + ')';
+  LogUtils.info('Zephyr Beta', errorString);
+
+  if (mainWindowReady) {
+    dispatchError();
+  }
+}
+
+function dispatchError() {
+  store.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
+    message: launchError,
+    type: 'error',
+    duration: null,
+    dismissable: false
+  }});
 }
 
 function init() {
@@ -114,7 +143,7 @@ function init() {
 
     LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
 
-    app.on('ready', () => installExtensions().then(() => onReady()));
+    app.on('ready', () => installExtensions().then(() => onReady()).catch(onError));
     app.on('window-all-closed', () => app.quit());
   }
 }

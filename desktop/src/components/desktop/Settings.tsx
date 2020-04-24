@@ -16,6 +16,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import HelpIcon from '@material-ui/icons/Help';
 import InfoIcon from '@material-ui/icons/Info';
 import DeviceInfo from '@material-ui/icons/PermDeviceInformation';
+import ShopIcon from '@material-ui/icons/Shop';
 import UpdateIcon from '@material-ui/icons/Update';
 import { ipcRenderer } from 'electron';
 import React from 'react';
@@ -39,12 +40,17 @@ class Settings extends React.Component<any, any> {
     HelpUtils.openHelp();
   }
 
+  onClickDownloadAndroidApp = () => {
+    HelpUtils.openPlayStore();
+  }
+
   onClickCheckForUpdates = () => {
     if (!ConfigUtils.updatesEnabled()) {
       this.props.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
         message: 'Build not eligible for updates.',
         type: 'error',
-        duration: 2000
+        duration: 2000,
+        dismissable: false
       }});
       return;
     }
@@ -52,7 +58,8 @@ class Settings extends React.Component<any, any> {
     this.props.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
       message: 'Checking for updates...',
       type: 'info',
-      duration: 2000
+      duration: 2000,
+      dismissable: false
     }});
 
     ipcRenderer.send('check-for-updates');
@@ -132,6 +139,12 @@ class Settings extends React.Component<any, any> {
                 <HelpIcon />
               </ListItemIcon>
               <ListItemText inset primary='Help' />
+            </ListItem>
+            <ListItem button onClick={this.onClickDownloadAndroidApp}>
+              <ListItemIcon>
+                <ShopIcon />
+              </ListItemIcon>
+              <ListItemText inset primary='Get Android app' />
             </ListItem>
             {this.checkForUpdatesButton()}
             {this.devOptions()}

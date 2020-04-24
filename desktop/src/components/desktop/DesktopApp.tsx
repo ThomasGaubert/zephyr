@@ -1,8 +1,9 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { forwardToMain, replayActionRenderer } from 'electron-redux';
 import React, { Component } from 'react';
 import { TitleBar, Window } from 'react-desktop/windows';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { ThemeProvider } from 'styled-components';
 import RootReducer from '../../reducers/RootReducer';
 import { ZephyrDark } from '../../styles/Global';
@@ -17,9 +18,6 @@ class DesktopApp extends Component<any, any> {
     toolbarColor: '#091B2A',
     theme: 'dark'
   };
-
-  static enhancer = window['devToolsExtension'] ? window['devToolsExtension']()(createStore) : createStore;
-  static store = DesktopApp.enhancer(RootReducer);
 
   static theme = createMuiTheme({
     palette: {
@@ -58,13 +56,17 @@ class DesktopApp extends Component<any, any> {
     }
   });
 
+  composeEnhancers = (window as any)?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  store = createStore(RootReducer, this.composeEnhancers(applyMiddleware(forwardToMain)));
+
   remote = require('electron').remote;
   minimize = () => this.remote.getCurrentWindow().minimize();
   close = () => this.remote.getCurrentWindow().close();
 
   render() {
+    replayActionRenderer(this.store);
     return (
-      <Provider store={DesktopApp.store}>
+      <Provider store={this.store}>
         <ThemeProvider theme={ZephyrDark}>
           <MuiThemeProvider theme={DesktopApp.theme}>
             <Window
