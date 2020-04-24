@@ -42,8 +42,8 @@
 
                 <ImageView
                     android:id="@+id/connection_status_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:tint="@color/menu_icon"
                     tools:src="@drawable/ic_error" />
 
@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
                     tools:text="@string/status_disconnected"/>
             </LinearLayout>
 
@@ -67,8 +68,8 @@
                 android:background="?android:attr/selectableItemBackground" >
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:tint="@color/menu_icon"
                     android:src="@drawable/ic_link" />
 
@@ -78,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_gravity="center_vertical"
+                    android:textSize="16sp"
                     tools:text="Join code: 192.168.0.1"/>
             </LinearLayout>
             
@@ -89,17 +91,17 @@
                 android:layout_marginTop="24dp"
                 android:visibility="gone"
                 tools:visibility="visible">
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="24dp"
                     android:background="@color/menu_icon" />
 
                 <Button
                     android:id="@+id/test_notification_button"
-                    style="?borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -117,6 +119,7 @@
                 android:layout_marginEnd="32dp"
                 android:visibility="gone"
                 tools:visibility="visible">
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
