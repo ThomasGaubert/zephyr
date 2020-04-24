@@ -108,8 +108,9 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
             completedFre = false;
         }
 
-        // Zephyr V2
-        if (forceShowCards || mApplicationUtils.didUpgradeFromV1()) {
+        // Zephyr 2.0
+        if (forceShowCards || (mApplicationUtils.didUpgradeFromV1()
+                && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO))) {
             ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
             zephyrV2Card.setOnClickListener(v -> {
                 WhatsNewFragment whatsNewFragment = new WhatsNewFragment();

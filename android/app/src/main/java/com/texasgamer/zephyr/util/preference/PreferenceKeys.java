@@ -22,6 +22,7 @@ public final class PreferenceKeys {
     public static final String PREF_EVER_CONNECTED_TO_SERVER = "everConnectedToServer";
     public static final String PREF_SHOW_CONNECTION_HELP_CARD = "showConnectionHelpCard";
     public static final String PREF_SEEN_MANAGE_NOTIFICATIONS = "seenManageNotifications";
+    public static final String PREF_SEEN_V2_PROMO = "seenV2Promo";
 
     /* Migration */
     public static final String PREF_NOTIFICATION_PREF_MIGRATIONS_TO_COMPLETE = "notificationPrefMigrationsToComplete";

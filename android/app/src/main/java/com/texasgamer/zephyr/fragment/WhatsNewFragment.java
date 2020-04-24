@@ -11,6 +11,8 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemFragment;
 import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemZephyrFragment;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -20,6 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,6 +34,9 @@ import butterknife.ButterKnife;
 public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
     public static final String LOG_TAG = "ConnectFragment";
+
+    @Inject
+    IPreferenceManager preferenceManager;
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
@@ -49,6 +57,7 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
+        preferenceManager.putBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO, true);
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
