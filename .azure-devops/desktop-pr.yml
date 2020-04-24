@@ -1,12 +1,12 @@
 # Zephyr Desktop PR build pipeline
-# Executes for PRs into the `v2` branch.
+# Executes for PRs into the `master` branch.
 
 name: $(Date:yyyyMMdd)$(Rev:rr)
 
 trigger:
   branches:
     include:
-      - v2
+      - master
   paths:
     include:
       - .azure-devops/desktop-pr.yml
@@ -14,7 +14,7 @@ trigger:
 pr:
   branches:
     include:
-    - v2
+    - master
   paths:
     include:
       - .azure-devops/desktop-pr.yml

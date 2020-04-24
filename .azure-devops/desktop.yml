@@ -1,12 +1,12 @@
 # Zephyr Desktop build pipeline
-# Executes for commits to `v2` branch.
+# Executes for commits to `master` branch.
 
 name: $(Date:yyyyMMdd)$(Rev:rr)
 
 trigger:
   branches:
     include:
-      - v2
+      - master
   paths:
     include:
       - .azure-devops/desktop.yml

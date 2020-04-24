@@ -1,7 +1,7 @@
 [<img alt="Zephyr" height="150px" src="https://i.imgur.com/GZ7Wrd7.png" />](http://gaubert.io/projects/zephyr)
 
-[![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Android%20CI?branchName=v2)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=1&branchName=v2)
-[![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Desktop%20CI?branchName=v2)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=3&branchName=v2)
+[![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Android%20CI?branchName=master)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Desktop%20CI?branchName=master)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=3&branchName=master)
 ![Discord](https://img.shields.io/discord/703105173136080906?label=discord)
 
 Mirror Android notifications to VR

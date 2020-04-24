@@ -1,12 +1,12 @@
 # Zephyr Android PR build pipeline
-# Executes for PRs into the `master` and `v2` branches.
+# Executes for PRs into the `master` branch.
 
 name: $(Date:yyyyMMdd)$(Rev:rr)
 
 trigger:
   branches:
     include:
-      - v2
+      - master
   paths:
     include:
       - .azure-devops/android-pr.yml
@@ -15,7 +15,6 @@ pr:
   branches:
     include:
     - master
-    - v2
   paths:
     include:
       - .azure-devops/android-pr.yml

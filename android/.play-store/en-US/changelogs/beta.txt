@@ -3,4 +3,4 @@ Automatically built and published to beta track.
 - Updated onboarding flow
 - Minor bug fixes
 
-See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
+See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

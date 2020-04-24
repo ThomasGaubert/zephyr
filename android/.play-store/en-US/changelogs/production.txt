@@ -1,3 +1,3 @@
 Automatically built and published to production track.
 
-See https://github.com/ThomasGaubert/zephyr/commits/v2 for latest changes.
+See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
