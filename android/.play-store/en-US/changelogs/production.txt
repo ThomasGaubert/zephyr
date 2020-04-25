@@ -1,3 +1,11 @@
-Automatically built and published to production track.
+Zephyr 2.0 is finally here!
 
-See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
+Note: Zephyr 2.0 requires the new desktop client (available on Steam). Existing desktop clients are not compatible and will not update.
+
+Zephyr has been completely rewritten and includes some awesome new features, including:
+
+- A brand new design
+- Seamlessly pair with the desktop client using local network discovery, a QR code, or a short join code
+- View notification history on desktop and within VR
+
+Thanks to all beta testers who made this release a reality!
