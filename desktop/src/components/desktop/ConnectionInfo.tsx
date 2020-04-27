@@ -92,8 +92,7 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Added alert if no HMD is detected</li>
-              <li>Added link to Play Store in Settings</li>
+              <li>Reduced installation size by 50%</li>
             </ul>
           </Card>
           <List component='nav'>
