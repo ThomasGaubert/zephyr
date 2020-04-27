@@ -90,8 +90,8 @@ jobs:
     - task: BatchScript@1
       displayName: Trim Zephyr Desktop - Standalone
       inputs:
-        filename: trim-dist.cmd
-        workingFolder: desktop/.scripts
+        filename: desktop/.scripts/trim-dist.cmd
+        failOnStandardError: true
     - task: CopyFiles@2
       displayName: Stage Zephyr Desktop - Standalone for publishing
       condition: always()
@@ -140,8 +140,8 @@ jobs:
     - task: BatchScript@1
       displayName: Trim Zephyr Desktop - Steam
       inputs:
-        filename: trim-dist.cmd
-        workingFolder: desktop/.scripts
+        filename: desktop/.scripts/trim-dist.cmd
+        failOnStandardError: true
     - task: CopyFiles@2
       displayName: Stage Zephyr Desktop - Steam for publishing
       condition: always()
