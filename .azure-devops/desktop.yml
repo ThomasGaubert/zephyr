@@ -90,7 +90,7 @@ jobs:
     - task: BatchScript@1
       displayName: Trim Zephyr Desktop - Standalone
       inputs:
-        filename: trim.dist.cmd
+        filename: trim-dist.cmd
         workingFolder: desktop/.scripts
     - task: CopyFiles@2
       displayName: Stage Zephyr Desktop - Standalone for publishing
@@ -140,7 +140,7 @@ jobs:
     - task: BatchScript@1
       displayName: Trim Zephyr Desktop - Steam
       inputs:
-        filename: trim.dist.cmd
+        filename: trim-dist.cmd
         workingFolder: desktop/.scripts
     - task: CopyFiles@2
       displayName: Stage Zephyr Desktop - Steam for publishing
