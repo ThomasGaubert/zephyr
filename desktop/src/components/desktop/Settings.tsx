@@ -14,7 +14,6 @@ import DeveloperMode from '@material-ui/icons/DeveloperMode';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import HelpIcon from '@material-ui/icons/Help';
-import InfoIcon from '@material-ui/icons/Info';
 import DeviceInfo from '@material-ui/icons/PermDeviceInformation';
 import ShopIcon from '@material-ui/icons/Shop';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -25,6 +24,7 @@ import ActionTypeKeys from '../../actions/ActionTypeKeys';
 import ConfigUtils from '../../utils/ConfigUtils';
 import HelpUtils from '../../utils/HelpUtils';
 import { Container, Title } from '../primitives';
+import AboutDialog from './AboutDialog';
 
 class Settings extends React.Component<any, any> {
   state = {
@@ -128,12 +128,7 @@ class Settings extends React.Component<any, any> {
         <div className={this.props.root}>
           <List
             component='nav'>
-            <ListItem button onClick={this.onClickInfo}>
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText inset primary='About' />
-            </ListItem>
+            <AboutDialog/>
             <ListItem button onClick={this.onClickHelp}>
               <ListItemIcon>
                 <HelpIcon />
