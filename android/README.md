@@ -3,3 +3,43 @@
 [![Build Status](https://thomasgaubert.visualstudio.com/Zephyr/_apis/build/status/Android%20CI?branchName=master)](https://thomasgaubert.visualstudio.com/Zephyr/_build/latest?definitionId=1&branchName=master)
 
 Android application which delivers notifications to the Zephyr desktop client.
+
+## Installation
+There are several ways to install Zephyr:
+
+### Play Store
+Zephyr is coming soon to the Play Store.
+
+As you'd expect, updates are delivered through the Play Store.
+
+### Build from source
+See *Building* below for how to build Zephyr.
+
+## Building
+The latest stable version of Android Studio is recommended. Before you can build, you'll need to do a few more setup items.
+
+### Firebase
+Zephyr uses Firebase, so you need to create a new Firebase project for local development. 
+Once you've created the project, get the `google-services.json` file associated with that project and put it in the `app` directory.
+See [here](https://support.google.com/firebase/answer/7015592?hl=en) for more info.
+
+**Note:** Zephyr uses a different package name for the dev build variant, so you'll want to make sure you have both package names registered to your Firebase project.
+
+### API keys
+Copy the `example.properties` file and rename it to `private.properties`. You'll need API keys for the following:
+
+- `APP_CENTER_SECRET` - [AppCenter](https://appcenter.ms) API key for beta distribution.
+- `FABRIC_API_KEY` - [Fabric](https://get.fabric.io/) API key for analytics. This will go away in favor of Firebase in the future.
+
+### Code analysis
+Zephyr uses several code analysis tools to maintain code quality. The tools include `checkstyle`, `pmd`, and `findbugs`.
+
+You can run any of these tools in the terminal using `gradlew <tool-name>`.
+
+## Debugging
+Zephyr provides tools to enhance the developer experience.
+
+- [Flipper](https://fbflipper.com/) - desktop application which provides access to network requests, database, SharedPreferences, etc.
+- [Android-Debug-Database](https://github.com/amitshekhariitbhu/Android-Debug-Database) - provides easy access to the database using a web interface
+
+Please see each tool's respective website for setup instructions.

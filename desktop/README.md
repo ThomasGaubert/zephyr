@@ -16,7 +16,7 @@ Updates are delivered through the Steam client.
 See *Building* below for how to build Zephyr.
 
 ## Building
-[Yarn](https://yarnpkg.com) is the recommended package manager for Zephyr. These steps also assume you're using a 64-bit installation of Windows and NodeJS.
+[Yarn](https://yarnpkg.com) is the recommended package manager for Zephyr. These steps also assume you're using a 64-bit installation of Windows 10 and NodeJS 10.9.0.
 
 Zephyr uses git submodules for the [node-openvr](https://github.com/ZephyrVR/node-openvr) depdenceny. Be sure to clone with submodules or run the following post-clone:
 
@@ -51,5 +51,10 @@ There are three build types:
 
 There are variants of the `build` and `dist` scripts for each build type. See `package.json` for the full list of scripts.
 
+### Code analysis
+Yarn will run a linter when building with `yarn start`. You can fix issues manually or use `yarn lintautofix` to automatically fix common errors.
+
 ### OpenVR bindings
 Zephyr uses a fork of [node-openvr](https://github.com/ZephyrVR/node-openvr) to interact with OpenVR. When editing the bindings, run `yarn update-bindings` to ensure the latest changes are used by the desktop client.
+
+Note that these bindings are in a submodule, so any changes to the bindings need to be checked into that project's repository first.
