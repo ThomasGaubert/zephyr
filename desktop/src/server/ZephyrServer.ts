@@ -1,4 +1,3 @@
-import BodyParser from 'body-parser';
 import dgram, { Socket } from 'dgram';
 import express from 'express';
 import SocketIO from 'socket.io';
@@ -34,8 +33,8 @@ export class ZephyrServer {
     // Server config
     app.set('port', port);
     app.use(this.setupHeaders);
-    app.use(BodyParser.urlencoded({ extended: false }));
-    app.use(BodyParser.json());
+    app.use(express.urlencoded());
+    app.use(express.json());
 
     let http = require('http').Server(app);
     let io = SocketIO(http);

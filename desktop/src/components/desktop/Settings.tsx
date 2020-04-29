@@ -105,7 +105,7 @@ class Settings extends React.Component<any, any> {
             {this.state.devOptionsOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={this.state.devOptionsOpen} timeout='auto' unmountOnExit>
-            <List component='div' disablePadding>
+            <List disablePadding>
               <ListItem button className={this.props.nested} onClick={this.onClickDevTools}>
                 <ListItemIcon>
                   <DeviceInfo />

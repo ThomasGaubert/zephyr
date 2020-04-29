@@ -113,7 +113,7 @@ class ConnectionInfo extends React.Component<any, any> {
             </ListItem>
             <Collapse in={this.state.ipDropdownOpen} timeout='auto' unmountOnExit>
               {this.getAllIps()}
-              <List component='div' disablePadding>
+              <List disablePadding>
                 <ListItem button onClick={this.onClickIpHelp}>
                   <ListItemText primary='Need help?' />
                 </ListItem>
