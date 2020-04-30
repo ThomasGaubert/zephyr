@@ -16,7 +16,7 @@ Updates are delivered through the Steam client.
 See *Building* below for how to build Zephyr.
 
 ## Building
-[Yarn](https://yarnpkg.com) is the recommended package manager for Zephyr. These steps also assume you're using a 64-bit installation of Windows 10 and NodeJS 10.9.0.
+[Yarn](https://yarnpkg.com) is the recommended package manager for Zephyr. These steps also assume you're using a 64-bit installation of Windows 10 and NodeJS 10.20.1.
 
 Zephyr uses git submodules for the [node-openvr](https://github.com/ZephyrVR/node-openvr) depdenceny. Be sure to clone with submodules or run the following post-clone:
 
