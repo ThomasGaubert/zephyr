@@ -33,7 +33,7 @@ export class ZephyrServer {
     // Server config
     app.set('port', port);
     app.use(this.setupHeaders);
-    app.use(express.urlencoded());
+    app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
     let http = require('http').Server(app);

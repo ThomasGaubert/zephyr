@@ -53,9 +53,14 @@ function onReady() {
     frame: false,
     resizable: false,
     show: false,
-    backgroundColor: '#0D253A'
+    backgroundColor: '#0D253A',
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html`).catch(error => {
+    LogUtils.error('Zephyr Beta', 'Main window content failed to load: ' + JSON.stringify(error));
+  });
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
     if (launchError !== undefined && launchError.length > 0) {
@@ -75,9 +80,14 @@ function onReady() {
         name: 'Zephyr Beta',
         fps: 45,
         iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`
+      },
+      webPreferences: {
+        nodeIntegration: true
       }
     });
-    vrWindow.loadURL(`file://${__dirname}/overlay.html`);
+    vrWindow.loadURL(`file://${__dirname}/overlay.html`).catch(error => {
+      LogUtils.error('Zephyr Beta', 'VR dashboard content failed to load: ' + JSON.stringify(error));
+    });
   } else {
     LogUtils.warn('Zephyr Beta', 'Overlay disabled!');
     let overlayWindow = new BrowserWindow({
@@ -86,9 +96,14 @@ function onReady() {
       frame: false,
       resizable: false,
       show: false,
-      transparent: true
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: true
+      }
     });
-    overlayWindow.loadURL(`file://${__dirname}/overlay.html`);
+    overlayWindow.loadURL(`file://${__dirname}/overlay.html`).catch(error => {
+      LogUtils.error('Zephyr Beta', 'Dashboard window content failed to load: ' + JSON.stringify(error));
+    });
     overlayWindow.on('ready-to-show', () => overlayWindow.show());
   }
 
@@ -143,7 +158,7 @@ function init() {
 
     LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
 
-    app.on('ready', () => installExtensions().then(() => onReady()).catch(onError));
+    app.whenReady().then(installExtensions).then(onReady).catch(onError);
     app.on('window-all-closed', () => app.quit());
   }
 }
