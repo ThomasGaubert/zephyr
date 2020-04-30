@@ -29,7 +29,6 @@ See [here](https://support.google.com/firebase/answer/7015592?hl=en) for more in
 Copy the `example.properties` file and rename it to `private.properties`. You'll need API keys for the following:
 
 - `APP_CENTER_SECRET` - [AppCenter](https://appcenter.ms) API key for beta distribution.
-- `FABRIC_API_KEY` - [Fabric](https://get.fabric.io/) API key for analytics. This will go away in favor of Firebase in the future.
 
 ### Code analysis
 Zephyr uses several code analysis tools to maintain code quality. The tools include `checkstyle`, `pmd`, and `findbugs`.

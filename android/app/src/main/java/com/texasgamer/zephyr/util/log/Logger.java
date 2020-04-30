@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
@@ -57,7 +57,7 @@ public class Logger implements ILogger {
         LogEntry logEntry = new LogEntry(priority, tag, message);
         logToBuffer(logEntry);
 
-        if (mPrivacyManager.isCrashReportingEnabled() && ZephyrApplication.isFabricInitialized()) {
+        if (mPrivacyManager.isCrashReportingEnabled() && ZephyrApplication.isCrashReportingInitialized()) {
             logToCrashlytics(logEntry);
         }
     }
@@ -96,6 +96,6 @@ public class Logger implements ILogger {
             return;
         }
 
-        Crashlytics.log(logEntry.toString());
+        FirebaseCrashlytics.getInstance().log(logEntry.toString());
     }
 }

@@ -35,9 +35,6 @@
         <meta-data
             android:name="firebase_performance_collection_enabled"
             android:value="false" />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="${fabricApiKey}" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

@@ -7,8 +7,8 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.perf.FirebasePerformance;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
@@ -19,9 +19,9 @@ import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.network.IDiscoveryManager;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.BuildConfigUtils;
-import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.flipper.IFlipperManager;
+import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogPriority;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
@@ -33,8 +33,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
-import io.fabric.sdk.android.Fabric;
-
 /**
  * Zephyr application.
  */
@@ -43,7 +41,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     private static final String LOG_TAG = "ZephyrApplication";
     private static ZephyrApplication sInstance;
     private static ApplicationComponent sApplicationComponent;
-    private static boolean sFabricInitialized = false;
+    private static boolean sCrashReportingInitialized = false;
 
     @Inject
     ILogger logger;
@@ -68,8 +66,8 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
         return sInstance;
     }
 
-    public static boolean isFabricInitialized() {
-        return sFabricInitialized;
+    public static boolean isCrashReportingInitialized() {
+        return sCrashReportingInitialized;
     }
 
     @Override
@@ -100,11 +98,13 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
             FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
         }
 
+        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
         if (privacyManager.isCrashReportingEnabled()) {
-            Fabric.with(this, new Crashlytics());
-            Crashlytics.setUserIdentifier(privacyManager.getUuid());
-            sFabricInitialized = true;
+            firebaseCrashlytics.setCrashlyticsCollectionEnabled(true);
+            firebaseCrashlytics.setUserId(privacyManager.getUuid());
+            sCrashReportingInitialized = true;
         } else {
+            firebaseCrashlytics.setCrashlyticsCollectionEnabled(false);
             logger.log(LogPriority.WARNING, LOG_TAG, "Crashlytics disabled.");
         }
 
