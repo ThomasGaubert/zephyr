@@ -46,7 +46,6 @@ if (file('private.properties').exists()) {
     props.setProperty('PROPS_SET', 'true')
 } else {
     logger.warn('private.properties is missing!')
-    props.load(file('example.properties').newDataInputStream())
     props.setProperty('PROPS_SET', 'false')
 }
 
