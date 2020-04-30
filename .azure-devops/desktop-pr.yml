@@ -62,51 +62,51 @@ jobs:
       inputs:
         testRunner: JUnit
         testResultsFiles: 'desktop/junit.xml'
-- job: Zephyr_Desktop_Standalone
-  displayName: Zephyr Desktop - Standalone
-  dependsOn: Tests
-  condition: succeeded()
-  pool:
-    vmImage: 'vs2017-win2016'
-  steps:
-    - task: NodeTool@0
-      displayName: Setup NodeJS
-      inputs:
-        versionSpec: '10.9.0'
-    - task: Cache@2
-      displayName: Cache Yarn packages
-      inputs:
-        key: 'yarn | "$(Agent.OS)" | desktop/yarn.lock'
-        restoreKeys: |
-          yarn | "$(Agent.OS)"
-          yarn
-        path: $(YARN_CACHE_FOLDER)
-    - task: PowerShell@2
-      displayName: Install dependencies
-      inputs:
-        targetType: 'inline'
-        script: 'yarn'
-        workingDirectory: 'desktop'
-    - task: PowerShell@2
-      displayName: Build Zephyr Desktop - Standalone
-      inputs:
-        targetType: 'inline'
-        script: 'yarn dist-prod'
-        workingDirectory: 'desktop'
-    - task: CopyFiles@2
-      displayName: Stage Zephyr Desktop - Standalone for publishing
-      condition: always()
-      inputs:
-        sourceFolder: 'desktop/dist'
-        contents: '**/*'
-        targetFolder: $(Build.ArtifactStagingDirectory)
-        cleanTargetFolder: true
-    - task: PublishBuildArtifacts@1
-      displayName: Publish Zephyr Desktop - Standalone
-      condition: always()
-      inputs:
-        pathtoPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: Zephyr Desktop - Standalone
+# - job: Zephyr_Desktop_Standalone
+#   displayName: Zephyr Desktop - Standalone
+#   dependsOn: Tests
+#   condition: succeeded()
+#   pool:
+#     vmImage: 'vs2017-win2016'
+#   steps:
+#     - task: NodeTool@0
+#       displayName: Setup NodeJS
+#       inputs:
+#         versionSpec: '10.9.0'
+#     - task: Cache@2
+#       displayName: Cache Yarn packages
+#       inputs:
+#         key: 'yarn | "$(Agent.OS)" | desktop/yarn.lock'
+#         restoreKeys: |
+#           yarn | "$(Agent.OS)"
+#           yarn
+#         path: $(YARN_CACHE_FOLDER)
+#     - task: PowerShell@2
+#       displayName: Install dependencies
+#       inputs:
+#         targetType: 'inline'
+#         script: 'yarn'
+#         workingDirectory: 'desktop'
+#     - task: PowerShell@2
+#       displayName: Build Zephyr Desktop - Standalone
+#       inputs:
+#         targetType: 'inline'
+#         script: 'yarn dist-prod'
+#         workingDirectory: 'desktop'
+#     - task: CopyFiles@2
+#       displayName: Stage Zephyr Desktop - Standalone for publishing
+#       condition: always()
+#       inputs:
+#         sourceFolder: 'desktop/dist'
+#         contents: '**/*'
+#         targetFolder: $(Build.ArtifactStagingDirectory)
+#         cleanTargetFolder: true
+#     - task: PublishBuildArtifacts@1
+#       displayName: Publish Zephyr Desktop - Standalone
+#       condition: always()
+#       inputs:
+#         pathtoPublish: $(Build.ArtifactStagingDirectory)
+#         artifactName: Zephyr Desktop - Standalone
 - job: Zephyr_Desktop_Steam
   displayName: Zephyr Desktop - Steam
   dependsOn: Tests
