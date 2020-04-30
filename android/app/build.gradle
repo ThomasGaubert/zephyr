@@ -123,7 +123,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android Debug Database
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // AppCenter
     implementation "com.microsoft.appcenter:appcenter-distribute:2.5.1"
