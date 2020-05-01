@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
@@ -53,6 +54,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         ZephyrApplication.getApplicationComponent().inject(this);
         mNavigationView.setNavigationItemSelectedListener(this);
 
+
         if (configManager.isDebugMenuEnabled()) {
             debugMenuButton.setVisibility(View.VISIBLE);
         }
@@ -92,5 +94,15 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         debugFragment.show(getFragmentManager(), debugFragment.getTag());
 
         dismiss();
+    }
+
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
     }
 }

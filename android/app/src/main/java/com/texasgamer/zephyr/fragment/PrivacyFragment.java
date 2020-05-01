@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -140,5 +141,15 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
                     .create();
             alertDialog.show();
         }
+    }
+
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
     }
 }

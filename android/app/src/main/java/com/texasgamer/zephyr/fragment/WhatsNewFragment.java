@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
@@ -131,5 +132,15 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
             return arguments;
         }
+    }
+
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
     }
 }

@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -84,5 +85,15 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
         } else {
             joinCodeInvalidText.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
     }
 }

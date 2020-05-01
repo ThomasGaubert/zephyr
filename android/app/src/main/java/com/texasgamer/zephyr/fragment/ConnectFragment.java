@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -111,6 +112,16 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
         dismiss();
 
         return false;
+    }
+
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
     }
 
     private void connectToDiscoveredServer(@NonNull DiscoveredServer discoveredServer) {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.config.IConfigManager;
@@ -56,5 +57,15 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
         preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS, view.isChecked());
 
         EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
+    }
+
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
     }
 }
