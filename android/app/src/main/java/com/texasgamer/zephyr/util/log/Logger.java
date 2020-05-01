@@ -29,25 +29,25 @@ public class Logger implements ILogger {
     }
 
     @Override
-    public void log(@LogPriority int priority, @NonNull String tag, @NonNull String message) {
+    public void log(@LogLevel int priority, @NonNull String tag, @NonNull String message) {
         if (priority < Constants.MIN_LOG_LEVEL) {
             return;
         }
 
         switch (priority) {
-            case LogPriority.VERBOSE:
+            case LogLevel.VERBOSE:
                 Log.v(tag, mLogSanitizer.sanitize(message));
                 break;
-            case LogPriority.DEBUG:
+            case LogLevel.DEBUG:
                 Log.d(tag, mLogSanitizer.sanitize(message));
                 break;
-            case LogPriority.INFO:
+            case LogLevel.INFO:
                 Log.i(tag, mLogSanitizer.sanitize(message));
                 break;
-            case LogPriority.WARNING:
+            case LogLevel.WARNING:
                 Log.w(tag, mLogSanitizer.sanitize(message));
                 break;
-            case LogPriority.ERROR:
+            case LogLevel.ERROR:
                 Log.e(tag, mLogSanitizer.sanitize(message));
                 break;
             default:
@@ -63,17 +63,17 @@ public class Logger implements ILogger {
     }
 
     @Override
-    public void log(@LogPriority int priority, @NonNull String tag, @NonNull String message, @NonNull Object... args) {
+    public void log(@LogLevel int priority, @NonNull String tag, @NonNull String message, @NonNull Object... args) {
         log(priority, tag, String.format(message, args));
     }
 
     @Override
-    public void log(@LogPriority int priority, @NonNull String tag, @NonNull Throwable throwable, @NonNull String message, @NonNull Object... args) {
+    public void log(@LogLevel int priority, @NonNull String tag, @NonNull Throwable throwable, @NonNull String message, @NonNull Object... args) {
         log(priority, tag, String.format(message, args) + '\n' + throwable.toString());
     }
 
     @Override
-    public void log(@LogPriority int priority, @NonNull String tag, @NonNull Throwable throwable) {
+    public void log(@LogLevel int priority, @NonNull String tag, @NonNull Throwable throwable) {
         log(priority, tag, throwable.toString());
     }
 

@@ -13,7 +13,7 @@ import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.util.StringUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 import java.util.List;
 
@@ -59,10 +59,10 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     public void enableAll() {
         String searchQuery = mSearchQuery.getValue();
         if (StringUtils.isNullOrEmpty(searchQuery)) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Enabling all notification preferences...");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Enabling all notification preferences...");
             mDataRepository.enableAll();
         } else {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Enabling all visible notification preferences...");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Enabling all visible notification preferences...");
             mDataRepository.enableAll(searchQuery);
         }
     }
@@ -70,10 +70,10 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     public void disableAll() {
         String searchQuery = mSearchQuery.getValue();
         if (StringUtils.isNullOrEmpty(searchQuery)) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Disabling all notification preferences...");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Disabling all notification preferences...");
             mDataRepository.disableAll();
         } else {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Disabling all visible notification preferences...");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Disabling all visible notification preferences...");
             mDataRepository.disableAll(searchQuery);
         }
     }

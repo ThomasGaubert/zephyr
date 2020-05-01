@@ -21,7 +21,7 @@ import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
@@ -66,7 +66,7 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
 
         // Skip to entering code is QR scanning isn't enabled
         if (!configManager.isQrCodeScanningEnabled()) {
-            logger.log(LogPriority.INFO, LOG_TAG, "QR code scanning is disabled, skipping to entering code.");
+            logger.log(LogLevel.INFO, LOG_TAG, "QR code scanning is disabled, skipping to entering code.");
             JoinCodeFragment joinCodeFragment = new JoinCodeFragment();
             joinCodeFragment.show(getParentFragmentManager(), joinCodeFragment.getTag());
             dismiss();

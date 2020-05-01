@@ -7,7 +7,7 @@ import android.os.Build;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 import androidx.core.content.ContextCompat;
 
@@ -29,7 +29,7 @@ public class NotificationsManager implements INotificationsManager {
     @Override
     public void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mLogger.log(LogPriority.INFO, LOG_TAG, "Creating notification channels...");
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Creating notification channels...");
             // Status notification
             CharSequence name = mContext.getString(R.string.notif_channel_status_title);
             NotificationChannel channel = new NotificationChannel(ZephyrNotificationChannel.STATUS, name, NotificationManager.IMPORTANCE_LOW);
@@ -42,7 +42,7 @@ public class NotificationsManager implements INotificationsManager {
             if (notificationManager != null) {
                 notificationManager.createNotificationChannel(channel);
             }
-            mLogger.log(LogPriority.INFO, LOG_TAG, "Done creating notification channels.");
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Done creating notification channels.");
         }
     }
 }

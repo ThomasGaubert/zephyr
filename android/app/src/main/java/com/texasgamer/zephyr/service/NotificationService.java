@@ -21,7 +21,7 @@ import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +46,7 @@ public class NotificationService extends NotificationListenerService {
         ZephyrApplication.getApplicationComponent().inject(this);
         super.onCreate();
 
-        logger.log(LogPriority.VERBOSE, LOG_TAG, "onCreate");
+        logger.log(LogLevel.VERBOSE, LOG_TAG, "onCreate");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(@NonNull StatusBarNotification sbn) {
-        logger.log(LogPriority.VERBOSE, LOG_TAG, "onNotificationPosted: [%s]\t%s", sbn.getId(), sbn.getPackageName());
+        logger.log(LogLevel.VERBOSE, LOG_TAG, "onNotificationPosted: [%s]\t%s", sbn.getId(), sbn.getPackageName());
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
                 NotificationPayload notificationPayload = new NotificationPayload();
@@ -67,7 +67,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationPayload.body = getNotificationMessage(sbn);
                 notificationPayload.icon = getNotificationIcon(sbn);
 
-                logger.log(LogPriority.VERBOSE, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.body);
+                logger.log(LogLevel.VERBOSE, LOG_TAG, "Notification: %s\t%s", notificationPayload.title, notificationPayload.body);
                 EventBus.getDefault().post(notificationPayload);
             }
         });
@@ -75,14 +75,14 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(@NonNull StatusBarNotification sbn) {
-        logger.log(LogPriority.VERBOSE, LOG_TAG, "onNotificationRemoved: [%s]\t%s", sbn.getId(), sbn.getPackageName());
+        logger.log(LogLevel.VERBOSE, LOG_TAG, "onNotificationRemoved: [%s]\t%s", sbn.getId(), sbn.getPackageName());
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
                 DismissNotificationPayload dismissNotificationPayload = new DismissNotificationPayload();
                 dismissNotificationPayload.packageName = sbn.getPackageName();
                 dismissNotificationPayload.id = sbn.getId();
 
-                logger.log(LogPriority.VERBOSE, LOG_TAG, "Dismissing notification: %s", sbn.getId());
+                logger.log(LogLevel.VERBOSE, LOG_TAG, "Dismissing notification: %s", sbn.getId());
                 EventBus.getDefault().post(dismissNotificationPayload);
             }
         });
@@ -90,32 +90,32 @@ public class NotificationService extends NotificationListenerService {
 
     private boolean isValidNotification(@NonNull StatusBarNotification sbn) {
         if (sbn.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Zephyr");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Invalid notification: Zephyr");
             return false;
         }
 
         if (!sbn.isClearable()) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Not clearable");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Invalid notification: Not clearable");
             return false;
         }
 
         if (getPackageManager().getLaunchIntentForPackage(sbn.getPackageName()) == null) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: No launch intent");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Invalid notification: No launch intent");
             return false;
         }
 
         NotificationPreference notificationPreference = notificationPreferenceRepository.getNotificationPreferenceSync(sbn.getPackageName());
         if (notificationPreference == null) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: null preference");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Invalid notification: null preference");
             return false;
         }
 
         if (!notificationPreference.isEnabled()) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Invalid notification: Disabled");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Invalid notification: Disabled");
             return false;
         }
 
-        logger.log(LogPriority.DEBUG, LOG_TAG, "Valid notification.");
+        logger.log(LogLevel.DEBUG, LOG_TAG, "Valid notification.");
         return true;
     }
 

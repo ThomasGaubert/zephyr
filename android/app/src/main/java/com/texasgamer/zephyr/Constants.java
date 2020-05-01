@@ -1,6 +1,6 @@
 package com.texasgamer.zephyr;
 
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 /**
  * Zephyr constants.
@@ -31,10 +31,10 @@ public final class Constants {
     public static final String ANDROID_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
 
     /* Logging */
-    @LogPriority
-    public static final int MIN_LOG_LEVEL = LogPriority.VERBOSE;
-    @LogPriority
-    public static final int MIN_LOG_LEVEL_CRASHLYTICS = LogPriority.INFO;
+    @LogLevel
+    public static final int MIN_LOG_LEVEL = LogLevel.VERBOSE;
+    @LogLevel
+    public static final int MIN_LOG_LEVEL_CRASHLYTICS = LogLevel.INFO;
     public static final int LOG_BUFFER_SIZE = 200;
 
     /* Database */

@@ -1,7 +1,7 @@
 package com.texasgamer.zephyr.worker;
 
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,19 +27,19 @@ public class ZephyrWorkManager implements IWorkManager {
 
     @Override
     public void initWork() {
-        mLogger.log(LogPriority.DEBUG, LOG_TAG, "Setting up work items...");
+        mLogger.log(LogLevel.DEBUG, LOG_TAG, "Setting up work items...");
         setupAppSyncWork();
-        mLogger.log(LogPriority.DEBUG, LOG_TAG, "Done setting up work items.");
+        mLogger.log(LogLevel.DEBUG, LOG_TAG, "Done setting up work items.");
     }
 
     @Override
     public void cancelWork() {
-        mLogger.log(LogPriority.DEBUG, LOG_TAG, "Canceling work items.");
+        mLogger.log(LogLevel.DEBUG, LOG_TAG, "Canceling work items.");
         WorkManager.getInstance().cancelAllWorkByTag(SYNC_WORK_TAG);
     }
 
     private void setupAppSyncWork() {
-        mLogger.log(LogPriority.DEBUG, LOG_TAG, "Setting up app sync work...");
+        mLogger.log(LogLevel.DEBUG, LOG_TAG, "Setting up app sync work...");
 
         PeriodicWorkRequest.Builder appSyncWorkBuilder = new PeriodicWorkRequest.Builder(AppSyncWorker.class, 6, TimeUnit.HOURS);
 
@@ -52,6 +52,6 @@ public class ZephyrWorkManager implements IWorkManager {
 
         PeriodicWorkRequest appSyncWork = appSyncWorkBuilder.build();
         WorkManager.getInstance().enqueueUniquePeriodicWork(SYNC_WORK_TAG, ExistingPeriodicWorkPolicy.REPLACE, appSyncWork);
-        mLogger.log(LogPriority.DEBUG, LOG_TAG, "Done setting up app sync work.");
+        mLogger.log(LogLevel.DEBUG, LOG_TAG, "Done setting up app sync work.");
     }
 }

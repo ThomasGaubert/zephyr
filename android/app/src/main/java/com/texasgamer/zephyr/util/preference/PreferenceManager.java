@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.migrations.IZephyrPreferenceMigration;
 import com.texasgamer.zephyr.util.preference.migrations.PreferenceMigrationFactory;
 
@@ -112,18 +112,18 @@ public class PreferenceManager implements IPreferenceManager {
         int currentVersion = getInt(PreferenceKeys.PREF_VERSION, -1);
 
         if (currentVersion == -1) {
-            mLogger.log(LogPriority.INFO, LOG_TAG, "Running initial migration for SharedPreferences.");
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Running initial migration for SharedPreferences.");
             PreferenceMigrationFactory.getInitialMigration().migrate(getSharedPrefs());
             putInt(PreferenceKeys.PREF_VERSION, Constants.PREFS_VERSION);
         } else if (currentVersion < Constants.PREFS_VERSION) {
-            mLogger.log(LogPriority.INFO, LOG_TAG, "Preferences version: %1$d - Running migrations for %1$d to %2$d.", currentVersion, Constants.PREFS_VERSION);
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Preferences version: %1$d - Running migrations for %1$d to %2$d.", currentVersion, Constants.PREFS_VERSION);
             for (IZephyrPreferenceMigration migration : PreferenceMigrationFactory.getMigrations(currentVersion, Constants.PREFS_VERSION)) {
                 migration.migrate(getSharedPrefs());
             }
             putInt(PreferenceKeys.PREF_VERSION, Constants.PREFS_VERSION);
-            mLogger.log(LogPriority.INFO, LOG_TAG, "Migrations complete. New preferences version: %d", Constants.PREFS_VERSION);
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Migrations complete. New preferences version: %d", Constants.PREFS_VERSION);
         } else {
-            mLogger.log(LogPriority.INFO, LOG_TAG, "Preferences version: %d - No migration needed.", currentVersion);
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Preferences version: %d - No migration needed.", currentVersion);
         }
     }
 }

@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
 /**
@@ -38,7 +38,7 @@ public class AnalyticsManager implements IAnalyticsManager {
             firebaseAnalytics.setAnalyticsCollectionEnabled(true);
             firebaseAnalytics.setUserId(privacyManager.getUuid());
         } else {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Firebase analytics disabled.");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Firebase analytics disabled.");
         }
     }
 
@@ -56,7 +56,7 @@ public class AnalyticsManager implements IAnalyticsManager {
             }
             paramsString.append(" }");
 
-            mLogger.log(LogPriority.VERBOSE, LOG_TAG, "Event: %s - Params: %s", eventId, paramsString);
+            mLogger.log(LogLevel.VERBOSE, LOG_TAG, "Event: %s - Params: %s", eventId, paramsString);
         }
 
         if (mPrivacyManager.isUsageDataCollectionEnabled()) {

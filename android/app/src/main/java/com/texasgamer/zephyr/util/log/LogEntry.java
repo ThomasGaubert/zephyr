@@ -15,12 +15,12 @@ import java.util.Locale;
 public class LogEntry implements Serializable {
 
     private Date mTimestamp;
-    @LogPriority
+    @LogLevel
     private int mPriority;
     private String mTag;
     private String mMessage;
 
-    public LogEntry(@LogPriority int priority, @NonNull String tag, @NonNull String message) {
+    public LogEntry(@LogLevel int priority, @NonNull String tag, @NonNull String message) {
         mTimestamp = Calendar.getInstance().getTime();
         mPriority = priority;
         mTag = tag;
@@ -31,22 +31,22 @@ public class LogEntry implements Serializable {
     @Override
     public String toString() {
         switch (mPriority) {
-            case LogPriority.VERBOSE:
+            case LogLevel.VERBOSE:
                 return String.format("%s V/%s: %s", getFormattedTimestamp(), mTag, mMessage);
-            case LogPriority.DEBUG:
+            case LogLevel.DEBUG:
                 return String.format("%s D/%s: %s", getFormattedTimestamp(), mTag, mMessage);
-            case LogPriority.INFO:
+            case LogLevel.INFO:
                 return String.format("%s I/%s: %s", getFormattedTimestamp(), mTag, mMessage);
-            case LogPriority.WARNING:
+            case LogLevel.WARNING:
                 return String.format("%s W/%s: %s", getFormattedTimestamp(), mTag, mMessage);
-            case LogPriority.ERROR:
+            case LogLevel.ERROR:
                 return String.format("%s E/%s: %s", getFormattedTimestamp(), mTag, mMessage);
             default:
                 return String.format("%s ?/%s: %s", getFormattedTimestamp(), mTag, mMessage);
         }
     }
 
-    @LogPriority
+    @LogLevel
     public int getPriority() {
         return mPriority;
     }

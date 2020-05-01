@@ -33,7 +33,7 @@ import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.VibrationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ScannerOverlayView;
@@ -91,7 +91,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
         ZephyrApplication.getApplicationComponent().inject(this);
 
         if (!configManager.isQrCodeScanningEnabled()) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "QR code scanning is disabled!");
+            logger.log(LogLevel.WARNING, LOG_TAG, "QR code scanning is disabled!");
             Toast.makeText(getContext(), R.string.menu_scan_qr_error_not_supported, Toast.LENGTH_SHORT).show();
             dismiss();
             return;
@@ -102,7 +102,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
         Permissions.check(getContext(), Manifest.permission.CAMERA, null, new PermissionHandler() {
             @Override
             public void onGranted() {
-                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission granted, starting camera...");
+                logger.log(LogLevel.INFO, LOG_TAG, "Camera permission granted, starting camera...");
                 mPermissionDeniedAlert.setVisibility(View.GONE);
                 mCameraView.setVisibility(View.VISIBLE);
                 setupCamera();
@@ -110,14 +110,14 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
             @Override
             public void onDenied(Context context, ArrayList<String> deniedPermissions) {
-                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission denied.");
+                logger.log(LogLevel.INFO, LOG_TAG, "Camera permission denied.");
                 mCameraView.setVisibility(View.GONE);
                 mPermissionDeniedAlert.setVisibility(View.VISIBLE);
             }
 
             @Override
             public boolean onBlocked(Context context, ArrayList<String> blockedList) {
-                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission blocked.");
+                logger.log(LogLevel.INFO, LOG_TAG, "Camera permission blocked.");
                 mCameraView.setVisibility(View.GONE);
                 mPermissionDeniedAlert.setVisibility(View.VISIBLE);
                 return false;
@@ -125,7 +125,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
             @Override
             public void onJustBlocked(Context context, ArrayList<String> justBlockedList, ArrayList<String> deniedPermissions) {
-                logger.log(LogPriority.INFO, LOG_TAG, "Camera permission just blocked.");
+                logger.log(LogLevel.INFO, LOG_TAG, "Camera permission just blocked.");
                 mCameraView.setVisibility(View.GONE);
                 mPermissionDeniedAlert.setVisibility(View.VISIBLE);
             }
@@ -177,7 +177,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
                 scanQrCode(frame.getData(), metadata);
             } catch (Exception e) {
-                logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.", e);
+                logger.log(LogLevel.ERROR, LOG_TAG, "Error while scanning for QR code.", e);
             }
         });
     }
@@ -220,9 +220,9 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                     continue;
                 }
 
-                logger.log(LogPriority.DEBUG, LOG_TAG, "Barcode found: " + barcodeValue);
+                logger.log(LogLevel.DEBUG, LOG_TAG, "Barcode found: " + barcodeValue);
                 if (NetworkUtils.isValidJoinCode(barcodeValue)) {
-                    logger.log(LogPriority.DEBUG, LOG_TAG, barcodeValue + " is a valid join code.");
+                    logger.log(LogLevel.DEBUG, LOG_TAG, barcodeValue + " is a valid join code.");
                     VibrationUtils.vibrate(getContext());
                     mScannedValue.setText(barcodeValue);
                     stopScanning();
@@ -236,6 +236,6 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
             }
 
             mIsDetectorRunning.set(false);
-        }).addOnFailureListener(e -> logger.log(LogPriority.ERROR, LOG_TAG, "Error while scanning for QR code.", e));
+        }).addOnFailureListener(e -> logger.log(LogLevel.ERROR, LOG_TAG, "Error while scanning for QR code.", e));
     }
 }

@@ -20,7 +20,7 @@ import com.texasgamer.zephyr.receiver.ZephyrBroadcastReceiver;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationChannel;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationId;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
@@ -97,7 +97,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     @Override
     public void onDestroy() {
-        logger.log(LogPriority.VERBOSE, LOG_TAG, "onDestroy");
+        logger.log(LogLevel.VERBOSE, LOG_TAG, "onDestroy");
 
         mEnableNotifications = false;
 
@@ -121,10 +121,10 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
         preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
 
         if (mServerAddress != null && !mServerAddress.isEmpty()) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Connecting to saved address %s...", mServerAddress);
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Connecting to saved address %s...", mServerAddress);
             connect();
         } else {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "No saved address found, will attempt to reconnect if set...");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "No saved address found, will attempt to reconnect if set...");
             updateServiceNotification(ConnectionStatus.NO_JOIN_CODE);
         }
 
@@ -140,28 +140,28 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     private void connect() {
         if (NetworkUtils.connectionStatusToIsConnected(mConnectionStatus)) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Already connected to a server! Disconnect first.");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Already connected to a server! Disconnect first.");
             return;
         }
 
         if (mConnectionStatus == ConnectionStatus.CONNECTING) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Already attempting to connect to a server! Disconnect first.");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Already attempting to connect to a server! Disconnect first.");
             return;
         }
 
         if (!NetworkUtils.isConnectedToWifi(this)) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Not connected to WiFi!");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Not connected to WiFi!");
             updateServiceNotification(ConnectionStatus.NO_WIFI);
             return;
         }
 
         if (mServerAddress == null || mServerAddress.isEmpty()) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "No address specified!");
+            logger.log(LogLevel.WARNING, LOG_TAG, "No address specified!");
             updateServiceNotification(ConnectionStatus.NO_JOIN_CODE);
             return;
         }
 
-        logger.log(LogPriority.DEBUG, LOG_TAG, "Connecting to %s...", mServerAddress);
+        logger.log(LogLevel.DEBUG, LOG_TAG, "Connecting to %s...", mServerAddress);
         updateServiceNotification(ConnectionStatus.CONNECTING);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -175,23 +175,23 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
             @Override
             public void onResponse(@NonNull Call<ZephyrApiVersion> call, @NonNull Response<ZephyrApiVersion> response) {
                 if (!response.isSuccessful()) {
-                    logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server API request failed, abandoning!");
+                    logger.log(LogLevel.WARNING, LOG_TAG, "Zephyr server API request failed, abandoning!");
                     updateServiceNotification(ConnectionStatus.UNKNOWN);
                     return;
                 }
 
                 mZephyrApiVersion = response.body();
                 if (mZephyrApiVersion == null) {
-                    logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server returned null body, abandoning!");
+                    logger.log(LogLevel.WARNING, LOG_TAG, "Zephyr server returned null body, abandoning!");
                     updateServiceNotification(ConnectionStatus.UNKNOWN);
                     return;
                 }
 
-                logger.log(LogPriority.INFO, LOG_TAG, "Connected to server running API v%d (%s-%s)",
+                logger.log(LogLevel.INFO, LOG_TAG, "Connected to server running API v%d (%s-%s)",
                         mZephyrApiVersion.getApi(), mZephyrApiVersion.getDesktop(), mZephyrApiVersion.getBuildType());
 
                 if (mZephyrApiVersion.getApi() != Constants.ZEPHYR_API_VERSION) {
-                    logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server returned API %d but app only supports API v%d, abandoning!",
+                    logger.log(LogLevel.WARNING, LOG_TAG, "Zephyr server returned API %d but app only supports API v%d, abandoning!",
                             mZephyrApiVersion.getApi(), Constants.ZEPHYR_API_VERSION);
                     updateServiceNotification(ConnectionStatus.UNSUPPORTED_API);
                     return;
@@ -200,7 +200,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
                 try {
                     mSocket = IO.socket("http://" + mServerAddress);
                 } catch (Exception e) {
-                    logger.log(LogPriority.ERROR, LOG_TAG, e);
+                    logger.log(LogLevel.ERROR, LOG_TAG, e);
                 }
 
                 if (mSocket != null) {
@@ -211,14 +211,14 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
             @Override
             public void onFailure(@NonNull Call<ZephyrApiVersion> call, @NonNull Throwable t) {
-                logger.log(LogPriority.WARNING, LOG_TAG, "Zephyr server not found!");
+                logger.log(LogLevel.WARNING, LOG_TAG, "Zephyr server not found!");
                 updateServiceNotification(ConnectionStatus.SERVER_NOT_FOUND);
             }
         });
     }
 
     private void disconnect(@ConnectionStatus int newConnectionStatus) {
-        logger.log(LogPriority.INFO, LOG_TAG, "Disconnecting...");
+        logger.log(LogLevel.INFO, LOG_TAG, "Disconnecting...");
 
         if (mSocket != null) {
             mSocket.disconnect();
@@ -229,13 +229,13 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     private void setUpEvents() {
         mSocket.on(Socket.EVENT_CONNECT, args -> {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Connected to server.");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Connected to server.");
             if (!preferenceManager.getBoolean(PreferenceKeys.PREF_EVER_CONNECTED_TO_SERVER)) {
                 preferenceManager.putBoolean(PreferenceKeys.PREF_EVER_CONNECTED_TO_SERVER, true);
             }
             updateServiceNotification(ConnectionStatus.CONNECTED);
         }).on(Socket.EVENT_DISCONNECT, args -> {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Disconnected from server.");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Disconnected from server.");
             updateServiceNotification(ConnectionStatus.DISCONNECTED);
         });
     }
@@ -243,7 +243,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Subscribe
     public void onNotification(NotificationPayload notificationPayload) {
         if (!NetworkUtils.connectionStatusToIsConnected(mConnectionStatus)) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Ignoring notification since currently disconnected from server.");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Ignoring notification since currently disconnected from server.");
             return;
         }
 
@@ -253,7 +253,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Subscribe
     public void onDismissNotification(DismissNotificationPayload dismissNotificationPayload) {
         if (!NetworkUtils.connectionStatusToIsConnected(mConnectionStatus)) {
-            logger.log(LogPriority.DEBUG, LOG_TAG, "Ignoring notification since currently disconnected from server.");
+            logger.log(LogLevel.DEBUG, LOG_TAG, "Ignoring notification since currently disconnected from server.");
             return;
         }
 
@@ -262,17 +262,17 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     private void onUpdateJoinCode(@Nullable String joinCode) {
         if (joinCode == null || joinCode.isEmpty()) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Updated join code is null!");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Updated join code is null!");
             return;
         }
 
         String newServerAddress = NetworkUtils.joinCodeToIp(preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE)) + ":" + Constants.ZEPHYR_SERVER_PORT;
         if (newServerAddress.equals(mServerAddress)) {
-            logger.log(LogPriority.INFO, LOG_TAG, "Join code didn't change, ignoring.");
+            logger.log(LogLevel.INFO, LOG_TAG, "Join code didn't change, ignoring.");
             return;
         }
 
-        logger.log(LogPriority.INFO, LOG_TAG, "Join code was updated! Handling...");
+        logger.log(LogLevel.INFO, LOG_TAG, "Join code was updated! Handling...");
         disconnect(ConnectionStatus.DISCONNECTED);
         mServerAddress = newServerAddress;
         connect();
@@ -280,7 +280,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     private void createServiceNotification() {
         if (!mEnableNotifications) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Not creating notification: disabled");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Not creating notification: disabled");
             return;
         }
 
@@ -312,11 +312,11 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
     private void updateServiceNotification(@ConnectionStatus int connectionStatus) {
         if (mStatusNotificationBuilder == null) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Unable to update status notification: null builder");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Unable to update status notification: null builder");
             dismissServiceNotification();
             return;
         } else if (!mEnableNotifications) {
-            logger.log(LogPriority.WARNING, LOG_TAG, "Not updating notification: disabled");
+            logger.log(LogLevel.WARNING, LOG_TAG, "Not updating notification: disabled");
             dismissServiceNotification();
             return;
         }
@@ -343,7 +343,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Override
     public void onNetworkAvailable() {
         if (!NetworkUtils.connectionStatusToIsConnected(mConnectionStatus) && mConnectionStatus != ConnectionStatus.CONNECTING) {
-            logger.log(LogPriority.INFO, LOG_TAG, "Network available.");
+            logger.log(LogLevel.INFO, LOG_TAG, "Network available.");
             connect();
         }
     }
@@ -351,7 +351,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Override
     public void onNetworkUnavailable() {
         if (NetworkUtils.connectionStatusToIsConnected(mConnectionStatus) || mConnectionStatus == ConnectionStatus.CONNECTING) {
-            logger.log(LogPriority.INFO, LOG_TAG, "Network not available.");
+            logger.log(LogLevel.INFO, LOG_TAG, "Network not available.");
             disconnect(ConnectionStatus.OFFLINE);
         }
     }
@@ -359,7 +359,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Override
     public void onWifiConnected() {
         if (!NetworkUtils.connectionStatusToIsConnected(mConnectionStatus) && mConnectionStatus != ConnectionStatus.CONNECTING) {
-            logger.log(LogPriority.INFO, LOG_TAG, "Connected to WiFi.");
+            logger.log(LogLevel.INFO, LOG_TAG, "Connected to WiFi.");
             connect();
         }
     }
@@ -367,7 +367,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
     @Override
     public void onWifiDisconnected() {
         if (NetworkUtils.connectionStatusToIsConnected(mConnectionStatus) || mConnectionStatus == ConnectionStatus.CONNECTING) {
-            logger.log(LogPriority.INFO, LOG_TAG, "WiFi disconnected.");
+            logger.log(LogLevel.INFO, LOG_TAG, "WiFi disconnected.");
             disconnect(ConnectionStatus.NO_WIFI);
         }
     }

@@ -20,7 +20,7 @@ import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.log.LogEntry;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -58,7 +58,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.about_export_logs)
     public void onClickExportLogsBtn(View view) {
-        mLogger.log(LogPriority.INFO, LOG_TAG, "Exporting logs...");
+        mLogger.log(LogLevel.INFO, LOG_TAG, "Exporting logs...");
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             File file = new File(getCacheDir(), "logs/zephyr-logs.txt");
             if (!file.exists()) {
@@ -75,7 +75,7 @@ public class AboutActivity extends BaseActivity {
 
                 writer.close();
             } catch (IOException e) {
-                mLogger.log(LogPriority.ERROR, LOG_TAG, "Error while exporting logs!", e);
+                mLogger.log(LogLevel.ERROR, LOG_TAG, "Error while exporting logs!", e);
                 return;
             }
 

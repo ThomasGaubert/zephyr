@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface ILogger {
 
-    void log(@LogPriority int priority, @NonNull String tag, @NonNull String message);
+    void log(@LogLevel int priority, @NonNull String tag, @NonNull String message);
 
-    void log(@LogPriority int priority, @NonNull String tag, @NonNull String message, @NonNull Object... args);
+    void log(@LogLevel int priority, @NonNull String tag, @NonNull String message, @NonNull Object... args);
 
-    void log(@LogPriority int priority, @NonNull String tag, @NonNull Throwable throwable, @NonNull String message, @NonNull Object... args);
+    void log(@LogLevel int priority, @NonNull String tag, @NonNull Throwable throwable, @NonNull String message, @NonNull Object... args);
 
-    void log(@LogPriority int priority, @NonNull String tag, @NonNull Throwable throwable);
+    void log(@LogLevel int priority, @NonNull String tag, @NonNull Throwable throwable);
 
     List<LogEntry> getLogs();
 }

@@ -9,7 +9,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.service.SocketService;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.notification.ZephyrNotificationId;
 
 /**
@@ -24,9 +24,9 @@ public class ZephyrBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        ZephyrApplication.getApplicationComponent().logger().log(LogPriority.DEBUG, LOG_TAG, "Received action: " + action);
+        ZephyrApplication.getApplicationComponent().logger().log(LogLevel.DEBUG, LOG_TAG, "Received action: " + action);
         if (action != null && action.equals(ACTION_STOP_SOCKET_SERVICE)) {
-            ZephyrApplication.getApplicationComponent().logger().log(LogPriority.INFO, LOG_TAG, "Stopping SocketService...");
+            ZephyrApplication.getApplicationComponent().logger().log(LogLevel.INFO, LOG_TAG, "Stopping SocketService...");
             context.stopService(new Intent(context, SocketService.class));
 
             // Dismiss service notification

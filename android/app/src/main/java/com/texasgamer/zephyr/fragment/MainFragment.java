@@ -22,7 +22,7 @@ import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.view.ZephyrCardViewPager;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
@@ -125,7 +125,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             notificationPayload.body = getString(R.string.test_notification_message);
             notificationPayload.icon = ImageUtils.bitmapToBase64(ImageUtils.drawableToBitmap(getResources().getDrawable(R.drawable.ic_notifications)));
 
-            logger.log(LogPriority.INFO, LOG_TAG, "Sending test notification");
+            logger.log(LogLevel.INFO, LOG_TAG, "Sending test notification");
             EventBus.getDefault().post(notificationPayload);
         });
 
@@ -134,7 +134,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             dismissNotificationPayload.packageName = BuildConfig.APPLICATION_ID;
             dismissNotificationPayload.id = -1;
 
-            logger.log(LogPriority.INFO, LOG_TAG, "Dismissing test notification...");
+            logger.log(LogLevel.INFO, LOG_TAG, "Dismissing test notification...");
             EventBus.getDefault().post(dismissNotificationPayload);
         }, 5000);
     }

@@ -22,7 +22,7 @@ import com.texasgamer.zephyr.db.dao.NotificationPreferenceDao;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
@@ -62,12 +62,12 @@ public class AppSyncWorker extends Worker {
     @Override
     @NonNull
     public Result doWork() {
-        logger.log(LogPriority.INFO, LOG_TAG, "Starting app sync...");
+        logger.log(LogLevel.INFO, LOG_TAG, "Starting app sync...");
 
         boolean shouldMigratePreferences = false;
         Map<String, Boolean> notificationPreferencesToMigrate = new ArrayMap<>();
         if (preferenceManager.hasKey(PreferenceKeys.PREF_NOTIFICATION_PREF_MIGRATIONS_TO_COMPLETE)) {
-            logger.log(LogPriority.INFO, LOG_TAG, "Found notification preferences to migrate");
+            logger.log(LogLevel.INFO, LOG_TAG, "Found notification preferences to migrate");
             String migrationsToCompleteString = preferenceManager.getString(PreferenceKeys.PREF_NOTIFICATION_PREF_MIGRATIONS_TO_COMPLETE);
             Type mapType = new TypeToken<Map<String, Boolean>>() { }.getType();
             notificationPreferencesToMigrate = gson.fromJson(migrationsToCompleteString, mapType);
@@ -102,7 +102,7 @@ public class AppSyncWorker extends Worker {
             preferenceManager.remove(PreferenceKeys.PREF_NOTIFICATION_PREF_MIGRATIONS_TO_COMPLETE);
         }
 
-        logger.log(LogPriority.INFO, LOG_TAG, "Finished app sync. Synced %d apps.", notificationPreferenceEntities.size());
+        logger.log(LogLevel.INFO, LOG_TAG, "Finished app sync. Synced %d apps.", notificationPreferenceEntities.size());
         return Result.success();
     }
 

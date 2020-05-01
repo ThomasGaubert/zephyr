@@ -7,9 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
 
-@IntDef(value = {LogPriority.VERBOSE, LogPriority.DEBUG, LogPriority.INFO, LogPriority.WARNING, LogPriority.ERROR})
+@IntDef(value = {LogLevel.VERBOSE, LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARNING, LogLevel.ERROR})
 @Retention(RetentionPolicy.SOURCE)
-public @interface LogPriority {
+public @interface LogLevel {
     int VERBOSE = Log.VERBOSE;
     int DEBUG = Log.DEBUG;
     int INFO = Log.INFO;

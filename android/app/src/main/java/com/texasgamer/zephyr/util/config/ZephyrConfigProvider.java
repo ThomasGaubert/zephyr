@@ -10,7 +10,7 @@ import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class ZephyrConfigProvider {
             try {
                 initLocalConfig();
             } catch (Exception e) {
-                ZephyrApplication.getApplicationComponent().logger().log(LogPriority.ERROR, LOG_TAG, e);
+                ZephyrApplication.getApplicationComponent().logger().log(LogLevel.ERROR, LOG_TAG, e);
             }
         }
     }

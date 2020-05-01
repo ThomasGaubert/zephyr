@@ -13,7 +13,7 @@ import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.model.discovery.DiscoveredServer;
 import com.texasgamer.zephyr.model.discovery.DiscoveryPacket;
 import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.log.LogPriority;
+import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
 import java.io.IOException;
@@ -103,7 +103,7 @@ public class DiscoveryManager implements IDiscoveryManager {
                 mMulticastSocket.leaveGroup(group);
                 mMulticastSocket.close();
             } catch (IOException e) {
-                mLogger.log(LogPriority.ERROR, LOG_TAG, e, "Error encountered!");
+                mLogger.log(LogLevel.ERROR, LOG_TAG, e, "Error encountered!");
             }
         };
     }
@@ -137,7 +137,7 @@ public class DiscoveryManager implements IDiscoveryManager {
             for (Map.Entry<String, DiscoveredServer> entry : mDiscoveredServers.entrySet()) {
                 long timeSinceLastPacket = System.currentTimeMillis() - entry.getValue().getTimestamp();
                 if (timeSinceLastPacket > Constants.DISCOVERY_BROADCAST_INTERVAL_IN_MS) { // 3 seconds
-                    mLogger.log(LogPriority.DEBUG, LOG_TAG, "Removing server: last seen " + timeSinceLastPacket + "ms ago");
+                    mLogger.log(LogLevel.DEBUG, LOG_TAG, "Removing server: last seen " + timeSinceLastPacket + "ms ago");
                     mDiscoveredServers.remove(entry.getKey());
                     ZephyrExecutors.getMainThreadExecutor().execute(() -> {
                         mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
