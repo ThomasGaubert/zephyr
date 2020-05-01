@@ -1,6 +1,6 @@
 Automatically built and published to beta track.
 
-- Updated onboarding flow
-- Minor bug fixes
+- Updated dependencies
+- Minor layout fixes
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
