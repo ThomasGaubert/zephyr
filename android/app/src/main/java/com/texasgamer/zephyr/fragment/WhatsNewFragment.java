@@ -61,6 +61,16 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
         preferenceManager.putBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO, true);
     }
 
+    @Override
+    protected int getInitialBottomSheetState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    protected boolean shouldSkipCollapsedState() {
+        return true;
+    }
+
     private class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment[] mChildFragments;
@@ -132,15 +142,5 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
             return arguments;
         }
-    }
-
-    @Override
-    protected int getInitialBottomSheetState() {
-        return BottomSheetBehavior.STATE_EXPANDED;
-    }
-
-    @Override
-    protected boolean shouldSkipCollapsedState() {
-        return true;
     }
 }
