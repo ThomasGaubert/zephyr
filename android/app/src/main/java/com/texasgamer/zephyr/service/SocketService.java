@@ -187,6 +187,13 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
                     return;
                 }
 
+
+                if (mZephyrApiVersion.getApi() == null) {
+                    logger.log(LogLevel.WARNING, LOG_TAG, "Zephyr server returned null version, abandoning!");
+                    updateServiceNotification(ConnectionStatus.UNKNOWN);
+                    return;
+                }
+
                 logger.log(LogLevel.INFO, LOG_TAG, "Connected to server running API v%d (%s-%s)",
                         mZephyrApiVersion.getApi(), mZephyrApiVersion.getDesktop(), mZephyrApiVersion.getBuildType());
 
