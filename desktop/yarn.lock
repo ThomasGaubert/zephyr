@@ -3132,9 +3132,9 @@ electron-rebuild@^1.10.1:
     spawn-rx "^3.0.0"
     yargs "^14.2.0"
 
-electron-redux@^1.3.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/electron-redux/-/electron-redux-1.5.1.tgz#e514968307df4e9617132c19fb966bb1f7555569"
+electron-redux@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/electron-redux/-/electron-redux-1.5.2.tgz#a415d4873369957640ed0536fc0641c869ba64f5"
   dependencies:
     debug "^3.0.0"
     flux-standard-action "^2.0.0"
