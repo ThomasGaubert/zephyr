@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
                 android:background="@android:color/transparent"
+                android:importantForAutofill="no"
                 android:digits="0123456789."
                 android:gravity="center"
                 android:inputType="numberDecimal"
