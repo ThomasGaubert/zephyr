@@ -440,9 +440,9 @@
   version "1.4.33"
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.33.tgz#8e705b9b3f7fba6cb329d27cd2eda222812adbf1"
 
-"@types/socket.io@^2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.6.tgz#b8edfebbe643ddd692b368ed77bd95b9cf3172fc"
+"@types/socket.io@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.7.tgz#2f480d4852d2b332b5991499cb866bf296156222"
   dependencies:
     "@types/engine.io" "*"
     "@types/node" "*"
