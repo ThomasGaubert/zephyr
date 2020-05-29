@@ -1,6 +1,6 @@
 Automatically built and published to beta track.
 
-- Disabled autofill when entering join code
+- Fix rare crash when processing notifications
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
