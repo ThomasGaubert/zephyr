@@ -1,5 +1,4 @@
 apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 def configDir = "${rootProject.rootDir}/config"
@@ -16,32 +15,6 @@ task checkstyle(type: Checkstyle) {
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
-
-    classpath = files()
-}
-
-task findbugs(type: FindBugs) {
-    ignoreFailures = false
-    effort = "max"
-    reportLevel = "high"
-
-    excludeFilter = new File("$configDir/findbugs/findbugs-filter.xml")
-    classes = files("${project.buildDir}/intermediates/javac")
-
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination file("$reportsDir/findbugs/findbugs.xml")
-        }
-        html {
-            destination file("$reportsDir/findbugs/findbugs.html")
-        }
-    }
 
     classpath = files()
 }

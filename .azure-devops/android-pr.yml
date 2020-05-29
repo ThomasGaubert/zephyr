@@ -66,14 +66,6 @@ steps:
     publishJUnitResults: false
     tasks: '-PbuildNumber=$(Build.BuildNumber) -PfirebasePerformanceInstrumentationEnabled=true assembleDevDebug'
 - task: Gradle@2
-  displayName: findbugs
-  inputs:
-    workingDirectory: 'android'
-    gradleWrapperFile: 'android/gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    tasks: 'findbugs --info'
-- task: Gradle@2
   displayName: Run tests
   inputs:
     workingDirectory: 'android'

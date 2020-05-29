@@ -31,7 +31,7 @@ Copy the `example.properties` file and rename it to `private.properties`. You'll
 - `APP_CENTER_SECRET` - [AppCenter](https://appcenter.ms) API key for beta distribution.
 
 ### Code analysis
-Zephyr uses several code analysis tools to maintain code quality. The tools include `checkstyle`, `pmd`, and `findbugs`.
+Zephyr uses several code analysis tools to maintain code quality. The tools include `checkstyle` and `pmd`.
 
 You can run any of these tools in the terminal using `gradlew <tool-name>`.
 
