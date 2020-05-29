@@ -24,7 +24,7 @@ pr:
 
 variables:
   - name: YARN_CACHE_FOLDER
-    value: $(Pipeline.Workspace)/.yarn
+    value: $(Build.SourcesDirectory)/desktop/node_modules
 
 jobs:
 - job: Tests
