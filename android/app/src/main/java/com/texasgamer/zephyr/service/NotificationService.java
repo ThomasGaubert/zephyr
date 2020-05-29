@@ -55,7 +55,12 @@ public class NotificationService extends NotificationListenerService {
     }
 
     @Override
-    public void onNotificationPosted(@NonNull StatusBarNotification sbn) {
+    public void onNotificationPosted(@Nullable StatusBarNotification sbn) {
+        if (sbn == null) {
+            logger.log(LogLevel.WARNING, LOG_TAG, "onNotificationRemoved: StatusBarNotification is null");
+            return;
+        }
+
         logger.log(LogLevel.VERBOSE, LOG_TAG, "onNotificationPosted: [%s]\t%s", sbn.getId(), sbn.getPackageName());
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
@@ -74,7 +79,12 @@ public class NotificationService extends NotificationListenerService {
     }
 
     @Override
-    public void onNotificationRemoved(@NonNull StatusBarNotification sbn) {
+    public void onNotificationRemoved(@Nullable StatusBarNotification sbn) {
+        if (sbn == null) {
+            logger.log(LogLevel.WARNING, LOG_TAG, "onNotificationRemoved: StatusBarNotification is null");
+            return;
+        }
+
         logger.log(LogLevel.VERBOSE, LOG_TAG, "onNotificationRemoved: [%s]\t%s", sbn.getId(), sbn.getPackageName());
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             if (isValidNotification(sbn)) {
