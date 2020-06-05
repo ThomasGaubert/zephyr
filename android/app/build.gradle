@@ -156,7 +156,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.4.2'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
     implementation 'com.google.firebase:firebase-config:19.1.4'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
