@@ -160,7 +160,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-config:19.1.4'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
 
     // Flipper
     debugImplementation 'com.facebook.flipper:flipper:0.45.0'
