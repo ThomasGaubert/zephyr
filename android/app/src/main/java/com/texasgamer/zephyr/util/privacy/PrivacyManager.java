@@ -62,12 +62,12 @@ public class PrivacyManager implements IPrivacyManager {
 
     @Override
     public boolean isEditingUsageDataCollectionSettingEnabled() {
-        return !mConfigManager.isBeta() && mConfigManager.isFirebaseAnalyticsEnabled();
+        return mConfigManager.isFirebaseAnalyticsEnabled();
     }
 
     @Override
     public boolean isUsageDataCollectionEnabled() {
-        return mConfigManager.isFirebaseAnalyticsEnabled() && (mConfigManager.isBeta() || mCurrentUsageDataSetting);
+        return mConfigManager.isFirebaseAnalyticsEnabled() && mCurrentUsageDataSetting;
     }
 
     @Override
@@ -80,12 +80,12 @@ public class PrivacyManager implements IPrivacyManager {
 
     @Override
     public boolean isEditingCrashReportingSettingEnabled() {
-        return !mConfigManager.isBeta() && mConfigManager.isFirebaseCrashlyticsEnabled();
+        return mConfigManager.isFirebaseCrashlyticsEnabled();
     }
 
     @Override
     public boolean isCrashReportingEnabled() {
-        return mConfigManager.isFirebaseCrashlyticsEnabled() && (mConfigManager.isBeta() || mCurrentCrashReportSetting);
+        return mConfigManager.isFirebaseCrashlyticsEnabled() && mCurrentCrashReportSetting;
     }
 
     @Override
@@ -98,13 +98,13 @@ public class PrivacyManager implements IPrivacyManager {
 
     @Override
     public boolean isEditingUuidSettingEnabled() {
-        return !mConfigManager.isBeta();
+        return true;
     }
 
     @Override
     public boolean isUuidEnabled() {
         return (mConfigManager.isFirebaseAnalyticsEnabled() || mConfigManager.isFirebaseCrashlyticsEnabled())
-                && (mConfigManager.isBeta() || mCurrentUuidSetting);
+                && mCurrentUuidSetting;
     }
 
     @Override

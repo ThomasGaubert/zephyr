@@ -13,7 +13,7 @@
     <string name="card_zephyr_v2_title">Zephyr 2.0</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
     <string name="card_zephyr_beta_title">Zephyr \u03B2</string>
-    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Fix rare crash when processing notifications\n\u2022 Updated dependencies\n\nTap here to file feedback on GitHub.</string>
+    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development and that telemetry is enabled.\n\nNew in this release:\n\n\u2022 Enabled privacy settings. As release nears you\'re invited to update privacy settings to your liking.\n\u2022 Updated dependencies\n\nTap here to file feedback on GitHub.</string>
 
     <!-- Connection Button -->
     <string name="btn_connection_start">Start</string>
@@ -73,7 +73,6 @@
     <string name="menu_privacy_restart_app_title">Restart required</string>
     <string name="menu_privacy_restart_app_body">Zephyr needs to restart to apply your changes.</string>
     <string name="menu_privacy_restart_app_btn">Restart</string>
-    <string name="menu_privacy_disabled_beta">These settings can\'t be modified while Zephyr is in beta.</string>
     <string name="menu_privacy_disabled_config">Certain settings are disabled because of the current build configuration.</string>
 
     <!-- What's New Menu -->

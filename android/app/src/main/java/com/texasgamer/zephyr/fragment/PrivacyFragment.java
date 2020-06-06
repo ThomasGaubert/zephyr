@@ -40,8 +40,6 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     @Inject
     IPrivacyManager privacyManager;
 
-    @BindView(R.id.privacy_disabled_beta_text)
-    TextView betaPrivacyDisabledText;
     @BindView(R.id.privacy_disabled_config_text)
     TextView configPrivacyDisabledText;
     @BindView(R.id.privacy_setting_usage_data)
@@ -93,10 +91,6 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
 
         if (settingDisabledFlag && (!configManager.isFirebaseAnalyticsEnabled() || !configManager.isFirebaseCrashlyticsEnabled())) {
             configPrivacyDisabledText.setVisibility(View.VISIBLE);
-        }
-
-        if (configManager.isBeta()) {
-            betaPrivacyDisabledText.setVisibility(View.VISIBLE);
         }
     }
 
