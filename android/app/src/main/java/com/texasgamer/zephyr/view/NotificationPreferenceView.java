@@ -151,6 +151,9 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
         ZephyrExecutors.getMainThreadExecutor().execute(() -> {
             summaryText.setText(enabled ? R.string.notif_pref_enabled : R.string.notif_pref_disabled);
             prefSwitch.setChecked(enabled);
+
+            // Delay showing switch to allow animation to finish
+            postDelayed(() -> prefSwitch.setVisibility(View.VISIBLE), 100);
         });
     }
 
