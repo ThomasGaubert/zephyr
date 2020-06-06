@@ -1,6 +1,6 @@
 Automatically built and published to beta track.
 
-- Fix rare crash when processing notifications
+- Enabled privacy settings. As release nears you're invited to update privacy settings to your liking.
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
