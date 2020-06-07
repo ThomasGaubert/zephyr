@@ -22,7 +22,7 @@ public class PreferenceManager implements IPreferenceManager {
     private SharedPreferences mSharedPreferences;
     private ILogger mLogger;
 
-    public PreferenceManager(@NonNull Context context, ILogger logger) {
+    public PreferenceManager(@NonNull Context context, @NonNull ILogger logger) {
         mSharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
         mLogger = logger;
         checkForMigrations();

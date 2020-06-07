@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:theme="@style/Theme.Zephyr.Dark">
+        android:theme="@style/Theme.Zephyr">
 
         <TextView
             android:id="@+id/menu_title"

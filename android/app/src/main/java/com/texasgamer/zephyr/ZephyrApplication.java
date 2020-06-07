@@ -27,6 +27,7 @@ import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
+import com.texasgamer.zephyr.util.theme.IThemeManager;
 import com.texasgamer.zephyr.worker.IWorkManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +58,8 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     IFlipperManager flipperManager;
     @Inject
     IDiscoveryManager discoveryManager;
+    @Inject
+    IThemeManager themeManager;
 
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
@@ -117,6 +120,8 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
         }
 
         logger.log(LogLevel.DEBUG, LOG_TAG, "Zephyr %s (%s - %s) started.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.GIT_HASH);
+
+        themeManager.setDefaultNightMode();
 
         sApplicationComponent.notificationsManager().createNotificationChannels();
 

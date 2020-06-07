@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Zephyr.Dark" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Zephyr" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorOnPrimary">@color/accent</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorSecondary">@color/primaryDark</item>
+        <item name="colorSecondaryVariant">@color/primaryDark</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorAccent">@color/accent</item>
         <item name="windowBackground">@color/primary</item>
         <item name="android:colorBackground">@color/primary</item>
         <item name="navigationViewStyle">@style/NavigationView</item>
         <item name="appBarLayoutStyle">@style/AppBar</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialog</item>
-    </style>
+    </style>p
 
-    <style name="Theme.Zephyr.Dark.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="Theme.Zephyr.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="navigationViewStyle">@style/NavigationView</item>
     </style>

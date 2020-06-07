@@ -127,8 +127,8 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     public void onDismiss(DialogInterface dialogInterface) {
         super.onDismiss(dialogInterface);
 
-        if (privacyManager.havePrivacySettingsChanged() || true) {
-            AlertDialog alertDialog = new MaterialAlertDialogBuilder(getActivity())
+        if (privacyManager.havePrivacySettingsChanged() && getContext() != null) {
+            AlertDialog alertDialog = new MaterialAlertDialogBuilder(getContext())
                     .setTitle(R.string.menu_privacy_restart_app_title)
                     .setMessage(getContext().getString(R.string.menu_privacy_restart_app_body))
                     .setCancelable(false)

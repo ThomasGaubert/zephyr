@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#0D253A</color>
-    <color name="primaryDark">#091B2A</color>
-    <color name="accent">#2962ff</color>
+    <!-- Theme colors -->
+    <color name="primary">@color/white</color>
+    <color name="primaryDark">@color/zephyr_blue_dark</color>
+    <color name="accent">@color/zephyr_blue_accent</color>
+
+    <!-- Theme independent colors -->
+    <color name="zephyr_blue">#0D253A</color>
+    <color name="zephyr_blue_dark">#091B2A</color>
+    <color name="zephyr_blue_accent">#2962FF</color>
 
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>

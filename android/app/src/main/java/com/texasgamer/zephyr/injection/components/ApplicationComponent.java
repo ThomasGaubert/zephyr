@@ -30,6 +30,7 @@ import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
 import com.texasgamer.zephyr.injection.modules.PrivacyModule;
 import com.texasgamer.zephyr.injection.modules.ProviderModule;
+import com.texasgamer.zephyr.injection.modules.ThemeModule;
 import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
 import com.texasgamer.zephyr.service.SocketService;
@@ -61,11 +62,12 @@ import dagger.Component;
             FlipperModule.class,
             LoggerModule.class,
             NetworkModule.class,
-            PreferenceModule.class,
             NotificationsModule.class,
-            WorkModule.class,
+            PreferenceModule.class,
+            PrivacyModule.class,
             ProviderModule.class,
-            PrivacyModule.class
+            ThemeModule.class,
+            WorkModule.class
         })
 public interface ApplicationComponent {
     /* Init */

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme colors -->
+    <color name="primary">@color/zephyr_blue</color>
+    <color name="primaryDark">@color/zephyr_blue_dark</color>
+    <color name="accent">@color/zephyr_blue_accent</color>
+</resources>

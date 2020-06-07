@@ -89,6 +89,11 @@
     <!-- Debug Menu -->
     <string name="menu_debug_title">Debug</string>
     <string name="menu_debug_show_all_cards">Show all cards</string>
+    <string name="menu_debug_theme_setting">Theme (%s)</string>
+    <string name="menu_debug_theme_title">Theme</string>
+    <string name="menu_debug_theme_system">System default</string>
+    <string name="menu_debug_theme_dark">Dark</string>
+    <string name="menu_debug_theme_light">Light</string>
 
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>

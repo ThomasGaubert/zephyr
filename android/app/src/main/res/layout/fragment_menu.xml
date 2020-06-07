@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.Zephyr.Dark">
+        android:theme="@style/Theme.Zephyr">
 
         <TextView
             android:id="@+id/menu_title"
