@@ -30,7 +30,7 @@
 
     <Button
         android:id="@+id/about_export_logs"
-        style="?borderlessButtonStyle"
+        style="@style/BorderlessButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -43,7 +43,7 @@
 
     <Button
         android:id="@+id/about_github"
-        style="?borderlessButtonStyle"
+        style="@style/BorderlessButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -56,7 +56,7 @@
 
     <Button
         android:id="@+id/about_privacy"
-        style="?borderlessButtonStyle"
+        style="@style/BorderlessButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
 
     <Button
         android:id="@+id/about_licenses"
-        style="?borderlessButtonStyle"
+        style="@style/BorderlessButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

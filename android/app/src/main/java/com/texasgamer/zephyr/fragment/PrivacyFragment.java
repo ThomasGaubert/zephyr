@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
@@ -126,8 +127,8 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     public void onDismiss(DialogInterface dialogInterface) {
         super.onDismiss(dialogInterface);
 
-        if (privacyManager.havePrivacySettingsChanged()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+        if (privacyManager.havePrivacySettingsChanged() || true) {
+            AlertDialog alertDialog = new MaterialAlertDialogBuilder(getActivity())
                     .setTitle(R.string.menu_privacy_restart_app_title)
                     .setMessage(getContext().getString(R.string.menu_privacy_restart_app_body))
                     .setCancelable(false)

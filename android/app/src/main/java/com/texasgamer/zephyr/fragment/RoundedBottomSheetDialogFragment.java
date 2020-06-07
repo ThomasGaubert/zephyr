@@ -19,7 +19,7 @@ public class RoundedBottomSheetDialogFragment extends BottomSheetDialogFragment 
 
     @Override
     public int getTheme() {
-        return R.style.BottomSheetDialogTheme;
+        return R.style.Theme_Zephyr_Dark_BottomSheetDialog;
     }
 
     @Override

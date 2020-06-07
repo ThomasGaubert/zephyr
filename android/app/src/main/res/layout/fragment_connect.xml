@@ -4,8 +4,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ZephyrDarkTheme">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/menu_title"
@@ -25,7 +24,6 @@
             android:layout_gravity="bottom"
             android:layout_marginTop="8dp"
             app:itemIconPadding="@dimen/second_keyline"
-            app:itemTextAppearance="?attr/textAppearanceSubtitle2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/menu_title"

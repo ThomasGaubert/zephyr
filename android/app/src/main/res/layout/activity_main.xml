@@ -9,11 +9,12 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
-        <fragment android:name="com.texasgamer.zephyr.fragment.MainFragment"
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize" />
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:name="com.texasgamer.zephyr.fragment.MainFragment"/>
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
@@ -27,14 +28,16 @@
             android:id="@+id/connect_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/fab_size"
-            android:text="@string/btn_connection_start"
+            android:textColor="@color/white"
             android:textAllCaps="false"
+            app:backgroundTint="@color/accent"
             app:cornerRadius="@dimen/fab_corner_radius"
             app:icon="@drawable/ic_connection"
             app:iconTint="@color/white"
             app:layout_anchor="@id/bottom_app_bar"
             app:layout_anchorGravity="center_horizontal|top"
-            app:textAllCaps="false" />
+            app:textAllCaps="false"
+            tools:text="@string/btn_connection_start" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

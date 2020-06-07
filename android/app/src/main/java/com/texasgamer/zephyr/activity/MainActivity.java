@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.LiveData;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -32,7 +33,7 @@ import butterknife.OnLongClick;
 public class MainActivity extends BaseActivity {
 
     @BindView(R.id.main_fragment)
-    LinearLayout mMainFragment;
+    FragmentContainerView mMainFragment;
     @BindView(R.id.bottom_app_bar)
     BottomAppBar mBottomAppBar;
     @BindView(R.id.connect_button)
@@ -116,7 +117,7 @@ public class MainActivity extends BaseActivity {
 
     private void subscribeUi(LiveData<Boolean> liveData) {
         liveData.observe(this, isServiceRunning -> {
-            mConnectButton.setChecked(!isServiceRunning);
+            mConnectButton.setServiceRunning(isServiceRunning);
         });
     }
 
@@ -141,8 +142,7 @@ public class MainActivity extends BaseActivity {
             CoordinatorLayout.LayoutParams mainFragmentLayoutParams = new CoordinatorLayout.LayoutParams(mMainFragment.getLayoutParams());
             mainFragmentLayoutParams.setMargins(0, insets.getSystemWindowInsetTop(), 0, 0);
             mMainFragment.setLayoutParams(mainFragmentLayoutParams);
-            mBottomAppBar.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
-            return insets.consumeSystemWindowInsets();
+            return insets;
         });
     }
 }

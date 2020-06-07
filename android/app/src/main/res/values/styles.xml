@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ZephyrDarkTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorAccent">@color/accent</item>
-        <item name="windowBackground">@color/primary</item>
-        <item name="android:colorBackground">@color/primary</item>
-    </style>
-
-    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+    <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
     </style>
 
-    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    <!-- Alert Dialog -->
+    <style name="MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialog.ButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialog.ButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/MaterialAlertDialog.ButtonStyle</item>
+        <item name="buttonBarButtonStyle">@style/MaterialAlertDialog.ButtonStyle</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+    <style name="MaterialAlertDialog.ButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <style name="AppBar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">@color/primary</item>
+    </style>
+
+    <style name="NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="android:background">@color/primary</item>
+        <item name="elevation">0dp</item>
+    </style>
 
     <style name="BottomSheetEntryDivider">
         <item name="android:layout_width">match_parent</item>
@@ -34,6 +41,11 @@
         <item name="android:fontFamily">@font/righteous</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="BorderlessButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/accent</item>
+        <item name="rippleColor">@color/accent_ripple</item>
     </style>
 
     <!-- ZephyrCard -->

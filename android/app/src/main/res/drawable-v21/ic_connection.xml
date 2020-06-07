@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/visible"
-        android:drawable="@drawable/ic_connected"
+        android:drawable="@drawable/ic_disconnected"
         android:state_checked="true"/>
 
     <item
         android:id="@+id/masked"
-        android:drawable="@drawable/ic_disconnected"/>
+        android:drawable="@drawable/ic_connected"/>
 
     <transition
         android:drawable="@drawable/ic_connection_disconnected_to_connected"

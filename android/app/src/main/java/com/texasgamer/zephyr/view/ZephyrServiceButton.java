@@ -9,63 +9,49 @@ import com.texasgamer.zephyr.R;
 
 /**
  * Material Design themed button that can be toggled between two states to control the Zephyr socket service.
+ * The button is checked when the service is stopped (button displays "Start" with crossed connection icon).
+ * The button is not checked when the service is running (button displays "Stop" with connection icon).
  */
-public class ZephyrServiceButton extends MaterialButton implements Checkable {
-
-    private static final int[] CHECKED_STATE_SET = {
-            android.R.attr.state_checked
-    };
-
-    private boolean mChecked = true;
+public class ZephyrServiceButton extends MaterialButton {
 
     public ZephyrServiceButton(Context context) {
         super(context);
+        init();
     }
 
     public ZephyrServiceButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public ZephyrServiceButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @Override
-    public int[] onCreateDrawableState(int extraSpace) {
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-        if (isChecked()) {
-            mergeDrawableStates(drawableState, CHECKED_STATE_SET);
-        }
-        return drawableState;
-    }
-
-    @Override
-    public boolean performClick() {
-        toggle();
-        return super.performClick();
+        init();
     }
 
     @Override
     public void setChecked(boolean checked) {
-        if (mChecked != checked) {
-            mChecked = checked;
-            refreshDrawableState();
-
-            if (mChecked) {
-                setText(R.string.btn_connection_start);
-            } else {
-                setText(R.string.btn_connection_stop);
-            }
+        boolean currentValue = isChecked();
+        super.setChecked(checked);
+        if (currentValue != checked) {
+            updateText();
         }
     }
 
-    @Override
-    public boolean isChecked() {
-        return mChecked;
+    public void setServiceRunning(boolean isServiceRunning) {
+        setChecked(!isServiceRunning);
     }
 
-    @Override
-    public void toggle() {
-        setChecked(!mChecked);
+    public boolean isServiceRunning() {
+        return !isChecked();
+    }
+
+    private void init() {
+        setCheckable(true);
+        setServiceRunning(false);
+    }
+
+    private void updateText() {
+        setText(isServiceRunning() ? R.string.btn_connection_stop : R.string.btn_connection_start);
     }
 }

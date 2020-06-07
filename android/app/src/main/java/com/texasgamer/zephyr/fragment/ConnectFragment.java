@@ -74,6 +74,10 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
         }
 
         mNavigationView.setNavigationItemSelectedListener(this);
+        View navigationHeaderContainer = mNavigationView.getRootView().findViewById(R.id.navigation_header_container);
+        if (navigationHeaderContainer != null) {
+            navigationHeaderContainer.setVisibility(View.GONE);
+        }
 
         Menu menu = mNavigationView.getMenu();
         SubMenu subMenu = menu.addSubMenu(R.string.menu_connect_discovered_servers);

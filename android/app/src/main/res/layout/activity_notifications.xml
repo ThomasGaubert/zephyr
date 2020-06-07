@@ -20,11 +20,12 @@
             app:title="@string/manage_notifications_title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <fragment android:name="com.texasgamer.zephyr.fragment.NotificationsFragment"
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/notification_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize"
+        android:name="com.texasgamer.zephyr.fragment.NotificationsFragment"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

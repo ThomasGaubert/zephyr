@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ripple -->
+    <item format="float" name="ripple_default_alpha" type="dimen">0.12</item>
+    <item format="float" name="ripple_focused_alpha" type="dimen">0.20</item>
+    <item format="float" name="ripple_hovered_alpha" type="dimen">0.20</item>
+    <item format="float" name="ripple_pressed_alpha" type="dimen">0.12</item>
+</resources>
