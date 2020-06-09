@@ -44,6 +44,8 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
 
     @BindView(R.id.debug_switch_show_all_cards)
     SwitchCompat mShowAllCardsSwitch;
+    @BindView(R.id.debug_switch_enable_mock_data)
+    SwitchCompat mEnableMockDataSwitch;
     @BindView(R.id.debug_theme)
     TextView mTheme;
 
@@ -59,7 +61,7 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
         ZephyrApplication.getApplicationComponent().inject(this);
 
         mShowAllCardsSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS));
-        mShowAllCardsSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA));
+        mEnableMockDataSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA));
         updateThemeText();
     }
 

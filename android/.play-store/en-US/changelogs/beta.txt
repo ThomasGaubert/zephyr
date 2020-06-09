@@ -1,6 +1,7 @@
 Automatically built and published to beta track.
 
-- Enabled privacy settings. As release nears you're invited to update privacy settings to your liking.
+- Added splash screen
+- Laid groundwork for themes (please report any issues with existing dark theme)
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
