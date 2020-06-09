@@ -89,6 +89,7 @@
     <!-- Debug Menu -->
     <string name="menu_debug_title">Debug</string>
     <string name="menu_debug_show_all_cards">Show all cards</string>
+    <string name="menu_debug_enable_mock_data">Enable mock data</string>
     <string name="menu_debug_theme_setting">Theme (%s)</string>
     <string name="menu_debug_theme_title">Theme</string>
     <string name="menu_debug_theme_system">System default</string>

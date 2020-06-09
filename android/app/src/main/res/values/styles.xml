@@ -48,6 +48,15 @@
         <item name="rippleColor">@color/accent_ripple</item>
     </style>
 
+    <style name="Widget.Zephyr.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Zephyr.TextInputEditText.FilledBox.Dense</item>
+        <item name="hintTextColor">@color/accent</item>
+    </style>
+
+    <style name="ThemeOverlay.Zephyr.TextInputEditText.FilledBox.Dense" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox.Dense">
+        <item name="colorControlActivated">@color/accent</item>
+    </style>
+
     <!-- ZephyrCard -->
     <style name="ZephyrCard"/>
 

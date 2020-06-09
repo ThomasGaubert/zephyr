@@ -1,6 +1,5 @@
 package com.texasgamer.zephyr.fragment;
 
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -60,6 +59,7 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
         ZephyrApplication.getApplicationComponent().inject(this);
 
         mShowAllCardsSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS));
+        mShowAllCardsSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA));
         updateThemeText();
     }
 
@@ -67,6 +67,11 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
     public void onClickShowAllCards(@NonNull SwitchCompat view) {
         preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS, view.isChecked());
         EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
+    }
+
+    @OnClick(R.id.debug_switch_enable_mock_data)
+    public void onClickEnableMockData(@NonNull SwitchCompat view) {
+        preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA, view.isChecked());
     }
 
     @OnClick(R.id.debug_theme)

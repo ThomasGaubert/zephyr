@@ -11,6 +11,9 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
+/**
+ * Theme manager.
+ */
 public class ThemeManager implements IThemeManager {
 
     private Context mContext;
@@ -29,6 +32,7 @@ public class ThemeManager implements IThemeManager {
             case Configuration.UI_MODE_NIGHT_NO:
                 return Theme.LIGHT;
             case Configuration.UI_MODE_NIGHT_YES:
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
             default:
                 return Theme.DARK;
         }

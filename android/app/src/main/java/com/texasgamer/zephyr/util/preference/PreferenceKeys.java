@@ -36,6 +36,7 @@ public final class PreferenceKeys {
 
     /* Debug */
     public static final String PREF_DEBUG_SHOW_ALL_CARDS = "debugShowAllCards";
+    public static final String PREF_DEBUG_ENABLE_MOCK_DATA = "debugEnableMockData";
 
     private PreferenceKeys() {
     }

@@ -36,7 +36,8 @@
             android:name="firebase_performance_collection_enabled"
             android:value="false" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:theme="@style/Theme.Zephyr.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />

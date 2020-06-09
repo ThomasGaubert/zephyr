@@ -8,4 +8,8 @@
         <key>enableDiscovery</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>enableTheming</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>

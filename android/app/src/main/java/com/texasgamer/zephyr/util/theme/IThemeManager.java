@@ -2,6 +2,9 @@ package com.texasgamer.zephyr.util.theme;
 
 import androidx.annotation.StringRes;
 
+/**
+ * Theme manager.
+ */
 public interface IThemeManager {
     @Theme
     int getCurrentTheme();

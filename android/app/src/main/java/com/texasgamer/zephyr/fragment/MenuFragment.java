@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
@@ -20,6 +23,7 @@ import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.config.IConfigManager;
+import com.texasgamer.zephyr.util.theme.IThemeManager;
 
 import javax.inject.Inject;
 
@@ -32,6 +36,8 @@ import butterknife.OnClick;
  */
 public class MenuFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
+    @BindView(R.id.theme_btn)
+    View themeButton;
     @BindView(R.id.debug_menu_btn)
     View debugMenuButton;
     @BindView(R.id.nav_menu)
@@ -41,6 +47,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     IConfigManager configManager;
     @Inject
     IAnalyticsManager analyticsManager;
+    @Inject
+    IThemeManager themeManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,11 +61,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
         mNavigationView.setNavigationItemSelectedListener(this);
-
-
-        if (configManager.isDebugMenuEnabled()) {
-            debugMenuButton.setVisibility(View.VISIBLE);
-        }
+        themeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
+        debugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -92,8 +97,28 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     public void onClickDebugMenuButton() {
         DebugFragment debugFragment = new DebugFragment();
         debugFragment.show(getFragmentManager(), debugFragment.getTag());
-
         dismiss();
+    }
+
+    @OnClick(R.id.theme_btn)
+    public void onClickThemeButton() {
+        if (getActivity() == null) {
+            return;
+        }
+
+        Resources resources = getActivity().getResources();
+        final CharSequence[] themeChoices = {
+                resources.getString(R.string.menu_debug_theme_system),
+                resources.getString(R.string.menu_debug_theme_light),
+                resources.getString(R.string.menu_debug_theme_dark)};
+
+        AlertDialog alertDialog = new MaterialAlertDialogBuilder(getActivity())
+                .setTitle(R.string.menu_debug_theme_title)
+                .setSingleChoiceItems(themeChoices, themeManager.getCurrentThemeSetting(), (dialog, which) -> {
+                    themeManager.setCurrentThemeSetting(which);
+                    dialog.dismiss();
+                }).create();
+        alertDialog.show();
     }
 
     @Override

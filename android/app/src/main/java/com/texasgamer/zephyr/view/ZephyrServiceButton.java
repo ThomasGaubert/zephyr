@@ -2,7 +2,6 @@ package com.texasgamer.zephyr.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Checkable;
 
 import com.google.android.material.button.MaterialButton;
 import com.texasgamer.zephyr.R;

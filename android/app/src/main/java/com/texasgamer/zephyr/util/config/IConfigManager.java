@@ -34,5 +34,7 @@ public interface IConfigManager {
 
     boolean isDiscoveryEnabled();
 
+    boolean isThemingEnabled();
+
     boolean isDebugMenuEnabled();
 }

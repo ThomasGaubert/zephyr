@@ -3,15 +3,17 @@ package com.texasgamer.zephyr.activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
-import com.texasgamer.zephyr.util.log.ILogger;
-import com.texasgamer.zephyr.util.preference.IPreferenceManager;
-
-import javax.inject.Inject;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.log.ILogger;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
+import com.texasgamer.zephyr.util.theme.IThemeManager;
+
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 
 /**
@@ -25,6 +27,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected IPreferenceManager mPreferenceManager;
     @Inject
     protected IAnalyticsManager mAnalyticsManager;
+    @Inject
+    protected IThemeManager mThemeManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         injectDependencies();
 
-        if (mAnalyticsManager == null || mPreferenceManager == null) {
+        if (mAnalyticsManager == null || mPreferenceManager == null || mThemeManager == null) {
             throw new IllegalStateException("Dependencies not fulfilled for this Activity.");
         }
 

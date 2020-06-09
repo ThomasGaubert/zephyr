@@ -14,6 +14,8 @@ import com.texasgamer.zephyr.model.discovery.DiscoveredServer;
 import com.texasgamer.zephyr.model.discovery.DiscoveryPacket;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
 import java.io.IOException;
@@ -35,6 +37,7 @@ public class DiscoveryManager implements IDiscoveryManager {
 
     private Gson mGson;
     private ILogger mLogger;
+    private IPreferenceManager mPreferenceManager;
     private Handler mPacketHandler;
     private Runnable mDiscoveryRunnable;
     private boolean mRunning;
@@ -43,9 +46,12 @@ public class DiscoveryManager implements IDiscoveryManager {
     private final Map<String, DiscoveredServer> mDiscoveredServers;
     private MutableLiveData<List<DiscoveredServer>> mDiscoveredServersLiveData;
 
-    public DiscoveryManager(@NonNull Gson gson, @NonNull ILogger logger) {
+    public DiscoveryManager(@NonNull Gson gson,
+                            @NonNull ILogger logger,
+                            @NonNull IPreferenceManager preferenceManager) {
         mGson = gson;
         mLogger = logger;
+        mPreferenceManager = preferenceManager;
 
         HandlerThread mPacketHandlerThread = new HandlerThread(LOG_TAG);
         mPacketHandlerThread.start();
@@ -133,6 +139,10 @@ public class DiscoveryManager implements IDiscoveryManager {
     }
 
     private void cleanupDiscoveredServers() {
+        if (mPreferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA)) {
+            populateMockData();
+        }
+
         synchronized (mDiscoveredServers) {
             for (Map.Entry<String, DiscoveredServer> entry : mDiscoveredServers.entrySet()) {
                 long timeSinceLastPacket = System.currentTimeMillis() - entry.getValue().getTimestamp();
@@ -153,6 +163,17 @@ public class DiscoveryManager implements IDiscoveryManager {
             return DiscoveredServer.DisabledReason.UNSUPPORTED_API;
         } else {
             return DiscoveredServer.DisabledReason.NOT_DISABLED;
+        }
+    }
+
+    private void populateMockData() {
+        synchronized (mDiscoveredServers) {
+            mDiscoveredServers.put("0.0.0.0", new DiscoveredServer("0.0.0.0",
+                    "Mock Server", Constants.ZEPHYR_API_VERSION,
+                    System.currentTimeMillis(), DiscoveredServer.DisabledReason.NOT_DISABLED));
+            ZephyrExecutors.getMainThreadExecutor().execute(() -> {
+                mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
+            });
         }
     }
 }

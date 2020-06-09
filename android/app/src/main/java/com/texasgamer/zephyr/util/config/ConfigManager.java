@@ -87,6 +87,10 @@ public class ConfigManager implements IConfigManager {
     public boolean isDiscoveryEnabled() {
         return mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_DISCOVERY);
     }
+    
+    public boolean isThemingEnabled() {
+        return mZephyrConfigProvider.getBoolean(ConfigKeys.ENABLE_THEMING) || isDev();
+    }
 
     @Override
     public boolean isDebugMenuEnabled() {

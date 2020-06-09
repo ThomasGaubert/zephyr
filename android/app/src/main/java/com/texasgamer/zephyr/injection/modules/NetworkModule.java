@@ -9,6 +9,7 @@ import com.texasgamer.zephyr.network.IOkHttpClientFactory;
 import com.texasgamer.zephyr.network.OkHttpClientFactory;
 import com.texasgamer.zephyr.util.flipper.IFlipperManager;
 import com.texasgamer.zephyr.util.log.ILogger;
+import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -28,7 +29,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    IDiscoveryManager provideDiscoveryManager(@NonNull Gson gson, @NonNull ILogger logger) {
-        return new DiscoveryManager(gson, logger);
+    IDiscoveryManager provideDiscoveryManager(@NonNull Gson gson, @NonNull ILogger logger, @NonNull IPreferenceManager preferenceManager) {
+        return new DiscoveryManager(gson, logger, preferenceManager);
     }
 }
