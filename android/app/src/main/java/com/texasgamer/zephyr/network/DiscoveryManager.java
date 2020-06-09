@@ -168,7 +168,7 @@ public class DiscoveryManager implements IDiscoveryManager {
 
     private void populateMockData() {
         synchronized (mDiscoveredServers) {
-            mDiscoveredServers.put("0.0.0.0", new DiscoveredServer("0.0.0.0",
+            mDiscoveredServers.put("0", new DiscoveredServer("0",
                     "Mock Server", Constants.ZEPHYR_API_VERSION,
                     System.currentTimeMillis(), DiscoveredServer.DisabledReason.NOT_DISABLED));
             ZephyrExecutors.getMainThreadExecutor().execute(() -> {
