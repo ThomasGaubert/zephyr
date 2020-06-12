@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Zephyr" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Zephyr" parent="Theme.Zephyr.Base"/>
+
+    <style name="Theme.Zephyr.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary</item>
         <item name="colorOnPrimary">@color/accent</item>
@@ -22,10 +24,12 @@
     <style name="Theme.Zephyr.Splash" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/zephyr_blue</item>
-        <item name="android:navigationBarColor">@color/zephyr_blue_dark</item>
+        <item name="android:navigationBarColor">@color/zephyr_blue</item>
     </style>
 
-    <style name="Theme.Zephyr.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="Theme.Zephyr.BottomSheetDialog" parent="Theme.Zephyr.BottomSheetDialog.Base"/>
+
+    <style name="Theme.Zephyr.BottomSheetDialog.Base" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="navigationViewStyle">@style/NavigationView</item>
     </style>

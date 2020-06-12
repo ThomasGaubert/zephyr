@@ -1,12 +1,16 @@
 package com.texasgamer.zephyr.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 
@@ -29,6 +33,10 @@ public class LicensesActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
 
         mWebView.loadUrl("file:///android_asset/open_source_licenses.html");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            setupEdgeToEdgeLayout();
+        }
     }
 
     @Override
@@ -49,5 +57,14 @@ public class LicensesActivity extends BaseActivity {
     @Override
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
+    private void setupEdgeToEdgeLayout() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        decorView.setOnApplyWindowInsetsListener((v, insets) -> {
+            mToolbar.setPadding(0, insets.getSystemWindowInsetTop(), 0, 0);
+            return insets.consumeSystemWindowInsets();
+        });
     }
 }

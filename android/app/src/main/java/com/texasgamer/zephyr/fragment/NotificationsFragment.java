@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator;
 import com.reddit.indicatorfastscroll.FastScrollerThumbView;
 import com.reddit.indicatorfastscroll.FastScrollerView;
@@ -68,6 +70,10 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
 
         subscribeUi(mViewModel.getNotificationPreferences());
         setupFastScroll();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            setupEdgeToEdgeLayout();
+        }
     }
 
     @Override
@@ -180,5 +186,13 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         );
 
         mFastScrollerThumbView.setupWithFastScroller(mFastScrollerView);
+    }
+
+    private void setupEdgeToEdgeLayout() {
+        mAppList.setOnApplyWindowInsetsListener((v, insets) -> {
+            mAppList.setClipToPadding(false);
+            mAppList.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+            return insets;
+        });
     }
 }
