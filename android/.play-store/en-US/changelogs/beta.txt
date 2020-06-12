@@ -1,7 +1,6 @@
 Automatically built and published to beta track.
 
-- Added splash screen
-- Laid groundwork for themes (please report any issues with existing dark theme)
-- Updated dependencies
+- Updated edge-to-edge behavior on Android 10
+- Fixed incorrect default theme
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

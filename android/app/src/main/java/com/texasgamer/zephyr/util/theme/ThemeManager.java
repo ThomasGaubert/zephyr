@@ -41,7 +41,7 @@ public class ThemeManager implements IThemeManager {
     @Theme
     @Override
     public int getCurrentThemeSetting() {
-        return mPreferenceManager.getInt(PreferenceKeys.PREF_THEME, getCurrentTheme());
+        return mPreferenceManager.getInt(PreferenceKeys.PREF_THEME, getDefaultTheme());
     }
 
     @Theme
