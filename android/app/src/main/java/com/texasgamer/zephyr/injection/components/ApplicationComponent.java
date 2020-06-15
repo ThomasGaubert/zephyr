@@ -33,6 +33,7 @@ import com.texasgamer.zephyr.injection.modules.ProviderModule;
 import com.texasgamer.zephyr.injection.modules.ThemeModule;
 import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
+import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.ApplicationUtils;
@@ -92,6 +93,8 @@ public interface ApplicationComponent {
     void inject(NotificationService notificationService);
 
     void inject(SocketService socketService);
+
+    void inject(QuickSettingService quickSettingService);
 
     /* ViewModels */
     void inject(ManageNotificationsViewModel manageNotificationsViewModel);

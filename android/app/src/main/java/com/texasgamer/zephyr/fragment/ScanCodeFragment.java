@@ -28,6 +28,7 @@ import com.otaliastudios.cameraview.CameraOptions;
 import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.VibrationUtils;
@@ -135,6 +136,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     @OnClick(R.id.confirm_button)
     public void onClickConfirm() {
         preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
+        QuickSettingService.updateQuickSettingTile(getContext());
         dismiss();
     }
 

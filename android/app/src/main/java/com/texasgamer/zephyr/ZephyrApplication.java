@@ -17,6 +17,7 @@ import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.network.IDiscoveryManager;
+import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.BuildConfigUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
@@ -154,6 +155,8 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
             logger.log(LogLevel.INFO, LOG_TAG, "Starting DiscoveryManager.");
             discoveryManager.start();
         }
+
+        QuickSettingService.updateQuickSettingTile(this);
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod")
@@ -161,6 +164,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     private void onAppBackgrounded() {
         logger.log(LogLevel.VERBOSE, LOG_TAG, "App is in the background.");
         discoveryManager.stop();
+        QuickSettingService.updateQuickSettingTile(this);
     }
 
     private void verifyConnectionStatus() {

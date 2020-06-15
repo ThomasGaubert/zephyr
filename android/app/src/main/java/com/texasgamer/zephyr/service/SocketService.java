@@ -4,6 +4,12 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.IBinder;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.LifecycleService;
+
 import com.google.gson.Gson;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
@@ -32,11 +38,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.LifecycleService;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import retrofit2.Call;
@@ -91,6 +92,8 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
             mServerAddress = NetworkUtils.joinCodeToIp(preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE)) + ":" + Constants.ZEPHYR_SERVER_PORT;
         }
 
+        QuickSettingService.updateQuickSettingTile(this);
+
         EventBus.getDefault().register(this);
         instanceCreated = true;
     }
@@ -110,6 +113,9 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
         disconnect(ConnectionStatus.DISCONNECTED);
 
         dismissServiceNotification();
+
+        QuickSettingService.updateQuickSettingTile(this);
+
         instanceCreated = false;
         super.onDestroy();
     }
@@ -340,6 +346,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
         notificationManager.notify(ZephyrNotificationId.SOCKET_SERVICE_STATUS, mStatusNotificationBuilder.build());
 
         EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
+        QuickSettingService.updateQuickSettingTile(this);
     }
 
     private void dismissServiceNotification() {

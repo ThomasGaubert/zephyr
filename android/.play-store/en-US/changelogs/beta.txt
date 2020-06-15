@@ -1,6 +1,5 @@
 Automatically built and published to beta track.
 
-- Updated edge-to-edge behavior on Android 10
-- Fixed incorrect default theme
+- Added quick setting tile
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

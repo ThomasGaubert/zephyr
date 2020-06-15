@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
@@ -67,6 +68,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
                     }
 
                     preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mJoinCodeTextEdit.getText().toString());
+                    QuickSettingService.updateQuickSettingTile(getContext());
                 }
 
                 dismiss();

@@ -17,6 +17,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.discovery.DiscoveredServer;
 import com.texasgamer.zephyr.network.IDiscoveryManager;
+import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.util.StringUtils;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
@@ -131,6 +132,7 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     private void connectToDiscoveredServer(@NonNull DiscoveredServer discoveredServer) {
         analyticsManager.logEvent(ZephyrEvent.Action.TAP_DISCOVERED_SERVER);
         preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, discoveredServer.getIpAddress());
+        QuickSettingService.updateQuickSettingTile(getContext());
         dismiss();
     }
 }
