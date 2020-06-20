@@ -13,10 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+import com.texasgamer.zephyr.util.DimenUtils;
+
 /**
  * ZephyrCard view pager.
  */
 public class ZephyrCardViewPager extends ViewPager {
+
+    private static final int BOTTOM_MARGIN_DP = 16;
 
     private boolean mAnimating = false;
 
@@ -38,7 +42,7 @@ public class ZephyrCardViewPager extends ViewPager {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (!mAnimating) {
-            int measuredHeight = heightMeasureSpec;
+            int measuredHeight;
             int height = 0;
 
             if (getChildCount() > 0) {
@@ -51,7 +55,7 @@ public class ZephyrCardViewPager extends ViewPager {
 
                     if (child != null) {
                         child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                        int h = child.getMeasuredHeight();
+                        int h = child.getMeasuredHeight() + DimenUtils.dpToPx(BOTTOM_MARGIN_DP);
                         if (h > height) {
                             height = h;
                         }
@@ -62,7 +66,7 @@ public class ZephyrCardViewPager extends ViewPager {
             if (height != 0) {
                 measuredHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             } else {
-                super.onMeasure(widthMeasureSpec, height);
+                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                 return;
             }
 
