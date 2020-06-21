@@ -3077,12 +3077,11 @@ electron-rebuild@^1.11.0:
     spawn-rx "^3.0.0"
     yargs "^14.2.0"
 
-electron-redux@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/electron-redux/-/electron-redux-1.5.2.tgz#a415d4873369957640ed0536fc0641c869ba64f5"
+electron-redux@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/electron-redux/-/electron-redux-1.5.3.tgz#59dc17938e79d5388b6299dc1e1c6af03bee5c35"
   dependencies:
-    debug "^3.0.0"
-    flux-standard-action "^2.0.0"
+    debug "^4.1.1"
     redux "^4.0.1"
 
 electron-reload@^1.5.0:
@@ -3676,12 +3675,6 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
-
-flux-standard-action@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-2.1.1.tgz#b2e204145ea8e4294d6b0f178d8e8c416802948f"
-  dependencies:
-    lodash "^4.17.15"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
