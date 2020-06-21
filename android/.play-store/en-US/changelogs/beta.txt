@@ -1,5 +1,8 @@
 Automatically built and published to beta track.
 
-- Added quick setting tile
+**Note:** This build updates the database schema. If you encounter any loss of data or crashes, please create a bug on GitHub.
+
+- Fixed issue where app name and color wouldn't update if changed.
+- Fixed card ViewPager height calculation.
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

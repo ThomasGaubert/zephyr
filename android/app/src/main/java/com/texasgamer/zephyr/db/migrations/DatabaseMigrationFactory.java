@@ -19,6 +19,7 @@ public final class DatabaseMigrationFactory {
 
     static {
         // Add migrations here in ascending order
+        MIGRATIONS.add(new V1ToV2AddAppInfoTable());
     }
 
     @NonNull

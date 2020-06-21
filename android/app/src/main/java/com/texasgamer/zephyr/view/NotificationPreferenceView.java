@@ -11,17 +11,18 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.texasgamer.zephyr.R;
-import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.model.NotificationPreference;
-import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
-import com.texasgamer.zephyr.util.ApplicationUtils;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.ColorUtils;
+
+import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
+import com.texasgamer.zephyr.util.ApplicationUtils;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -77,7 +78,7 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
         mOnPrefChangeListener = onPrefChangeListener;
     }
 
-    public void setNotificationPreference(@NonNull NotificationPreference pref) {
+    public void setNotificationPreference(@NonNull ZephyrNotificationPreference pref) {
         mPackageName = pref.getPackageName();
 
         ApplicationUtils appUtils = ZephyrApplication.getApplicationComponent().applicationUtilities();

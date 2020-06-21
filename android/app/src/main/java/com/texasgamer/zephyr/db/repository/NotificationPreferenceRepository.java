@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.db.repository;
 
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
+import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 
 import java.util.List;
 
@@ -12,10 +13,10 @@ import androidx.lifecycle.LiveData;
  */
 public interface NotificationPreferenceRepository extends IRepository {
     @NonNull
-    LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences();
+    LiveData<List<ZephyrNotificationPreference>> getNotificationPreferences();
 
     @NonNull
-    LiveData<List<NotificationPreferenceEntity>> getNotificationPreferencesByName(@NonNull String name);
+    LiveData<List<ZephyrNotificationPreference>> getNotificationPreferencesByName(@NonNull String name);
 
     @NonNull
     LiveData<NotificationPreferenceEntity> getNotificationPreference(@NonNull String packageName);

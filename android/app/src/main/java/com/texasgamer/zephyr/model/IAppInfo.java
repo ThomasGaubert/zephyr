@@ -3,24 +3,20 @@ package com.texasgamer.zephyr.model;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
 
 /**
- * Notification preference.
+ * Represents metadata for apps installed on the system.
  */
-public interface NotificationPreference {
+public interface IAppInfo {
 
     String getPackageName();
 
     String getTitle();
 
+    Drawable getIcon();
+
     @ColorInt
     int getColor();
 
-    boolean isEnabled();
-
-    @Nullable
-    Drawable getIcon();
-
-    void setIcon(@Nullable Drawable icon);
+    void setIcon(Drawable icon);
 }

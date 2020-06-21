@@ -5,7 +5,13 @@ import android.content.res.Resources;
 import androidx.annotation.Dimension;
 import androidx.annotation.Px;
 
-public class DimenUtils {
+/**
+ * Dimension utilities.
+ */
+public final class DimenUtils {
+
+    private DimenUtils() {
+    }
 
     @Px
     public static int dpToPx(@Dimension(unit = Dimension.DP) int dp) {

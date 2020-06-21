@@ -38,7 +38,7 @@ public final class Constants {
     public static final int LOG_BUFFER_SIZE = 200;
 
     /* Database */
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String DB_NAME = "zephyr";
 
     /* Firebase */

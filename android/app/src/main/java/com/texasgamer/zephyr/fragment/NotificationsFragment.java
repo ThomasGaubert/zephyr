@@ -24,8 +24,7 @@ import com.reddit.indicatorfastscroll.FastScrollerView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.NotificationPreferenceListAdapter;
-import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
-import com.texasgamer.zephyr.model.NotificationPreference;
+import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
 
@@ -142,7 +141,7 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         ZephyrApplication.getApplicationComponent().inject(this);
     }
 
-    private void subscribeUi(LiveData<List<NotificationPreferenceEntity>> liveData) {
+    private void subscribeUi(LiveData<List<ZephyrNotificationPreference>> liveData) {
         liveData.observe(getViewLifecycleOwner(), preferences -> {
             if (preferences != null && !preferences.isEmpty()) {
                 // Show results
@@ -175,7 +174,7 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         mFastScrollerView.setupWithRecyclerView(
                 mAppList,
                 (position) -> {
-                    NotificationPreference item = mAdapter.getItem(position);
+                    ZephyrNotificationPreference item = mAdapter.getItem(position);
                     if (TextUtils.isDigitsOnly(item.getTitle().substring(0, 1))) {
                         return new FastScrollItemIndicator.Text("#");
                     }

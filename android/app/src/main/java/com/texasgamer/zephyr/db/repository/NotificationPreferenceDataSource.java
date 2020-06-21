@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 
 import com.texasgamer.zephyr.db.dao.NotificationPreferenceDao;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
+import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class NotificationPreferenceDataSource implements NotificationPreferenceR
     }
 
     @NonNull
-    public LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences() {
+    public LiveData<List<ZephyrNotificationPreference>> getNotificationPreferences() {
         return mNotificationPreferenceDao.loadNotificationPreferences();
     }
 
     @NonNull
-    public LiveData<List<NotificationPreferenceEntity>> getNotificationPreferencesByName(@NonNull String name) {
+    public LiveData<List<ZephyrNotificationPreference>> getNotificationPreferencesByName(@NonNull String name) {
         return mNotificationPreferenceDao.loadNotificationPreferencesByName("%" + name + "%");
     }
 

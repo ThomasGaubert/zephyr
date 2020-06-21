@@ -64,6 +64,14 @@ android {
         buildConfigField "String", "APP_CENTER_SECRET", "\"${props.getProperty('APP_CENTER_SECRET')}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.incremental": "true",
+                        "room.expandProjection": "true"
+                ]
+            }
+        }
     }
     signingConfigs {
         release {

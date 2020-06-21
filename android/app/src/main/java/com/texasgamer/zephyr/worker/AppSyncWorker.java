@@ -18,8 +18,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.db.dao.NotificationPreferenceDao;
+import com.texasgamer.zephyr.db.entity.AppInfoEntity;
 import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
+import com.texasgamer.zephyr.db.repository.AppSyncWorkerRepository;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
@@ -45,7 +46,7 @@ public class AppSyncWorker extends Worker {
     @Inject
     ApplicationUtils applicationUtils;
     @Inject
-    NotificationPreferenceDao notificationPreferenceDao;
+    AppSyncWorkerRepository appSyncWorkerRepository;
     @Inject
     IPreferenceManager preferenceManager;
     @Inject
@@ -74,6 +75,7 @@ public class AppSyncWorker extends Worker {
             shouldMigratePreferences = true;
         }
 
+        List<AppInfoEntity> appInfoEntities = new ArrayList<>();
         List<NotificationPreferenceEntity> notificationPreferenceEntities = new ArrayList<>();
         for (PackageInfo packageInfo : applicationUtils.getInstalledPackages()) {
             Drawable appIcon = applicationUtils.getAppIcon(packageInfo);
@@ -88,15 +90,13 @@ public class AppSyncWorker extends Worker {
                 }
             }
 
-            notificationPreferenceEntities.add(new NotificationPreferenceEntity(packageInfo.packageName,
-                    applicationUtils.getAppName(packageInfo),
-                    appColor,
-                    enabled));
+            notificationPreferenceEntities.add(new NotificationPreferenceEntity(packageInfo.packageName, enabled));
+            appInfoEntities.add(new AppInfoEntity(packageInfo.packageName, applicationUtils.getAppName(packageInfo), appColor));
         }
 
-        notificationPreferenceDao.insertNotificationPreferences(notificationPreferenceEntities);
-
-        notificationPreferenceDao.removeOrphanedNotificationPreferences(applicationUtils.getInstalledPackageNames().toArray(new String[0]));
+        String[] installedPackageNames = applicationUtils.getInstalledPackageNames().toArray(new String[0]);
+        appSyncWorkerRepository.insert(appInfoEntities, notificationPreferenceEntities);
+        appSyncWorkerRepository.pruneOrphans(installedPackageNames);
 
         if (shouldMigratePreferences) {
             preferenceManager.remove(PreferenceKeys.PREF_NOTIFICATION_PREF_MIGRATIONS_TO_COMPLETE);

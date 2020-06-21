@@ -15,13 +15,13 @@ import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
+import com.texasgamer.zephyr.model.INotificationPreference;
 import com.texasgamer.zephyr.model.NotificationPayload;
-import com.texasgamer.zephyr.model.NotificationPreference;
-import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
+import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -114,7 +114,7 @@ public class NotificationService extends NotificationListenerService {
             return false;
         }
 
-        NotificationPreference notificationPreference = notificationPreferenceRepository.getNotificationPreferenceSync(sbn.getPackageName());
+        INotificationPreference notificationPreference = notificationPreferenceRepository.getNotificationPreferenceSync(sbn.getPackageName());
         if (notificationPreference == null) {
             logger.log(LogLevel.DEBUG, LOG_TAG, "Invalid notification: null preference");
             return false;

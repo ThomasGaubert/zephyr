@@ -1,34 +1,23 @@
 package com.texasgamer.zephyr.db.entity;
 
-import android.graphics.drawable.Drawable;
-
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.texasgamer.zephyr.model.NotificationPreference;
+import com.texasgamer.zephyr.model.INotificationPreference;
 
 /**
  * Represents notification preference.
  */
 @Entity(tableName = "notification_preferences", indices = {@Index(value = "packageName", unique = true)})
-public class NotificationPreferenceEntity implements NotificationPreference {
+public class NotificationPreferenceEntity implements INotificationPreference {
 
     @PrimaryKey
     @NonNull
     private String packageName;
-    private String title;
-    @ColorInt
-    private int color;
     private boolean enabled;
-
-    @Ignore
-    @Nullable
-    private Drawable icon;
 
     @NonNull
     @Override
@@ -40,24 +29,6 @@ public class NotificationPreferenceEntity implements NotificationPreference {
         this.packageName = packageName;
     }
 
-    @NonNull
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(@NonNull String title) {
-        this.title = title;
-    }
-
-    @ColorInt
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(@ColorInt int color) {
-        this.color = color;
-    }
-
     @Override
     public boolean isEnabled() {
         return enabled;
@@ -67,24 +38,13 @@ public class NotificationPreferenceEntity implements NotificationPreference {
         this.enabled = enabled;
     }
 
-    @Nullable
-    public Drawable getIcon() {
-        return icon;
-    }
-
-    public void setIcon(@Nullable Drawable icon) {
-        this.icon = icon;
-    }
-
     public NotificationPreferenceEntity() {
 
     }
 
     @Ignore
-    public NotificationPreferenceEntity(@NonNull String packageName, @NonNull String title, @ColorInt int color, boolean enabled) {
+    public NotificationPreferenceEntity(@NonNull String packageName, boolean enabled) {
         this.packageName = packageName;
-        this.title = title;
-        this.color = color;
         this.enabled = enabled;
     }
 }

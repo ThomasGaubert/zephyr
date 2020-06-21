@@ -9,8 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
 import com.texasgamer.zephyr.db.repository.NotificationPreferenceRepository;
+import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 import com.texasgamer.zephyr.util.StringUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
@@ -29,7 +29,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     @Inject
     ILogger logger;
 
-    private final LiveData<List<NotificationPreferenceEntity>> mObservableNotificationPreferences;
+    private final LiveData<List<ZephyrNotificationPreference>> mObservableNotificationPreferences;
     private final MutableLiveData<String> mSearchQuery;
 
     public ManageNotificationsViewModel(Application application) {
@@ -52,7 +52,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
         ZephyrApplication.getApplicationComponent().inject(this);
     }
 
-    public LiveData<List<NotificationPreferenceEntity>> getNotificationPreferences() {
+    public LiveData<List<ZephyrNotificationPreference>> getNotificationPreferences() {
         return mObservableNotificationPreferences;
     }
 

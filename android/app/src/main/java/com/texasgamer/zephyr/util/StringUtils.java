@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
  */
 public final class StringUtils {
 
+    public static final String EMPTY_STRING = "";
+
     private StringUtils() {
     }
 

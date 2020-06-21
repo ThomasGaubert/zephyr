@@ -4,25 +4,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.model.NotificationPreference;
+import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
 /**
  * Notification preference list adapter.
  */
 public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<NotificationPreferenceListAdapter.NotificationPreferenceListViewHolder> {
 
-    private List<? extends NotificationPreference> mPrefs;
+    private List<? extends ZephyrNotificationPreference> mPrefs;
     private NotificationPreferenceView.OnPreferenceChangeListener mOnPrefChangeListener;
 
     public NotificationPreferenceListAdapter(@Nullable NotificationPreferenceView.OnPreferenceChangeListener onPreferenceChangeListener) {
@@ -54,7 +54,7 @@ public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<Noti
         holder.getView().setNotificationPreference(mPrefs.get(position));
     }
 
-    public void setNotificationPreferences(@NonNull List<? extends NotificationPreference> notificationPreferences) {
+    public void setNotificationPreferences(@NonNull List<? extends ZephyrNotificationPreference> notificationPreferences) {
         if (mPrefs == null) {
             mPrefs = notificationPreferences;
             notifyItemRangeInserted(0, notificationPreferences.size());
@@ -77,8 +77,8 @@ public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<Noti
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    NotificationPreference newProduct = notificationPreferences.get(newItemPosition);
-                    NotificationPreference oldProduct = mPrefs.get(oldItemPosition);
+                    ZephyrNotificationPreference newProduct = notificationPreferences.get(newItemPosition);
+                    ZephyrNotificationPreference oldProduct = mPrefs.get(oldItemPosition);
                     return newProduct.getPackageName().equals(oldProduct.getPackageName())
                             && newProduct.isEnabled() == oldProduct.isEnabled();
                 }
@@ -88,7 +88,7 @@ public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<Noti
             result.dispatchUpdatesTo(this);
 
             ZephyrExecutors.getDiskExecutor().execute(() -> {
-                for (NotificationPreference preference : mPrefs) {
+                for (ZephyrNotificationPreference preference : mPrefs) {
                     if (preference.getIcon() == null) {
                         preference.setIcon(ZephyrApplication.getApplicationComponent().applicationUtilities().getAppIcon(preference.getPackageName()));
                     }
@@ -108,7 +108,7 @@ public class NotificationPreferenceListAdapter extends RecyclerView.Adapter<Noti
     }
 
     @NonNull
-    public NotificationPreference getItem(int index) {
+    public ZephyrNotificationPreference getItem(int index) {
         return mPrefs.get(index);
     }
 
