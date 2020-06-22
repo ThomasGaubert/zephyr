@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.provider;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 
@@ -45,6 +46,14 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
         boolean forceShowCards = mPreferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS) && mConfigManager.isDebug();
         boolean everConnectedToServer = mPreferenceManager.getBoolean(PreferenceKeys.PREF_EVER_CONNECTED_TO_SERVER);
         boolean completedFre = true;
+
+        // Unsupported device: low RAM
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);;
+        if (activityManager != null && activityManager.isLowRamDevice()) {
+            ZephyrCard lowRamCard = new ZephyrCard(ZephyrCardType.ERROR, R.string.card_low_ram_title, R.string.card_low_ram_body);
+            cards.add(lowRamCard);
+            return cards;
+        }
 
         // Notification access
         if (forceShowCards || !mApplicationUtils.hasNotificationAccess()) {

@@ -27,6 +27,7 @@ public abstract class ZephyrDatabase extends RoomDatabase {
         return Room.databaseBuilder(appContext, ZephyrDatabase.class, Constants.DB_NAME)
                 .addMigrations(DatabaseMigrationFactory.getMigrations())
                 .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigrationOnDowngrade()
                 .build();
     }
 }

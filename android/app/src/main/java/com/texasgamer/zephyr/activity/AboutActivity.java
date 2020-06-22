@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,10 +41,12 @@ public class AboutActivity extends BaseActivity {
     @BindView(R.id.about_version)
     TextView mVersionTextView;
 
+    private boolean mExtendedVersionEnabled;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVersionTextView.setText(BuildConfig.VERSION_NAME);
+        updateVersionText(false);
     }
 
     @Override
@@ -54,6 +57,11 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
+    @OnClick(R.id.about_title)
+    public void onClickTitle(View view) {
+        updateVersionText(!mExtendedVersionEnabled);
     }
 
     @OnClick(R.id.about_export_logs)
@@ -113,5 +121,13 @@ public class AboutActivity extends BaseActivity {
     public void onClickLicensesBtn(View view) {
         mAnalyticsManager.logEvent(ZephyrEvent.Navigation.LICENSES);
         NavigationUtils.openActivity(view.getContext(), LicensesActivity.class);
+    }
+
+    private void updateVersionText(boolean enableExtendedVersion) {
+        mExtendedVersionEnabled = enableExtendedVersion;
+        String versionText = mExtendedVersionEnabled
+                ? String.format(Locale.getDefault(), "%s - API: %d - DB: %d", BuildConfig.VERSION_NAME, Constants.ZEPHYR_API_VERSION, Constants.DB_VERSION)
+                : BuildConfig.VERSION_NAME;
+        mVersionTextView.setText(versionText);
     }
 }

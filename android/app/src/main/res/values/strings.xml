@@ -2,6 +2,8 @@
     <string name="app_name">Zephyr</string>
 
     <!-- Cards -->
+    <string name="card_low_ram_title">Unsupported device</string>
+    <string name="card_low_ram_body">This device is incompatible with Zephyr due to low system memory. Devices with low system memory are unable to listen to notifications.</string>
     <string name="card_notification_access_title">Enable Notification Access</string>
     <string name="card_notification_access_body">Zephyr needs access to your notifications to operate properly.\n\nTap here to access Settings.</string>
     <string name="card_download_desktop_title">Download desktop client</string>
