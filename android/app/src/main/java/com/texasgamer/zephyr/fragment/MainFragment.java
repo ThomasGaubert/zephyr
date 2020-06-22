@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -92,6 +93,12 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     public void onEvent(@Nullable String eventPayload) {
         if (EventBusEvent.SHELL_REFRESH_CARDS.equals(eventPayload)) {
             mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
+        } else if (EventBusEvent.SERVICE_NOTIFICATION_STARTED.equals(eventPayload) && getActivity() != null) {
+            logger.log(LogLevel.INFO, LOG_TAG, "Notification service started, bringing MainFragment to foreground...");
+            Intent intent = new Intent(getContext(), getActivity().getClass());
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 

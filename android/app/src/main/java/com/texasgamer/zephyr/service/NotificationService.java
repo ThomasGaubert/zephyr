@@ -19,6 +19,7 @@ import com.texasgamer.zephyr.model.INotificationPreference;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.ImageUtils;
+import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
@@ -47,6 +48,7 @@ public class NotificationService extends NotificationListenerService {
         super.onCreate();
 
         logger.log(LogLevel.VERBOSE, LOG_TAG, "onCreate");
+        EventBus.getDefault().post(EventBusEvent.SERVICE_NOTIFICATION_STARTED);
     }
 
     @Override
