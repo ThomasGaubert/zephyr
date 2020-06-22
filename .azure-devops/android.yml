@@ -83,7 +83,7 @@ steps:
     gradleWrapperFile: 'android/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
-    tasks: '-PbuildNumber=$(Build.BuildNumber) -PfirebasePerformanceInstrumentationEnabled=true assembleProductionRelease assembleBetaRelease'
+    tasks: '-PbuildNumber=$(Build.BuildNumber) -PfirebasePerformanceInstrumentationEnabled=true assembleProductionRelease assembleBetaRelease bundleProductionRelease'
 - task: Gradle@2
   displayName: Run tests
   inputs:
@@ -124,6 +124,24 @@ steps:
   inputs:
     pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: APK - Production
+- task: Bash@3
+  displayName: Rename productionRelease AAB
+  inputs:
+    targetType: inline
+    workingDirectory: 'android/app/build/outputs/bundle/productionRelease'
+    script: mv app-production-release.aab zephyr-$(Build.BuildNumber).aab
+- task: CopyFiles@2
+  displayName: Stage productionRelease AAB for publishing
+  inputs:
+    contents: 'android/app/build/outputs/bundle/productionRelease/*.aab'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+    cleanTargetFolder: true
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
+  displayName: Publish productionRelease AAB
+  inputs:
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: AAB - Production
 - task: Bash@3
   displayName: Rename betaRelease APK
   inputs:
