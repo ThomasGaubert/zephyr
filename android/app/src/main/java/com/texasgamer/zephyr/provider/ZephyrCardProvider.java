@@ -48,7 +48,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
         boolean completedFre = true;
 
         // Unsupported device: low RAM
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager != null && activityManager.isLowRamDevice()) {
             ZephyrCard lowRamCard = new ZephyrCard(ZephyrCardType.ERROR, R.string.card_low_ram_title, R.string.card_low_ram_body);
             cards.add(lowRamCard);
