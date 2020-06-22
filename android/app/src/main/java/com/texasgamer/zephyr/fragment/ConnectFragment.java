@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -132,7 +133,9 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     private void connectToDiscoveredServer(@NonNull DiscoveredServer discoveredServer) {
         analyticsManager.logEvent(ZephyrEvent.Action.TAP_DISCOVERED_SERVER);
         preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, discoveredServer.getIpAddress());
-        QuickSettingService.updateQuickSettingTile(getContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(getContext());
+        }
         dismiss();
     }
 }

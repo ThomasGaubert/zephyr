@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr;
 
 import android.app.Application;
+import android.os.Build;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -156,7 +157,9 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
             discoveryManager.start();
         }
 
-        QuickSettingService.updateQuickSettingTile(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(this);
+        }
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod")
@@ -164,7 +167,9 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     private void onAppBackgrounded() {
         logger.log(LogLevel.VERBOSE, LOG_TAG, "App is in the background.");
         discoveryManager.stop();
-        QuickSettingService.updateQuickSettingTile(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(this);
+        }
     }
 
     private void verifyConnectionStatus() {

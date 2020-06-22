@@ -3,6 +3,7 @@ package com.texasgamer.zephyr.fragment;
 import android.Manifest;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,7 +137,9 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     @OnClick(R.id.confirm_button)
     public void onClickConfirm() {
         preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
-        QuickSettingService.updateQuickSettingTile(getContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(getContext());
+        }
         dismiss();
     }
 

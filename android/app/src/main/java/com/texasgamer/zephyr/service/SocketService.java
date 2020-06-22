@@ -2,6 +2,7 @@ package com.texasgamer.zephyr.service;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 
 import androidx.annotation.NonNull;
@@ -92,7 +93,9 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
             mServerAddress = NetworkUtils.joinCodeToIp(preferenceManager.getString(PreferenceKeys.PREF_JOIN_CODE)) + ":" + Constants.ZEPHYR_SERVER_PORT;
         }
 
-        QuickSettingService.updateQuickSettingTile(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(this);
+        }
 
         EventBus.getDefault().register(this);
         instanceCreated = true;
@@ -114,7 +117,9 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
         dismissServiceNotification();
 
-        QuickSettingService.updateQuickSettingTile(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(this);
+        }
 
         instanceCreated = false;
         super.onDestroy();
@@ -346,7 +351,9 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
         notificationManager.notify(ZephyrNotificationId.SOCKET_SERVICE_STATUS, mStatusNotificationBuilder.build());
 
         EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
-        QuickSettingService.updateQuickSettingTile(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            QuickSettingService.updateQuickSettingTile(this);
+        }
     }
 
     private void dismissServiceNotification() {

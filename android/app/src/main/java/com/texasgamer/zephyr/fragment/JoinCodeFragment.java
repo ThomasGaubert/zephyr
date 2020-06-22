@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.KeyEvent;
@@ -68,7 +69,9 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
                     }
 
                     preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mJoinCodeTextEdit.getText().toString());
-                    QuickSettingService.updateQuickSettingTile(getContext());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        QuickSettingService.updateQuickSettingTile(getContext());
+                    }
                 }
 
                 dismiss();

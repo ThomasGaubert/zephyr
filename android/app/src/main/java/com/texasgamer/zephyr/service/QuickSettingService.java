@@ -33,11 +33,8 @@ public class QuickSettingService extends TileService {
     @Inject
     IPreferenceManager preferenceManager;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void updateQuickSettingTile(@NonNull Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            TileService.requestListeningState(context, new ComponentName(context, QuickSettingService.class));
-        }
+        TileService.requestListeningState(context, new ComponentName(context, QuickSettingService.class));
     }
 
     @Override
