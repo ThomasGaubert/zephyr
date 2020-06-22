@@ -14,6 +14,7 @@ local.properties
 # Application files
 *.apk
 *.ap_
+*.aab
 
 # Dex
 *.dex
