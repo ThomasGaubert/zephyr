@@ -1,0 +1,3 @@
+Automatically built and published to Play Store.
+
+See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
