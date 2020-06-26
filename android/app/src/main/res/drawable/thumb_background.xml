@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Transparent GradientDrawable to avoid crash in FastScrollerThumbView on API 21 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="linear"
+        android:angle="0"
+        android:startColor="@android:color/transparent"
+        android:endColor="@android:color/transparent" />
+</shape>
