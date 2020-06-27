@@ -2,6 +2,7 @@ Automatically built and published to beta track.
 
 **Note:** This build updates the database schema. If you encounter any loss of data or crashes, please create a bug on GitHub.
 
-- Fixed crash on app start for devices running Android 6 or earlier.
+- Fixed crashes on older versions of Android.
+- Polished splash screen.
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
