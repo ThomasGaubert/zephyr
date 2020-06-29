@@ -3003,9 +3003,9 @@ electron-debug@^2.0.0:
     electron-is-dev "^0.3.0"
     electron-localshortcut "^3.1.0"
 
-electron-devtools-installer@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/electron-devtools-installer/-/electron-devtools-installer-3.0.0.tgz#b5c439708746ed36f7b0220e18657567bca275d8"
+electron-devtools-installer@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/electron-devtools-installer/-/electron-devtools-installer-3.1.0.tgz#c7800d36ab8438b51d2e03345860f817ecb5797f"
   dependencies:
     rimraf "^3.0.2"
     semver "^7.2.1"
