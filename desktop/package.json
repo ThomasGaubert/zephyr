@@ -115,7 +115,7 @@
     "typescript": "^3.9.6",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.3.12",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^2.3.0"
   },
   "dependencies": {
     "@material-ui/core": "^3.0.1",
