@@ -108,7 +108,7 @@
     "jest-junit": "^10.0.0",
     "rimraf": "^3.0.2",
     "snyk": "^1.361.3",
-    "ts-loader": "^7.0.5",
+    "ts-loader": "^8.0.0",
     "tslint": "^6.1.2",
     "tslint-config-standard": "^9.0.0",
     "tslint-loader": "^3.6.0",
