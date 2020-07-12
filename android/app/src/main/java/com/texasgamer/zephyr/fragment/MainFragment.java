@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
 import com.texasgamer.zephyr.BuildConfig;
+import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
@@ -24,6 +25,7 @@ import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.view.ZephyrCardViewPager;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
@@ -75,6 +77,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         }
 
         EventBus.getDefault().register(this);
+
+        checkForWhatsNew();
     }
 
     @Override
@@ -93,7 +97,9 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     public void onEvent(@Nullable String eventPayload) {
         if (EventBusEvent.SHELL_REFRESH_CARDS.equals(eventPayload)) {
             mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
-        } else if (EventBusEvent.SERVICE_NOTIFICATION_STARTED.equals(eventPayload) && getActivity() != null) {
+        } else if (EventBusEvent.SERVICE_NOTIFICATION_STARTED.equals(eventPayload)
+                && getActivity() != null
+                && !ZephyrApplication.getInstance().isInForeground()) {
             logger.log(LogLevel.INFO, LOG_TAG, "Notification service started, bringing MainFragment to foreground...");
             Intent intent = new Intent(getContext(), getActivity().getClass());
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -149,7 +155,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @OnClick(R.id.join_code_summary)
     void openConnectFragment() {
         ConnectFragment connectFragment = new ConnectFragment();
-        connectFragment.show(getFragmentManager(), connectFragment.getTag());
+        connectFragment.show(getParentFragmentManager(), connectFragment.getTag());
     }
 
     private void updateConnectionStatus(@ConnectionStatus int connectionStatus) {
@@ -164,5 +170,15 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         mJoinCodeText.setText(joinCode.isEmpty()
                 ? getString(R.string.join_code_none)
                 : String.format(getString(R.string.join_code_saved), joinCode));
+    }
+
+    private void checkForWhatsNew() {
+        int lastSeenWhatsNewVersion = mPreferenceManager.getInt(PreferenceKeys.PREF_LAST_SEEN_WHATS_NEW_VERSION);
+        if (lastSeenWhatsNewVersion < Constants.WHATS_NEW_VERSION) {
+            logger.log(LogLevel.VERBOSE, LOG_TAG, "Showing What's new for %d (last seen %d)",
+                    Constants.WHATS_NEW_VERSION, lastSeenWhatsNewVersion);
+            WhatsNewFragment whatsNewFragment = new WhatsNewFragment();
+            whatsNewFragment.show(getParentFragmentManager(), whatsNewFragment.getTag());
+        }
     }
 }

@@ -1,33 +1,33 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
+import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemFragment;
-import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemZephyrFragment;
+import com.texasgamer.zephyr.adapter.WhatsNewAdapter;
+import com.texasgamer.zephyr.model.WhatsNewItem;
+import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * What's new fragment.
@@ -39,18 +39,24 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
     @Inject
     IPreferenceManager preferenceManager;
 
-    @BindView(R.id.view_pager)
-    ViewPager mViewPager;
-    @BindView(R.id.pager_indicator)
-    IndefinitePagerIndicator mPagerIndicator;
+    @BindView(R.id.whats_new_subtitle)
+    TextView mWhatsNewSubtitle;
+    @BindView(R.id.whats_new_recyclerview)
+    RecyclerView mWhatsNewRecyclerView;
+
+    private WhatsNewAdapter mWhatsNewAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_whats_new, container, false);
         ButterKnife.bind(this, root);
 
-        mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
-        mPagerIndicator.attachToViewPager(mViewPager);
+        mWhatsNewSubtitle.setText(BuildConfig.VERSION_NAME);
+
+        mWhatsNewRecyclerView.setHasFixedSize(true);
+        mWhatsNewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mWhatsNewAdapter = new WhatsNewAdapter(getWhatsNewItems());
+        mWhatsNewRecyclerView.setAdapter(mWhatsNewAdapter);
 
         return root;
     }
@@ -62,85 +68,32 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
     }
 
     @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        super.onCancel(dialog);
+        preferenceManager.putInt(PreferenceKeys.PREF_LAST_SEEN_WHATS_NEW_VERSION, Constants.WHATS_NEW_VERSION);
+    }
+
+    @Override
     protected int getInitialBottomSheetState() {
-        return BottomSheetBehavior.STATE_EXPANDED;
+        return BottomSheetBehavior.STATE_COLLAPSED;
     }
 
     @Override
     protected boolean shouldSkipCollapsedState() {
-        return true;
+        return false;
     }
 
-    private class ViewPagerAdapter extends FragmentPagerAdapter {
+    @OnClick(R.id.whats_new_more_icon)
+    public void onClickMoreIcon() {
+        NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_WHATS_NEW_URL);
+    }
 
-        private Fragment[] mChildFragments;
-
-        ViewPagerAdapter(FragmentManager fm) {
-            super(fm);
-
-            WhatsNewItemFragment zephyrV2Fragment = new WhatsNewItemZephyrFragment();
-            zephyrV2Fragment.setArguments(getArguments(R.drawable.ic_logo_inverse_white,
-                    R.string.menu_whats_new_zephyr_v2_title,
-                    R.string.menu_whats_new_zephyr_v2_body,
-                    0,
-                    null));
-
-            WhatsNewItemFragment steamFragment = new WhatsNewItemFragment();
-            steamFragment.setArguments(getArguments(R.drawable.ic_steam,
-                    R.string.menu_whats_new_steam_title,
-                    R.string.menu_whats_new_steam_body,
-                    R.string.menu_whats_new_steam_button_text,
-                    Constants.ZEPHYR_STEAM_URL));
-
-            WhatsNewItemFragment connectFragment = new WhatsNewItemFragment();
-            connectFragment.setArguments(getArguments(R.drawable.ic_link,
-                    R.string.menu_whats_new_connect_title,
-                    R.string.menu_whats_new_connect_body,
-                    0,
-                    null));
-
-            WhatsNewItemFragment feedbackFragment = new WhatsNewItemFragment();
-            feedbackFragment.setArguments(getArguments(R.drawable.ic_notifications,
-                    R.string.menu_whats_new_notif_title,
-                    R.string.menu_whats_new_notif_body,
-                    0,
-                    null));
-
-            mChildFragments = new Fragment[] {
-                    zephyrV2Fragment,
-                    steamFragment,
-                    connectFragment,
-                    feedbackFragment
-            };
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mChildFragments[position];
-        }
-
-        @Override
-        public int getCount() {
-            return mChildFragments.length;
-        }
-
-        @NonNull
-        private Bundle getArguments(@DrawableRes int icon, @StringRes int title, @StringRes int body, @StringRes int buttonText, @Nullable String buttonUrl) {
-            Bundle arguments = new Bundle();
-            arguments.putInt(WhatsNewItemFragment.ARG_ICON, icon);
-            arguments.putString(WhatsNewItemFragment.ARG_TITLE, getString(title));
-            arguments.putString(WhatsNewItemFragment.ARG_BODY, getString(body));
-
-            if (buttonText != 0) {
-                if (buttonUrl == null || buttonUrl.isEmpty()) {
-                    throw new IllegalArgumentException("Button URL must be defined if button text is specified.");
-                }
-
-                arguments.putString(WhatsNewItemFragment.ARG_BUTTON_TEXT, getString(buttonText));
-                arguments.putString(WhatsNewItemFragment.ARG_BUTTON_URL, buttonUrl);
-            }
-
-            return arguments;
-        }
+    private WhatsNewItem[] getWhatsNewItems() {
+        return new WhatsNewItem[] {
+                new WhatsNewItem(R.drawable.ic_logo_inverse_white, R.string.menu_whats_new_zephyr_v2_title, R.string.menu_whats_new_zephyr_v2_body),
+                new WhatsNewItem(R.drawable.ic_steam, R.string.menu_whats_new_steam_title, R.string.menu_whats_new_steam_body),
+                new WhatsNewItem(R.drawable.ic_link, R.string.menu_whats_new_connect_title, R.string.menu_whats_new_connect_body),
+                new WhatsNewItem(R.drawable.ic_notifications, R.string.menu_whats_new_notif_title, R.string.menu_whats_new_notif_body)
+        };
     }
 }

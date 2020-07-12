@@ -63,6 +63,8 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     @Inject
     IThemeManager themeManager;
 
+    private boolean mIsInForeground;
+
     public static ApplicationComponent getApplicationComponent() {
         return sApplicationComponent;
     }
@@ -148,10 +150,15 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
         preferenceManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION, BuildConfigUtils.getVersionCode());
     }
 
+    public boolean isInForeground() {
+        return mIsInForeground;
+    }
+
     @SuppressWarnings("PMD.UnusedPrivateMethod")
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private void onAppForegrounded() {
         logger.log(LogLevel.VERBOSE, LOG_TAG, "App is in the foreground.");
+        mIsInForeground = true;
         if (configManager.isDiscoveryEnabled()) {
             logger.log(LogLevel.INFO, LOG_TAG, "Starting DiscoveryManager.");
             discoveryManager.start();
@@ -166,6 +173,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     private void onAppBackgrounded() {
         logger.log(LogLevel.VERBOSE, LOG_TAG, "App is in the background.");
+        mIsInForeground = false;
         discoveryManager.stop();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             QuickSettingService.updateQuickSettingTile(this);

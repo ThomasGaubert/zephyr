@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/menu_debug_theme_title"
+            android:contentDescription="@string/menu_theme_title"
             android:tint="@color/menu_icon"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/menu_title"

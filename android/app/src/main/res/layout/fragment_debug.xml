@@ -43,28 +43,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/debug_switch_show_all_cards" />
 
-        <TextView
-            android:id="@+id/debug_theme"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:text="@string/menu_debug_theme_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/debug_switch_enable_mock_data" />
-
         <View
             android:layout_width="0dp"
             android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/debug_theme" />
+            app:layout_constraintTop_toBottomOf="@id/debug_switch_enable_mock_data" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

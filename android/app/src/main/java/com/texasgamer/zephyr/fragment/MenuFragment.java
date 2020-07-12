@@ -108,12 +108,12 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
 
         Resources resources = getActivity().getResources();
         final CharSequence[] themeChoices = {
-                resources.getString(R.string.menu_debug_theme_system),
-                resources.getString(R.string.menu_debug_theme_light),
-                resources.getString(R.string.menu_debug_theme_dark)};
+                resources.getString(R.string.menu_theme_system),
+                resources.getString(R.string.menu_theme_light),
+                resources.getString(R.string.menu_theme_dark)};
 
         AlertDialog alertDialog = new MaterialAlertDialogBuilder(getActivity())
-                .setTitle(R.string.menu_debug_theme_title)
+                .setTitle(R.string.menu_theme_title)
                 .setSingleChoiceItems(themeChoices, themeManager.getCurrentThemeSetting(), (dialog, which) -> {
                     themeManager.setCurrentThemeSetting(which);
                     dialog.dismiss();

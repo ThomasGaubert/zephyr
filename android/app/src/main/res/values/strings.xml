@@ -41,6 +41,12 @@
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
 
+    <!-- Theme menu -->
+    <string name="menu_theme_title">Theme</string>
+    <string name="menu_theme_system">System default</string>
+    <string name="menu_theme_dark">Dark</string>
+    <string name="menu_theme_light">Light</string>
+
     <!-- Connection Menu -->
     <string name="menu_connect_title">Connect via</string>
     <string name="menu_connect_scan_code">Scan QR code</string>
@@ -78,25 +84,22 @@
     <string name="menu_privacy_disabled_config">Certain settings are disabled because of the current build configuration.</string>
 
     <!-- What's New Menu -->
+    <string name="menu_whats_new_title">What\'s new</string>
+    <string name="menu_whats_new_more_info">More info</string>
     <string name="menu_whats_new_zephyr_v2_title">Welcome to Zephyr 2.0!</string>
     <string name="menu_whats_new_zephyr_v2_body">Every aspect of Zephyr has been completely rewritten to address common feedback, improve performance and stability, and to make future development easier.</string>
     <string name="menu_whats_new_steam_title">Steam</string>
-    <string name="menu_whats_new_steam_body">The Zephyr desktop client is now available on Steam.\n\nNote that the old client is no longer supported.</string>
+    <string name="menu_whats_new_steam_body">The Zephyr desktop client is now available on Steam. Note that the old client is no longer supported.</string>
     <string name="menu_whats_new_steam_button_text">Download on Steam</string>
     <string name="menu_whats_new_connect_title">Quick connect</string>
-    <string name="menu_whats_new_connect_body">Zephyr will automatically find any servers running on your local network.\n\nYou can also scan a QR code or enter a code to get connected quickly.</string>
+    <string name="menu_whats_new_connect_body">Zephyr will automatically find any servers running on your local network. You can also scan a QR code or enter a code to get connected quickly.</string>
     <string name="menu_whats_new_notif_title">Enhanced Notifications</string>
-    <string name="menu_whats_new_notif_body">Notification icons are now displayed in VR!\n\nZephyr also lists previous notifications on the desktop and within VR.</string>
+    <string name="menu_whats_new_notif_body">Notification icons are now displayed in VR! Zephyr also lists previous notifications on the desktop and within VR.</string>
 
     <!-- Debug Menu -->
     <string name="menu_debug_title">Debug</string>
     <string name="menu_debug_show_all_cards">Show all cards</string>
     <string name="menu_debug_enable_mock_data">Enable mock data</string>
-    <string name="menu_debug_theme_setting">Theme (%s)</string>
-    <string name="menu_debug_theme_title">Theme</string>
-    <string name="menu_debug_theme_system">System default</string>
-    <string name="menu_debug_theme_dark">Dark</string>
-    <string name="menu_debug_theme_light">Light</string>
 
     <!-- Manage Notifications -->
     <string name="manage_notifications_title">Manage Notifications</string>
@@ -137,5 +140,5 @@
     <string name="about_github">View on GitHub</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_licenses">Open Source Licenses</string>
-    <string name="about_author">\u00A9 Thomas Gaubert</string>
+    <string name="about_author">\u00A9 %d Thomas Gaubert</string>
 </resources>

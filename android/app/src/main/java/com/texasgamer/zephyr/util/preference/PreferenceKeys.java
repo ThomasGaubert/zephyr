@@ -24,6 +24,9 @@ public final class PreferenceKeys {
     public static final String PREF_SEEN_MANAGE_NOTIFICATIONS = "seenManageNotifications";
     public static final String PREF_SEEN_V2_PROMO = "seenV2Promo";
 
+    /* What's new */
+    public static final String PREF_LAST_SEEN_WHATS_NEW_VERSION = "lastSeenWhatsNewVersion";
+
     /* Theme */
     public static final String PREF_THEME = "theme";
 

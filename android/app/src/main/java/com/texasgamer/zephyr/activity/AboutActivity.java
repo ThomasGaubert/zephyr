@@ -25,6 +25,7 @@ import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,6 +41,8 @@ public class AboutActivity extends BaseActivity {
 
     @BindView(R.id.about_version)
     TextView mVersionTextView;
+    @BindView(R.id.about_author)
+    TextView mAuthorTextView;
 
     private boolean mExtendedVersionEnabled;
 
@@ -47,6 +50,7 @@ public class AboutActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateVersionText(false);
+        updateAuthorText();
     }
 
     @Override
@@ -129,5 +133,9 @@ public class AboutActivity extends BaseActivity {
                 ? String.format(Locale.getDefault(), "%s - API: %d - DB: %d", BuildConfig.VERSION_NAME, Constants.ZEPHYR_API_VERSION, Constants.DB_VERSION)
                 : BuildConfig.VERSION_NAME;
         mVersionTextView.setText(versionText);
+    }
+
+    private void updateAuthorText() {
+        mAuthorTextView.setText(getString(R.string.about_author, Calendar.getInstance().get(Calendar.YEAR)));
     }
 }

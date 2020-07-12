@@ -11,6 +11,7 @@ public final class Constants {
     /* Versioning */
     public static final int V2_VERSION_CODE = 10;
     public static final int ZEPHYR_API_VERSION = 1;
+    public static final int WHATS_NEW_VERSION = 0;
 
     /* URLS */
     public static final String ZEPHYR_FEEDBACK_URL = "https://github.com/ThomasGaubert/zephyr/issues/new/choose";
@@ -19,6 +20,7 @@ public final class Constants {
     public static final String ZEPHYR_CONNECTION_HELP_URL = "https://zephyrvr.gitbook.io/docs/troubleshooting/connection-issues";
     public static final String ZEPHYR_STEAM_URL = "https://store.steampowered.com/app/495000";
     public static final String ZEPHYR_PRIVACY_URL = "https://github.com/ZephyrVR/documents/blob/master/privacy-policy.md";
+    public static final String ZEPHYR_WHATS_NEW_URL = "https://github.com/ThomasGaubert/zephyr/blob/master/CHANGELOG.md#200---wip";
 
     /* Server */
     public static final String ZEPHYR_SERVER_PORT = "3753";

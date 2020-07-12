@@ -55,11 +55,11 @@ public class ThemeManager implements IThemeManager {
     public int getThemeNameStringResource(@Theme int theme) {
         switch (theme) {
             case Theme.SYSTEM_DEFAULT:
-                return R.string.menu_debug_theme_system;
+                return R.string.menu_theme_system;
             case Theme.LIGHT:
-                return R.string.menu_debug_theme_light;
+                return R.string.menu_theme_light;
             case Theme.DARK:
-                return R.string.menu_debug_theme_dark;
+                return R.string.menu_theme_dark;
             default:
                 return getThemeNameStringResource(getDefaultTheme());
         }
