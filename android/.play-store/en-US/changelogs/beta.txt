@@ -1,8 +1,6 @@
 Automatically built and published to beta track.
 
-**Note:** This build updates the database schema. If you encounter any loss of data or crashes, please create a bug on GitHub.
-
-- Fixed crashes on older versions of Android.
-- Polished splash screen.
+- Updated "What's new" UI and behavior (currently only applicable to users who migrate from v1).
+- Fixed bug where app would bring itself to foreground when already in the foreground.
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
