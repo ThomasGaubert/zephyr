@@ -154,7 +154,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
     // CameraView
-    implementation 'com.otaliastudios:cameraview:2.6.2'
+    implementation 'com.otaliastudios:cameraview:2.6.3'
 
     // Chrome Custom Tabs
     implementation 'androidx.browser:browser:1.2.0'
