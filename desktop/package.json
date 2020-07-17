@@ -105,7 +105,7 @@
     "electron-reload": "^1.5.0",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^23.5.0",
-    "jest-junit": "^10.0.0",
+    "jest-junit": "^11.0.1",
     "rimraf": "^3.0.2",
     "snyk": "^1.361.3",
     "ts-loader": "^8.0.1",
