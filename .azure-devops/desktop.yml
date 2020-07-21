@@ -32,6 +32,7 @@ jobs:
         versionSpec: '10.20.1'
     - task: Cache@2
       displayName: Cache Yarn packages
+      enabled: false
       inputs:
         key: 'yarn | "$(Agent.OS)" | desktop/yarn.lock'
         restoreKeys: |
@@ -120,6 +121,7 @@ jobs:
         versionSpec: '10.20.1'
     - task: Cache@2
       displayName: Cache Yarn packages
+      enabled: false
       inputs:
         key: 'yarn | "$(Agent.OS)" | desktop/yarn.lock'
         restoreKeys: |
