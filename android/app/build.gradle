@@ -148,7 +148,7 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-distribute:3.2.2"
 
     // ButterKnife
-    implementation ('com.jakewharton:butterknife:10.2.2') {
+    implementation ('com.jakewharton:butterknife:10.2.3') {
         exclude module: 'support-compat'
     }
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.2'
