@@ -145,7 +145,7 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // AppCenter
-    implementation "com.microsoft.appcenter:appcenter-distribute:3.2.2"
+    implementation "com.microsoft.appcenter:appcenter-distribute:3.3.0"
 
     // ButterKnife
     implementation ('com.jakewharton:butterknife:10.2.3') {
