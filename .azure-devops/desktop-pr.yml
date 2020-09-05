@@ -140,6 +140,12 @@ jobs:
         targetType: 'inline'
         script: 'yarn dist-steam'
         workingDirectory: 'desktop'
+    - task: CmdLine@2
+      displayName: Trim Zephyr Desktop - Steam
+      inputs:
+        script: call trim-dist.cmd
+        workingDirectory: 'desktop/.scripts'
+        failOnStandardError: true
     - task: CopyFiles@2
       displayName: Stage Zephyr Desktop - Steam for publishing
       condition: always()
