@@ -15,7 +15,7 @@
     <string name="card_zephyr_v2_title">Zephyr 2.0</string>
     <string name="card_zephyr_v2_body">Zephyr has been redesigned from the ground up and is now available on Steam.\n\nTap here to see what\'s new.</string>
     <string name="card_zephyr_beta_title">Zephyr \u03B2</string>
-    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development.\n\nNew in this release:\n\n\u2022 Updated \"What\'s new\" UI and behavior (currently only applicable to users who migrate from v1).\n\u2022 Fixed bug where app would bring itself to foreground when already in the foreground.\n\nTap here to file feedback on GitHub.</string>
+    <string name="card_zephyr_beta_body">Welcome to Zephyr Beta! Please note that things are still under development.\n\nNew in this release:\n\n\u2022 Updated dependencies\n\nTap here to file feedback on GitHub.</string>
 
     <!-- Connection Button -->
     <string name="btn_connection_start">Start</string>
