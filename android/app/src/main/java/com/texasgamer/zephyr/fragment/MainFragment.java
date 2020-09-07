@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
@@ -109,12 +110,13 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     }
 
     @Override
+    @LayoutRes
     protected int getFragmentLayout() {
         return R.layout.fragment_main;
     }
 
     @Override
-    protected void setViewBindings(View view) {
+    protected void setViewBindings(@NonNull View view) {
 
     }
 

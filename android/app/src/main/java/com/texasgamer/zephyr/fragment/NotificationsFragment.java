@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -117,12 +118,13 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     }
 
     @Override
+    @LayoutRes
     protected int getFragmentLayout() {
         return R.layout.fragment_notifications;
     }
 
     @Override
-    protected void setViewBindings(View view) {
+    protected void setViewBindings(@NonNull View view) {
 
     }
 

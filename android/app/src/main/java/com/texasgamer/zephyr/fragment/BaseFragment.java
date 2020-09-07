@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 
@@ -29,7 +31,11 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     protected T mViewModel;
 
     @Inject
+    protected ILogger mLogger;
+    @Inject
     protected IPreferenceManager mPreferenceManager;
+    @Inject
+    protected IAnalyticsManager mAnalyticsManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +44,7 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
 
         injectDependencies();
 
-        if (mPreferenceManager == null) {
+        if (mLogger == null) {
             throw new IllegalStateException("Dependencies not fulfilled for this Fragment.");
         }
     }
@@ -69,7 +75,7 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     @LayoutRes
     protected abstract int getFragmentLayout();
 
-    protected abstract void setViewBindings(View view);
+    protected abstract void setViewBindings(@NonNull View view);
 
     protected abstract T onCreateViewModel();
 

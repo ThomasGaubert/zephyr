@@ -8,6 +8,7 @@ import com.texasgamer.zephyr.activity.LicensesActivity;
 import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.db.ZephyrDatabase;
+import com.texasgamer.zephyr.fragment.AboutFragment;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
 import com.texasgamer.zephyr.fragment.DebugFragment;
 import com.texasgamer.zephyr.fragment.JoinCodeFragment;
@@ -40,6 +41,7 @@ import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.notification.INotificationsManager;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
+import com.texasgamer.zephyr.viewmodel.AboutFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
@@ -103,6 +105,8 @@ public interface ApplicationComponent {
 
     void inject(MainFragmentViewModel onboardingViewModel);
 
+    void inject(AboutFragmentViewModel aboutFragmentViewModel);
+
     /* Activities */
     void inject(MainActivity mainActivity);
 
@@ -118,6 +122,8 @@ public interface ApplicationComponent {
     void inject(NotificationsFragment notificationsFragment);
 
     void inject(MenuFragment menuFragment);
+
+    void inject(AboutFragment aboutFragment);
 
     void inject(PrivacyFragment privacyFragment);
 
