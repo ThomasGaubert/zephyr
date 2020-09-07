@@ -151,7 +151,7 @@ dependencies {
     implementation ('com.jakewharton:butterknife:10.2.3') {
         exclude module: 'support-compat'
     }
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     // CameraView
     implementation 'com.otaliastudios:cameraview:2.6.3'
