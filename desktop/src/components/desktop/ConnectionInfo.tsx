@@ -92,7 +92,7 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Updated dependencies</li>
+              <li>Updated to Electron 8</li>
             </ul>
           </Card>
           <List component='nav'>
