@@ -1,6 +1,5 @@
 Automatically built and published to beta track.
 
-- Updated "What's new" UI and behavior (currently only applicable to users who migrate from v1).
-- Fixed bug where app would bring itself to foreground when already in the foreground.
+- Updated appearance for older Android versions
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
