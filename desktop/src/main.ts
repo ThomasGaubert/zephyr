@@ -100,7 +100,8 @@ function onReady() {
       show: false,
       transparent: true,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        enableRemoteModule: true
       }
     });
     overlayWindow.loadURL(`file://${__dirname}/overlay.html`).catch(error => {
