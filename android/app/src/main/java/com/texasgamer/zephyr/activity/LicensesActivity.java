@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
-import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,16 +21,12 @@ public class LicensesActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.licenses_webview)
-    WebView mWebView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setSupportActionBar(mToolbar);
-
-        mWebView.loadUrl("file:///android_asset/open_source_licenses.html");
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.texasgamer.zephyr.fragment.AboutFragment;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
 import com.texasgamer.zephyr.fragment.DebugFragment;
 import com.texasgamer.zephyr.fragment.JoinCodeFragment;
+import com.texasgamer.zephyr.fragment.LicensesFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
 import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.fragment.NotificationsFragment;
@@ -136,6 +137,8 @@ public interface ApplicationComponent {
     void inject(WhatsNewFragment whatsNewFragment);
 
     void inject(WhatsNewItemFragment whatsNewItemFragment);
+
+    void inject(LicensesFragment licensesFragment);
 
     void inject(DebugFragment debugFragment);
 
