@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeImage } from 'electron';
+import { app, BrowserWindow, nativeImage, NativeImage } from 'electron';
 import vr from 'node-openvr';
 import ZephyrNotification from '../models/ZephyrNotification';
 import EventUtils from '../utils/EventUtils';
@@ -68,7 +68,7 @@ export default class VRWindow extends BrowserWindow {
   }
 
   vrDraw (force = false) {
-    this.webContents.capturePage((image) => {
+    this.webContents.capturePage().then((image: NativeImage) => {
       const buf = image.toBitmap();
 
       if (!force && buf.length === 0) {
@@ -76,6 +76,8 @@ export default class VRWindow extends BrowserWindow {
       }
 
       this.overlay.setTextureFromBuffer(buf, { ...image.getSize() });
+    }).catch((error: any) => {
+      LogUtils.error('VRWindow', 'Error when capturing page: ' + JSON.stringify(error));
     });
   }
 }

@@ -55,7 +55,8 @@ function onReady() {
     show: false,
     backgroundColor: '#0D253A',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
   mainWindow.loadURL(`file://${__dirname}/index.html`).catch(error => {
@@ -82,7 +83,8 @@ function onReady() {
         iconPath: `${ConfigUtils.getExternalImagesDirectory()}/icon.png`
       },
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        enableRemoteModule: true
       }
     });
     vrWindow.loadURL(`file://${__dirname}/overlay.html`).catch(error => {
@@ -98,7 +100,8 @@ function onReady() {
       show: false,
       transparent: true,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        enableRemoteModule: true
       }
     });
     overlayWindow.loadURL(`file://${__dirname}/overlay.html`).catch(error => {
