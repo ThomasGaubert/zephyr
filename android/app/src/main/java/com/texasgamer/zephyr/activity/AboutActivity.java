@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
@@ -137,5 +138,16 @@ public class AboutActivity extends BaseActivity {
 
     private void updateAuthorText() {
         mAuthorTextView.setText(getString(R.string.about_author, Calendar.getInstance().get(Calendar.YEAR)));
+    }
+
+    @ColorRes
+    @Override
+    protected int getNavigationBarColor() {
+        return R.color.primary;
+    }
+
+    @Override
+    protected boolean supportsEdgeToEdgeNavigation() {
+        return false;
     }
 }

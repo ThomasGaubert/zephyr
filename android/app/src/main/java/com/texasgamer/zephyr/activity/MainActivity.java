@@ -5,7 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.LiveData;
@@ -55,10 +58,6 @@ public class MainActivity extends BaseActivity {
         subscribeUi(mConnectButtonViewModel.getIsConnected());
 
         verifyConnectionStatus();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            setupEdgeToEdgeLayout();
-        }
     }
 
     @Override
@@ -81,6 +80,20 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
+    @ColorRes
+    @Override
+    protected int getNavigationBarColor() {
+        return R.color.primaryDark;
+    }
+
+    @Override
+    protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+        CoordinatorLayout.LayoutParams mainFragmentLayoutParams = new CoordinatorLayout.LayoutParams(mMainFragment.getLayoutParams());
+        mainFragmentLayoutParams.setMargins(0, windowInsets.getSystemWindowInsetTop(), 0, 0);
+        mMainFragment.setLayoutParams(mainFragmentLayoutParams);
+        return windowInsets;
     }
 
     @OnClick(R.id.connect_button)
@@ -133,16 +146,5 @@ public class MainActivity extends BaseActivity {
             mPreferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
             mPreferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
         }
-    }
-
-    private void setupEdgeToEdgeLayout() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        decorView.setOnApplyWindowInsetsListener((v, insets) -> {
-            CoordinatorLayout.LayoutParams mainFragmentLayoutParams = new CoordinatorLayout.LayoutParams(mMainFragment.getLayoutParams());
-            mainFragmentLayoutParams.setMargins(0, insets.getSystemWindowInsetTop(), 0, 0);
-            mMainFragment.setLayoutParams(mainFragmentLayoutParams);
-            return insets;
-        });
     }
 }

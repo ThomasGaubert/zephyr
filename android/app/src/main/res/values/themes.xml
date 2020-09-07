@@ -12,6 +12,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowBackground">@color/zephyr_blue</item>
+        <item name="android:statusBarColor">@color/primary</item>
         <item name="windowBackground">@color/zephyr_blue</item>
         <item name="android:colorBackground">@color/primary</item>
         <item name="navigationViewStyle">@style/NavigationView</item>
@@ -30,6 +31,9 @@
     <style name="Theme.Zephyr.BottomSheetDialog" parent="Theme.Zephyr.BottomSheetDialog.Base"/>
 
     <style name="Theme.Zephyr.BottomSheetDialog.Base" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/primary</item>
+        <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="navigationViewStyle">@style/NavigationView</item>
     </style>

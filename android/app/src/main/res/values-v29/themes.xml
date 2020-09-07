@@ -5,11 +5,4 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
-    <style name="Theme.Zephyr.BottomSheetDialog" parent="Theme.Zephyr.BottomSheetDialog.Base">
-        <!-- API 29 specific: color matched navigation bar -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/primary</item>
-        <item name="android:windowIsFloating">false</item>
-    </style>
 </resources>
