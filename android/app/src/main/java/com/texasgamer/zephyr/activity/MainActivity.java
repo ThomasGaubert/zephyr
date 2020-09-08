@@ -5,13 +5,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowInsets;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.LiveData;
+import androidx.window.DisplayFeature;
+import androidx.window.WindowManager;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.texasgamer.zephyr.R;
@@ -25,6 +30,8 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
@@ -32,7 +39,7 @@ import butterknife.OnLongClick;
 /**
  * Main activity.
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnLayoutChangeListener {
 
     @BindView(R.id.main_fragment)
     FragmentContainerView mMainFragment;
@@ -40,10 +47,17 @@ public class MainActivity extends BaseActivity {
     BottomAppBar mBottomAppBar;
     @BindView(R.id.connect_button)
     ZephyrServiceButton mConnectButton;
+    @Nullable
+    @BindView(R.id.spacer)
+    View mSpacer;
+    @Nullable
+    @BindView(R.id.secondary_fragment)
+    FragmentContainerView mSecondaryFragment;
 
     private ConnectButtonViewModel mConnectButtonViewModel;
     private MenuFragment mMenuFragment;
     private ConnectFragment mConnectFragment;
+    private WindowManager mWindowManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +72,9 @@ public class MainActivity extends BaseActivity {
         subscribeUi(mConnectButtonViewModel.getIsConnected());
 
         verifyConnectionStatus();
+
+        mWindowManager = new WindowManager(this, null);
+        getWindow().getDecorView().addOnLayoutChangeListener(this);
     }
 
     @Override
@@ -90,7 +107,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
-        CoordinatorLayout.LayoutParams mainFragmentLayoutParams = new CoordinatorLayout.LayoutParams(mMainFragment.getLayoutParams());
+        super.onApplyWindowInsets(view, windowInsets);
+        ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
         mainFragmentLayoutParams.setMargins(0, windowInsets.getSystemWindowInsetTop(), 0, 0);
         mMainFragment.setLayoutParams(mainFragmentLayoutParams);
         return windowInsets;
@@ -145,6 +163,42 @@ public class MainActivity extends BaseActivity {
         } else if (!SocketService.instanceCreated) {
             mPreferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
             mPreferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
+        }
+    }
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        DisplayFeature displayFeature = null;
+        for (DisplayFeature feature : mWindowManager.getWindowLayoutInfo().getDisplayFeatures()) {
+            if (displayFeature != null) {
+                displayFeature = null;
+                return;
+            }
+
+            if (feature.getType() == DisplayFeature.TYPE_FOLD || feature.getType() == DisplayFeature.TYPE_HINGE) {
+                displayFeature = feature;
+            }
+        }
+
+        if (mSpacer != null && displayFeature != null) {
+            ConstraintLayout.LayoutParams mainFragmentOriginalParams = (ConstraintLayout.LayoutParams) mMainFragment.getLayoutParams();
+            ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
+            mainFragmentLayoutParams.width = displayFeature.getBounds().left;
+            mainFragmentLayoutParams.startToStart = mainFragmentOriginalParams.startToStart;
+            mainFragmentLayoutParams.endToStart = mainFragmentOriginalParams.endToStart;
+            mainFragmentLayoutParams.topToTop = mainFragmentOriginalParams.topToTop;
+            mainFragmentLayoutParams.bottomToBottom = mainFragmentOriginalParams.bottomToBottom;
+            mMainFragment.setLayoutParams(mainFragmentLayoutParams);
+
+            ConstraintLayout.LayoutParams spacerOriginalParams = (ConstraintLayout.LayoutParams) mSpacer.getLayoutParams();
+            ConstraintLayout.LayoutParams spacerLayoutParams = new ConstraintLayout.LayoutParams(mSpacer.getLayoutParams());
+            spacerLayoutParams.width = displayFeature.getBounds().left;
+            spacerLayoutParams.startToEnd = spacerOriginalParams.startToEnd;
+            spacerLayoutParams.endToStart = spacerOriginalParams.endToStart;
+            spacerLayoutParams.topToTop = spacerOriginalParams.topToTop;
+            spacerLayoutParams.bottomToBottom = spacerOriginalParams.bottomToBottom;
+            spacerLayoutParams.width = displayFeature.getBounds().width();
+            mSpacer.setLayoutParams(spacerLayoutParams);
         }
     }
 }

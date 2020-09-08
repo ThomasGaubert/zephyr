@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowInsets;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -40,8 +41,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         injectDependencies();
 
         if (mAnalyticsManager == null || mPreferenceManager == null || mThemeManager == null) {
@@ -66,7 +65,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+    @CallSuper
     protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+        // Some devices don't support edge to edge navigation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                && supportsEdgeToEdgeNavigation()
+                && windowInsets.getSystemWindowInsetBottom() == 0) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, getNavigationBarColor()));
+        }
+
         return windowInsets;
     }
 

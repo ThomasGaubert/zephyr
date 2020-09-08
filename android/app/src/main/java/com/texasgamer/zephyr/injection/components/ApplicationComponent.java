@@ -11,6 +11,7 @@ import com.texasgamer.zephyr.db.ZephyrDatabase;
 import com.texasgamer.zephyr.fragment.AboutFragment;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
 import com.texasgamer.zephyr.fragment.DebugFragment;
+import com.texasgamer.zephyr.fragment.DefaultSecondaryFragment;
 import com.texasgamer.zephyr.fragment.JoinCodeFragment;
 import com.texasgamer.zephyr.fragment.LicensesFragment;
 import com.texasgamer.zephyr.fragment.MainFragment;
@@ -139,6 +140,8 @@ public interface ApplicationComponent {
     void inject(WhatsNewItemFragment whatsNewItemFragment);
 
     void inject(LicensesFragment licensesFragment);
+
+    void inject(DefaultSecondaryFragment defaultSecondaryFragment);
 
     void inject(DebugFragment debugFragment);
 
