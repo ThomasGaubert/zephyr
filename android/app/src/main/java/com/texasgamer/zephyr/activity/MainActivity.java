@@ -1,16 +1,20 @@
 package com.texasgamer.zephyr.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsets;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentContainerView;
@@ -39,7 +43,7 @@ import butterknife.OnLongClick;
 /**
  * Main activity.
  */
-public class MainActivity extends BaseActivity implements View.OnLayoutChangeListener {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.main_fragment)
     FragmentContainerView mMainFragment;
@@ -47,10 +51,8 @@ public class MainActivity extends BaseActivity implements View.OnLayoutChangeLis
     BottomAppBar mBottomAppBar;
     @BindView(R.id.connect_button)
     ZephyrServiceButton mConnectButton;
-    @Nullable
     @BindView(R.id.spacer)
     View mSpacer;
-    @Nullable
     @BindView(R.id.secondary_fragment)
     FragmentContainerView mSecondaryFragment;
 
@@ -74,7 +76,22 @@ public class MainActivity extends BaseActivity implements View.OnLayoutChangeLis
         verifyConnectionStatus();
 
         mWindowManager = new WindowManager(this, null);
-        getWindow().getDecorView().addOnLayoutChangeListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mLayoutManager.isPrimarySecondaryLayoutEnabled()) {
+            setupSpacer(mLayoutManager.getPrimaryLayoutWidth(), mLayoutManager.getSpacerWidth());
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        if (mLayoutManager.isPrimarySecondaryLayoutEnabled()) {
+            setupSpacer(mLayoutManager.getPrimaryLayoutWidth(), mLayoutManager.getSpacerWidth());
+        }
     }
 
     @Override
@@ -166,39 +183,28 @@ public class MainActivity extends BaseActivity implements View.OnLayoutChangeLis
         }
     }
 
-    @Override
-    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        DisplayFeature displayFeature = null;
-        for (DisplayFeature feature : mWindowManager.getWindowLayoutInfo().getDisplayFeatures()) {
-            if (displayFeature != null) {
-                displayFeature = null;
-                return;
-            }
-
-            if (feature.getType() == DisplayFeature.TYPE_FOLD || feature.getType() == DisplayFeature.TYPE_HINGE) {
-                displayFeature = feature;
-            }
+    private void setupSpacer(@Px int spacerStart, @Px int spacerWidth) {
+        if (mSpacer == null) {
+            return;
         }
 
-        if (mSpacer != null && displayFeature != null) {
-            ConstraintLayout.LayoutParams mainFragmentOriginalParams = (ConstraintLayout.LayoutParams) mMainFragment.getLayoutParams();
-            ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
-            mainFragmentLayoutParams.width = displayFeature.getBounds().left;
-            mainFragmentLayoutParams.startToStart = mainFragmentOriginalParams.startToStart;
-            mainFragmentLayoutParams.endToStart = mainFragmentOriginalParams.endToStart;
-            mainFragmentLayoutParams.topToTop = mainFragmentOriginalParams.topToTop;
-            mainFragmentLayoutParams.bottomToBottom = mainFragmentOriginalParams.bottomToBottom;
-            mMainFragment.setLayoutParams(mainFragmentLayoutParams);
+        ConstraintLayout.LayoutParams mainFragmentOriginalParams = (ConstraintLayout.LayoutParams) mMainFragment.getLayoutParams();
+        ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
+        mainFragmentLayoutParams.width = spacerStart;
+        mainFragmentLayoutParams.startToStart = mainFragmentOriginalParams.startToStart;
+        mainFragmentLayoutParams.endToStart = mainFragmentOriginalParams.endToStart;
+        mainFragmentLayoutParams.topToTop = mainFragmentOriginalParams.topToTop;
+        mainFragmentLayoutParams.bottomToBottom = mainFragmentOriginalParams.bottomToBottom;
+        mMainFragment.setLayoutParams(mainFragmentLayoutParams);
 
-            ConstraintLayout.LayoutParams spacerOriginalParams = (ConstraintLayout.LayoutParams) mSpacer.getLayoutParams();
-            ConstraintLayout.LayoutParams spacerLayoutParams = new ConstraintLayout.LayoutParams(mSpacer.getLayoutParams());
-            spacerLayoutParams.width = displayFeature.getBounds().left;
-            spacerLayoutParams.startToEnd = spacerOriginalParams.startToEnd;
-            spacerLayoutParams.endToStart = spacerOriginalParams.endToStart;
-            spacerLayoutParams.topToTop = spacerOriginalParams.topToTop;
-            spacerLayoutParams.bottomToBottom = spacerOriginalParams.bottomToBottom;
-            spacerLayoutParams.width = displayFeature.getBounds().width();
-            mSpacer.setLayoutParams(spacerLayoutParams);
-        }
+        ConstraintLayout.LayoutParams spacerOriginalParams = (ConstraintLayout.LayoutParams) mSpacer.getLayoutParams();
+        ConstraintLayout.LayoutParams spacerLayoutParams = new ConstraintLayout.LayoutParams(mSpacer.getLayoutParams());
+        spacerLayoutParams.startToEnd = spacerOriginalParams.startToEnd;
+        spacerLayoutParams.endToStart = spacerOriginalParams.endToStart;
+        spacerLayoutParams.topToTop = spacerOriginalParams.topToTop;
+        spacerLayoutParams.bottomToBottom = spacerOriginalParams.bottomToBottom;
+        spacerLayoutParams.width = spacerWidth;
+        mSpacer.setLayoutParams(spacerLayoutParams);
+        mSpacer.setVisibility(spacerWidth == 0 ? View.GONE : View.VISIBLE);
     }
 }

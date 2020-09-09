@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 
-import com.texasgamer.zephyr.BuildConfig;
-import com.texasgamer.zephyr.R;
-
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
+
+import com.texasgamer.zephyr.BuildConfig;
+import com.texasgamer.zephyr.R;
 
 /**
  * Navigation utilities.

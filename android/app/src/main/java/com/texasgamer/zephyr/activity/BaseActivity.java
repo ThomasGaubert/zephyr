@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.activity;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.layout.ILayoutManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.theme.IThemeManager;
@@ -36,6 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected IAnalyticsManager mAnalyticsManager;
     @Inject
     protected IThemeManager mThemeManager;
+    @Inject
+    protected ILayoutManager mLayoutManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,8 +51,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             throw new IllegalStateException("Dependencies not fulfilled for this Activity.");
         }
 
+        mLayoutManager.setCurrentActivity(this);
+
         setupContent();
         setupEdgeToEdgeNavigation();
+    }
+
+    @Override
+    @CallSuper
+    public void onConfigurationChanged(@NonNull Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        mLayoutManager.onConfigurationChanged(configuration);
     }
 
     @LayoutRes

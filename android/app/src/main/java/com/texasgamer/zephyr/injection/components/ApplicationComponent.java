@@ -27,6 +27,7 @@ import com.texasgamer.zephyr.injection.modules.ConfigModule;
 import com.texasgamer.zephyr.injection.modules.DatabaseModule;
 import com.texasgamer.zephyr.injection.modules.EagerModule;
 import com.texasgamer.zephyr.injection.modules.FlipperModule;
+import com.texasgamer.zephyr.injection.modules.LayoutModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
 import com.texasgamer.zephyr.injection.modules.NetworkModule;
 import com.texasgamer.zephyr.injection.modules.NotificationsModule;
@@ -38,11 +39,12 @@ import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
 import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.service.SocketService;
-import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.ApplicationUtils;
+import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.notification.INotificationsManager;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
+import com.texasgamer.zephyr.view.ZephyrBottomSheetDialog;
 import com.texasgamer.zephyr.viewmodel.AboutFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
@@ -65,6 +67,7 @@ import dagger.Component;
             DatabaseModule.class,
             EagerModule.class,
             FlipperModule.class,
+            LayoutModule.class,
             LoggerModule.class,
             NetworkModule.class,
             NotificationsModule.class,
@@ -149,4 +152,6 @@ public interface ApplicationComponent {
     void inject(ZephyrLifecycleLogger zephyrLifecycleLogger);
 
     void inject(AppSyncWorker appSyncWorker);
+
+    void inject(ZephyrBottomSheetDialog zephyrBottomSheetDialog);
 }

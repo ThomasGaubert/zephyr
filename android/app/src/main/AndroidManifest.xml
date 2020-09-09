@@ -38,7 +38,8 @@
             android:value="false" />
 
         <activity android:name=".activity.MainActivity"
-            android:theme="@style/Theme.Zephyr.Splash">
+            android:theme="@style/Theme.Zephyr.Splash"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
