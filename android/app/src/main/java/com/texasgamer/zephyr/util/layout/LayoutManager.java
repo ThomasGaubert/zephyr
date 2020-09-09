@@ -3,6 +3,7 @@ package com.texasgamer.zephyr.util.layout;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -31,7 +32,6 @@ public class LayoutManager implements ILayoutManager {
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration configuration) {
-        System.out.println("HEYO - onConfigChanged");
         List<DisplayFeature> displayFeatures = mWindowManager.getWindowLayoutInfo().getDisplayFeatures();
         if (displayFeatures.size() == 1) {
             DisplayFeature displayFeature = displayFeatures.get(0);
@@ -39,7 +39,6 @@ public class LayoutManager implements ILayoutManager {
                     || !mDisplayFeature.getBounds().equals(displayFeature.getBounds())
                     || mDisplayFeature.getType() != displayFeature.getType()) {
                 mDisplayFeature = displayFeature;
-                System.out.println("HEYO - new displayFeature : " + displayFeature);
             }
         } else {
             mDisplayFeature = null;
@@ -58,6 +57,10 @@ public class LayoutManager implements ILayoutManager {
 
     @Override
     public int getSpacerWidth() {
+        if (isPrimarySecondaryLayoutEnabled()) {
+            return 0;
+        }
+
         return getDisplayFeature() != null ? getDisplayFeature().getBounds().width() : 0;
     }
 
@@ -89,7 +92,25 @@ public class LayoutManager implements ILayoutManager {
     public boolean isPrimarySecondaryLayoutEnabled() {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         int widthDp = (int) (displayMetrics.widthPixels / displayMetrics.density);
-        return widthDp >= 600;
+        int heightDp = (int) (displayMetrics.heightPixels / displayMetrics.density);
+        System.out.println("HEYO " + widthDp + " , " + heightDp);
+
+        if (getDisplayFeature() != null) {
+            int orientation = getOrientation();
+            Rect displayFeatureRect = getDisplayFeature().getBounds();
+            if (displayFeatureRect.left == 0 && orientation == Configuration.ORIENTATION_PORTRAIT) {
+                System.out.println("HEYO bad feature: perpendicular");
+                return false;
+            }
+        }
+
+        if (getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("heyo portrait");
+        } else {
+            System.out.println("heyo landscape");
+        }
+
+        return widthDp > 720;
     }
 
     @NonNull

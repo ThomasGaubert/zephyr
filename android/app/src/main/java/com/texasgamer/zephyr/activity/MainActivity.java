@@ -89,9 +89,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration configuration) {
         super.onConfigurationChanged(configuration);
-        if (mLayoutManager.isPrimarySecondaryLayoutEnabled()) {
-            setupSpacer(mLayoutManager.getPrimaryLayoutWidth(), mLayoutManager.getSpacerWidth());
-        }
+        setupSpacer(mLayoutManager.getPrimaryLayoutWidth(), mLayoutManager.getSpacerWidth());
     }
 
     @Override
@@ -184,10 +182,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupSpacer(@Px int spacerStart, @Px int spacerWidth) {
-        if (mSpacer == null) {
-            return;
-        }
-
         ConstraintLayout.LayoutParams mainFragmentOriginalParams = (ConstraintLayout.LayoutParams) mMainFragment.getLayoutParams();
         ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
         mainFragmentLayoutParams.width = spacerStart;
