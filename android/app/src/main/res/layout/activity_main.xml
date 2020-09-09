@@ -11,14 +11,16 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_fragment"
-            android:name="com.texasgamer.zephyr.fragment.MainFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_marginBottom="?attr/actionBarSize"
             app:layout_constraintEnd_toStartOf="@+id/spacer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:navGraph="@navigation/nav_main"
+            app:defaultNavHost="true" />
 
         <View
             android:id="@+id/spacer"

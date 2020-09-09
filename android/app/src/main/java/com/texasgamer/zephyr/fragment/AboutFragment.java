@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.ViewDataBinding;
+import androidx.navigation.Navigation;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
@@ -142,7 +143,8 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     @OnClick(R.id.about_licenses)
     public void onClickLicensesBtn(View view) {
         mAnalyticsManager.logEvent(ZephyrEvent.Navigation.LICENSES);
-        NavigationUtils.openActivity(view.getContext(), LicensesActivity.class);
+//        NavigationUtils.openActivity(view.getContext(), LicensesActivity.class);
+        Navigation.findNavController(view).navigate(R.id.licenses_fragment);
     }
 
     private void updateVersionText(boolean enableExtendedVersion) {

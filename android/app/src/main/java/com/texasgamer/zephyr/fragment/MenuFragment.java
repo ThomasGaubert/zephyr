@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -50,6 +54,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     @Inject
     IThemeManager themeManager;
 
+    private NavController mMainNavController;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
@@ -63,6 +69,12 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         mNavigationView.setNavigationItemSelectedListener(this);
         themeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
         debugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
+
+        NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_fragment);
+        if (navHostFragment != null) {
+            mMainNavController = navHostFragment.getNavController();
+//            NavigationUI.setupWithNavController(mNavigationView, mMainNavController);
+        }
     }
 
     @Override
@@ -70,7 +82,8 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         switch (menuItem.getItemId()) {
             case R.id.action_manage_notifications:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.MANAGE_NOTIFICATIONS);
-                NavigationUtils.openActivity(getContext(), NotificationActivity.class);
+//                NavigationUtils.openActivity(getContext(), NotificationActivity.class);
+                mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_notifications);
                 break;
             case R.id.action_privacy:
                 PrivacyFragment privacyFragment = new PrivacyFragment();
@@ -82,7 +95,9 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
                 break;
             case R.id.action_about:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.ABOUT);
-                NavigationUtils.openActivity(getContext(), AboutActivity.class);
+//                NavigationUtils.openActivity(getContext(), AboutActivity.class);
+                mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about);
+//                Navigation.findNavController(getActivity(), R.id.main_fragment).navigate(R.id.about_fragment);
                 break;
             default:
                 break;

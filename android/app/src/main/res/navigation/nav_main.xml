@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/fragment_main">
+
+    <fragment
+        android:id="@+id/fragment_main"
+        android:name="com.texasgamer.zephyr.fragment.MainFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_fragment_main_to_fragment_menu"
+            app:destination="@id/fragment_menu" />
+        <action
+            android:id="@+id/action_fragment_main_to_debugFragment"
+            app:destination="@id/fragment_debug" />
+        <action
+            android:id="@+id/action_fragment_main_to_connectFragment"
+            app:destination="@id/fragment_connect" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_notifications"
+        android:name="com.texasgamer.zephyr.fragment.NotificationsFragment"
+        android:label="@string/menu_manage_notifications"
+        tools:layout="@layout/fragment_notifications">
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_about"
+        android:name="com.texasgamer.zephyr.fragment.AboutFragment"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about">
+        <action
+            android:id="@+id/action_about_fragment_to_licenses_fragment"
+            app:destination="@id/fragment_licenses" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_licenses"
+        android:name="com.texasgamer.zephyr.fragment.LicensesFragment"
+        android:label="@string/about_licenses"
+        tools:layout="@layout/fragment_licenses"/>
+
+    <dialog
+        android:id="@+id/fragment_menu"
+        android:name="com.texasgamer.zephyr.fragment.MenuFragment"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_fragment_menu_to_fragment_notifications"
+            app:destination="@id/fragment_notifications" />
+        <action
+            android:id="@+id/action_fragment_menu_to_fragment_about"
+            app:destination="@id/fragment_about" />
+        <action
+            android:id="@+id/action_fragment_menu_to_privacyFragment"
+            app:destination="@id/fragment_privacy" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/fragment_privacy"
+        android:name="com.texasgamer.zephyr.fragment.PrivacyFragment"
+        android:label="PrivacyFragment"
+        tools:layout="@layout/fragment_privacy" />
+
+    <dialog
+        android:id="@+id/fragment_join_code"
+        android:name="com.texasgamer.zephyr.fragment.JoinCodeFragment"
+        android:label="JoinCodeFragment"
+        tools:layout="@layout/fragment_join_code" />
+
+    <dialog
+        android:id="@+id/fragment_scan_code"
+        android:name="com.texasgamer.zephyr.fragment.ScanCodeFragment"
+        android:label="ScanCodeFragment"
+        tools:layout="@layout/fragment_scan_code" />
+
+    <dialog
+        android:id="@+id/fragment_debug"
+        android:name="com.texasgamer.zephyr.fragment.DebugFragment"
+        android:label="DebugFragment"
+        tools:layout="@layout/fragment_debug" />
+
+    <dialog
+        android:id="@+id/fragment_connect"
+        android:name="com.texasgamer.zephyr.fragment.ConnectFragment"
+        android:label="ConnectFragment"
+        tools:layout="@layout/fragment_connect">
+        <action
+            android:id="@+id/action_connectFragment_to_joinCodeFragment"
+            app:destination="@id/fragment_join_code" />
+        <action
+            android:id="@+id/action_connectFragment_to_scanCodeFragment"
+            app:destination="@id/fragment_scan_code" />
+    </dialog>
+
+</navigation>

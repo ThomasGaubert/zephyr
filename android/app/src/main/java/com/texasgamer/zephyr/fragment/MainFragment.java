@@ -67,6 +67,12 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getContext(), zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
         mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
@@ -76,8 +82,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             mViewModel.getConnectionStatus().observe(getActivity(), this::updateConnectionStatus);
             mViewModel.getJoinCode().observe(getActivity(), this::updateJoinCodeStatus);
         }
-
-        EventBus.getDefault().register(this);
 
         checkForWhatsNew();
     }
