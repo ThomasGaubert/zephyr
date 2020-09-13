@@ -5,18 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
 
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
-import com.texasgamer.zephyr.activity.NotificationActivity;
-import com.texasgamer.zephyr.fragment.WhatsNewFragment;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.model.ZephyrCardType;
 import com.texasgamer.zephyr.util.ApplicationUtils;
-import com.texasgamer.zephyr.util.NavigationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
@@ -32,13 +30,15 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
     private IConfigManager mConfigManager;
     private IPreferenceManager mPreferenceManager;
 
-    public ZephyrCardProvider(@NonNull ApplicationUtils applicationUtils, @NonNull IConfigManager configManager, @NonNull IPreferenceManager preferenceManager) {
+    public ZephyrCardProvider(@NonNull ApplicationUtils applicationUtils,
+                              @NonNull IConfigManager configManager,
+                              @NonNull IPreferenceManager preferenceManager) {
         mApplicationUtils = applicationUtils;
         mConfigManager = configManager;
         mPreferenceManager = preferenceManager;
     }
 
-    public List<ZephyrCard> getCards(@NonNull Context context, @NonNull final FragmentManager fragmentManager) {
+    public List<ZephyrCard> getCards(@NonNull Context context, @NonNull NavController navController) {
         List<ZephyrCard> cards = new ArrayList<>();
 
         @ConnectionStatus
@@ -110,9 +110,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 && !mApplicationUtils.didUpgradeFromV1()
                 && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS))) {
             ZephyrCard manageNotificationsCard = new ZephyrCard(ZephyrCardType.INFO, R.string.card_manage_notifications_title, R.string.card_manage_notifications_body);
-            manageNotificationsCard.setOnClickListener(v -> {
-                NavigationUtils.openActivity(v.getContext(), NotificationActivity.class);
-            });
+            manageNotificationsCard.setOnClickListener(v -> navController.navigate(R.id.action_fragment_main_to_fragment_notifications));
             cards.add(manageNotificationsCard);
             completedFre = false;
         }
@@ -122,8 +120,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO))) {
             ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
             zephyrV2Card.setOnClickListener(v -> {
-                WhatsNewFragment whatsNewFragment = new WhatsNewFragment();
-                whatsNewFragment.show(fragmentManager, whatsNewFragment.getTag());
+                navController.navigate(R.id.action_fragment_main_to_fragment_whats_new);
             });
             cards.add(zephyrV2Card);
         }

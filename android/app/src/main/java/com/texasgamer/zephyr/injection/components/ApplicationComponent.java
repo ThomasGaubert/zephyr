@@ -3,10 +3,7 @@ package com.texasgamer.zephyr.injection.components;
 import androidx.annotation.Nullable;
 
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.activity.AboutActivity;
-import com.texasgamer.zephyr.activity.LicensesActivity;
 import com.texasgamer.zephyr.activity.MainActivity;
-import com.texasgamer.zephyr.activity.NotificationActivity;
 import com.texasgamer.zephyr.db.ZephyrDatabase;
 import com.texasgamer.zephyr.fragment.AboutFragment;
 import com.texasgamer.zephyr.fragment.ConnectFragment;
@@ -114,12 +111,6 @@ public interface ApplicationComponent {
 
     /* Activities */
     void inject(MainActivity mainActivity);
-
-    void inject(AboutActivity aboutActivity);
-
-    void inject(LicensesActivity licensesActivity);
-
-    void inject(NotificationActivity notificationActivity);
 
     /* Fragments */
     void inject(MainFragment mainFragment);

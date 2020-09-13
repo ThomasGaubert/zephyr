@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.fragment.BaseFragment;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 
 import androidx.annotation.NonNull;

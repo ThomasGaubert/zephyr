@@ -25,7 +25,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.LiveData;
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.window.DisplayFeature;
@@ -39,6 +41,7 @@ import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
+import com.texasgamer.zephyr.util.navigation.NavigationArgs;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
@@ -70,6 +73,9 @@ public class MainActivity extends BaseActivity {
     private MenuFragment mMenuFragment;
     private ConnectFragment mConnectFragment;
     private WindowManager mWindowManager;
+    private NavController mNavController;
+
+    private boolean mIsBackButtonEnabled = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mWindowManager = new WindowManager(this, null);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+        if (navHostFragment != null) {
+            mNavController = navHostFragment.getNavController();
+        }
 
         mMenuFragment = new MenuFragment();
         mConnectFragment = new ConnectFragment();
@@ -106,8 +116,12 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mAnalyticsManager.logEvent(ZephyrEvent.Action.OPEN_HAMBURGER_MENU);
-                mMenuFragment.show(getSupportFragmentManager(), mMenuFragment.getTag());
+                if (mIsBackButtonEnabled) {
+                    onBackPressed();
+                } else {
+                    mAnalyticsManager.logEvent(ZephyrEvent.Action.OPEN_HAMBURGER_MENU);
+                    mNavController.navigate(R.id.action_fragment_main_to_fragment_menu);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -176,25 +190,36 @@ public class MainActivity extends BaseActivity {
         mDrawerArrowDrawable.setColor(ContextCompat.getColor(this, R.color.white));
         mBottomAppBar.setNavigationIcon(mDrawerArrowDrawable);
         setSupportActionBar(mBottomAppBar);
+
+        mNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            boolean isBackButtonEnabled = destination.getId() != R.id.fragment_main;
+
+            if (arguments != null && isBackButtonEnabled) {
+                isBackButtonEnabled = arguments.getBoolean(NavigationArgs.SHOW_BACK_ON_NAV, true);
+            }
+
+            if (isBackButtonEnabled == mIsBackButtonEnabled) {
+                return;
+            }
+
+            mIsBackButtonEnabled = isBackButtonEnabled;
+
+            mConnectButton.setVisibility(mIsBackButtonEnabled ? View.GONE : View.VISIBLE);
+
+            // 0 - hamburger menu, 1 - back button
+            ValueAnimator anim = mIsBackButtonEnabled ? ValueAnimator.ofFloat(0, 1) : ValueAnimator.ofFloat(1, 0);
+            anim.addUpdateListener(valueAnimator -> {
+                float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                mDrawerArrowDrawable.setProgress(slideOffset);
+            });
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setDuration(400);
+            anim.start();
+        });
     }
 
     private void subscribeUi(LiveData<Boolean> liveData) {
-        liveData.observe(this, isServiceRunning -> {
-            mConnectButton.setServiceRunning(isServiceRunning);
-            ValueAnimator anim = isServiceRunning ? ValueAnimator.ofFloat(0, 1) : ValueAnimator.ofFloat(1, 0);
-            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    float slideOffset = (Float) valueAnimator.getAnimatedValue();
-                    mDrawerArrowDrawable.setProgress(slideOffset);
-                }
-            });
-            anim.setInterpolator(new DecelerateInterpolator());
-            // You can change this duration to more closely match that of the default animation.
-            anim.setDuration(400);
-            anim.start();
-//            mDrawerArrowDrawable.setProgress(isServiceRunning ? 1 : 0);
-        });
+        liveData.observe(this, isServiceRunning -> mConnectButton.setServiceRunning(isServiceRunning));
     }
 
     private boolean isJoinCodeSet() {

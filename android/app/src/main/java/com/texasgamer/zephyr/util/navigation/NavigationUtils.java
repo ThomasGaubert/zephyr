@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr.util;
+package com.texasgamer.zephyr.util.navigation;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -17,9 +17,6 @@ import com.texasgamer.zephyr.R;
  * Navigation utilities.
  */
 public final class NavigationUtils {
-
-    private NavigationUtils() {
-    }
 
     public static void openActivity(@NonNull Context context, @NonNull Class activity) {
         Intent intent = new Intent(context, activity);
@@ -44,5 +41,8 @@ public final class NavigationUtils {
         Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
         intent.setData(uri);
         context.startActivity(intent);
+    }
+
+    private NavigationUtils() {
     }
 }

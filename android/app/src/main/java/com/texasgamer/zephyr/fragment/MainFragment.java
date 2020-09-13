@@ -11,6 +11,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
@@ -64,6 +66,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @BindView(R.id.unsupported_api_section)
     View mUnsupportedApiSection;
 
+    private NavController mNavController;
     private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
 
     @Override
@@ -74,7 +77,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getContext(), zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
+        mNavController = Navigation.findNavController(view);
+        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(requireContext(), zephyrCardProvider.getCards(getContext(), mNavController));
         mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
         mZephyrCardViewPager.setOffscreenPageLimit(5);
 
@@ -89,7 +93,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @Override
     public void onResume() {
         super.onResume();
-        mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
+        mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(requireContext(), mNavController));
     }
 
     @Override
@@ -101,7 +105,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @Subscribe
     public void onEvent(@Nullable String eventPayload) {
         if (EventBusEvent.SHELL_REFRESH_CARDS.equals(eventPayload)) {
-            mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getContext(), getChildFragmentManager()));
+            mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(requireContext(), mNavController));
         } else if (EventBusEvent.SERVICE_NOTIFICATION_STARTED.equals(eventPayload)
                 && getActivity() != null
                 && !ZephyrApplication.getInstance().isInForeground()) {
@@ -167,7 +171,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     private void updateConnectionStatus(@ConnectionStatus int connectionStatus) {
         boolean isConnected = NetworkUtils.connectionStatusToIsConnected(connectionStatus);
         mConnectionStatusIcon.setImageResource(isConnected ? R.drawable.ic_check : R.drawable.ic_error);
-        mConnectionStatusText.setText(NetworkUtils.connectionStatusToString(getContext(), connectionStatus));
+        mConnectionStatusText.setText(NetworkUtils.connectionStatusToString(requireContext(), connectionStatus));
         mConnectedOptionsSection.setVisibility(isConnected ? View.VISIBLE : View.GONE);
         mUnsupportedApiSection.setVisibility(connectionStatus == ConnectionStatus.UNSUPPORTED_API ? View.VISIBLE : View.GONE);
     }

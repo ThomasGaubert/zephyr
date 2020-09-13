@@ -14,11 +14,14 @@
             android:id="@+id/action_fragment_main_to_fragment_menu"
             app:destination="@id/fragment_menu" />
         <action
-            android:id="@+id/action_fragment_main_to_debugFragment"
-            app:destination="@id/fragment_debug" />
-        <action
             android:id="@+id/action_fragment_main_to_connectFragment"
             app:destination="@id/fragment_connect" />
+        <action
+            android:id="@+id/action_fragment_main_to_fragment_notifications"
+            app:destination="@id/fragment_notifications" />
+        <action
+            android:id="@+id/action_fragment_main_to_fragment_whats_new"
+            app:destination="@id/fragment_whats_new" />
     </fragment>
 
     <fragment
@@ -34,7 +37,7 @@
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about">
         <action
-            android:id="@+id/action_about_fragment_to_licenses_fragment"
+            android:id="@+id/action_fragment_about_to_fragment_licenses"
             app:destination="@id/fragment_licenses" />
     </fragment>
 
@@ -48,52 +51,101 @@
         android:id="@+id/fragment_menu"
         android:name="com.texasgamer.zephyr.fragment.MenuFragment"
         tools:layout="@layout/fragment_menu" >
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
         <action
             android:id="@+id/action_fragment_menu_to_fragment_notifications"
-            app:destination="@id/fragment_notifications" />
+            app:destination="@id/fragment_notifications"
+            app:popUpTo="@id/fragment_main" />
         <action
             android:id="@+id/action_fragment_menu_to_fragment_about"
-            app:destination="@id/fragment_about" />
+            app:destination="@id/fragment_about"
+            app:popUpTo="@id/fragment_main" />
         <action
-            android:id="@+id/action_fragment_menu_to_privacyFragment"
-            app:destination="@id/fragment_privacy" />
+            android:id="@+id/action_fragment_menu_to_fragment_privacy"
+            app:destination="@id/fragment_privacy"
+            app:popUpTo="@id/fragment_main" />
+        <action
+            android:id="@+id/action_fragment_menu_to_fragment_debug"
+            app:destination="@id/fragment_debug"
+            app:popUpTo="@id/fragment_main" />
     </dialog>
 
     <dialog
         android:id="@+id/fragment_privacy"
         android:name="com.texasgamer.zephyr.fragment.PrivacyFragment"
         android:label="PrivacyFragment"
-        tools:layout="@layout/fragment_privacy" />
+        tools:layout="@layout/fragment_privacy">
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
 
     <dialog
         android:id="@+id/fragment_join_code"
         android:name="com.texasgamer.zephyr.fragment.JoinCodeFragment"
         android:label="JoinCodeFragment"
-        tools:layout="@layout/fragment_join_code" />
+        tools:layout="@layout/fragment_join_code">
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
 
     <dialog
         android:id="@+id/fragment_scan_code"
         android:name="com.texasgamer.zephyr.fragment.ScanCodeFragment"
         android:label="ScanCodeFragment"
-        tools:layout="@layout/fragment_scan_code" />
+        tools:layout="@layout/fragment_scan_code">
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
 
     <dialog
         android:id="@+id/fragment_debug"
         android:name="com.texasgamer.zephyr.fragment.DebugFragment"
         android:label="DebugFragment"
-        tools:layout="@layout/fragment_debug" />
+        tools:layout="@layout/fragment_debug">
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
 
     <dialog
         android:id="@+id/fragment_connect"
         android:name="com.texasgamer.zephyr.fragment.ConnectFragment"
         android:label="ConnectFragment"
         tools:layout="@layout/fragment_connect">
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
         <action
             android:id="@+id/action_connectFragment_to_joinCodeFragment"
-            app:destination="@id/fragment_join_code" />
+            app:destination="@id/fragment_join_code"
+            app:popUpTo="@id/fragment_main" />
         <action
             android:id="@+id/action_connectFragment_to_scanCodeFragment"
-            app:destination="@id/fragment_scan_code" />
+            app:destination="@id/fragment_scan_code"
+            app:popUpTo="@id/fragment_main" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/fragment_whats_new"
+        android:name="com.texasgamer.zephyr.fragment.WhatsNewFragment"
+        android:label="WhatsNewFragment">
+        <argument
+            android:name="showBackOnNavigate"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </dialog>
 
 </navigation>

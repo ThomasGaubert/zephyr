@@ -19,7 +19,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.WhatsNewAdapter;
 import com.texasgamer.zephyr.model.WhatsNewItem;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 

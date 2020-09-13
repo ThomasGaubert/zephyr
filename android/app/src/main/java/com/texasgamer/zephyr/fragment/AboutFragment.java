@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,8 +23,7 @@ import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.activity.LicensesActivity;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.log.LogEntry;
 import com.texasgamer.zephyr.util.log.LogLevel;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,6 +58,10 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         updateVersionText(false);
         updateAuthorText();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            setupEdgeToEdgeLayout();
+        }
     }
 
     @Override
@@ -90,7 +94,7 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     public void onClickExportLogsBtn(View view) {
         mLogger.log(LogLevel.INFO, LOG_TAG, "Exporting logs...");
         ZephyrExecutors.getDiskExecutor().execute(() -> {
-            Context context = Objects.requireNonNull(getContext());
+            Context context = requireContext();
             File file = new File(context.getCacheDir(), "logs/zephyr-logs.txt");
             if (!file.exists()) {
                 file.getParentFile().mkdirs();
@@ -112,7 +116,7 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
 
             Uri contentUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
 
-            Intent intent = ShareCompat.IntentBuilder.from(Objects.requireNonNull(getActivity()))
+            Intent intent = ShareCompat.IntentBuilder.from(requireActivity())
                     .setType("text/plain")
                     .setStream(contentUri)
                     .setChooserTitle(R.string.about_export_logs)
@@ -143,8 +147,7 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     @OnClick(R.id.about_licenses)
     public void onClickLicensesBtn(View view) {
         mAnalyticsManager.logEvent(ZephyrEvent.Navigation.LICENSES);
-//        NavigationUtils.openActivity(view.getContext(), LicensesActivity.class);
-        Navigation.findNavController(view).navigate(R.id.licenses_fragment);
+        Navigation.findNavController(view).navigate(R.id.action_fragment_about_to_fragment_licenses);
     }
 
     private void updateVersionText(boolean enableExtendedVersion) {
@@ -157,5 +160,14 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
 
     private void updateAuthorText() {
         mAuthorTextView.setText(getString(R.string.about_author, Calendar.getInstance().get(Calendar.YEAR)));
+    }
+
+    private void setupEdgeToEdgeLayout() {
+        requireView().setOnApplyWindowInsetsListener((v, insets) -> {
+            TypedValue actionBarSizeTypedValue = new TypedValue();
+            requireContext().getTheme().resolveAttribute(R.attr.actionBarSize, actionBarSizeTypedValue, true);
+            v.setPadding(0, 0, 0, getResources().getDimensionPixelSize(actionBarSizeTypedValue.resourceId) + insets.getSystemWindowInsetBottom());
+            return insets;
+        });
     }
 }

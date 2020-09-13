@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -20,7 +22,7 @@ import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.util.ApplicationUtils;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
@@ -54,6 +56,8 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     @BindView(R.id.privacy_uuid)
     TextView uuidTextView;
 
+    private NavController mMainNavController;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_privacy, container, false);
@@ -64,6 +68,8 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
+
+        mMainNavController = Navigation.findNavController(getActivity(), R.id.main_fragment);
 
         usageDataSwitch.setChecked(privacyManager.isUsageDataCollectionEnabled());
         crashReportSwitch.setChecked(privacyManager.isCrashReportingEnabled());

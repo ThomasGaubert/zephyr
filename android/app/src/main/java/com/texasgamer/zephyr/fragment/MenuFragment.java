@@ -12,8 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -21,9 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.activity.AboutActivity;
-import com.texasgamer.zephyr.activity.NotificationActivity;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.config.IConfigManager;
@@ -70,11 +66,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         themeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
         debugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
 
-        NavHostFragment navHostFragment = (NavHostFragment) getParentFragmentManager().findFragmentById(R.id.main_fragment);
-        if (navHostFragment != null) {
-            mMainNavController = navHostFragment.getNavController();
-//            NavigationUI.setupWithNavController(mNavigationView, mMainNavController);
-        }
+        mMainNavController = Navigation.findNavController(getActivity(), R.id.main_fragment);
     }
 
     @Override
@@ -82,12 +74,10 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         switch (menuItem.getItemId()) {
             case R.id.action_manage_notifications:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.MANAGE_NOTIFICATIONS);
-//                NavigationUtils.openActivity(getContext(), NotificationActivity.class);
                 mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_notifications);
                 break;
             case R.id.action_privacy:
-                PrivacyFragment privacyFragment = new PrivacyFragment();
-                privacyFragment.show(getParentFragmentManager(), privacyFragment.getTag());
+                mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_privacy);
                 break;
             case R.id.action_help:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.HELP);
@@ -95,9 +85,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
                 break;
             case R.id.action_about:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.ABOUT);
-//                NavigationUtils.openActivity(getContext(), AboutActivity.class);
                 mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about);
-//                Navigation.findNavController(getActivity(), R.id.main_fragment).navigate(R.id.about_fragment);
                 break;
             default:
                 break;
@@ -110,8 +98,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
 
     @OnClick(R.id.debug_menu_btn)
     public void onClickDebugMenuButton() {
-        DebugFragment debugFragment = new DebugFragment();
-        debugFragment.show(getFragmentManager(), debugFragment.getTag());
+        mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_debug);
         dismiss();
     }
 

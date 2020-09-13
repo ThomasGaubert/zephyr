@@ -30,7 +30,7 @@ import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.service.QuickSettingService;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.VibrationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;

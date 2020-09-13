@@ -26,6 +26,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.NotificationPreferenceListAdapter;
 import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
+import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
 
@@ -72,6 +73,10 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             setupEdgeToEdgeLayout();
+        }
+
+        if (!mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS)) {
+            mPreferenceManager.putBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS, true);
         }
     }
 
