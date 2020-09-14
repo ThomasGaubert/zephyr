@@ -197,6 +197,7 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         mAppList.setOnApplyWindowInsetsListener((v, insets) -> {
             mAppList.setClipToPadding(false);
             mAppList.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+            mFastScrollerView.setPadding(0, 0, insets.getSystemWindowInsetRight(), 0);
             return insets;
         });
     }
