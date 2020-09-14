@@ -58,8 +58,6 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     @Inject
     INavigationManager navigationManager;
 
-    private NavController mNavController;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_connect, container, false);
@@ -71,14 +69,12 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
 
-        mNavController = navigationManager.getCurrentNavController(this);
-
         analyticsManager.logEvent(ZephyrEvent.Action.OPEN_CONNECTION_MENU);
 
         // Skip to entering code is QR scanning isn't enabled
         if (!configManager.isQrCodeScanningEnabled()) {
             logger.log(LogLevel.INFO, LOG_TAG, "QR code scanning is disabled, skipping to entering code.");
-            mNavController.navigate(R.id.action_fragment_connect_to_fragment_join_code);
+            navigationManager.navigate(R.id.action_fragment_connect_to_fragment_join_code);
             dismiss();
         }
 
@@ -110,11 +106,11 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
         switch (menuItem.getItemId()) {
             case R.id.action_scan_code:
                 analyticsManager.logEvent(ZephyrEvent.Action.TAP_QR_CODE);
-                mNavController.navigate(R.id.action_fragment_connect_to_fragment_scan_code);
+                navigationManager.navigate(R.id.action_fragment_connect_to_fragment_scan_code);
                 break;
             case R.id.action_enter_code:
                 analyticsManager.logEvent(ZephyrEvent.Action.TAP_ENTER_CODE);
-                mNavController.navigate(R.id.action_fragment_connect_to_fragment_join_code);
+                navigationManager.navigate(R.id.action_fragment_connect_to_fragment_join_code);
                 break;
             default:
                 break;

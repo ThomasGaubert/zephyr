@@ -258,7 +258,8 @@ public class MainActivity extends BaseActivity {
         NavDestination secondaryNavDestination = mSecondaryNavController.getCurrentDestination();
         if (!isPrimarySecondaryLayoutEnabled
                 && secondaryNavDestination != null
-                && secondaryNavDestination.getId() != R.id.fragment_default_secondary) {
+                && secondaryNavDestination.getId() != R.id.fragment_default_secondary
+                && mMainNavController.getGraph().findNode(secondaryNavDestination.getId()) != null) {
             mMainNavController.navigate(secondaryNavDestination.getId());
             mSecondaryNavController.setGraph(R.navigation.nav_secondary);
         }
@@ -266,7 +267,8 @@ public class MainActivity extends BaseActivity {
         NavDestination mainNavDestination = mMainNavController.getCurrentDestination();
         if (isPrimarySecondaryLayoutEnabled
                 && mainNavDestination != null
-                && mainNavDestination.getId() != R.id.fragment_main) {
+                && mainNavDestination.getId() != R.id.fragment_main
+                && mSecondaryNavController.getGraph().findNode(mainNavDestination.getId()) != null) {
             mMainNavController.setGraph(R.navigation.nav_main);
             mSecondaryNavController.navigate(mainNavDestination.getId());
         }

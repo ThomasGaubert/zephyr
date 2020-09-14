@@ -15,6 +15,9 @@ import com.texasgamer.zephyr.util.layout.ILayoutManager;
 
 import javax.inject.Inject;
 
+/**
+ * Custom BottomSheetDialog which handles tablet/dual screen scenarios.
+ */
 public class ZephyrBottomSheetDialog extends BottomSheetDialog {
 
     @Inject

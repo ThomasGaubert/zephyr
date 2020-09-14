@@ -114,11 +114,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS))) {
             ZephyrCard manageNotificationsCard = new ZephyrCard(ZephyrCardType.INFO, R.string.card_manage_notifications_title, R.string.card_manage_notifications_body);
             manageNotificationsCard.setOnClickListener(v -> {
-                if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
-                    navigationManager.getSecondaryNavController().navigate(R.id.fragment_notifications);
-                } else {
-                    navigationManager.getMainNavController().navigate(R.id.action_fragment_main_to_fragment_notifications);
-                }
+                navigationManager.navigate(R.id.action_fragment_main_to_fragment_notifications, R.id.fragment_notifications);
             });
             cards.add(manageNotificationsCard);
             completedFre = false;
@@ -129,7 +125,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO))) {
             ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
             zephyrV2Card.setOnClickListener(v -> {
-                navigationManager.getMainNavController().navigate(R.id.action_fragment_main_to_fragment_whats_new);
+                navigationManager.navigate(R.id.action_fragment_main_to_fragment_whats_new);
             });
             cards.add(zephyrV2Card);
         }

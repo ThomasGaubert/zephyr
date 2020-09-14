@@ -3,7 +3,6 @@ package com.texasgamer.zephyr.provider;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
 
 import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.util.layout.ILayoutManager;

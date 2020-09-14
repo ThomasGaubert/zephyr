@@ -6,6 +6,9 @@ import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 import androidx.window.DisplayFeature;
 
+/**
+ * Provides and manages layout data based on screen size, orientation, etc.
+ */
 public interface ILayoutManager {
 
     void setCurrentActivity(@NonNull Activity activity);

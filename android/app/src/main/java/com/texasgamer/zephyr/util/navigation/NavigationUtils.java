@@ -18,9 +18,7 @@ import com.texasgamer.zephyr.R;
  */
 public final class NavigationUtils {
 
-    public static void openActivity(@NonNull Context context, @NonNull Class activity) {
-        Intent intent = new Intent(context, activity);
-        context.startActivity(intent);
+    private NavigationUtils() {
     }
 
     public static void openUrl(@NonNull Context context, @NonNull String url) {
@@ -41,8 +39,5 @@ public final class NavigationUtils {
         Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
         intent.setData(uri);
         context.startActivity(intent);
-    }
-
-    private NavigationUtils() {
     }
 }

@@ -184,7 +184,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         if (lastSeenWhatsNewVersion < Constants.WHATS_NEW_VERSION) {
             logger.log(LogLevel.VERBOSE, LOG_TAG, "Showing What's new for %d (last seen %d)",
                     Constants.WHATS_NEW_VERSION, lastSeenWhatsNewVersion);
-            mNavigationManager.getMainNavController().navigate(R.id.action_fragment_main_to_fragment_whats_new);
+            mNavigationManager.navigate(R.id.action_fragment_main_to_fragment_whats_new);
         }
     }
 }

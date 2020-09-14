@@ -59,7 +59,6 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     @Inject
     INavigationManager navigationManager;
 
-    private NavController mMainNavController;
     private NavController mSecondaryNavController;
 
     @Override
@@ -76,7 +75,6 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         themeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
         debugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
 
-        mMainNavController = navigationManager.getMainNavController();
         mSecondaryNavController = navigationManager.getSecondaryNavController();
 
         checkActiveItem();
@@ -92,14 +90,10 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         switch (menuItem.getItemId()) {
             case R.id.action_manage_notifications:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.MANAGE_NOTIFICATIONS);
-                if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
-                    mSecondaryNavController.navigate(R.id.fragment_notifications);
-                } else {
-                    mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_notifications);
-                }
+                navigationManager.navigate(R.id.action_fragment_menu_to_fragment_notifications, R.id.fragment_notifications);
                 break;
             case R.id.action_privacy:
-                mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_privacy);
+                navigationManager.navigate(R.id.action_fragment_menu_to_fragment_privacy);
                 break;
             case R.id.action_help:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.HELP);
@@ -107,11 +101,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
                 break;
             case R.id.action_about:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.ABOUT);
-                if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
-                    mSecondaryNavController.navigate(R.id.fragment_about);
-                } else {
-                    mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about);
-                }
+                navigationManager.navigate(R.id.action_fragment_menu_to_fragment_about, R.id.fragment_about);
                 break;
             default:
                 break;
@@ -124,7 +114,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
 
     @OnClick(R.id.debug_menu_btn)
     public void onClickDebugMenuButton() {
-        mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_debug);
+        navigationManager.navigate(R.id.action_fragment_menu_to_fragment_debug);
         dismiss();
     }
 

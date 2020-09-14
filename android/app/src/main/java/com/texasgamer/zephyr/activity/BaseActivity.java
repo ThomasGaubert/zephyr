@@ -1,6 +1,5 @@
 package com.texasgamer.zephyr.activity;
 
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;

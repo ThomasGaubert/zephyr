@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.window.DisplayFeature;
@@ -14,6 +13,9 @@ import androidx.window.WindowManager;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+/**
+ * Provides and manages layout data based on screen size, orientation, etc.
+ */
 public class LayoutManager implements ILayoutManager {
 
     private WeakReference<Context> mContext;
@@ -92,22 +94,13 @@ public class LayoutManager implements ILayoutManager {
     public boolean isPrimarySecondaryLayoutEnabled() {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         int widthDp = (int) (displayMetrics.widthPixels / displayMetrics.density);
-        int heightDp = (int) (displayMetrics.heightPixels / displayMetrics.density);
-        System.out.println("HEYO " + widthDp + " , " + heightDp);
 
         if (getDisplayFeature() != null) {
             int orientation = getOrientation();
             Rect displayFeatureRect = getDisplayFeature().getBounds();
             if (displayFeatureRect.left == 0 && orientation == Configuration.ORIENTATION_PORTRAIT) {
-                System.out.println("HEYO bad feature: perpendicular");
                 return false;
             }
-        }
-
-        if (getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-            System.out.println("heyo portrait");
-        } else {
-            System.out.println("heyo landscape");
         }
 
         return widthDp > 720;
