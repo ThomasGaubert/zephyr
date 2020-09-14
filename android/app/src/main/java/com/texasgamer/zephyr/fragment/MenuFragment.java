@@ -14,7 +14,6 @@ import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavType;
-import androidx.navigation.fragment.FragmentNavigator;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -111,11 +110,7 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
                 if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
                     mSecondaryNavController.navigate(R.id.fragment_about);
                 } else {
-                    View titleView = requireActivity().findViewById(R.id.fragment_main_title);
-                    FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
-                            .addSharedElement(titleView, titleView.getTransitionName())
-                            .build();
-                    mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about, null, null, extras);
+                    mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about);
                 }
                 break;
             default:

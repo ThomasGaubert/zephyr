@@ -18,7 +18,11 @@
             app:destination="@id/fragment_connect" />
         <action
             android:id="@+id/action_fragment_main_to_fragment_notifications"
-            app:destination="@id/fragment_notifications" />
+            app:destination="@id/fragment_notifications"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_fragment_main_to_fragment_whats_new"
             app:destination="@id/fragment_whats_new" />
@@ -38,7 +42,11 @@
         tools:layout="@layout/fragment_about">
         <action
             android:id="@+id/action_fragment_about_to_fragment_licenses"
-            app:destination="@id/fragment_licenses" />
+            app:destination="@id/fragment_licenses"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -60,15 +68,19 @@
         <action
             android:id="@+id/action_fragment_menu_to_fragment_notifications"
             app:destination="@id/fragment_notifications"
-            app:popUpTo="@id/fragment_main" />
+            app:popUpTo="@id/fragment_main"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_fragment_menu_to_fragment_about"
             app:destination="@id/fragment_about"
             app:popUpTo="@id/fragment_main"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_fragment_menu_to_fragment_privacy"
             app:destination="@id/fragment_privacy"

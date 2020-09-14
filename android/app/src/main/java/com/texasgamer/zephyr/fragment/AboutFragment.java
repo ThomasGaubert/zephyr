@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.ViewDataBinding;
-import androidx.transition.TransitionInflater;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
@@ -55,13 +54,6 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     private boolean mExtendedVersionEnabled;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
-        postponeEnterTransition();
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         updateVersionText(false);
         updateAuthorText();
@@ -69,8 +61,6 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             setupEdgeToEdgeLayout();
         }
-
-        startPostponedEnterTransition();
     }
 
     @Override

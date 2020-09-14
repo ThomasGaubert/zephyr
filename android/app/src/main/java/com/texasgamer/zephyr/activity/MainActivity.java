@@ -5,15 +5,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Px;
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -44,6 +43,8 @@ import butterknife.OnLongClick;
  */
 public class MainActivity extends BaseActivity {
 
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.main_fragment)
     FragmentContainerView mMainFragment;
     @BindView(R.id.bottom_app_bar)
@@ -134,9 +135,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
         super.onApplyWindowInsets(view, windowInsets);
-        ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
+        FrameLayout.LayoutParams mainFragmentLayoutParams = new FrameLayout.LayoutParams(mCoordinatorLayout.getLayoutParams());
         mainFragmentLayoutParams.setMargins(0, windowInsets.getSystemWindowInsetTop(), 0, 0);
-        mMainFragment.setLayoutParams(mainFragmentLayoutParams);
+        mCoordinatorLayout.setLayoutParams(mainFragmentLayoutParams);
         return windowInsets;
     }
 
