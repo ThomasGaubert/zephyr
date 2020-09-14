@@ -39,7 +39,7 @@ public class AboutFragmentViewModel extends BaseViewModel {
 
     private static final String LOG_TAG = "AboutFragmentViewModel";
 
-    private MutableLiveData<String> mVersionInfo = new MutableLiveData<>();
+    private final MutableLiveData<String> mVersionInfo = new MutableLiveData<>();
     private boolean mShowExtendedVersionInfo;
 
     public AboutFragmentViewModel(Application application) {
@@ -52,10 +52,12 @@ public class AboutFragmentViewModel extends BaseViewModel {
         ZephyrApplication.getApplicationComponent().inject(this);
     }
 
+    @NonNull
     public LiveData<String> getVersion() {
         return mVersionInfo;
     }
 
+    @NonNull
     public String getCopyright() {
         return mResourceProvider.getString(R.string.about_author, Calendar.getInstance().get(Calendar.YEAR));
     }

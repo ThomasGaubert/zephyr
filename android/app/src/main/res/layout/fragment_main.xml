@@ -53,6 +53,7 @@
                         android:id="@+id/connection_status_icon"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
+                        android:src="@{viewModel.connectionStatusIcon}"
                         app:tint="@color/menu_icon"
                         tools:src="@drawable/ic_error" />
 
@@ -62,6 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_gravity="center_vertical"
+                        android:text="@{viewModel.connectionStatusTextRes}"
                         android:textSize="16sp"
                         tools:text="@string/status_disconnected"/>
                 </LinearLayout>
@@ -74,7 +76,8 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackground" >
+                    android:background="?android:attr/selectableItemBackground"
+                    android:onClick="@{() -> viewModel.onClickJoinCodeSummary()}">
 
                     <ImageView
                         android:layout_width="28dp"
@@ -88,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_gravity="center_vertical"
+                        android:text="@{viewModel.joinCodeSummary}"
                         android:textSize="16sp"
                         tools:text="Join code: 192.168.0.1"/>
                 </LinearLayout>
@@ -98,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.connectedSectionVisibility}"
                     tools:visibility="visible">
 
                     <View
@@ -126,7 +130,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.unsupportedApiSectionVisibility}"
                     tools:visibility="visible">
 
                     <View

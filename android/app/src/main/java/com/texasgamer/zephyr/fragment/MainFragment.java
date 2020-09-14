@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -17,18 +15,15 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.databinding.FragmentMainBinding;
-import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
 import com.texasgamer.zephyr.util.ImageUtils;
-import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
-import com.texasgamer.zephyr.view.ZephyrCardViewPager;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -36,7 +31,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -51,19 +45,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMa
     @Inject
     IZephyrCardProvider zephyrCardProvider;
 
-    @BindView(R.id.main_carousel)
-    ZephyrCardViewPager mZephyrCardViewPager;
-    @BindView(R.id.connection_status_icon)
-    ImageView mConnectionStatusIcon;
-    @BindView(R.id.connection_status_text)
-    TextView mConnectionStatusText;
-    @BindView(R.id.join_code_text)
-    TextView mJoinCodeText;
-    @BindView(R.id.connected_options_section)
-    View mConnectedOptionsSection;
-    @BindView(R.id.unsupported_api_section)
-    View mUnsupportedApiSection;
-
     private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
 
     @Override
@@ -76,13 +57,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMa
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(requireContext(),
                 zephyrCardProvider.getCards(requireContext(), mLayoutManager, mNavigationManager));
-        mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
-        mZephyrCardViewPager.setOffscreenPageLimit(5);
-
-        if (getActivity() != null) {
-            mViewModel.getConnectionStatus().observe(getActivity(), this::updateConnectionStatus);
-            mViewModel.getJoinCode().observe(getActivity(), this::updateJoinCodeStatus);
-        }
+        mDataBinding.mainCarousel.setAdapter(mZephyrCardViewPagerAdapter);
+        mDataBinding.mainCarousel.setOffscreenPageLimit(5);
 
         checkForWhatsNew();
     }
@@ -158,26 +134,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMa
             logger.log(LogLevel.INFO, LOG_TAG, "Dismissing test notification...");
             EventBus.getDefault().post(dismissNotificationPayload);
         }, 5000);
-    }
-
-    @OnClick(R.id.join_code_summary)
-    void openConnectFragment() {
-        ConnectFragment connectFragment = new ConnectFragment();
-        connectFragment.show(getParentFragmentManager(), connectFragment.getTag());
-    }
-
-    private void updateConnectionStatus(@ConnectionStatus int connectionStatus) {
-        boolean isConnected = NetworkUtils.connectionStatusToIsConnected(connectionStatus);
-        mConnectionStatusIcon.setImageResource(isConnected ? R.drawable.ic_check : R.drawable.ic_error);
-        mConnectionStatusText.setText(NetworkUtils.connectionStatusToString(requireContext(), connectionStatus));
-        mConnectedOptionsSection.setVisibility(isConnected ? View.VISIBLE : View.GONE);
-        mUnsupportedApiSection.setVisibility(connectionStatus == ConnectionStatus.UNSUPPORTED_API ? View.VISIBLE : View.GONE);
-    }
-
-    private void updateJoinCodeStatus(@NonNull String joinCode) {
-        mJoinCodeText.setText(joinCode.isEmpty()
-                ? getString(R.string.join_code_none)
-                : String.format(getString(R.string.join_code_saved), joinCode));
     }
 
     private void checkForWhatsNew() {
