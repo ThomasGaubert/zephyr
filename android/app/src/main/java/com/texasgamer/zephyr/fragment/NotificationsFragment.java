@@ -14,7 +14,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +24,7 @@ import com.reddit.indicatorfastscroll.FastScrollerView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.NotificationPreferenceListAdapter;
+import com.texasgamer.zephyr.databinding.FragmentNotificationsBinding;
 import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.NotificationPreferenceView;
@@ -37,7 +37,8 @@ import butterknife.BindView;
 /**
  * Notifications fragment.
  */
-public class NotificationsFragment extends BaseFragment<ManageNotificationsViewModel, ViewDataBinding> implements NotificationPreferenceView.OnPreferenceChangeListener {
+public class NotificationsFragment extends BaseFragment<ManageNotificationsViewModel, FragmentNotificationsBinding>
+        implements NotificationPreferenceView.OnPreferenceChangeListener {
 
     @BindView(R.id.spinner)
     ProgressBar mSpinner;
@@ -129,23 +130,24 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
     }
 
     @Override
-    protected void setViewBindings(@NonNull View view) {
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
+    }
 
+    @NonNull
+    @Override
+    protected Class<ManageNotificationsViewModel> getViewModelClass() {
+        return ManageNotificationsViewModel.class;
     }
 
     @Override
-    protected ManageNotificationsViewModel onCreateViewModel() {
-        return new ManageNotificationsViewModel(ZephyrApplication.getInstance());
+    protected void setViewBindings(@NonNull View view) {
+        mDataBinding.setViewModel(mViewModel);
     }
 
     @Override
     public void onPreferenceChange(@NonNull String packageName, boolean newValue) {
         mViewModel.updateNotificationPreference(packageName, newValue);
-    }
-
-    @Override
-    protected void injectDependencies() {
-        ZephyrApplication.getApplicationComponent().inject(this);
     }
 
     private void subscribeUi(LiveData<List<ZephyrNotificationPreference>> liveData) {

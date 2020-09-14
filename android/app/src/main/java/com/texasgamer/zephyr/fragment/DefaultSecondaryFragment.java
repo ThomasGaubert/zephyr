@@ -7,12 +7,13 @@ import androidx.annotation.NonNull;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.viewmodel.BaseViewModel;
+import com.texasgamer.zephyr.databinding.FragmentDefaultSecondaryBinding;
+import com.texasgamer.zephyr.viewmodel.DefaultSecondaryFragmentViewModel;
 
 /**
  * Fragment which displays version info, etc.
  */
-public class DefaultSecondaryFragment extends BaseFragment {
+public class DefaultSecondaryFragment extends BaseFragment<DefaultSecondaryFragmentViewModel, FragmentDefaultSecondaryBinding> {
 
     @Override
     @LayoutRes
@@ -21,17 +22,18 @@ public class DefaultSecondaryFragment extends BaseFragment {
     }
 
     @Override
-    protected void setViewBindings(@NonNull View view) {
-
-    }
-
-    @Override
-    protected BaseViewModel onCreateViewModel() {
-        return null;
-    }
-
-    @Override
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
+    @NonNull
+    @Override
+    protected Class<DefaultSecondaryFragmentViewModel> getViewModelClass() {
+        return DefaultSecondaryFragmentViewModel.class;
+    }
+
+    @Override
+    protected void setViewBindings(@NonNull View view) {
+        mDataBinding.setViewModel(mViewModel);
     }
 }

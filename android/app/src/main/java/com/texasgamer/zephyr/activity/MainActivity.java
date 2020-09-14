@@ -182,6 +182,10 @@ public class MainActivity extends BaseActivity {
         mMainNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             boolean isBackButtonEnabled = destination.getId() != R.id.fragment_main;
 
+            if (!isBackButtonEnabled) {
+                mBottomAppBar.performShow();
+            }
+
             if (arguments != null && isBackButtonEnabled) {
                 isBackButtonEnabled = arguments.getBoolean(NavigationArgs.SHOW_BACK_ON_NAV, true);
             }

@@ -1,9 +1,10 @@
 package com.texasgamer.zephyr.util.navigation;
 
+import android.view.View;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -43,8 +44,8 @@ public class NavigationManager implements INavigationManager {
 
     @NonNull
     @Override
-    public NavController getCurrentNavController(@NonNull Fragment fragment) {
-        return Navigation.findNavController(fragment.requireView());
+    public NavController getCurrentNavController(@NonNull View view) {
+        return Navigation.findNavController(view);
     }
 
     @Override

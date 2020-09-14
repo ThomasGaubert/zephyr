@@ -1,9 +1,10 @@
 package com.texasgamer.zephyr.util.navigation;
 
+import android.view.View;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 
 /**
@@ -20,7 +21,7 @@ public interface INavigationManager {
     NavController getSecondaryNavController();
 
     @NonNull
-    NavController getCurrentNavController(@NonNull Fragment fragment);
+    NavController getCurrentNavController(@NonNull View view);
 
     void navigate(@IdRes int navDestination);
 

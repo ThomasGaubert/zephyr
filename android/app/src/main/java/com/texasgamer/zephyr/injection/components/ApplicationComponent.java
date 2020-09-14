@@ -17,7 +17,6 @@ import com.texasgamer.zephyr.fragment.NotificationsFragment;
 import com.texasgamer.zephyr.fragment.PrivacyFragment;
 import com.texasgamer.zephyr.fragment.ScanCodeFragment;
 import com.texasgamer.zephyr.fragment.WhatsNewFragment;
-import com.texasgamer.zephyr.fragment.whatsnew.WhatsNewItemFragment;
 import com.texasgamer.zephyr.injection.modules.AnalyticsModule;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
 import com.texasgamer.zephyr.injection.modules.ConfigModule;
@@ -32,6 +31,7 @@ import com.texasgamer.zephyr.injection.modules.NotificationsModule;
 import com.texasgamer.zephyr.injection.modules.PreferenceModule;
 import com.texasgamer.zephyr.injection.modules.PrivacyModule;
 import com.texasgamer.zephyr.injection.modules.ProviderModule;
+import com.texasgamer.zephyr.injection.modules.ResourceModule;
 import com.texasgamer.zephyr.injection.modules.ThemeModule;
 import com.texasgamer.zephyr.injection.modules.WorkModule;
 import com.texasgamer.zephyr.service.NotificationService;
@@ -45,6 +45,8 @@ import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.view.ZephyrBottomSheetDialog;
 import com.texasgamer.zephyr.viewmodel.AboutFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
+import com.texasgamer.zephyr.viewmodel.DefaultSecondaryFragmentViewModel;
+import com.texasgamer.zephyr.viewmodel.LicensesFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 import com.texasgamer.zephyr.viewmodel.ManageNotificationsViewModel;
 import com.texasgamer.zephyr.worker.AppSyncWorker;
@@ -73,6 +75,7 @@ import dagger.Component;
             PreferenceModule.class,
             PrivacyModule.class,
             ProviderModule.class,
+            ResourceModule.class,
             ThemeModule.class,
             WorkModule.class
         })
@@ -111,6 +114,10 @@ public interface ApplicationComponent {
 
     void inject(AboutFragmentViewModel aboutFragmentViewModel);
 
+    void inject(LicensesFragmentViewModel licensesFragmentViewModel);
+
+    void inject(DefaultSecondaryFragmentViewModel licensesFragmentViewModel);
+
     /* Activities */
     void inject(MainActivity mainActivity);
 
@@ -132,8 +139,6 @@ public interface ApplicationComponent {
     void inject(JoinCodeFragment joinCodeFragment);
 
     void inject(WhatsNewFragment whatsNewFragment);
-
-    void inject(WhatsNewItemFragment whatsNewItemFragment);
 
     void inject(LicensesFragment licensesFragment);
 

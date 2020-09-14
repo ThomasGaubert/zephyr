@@ -1,143 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/fragment_main_title"
+    <data>
+        <variable name="viewModel"
+            type="com.texasgamer.zephyr.viewmodel.MainFragmentViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="32dp"
-        android:text="@string/app_name"
-        android:textAppearance="@style/ZephyrHeader"
-        android:transitionName="app_name" />
+        android:layout_height="match_parent">
 
-    <ScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/fragment_main_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:animateLayoutChanges="true">
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="32dp"
+            android:text="@string/app_name"
+            android:textAppearance="@style/ZephyrHeader"
+            android:transitionName="app_name" />
 
-            <com.texasgamer.zephyr.view.ZephyrCardViewPager
-                android:id="@+id/main_carousel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:clipToPadding="false" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp" >
-
-                <ImageView
-                    android:id="@+id/connection_status_icon"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    app:tint="@color/menu_icon"
-                    tools:src="@drawable/ic_error" />
-
-                <TextView
-                    android:id="@+id/connection_status_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
-                    tools:text="@string/status_disconnected"/>
-            </LinearLayout>
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp">
 
             <LinearLayout
-                android:id="@+id/join_code_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="8dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackground" >
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    app:tint="@color/menu_icon"
-                    android:src="@drawable/ic_link" />
-
-                <TextView
-                    android:id="@+id/join_code_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
-                    tools:text="Join code: 192.168.0.1"/>
-            </LinearLayout>
-            
-            <LinearLayout
-                android:id="@+id/connected_options_section"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:animateLayoutChanges="true">
 
-                <View
+                <com.texasgamer.zephyr.view.ZephyrCardViewPager
+                    android:id="@+id/main_carousel"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:clipToPadding="false" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp" >
+
+                    <ImageView
+                        android:id="@+id/connection_status_icon"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        app:tint="@color/menu_icon"
+                        tools:src="@drawable/ic_error" />
+
+                    <TextView
+                        android:id="@+id/connection_status_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"
+                        tools:text="@string/status_disconnected"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/join_code_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackground" >
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        app:tint="@color/menu_icon"
+                        android:src="@drawable/ic_link" />
+
+                    <TextView
+                        android:id="@+id/join_code_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="16sp"
+                        tools:text="Join code: 192.168.0.1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/connected_options_section"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@color/menu_icon" />
+
+                    <Button
+                        android:id="@+id/test_notification_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/test_notification_btn" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/unsupported_api_section"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@color/menu_icon" />
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                <Button
-                    android:id="@+id/test_notification_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/test_notification_btn" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/menu_icon" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/status_unsupported_api" />
 
-            <LinearLayout
-                android:id="@+id/unsupported_api_section"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/menu_icon" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/status_unsupported_api" />
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

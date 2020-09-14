@@ -10,13 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.ViewDataBinding;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
+import com.texasgamer.zephyr.databinding.FragmentMainBinding;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
@@ -42,7 +42,7 @@ import butterknife.OnClick;
 /**
  * Main fragment.
  */
-public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBinding> {
+public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMainBinding> {
 
     private static final String LOG_TAG = "MainFragment";
 
@@ -99,6 +99,28 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    @LayoutRes
+    protected int getFragmentLayout() {
+        return R.layout.fragment_main;
+    }
+
+    @Override
+    protected void injectDependencies() {
+        ZephyrApplication.getApplicationComponent().inject(this);
+    }
+
+    @NonNull
+    @Override
+    protected Class<MainFragmentViewModel> getViewModelClass() {
+        return MainFragmentViewModel.class;
+    }
+
+    @Override
+    protected void setViewBindings(@NonNull View view) {
+        mDataBinding.setViewModel(mViewModel);
+    }
+
     @Subscribe
     public void onEvent(@Nullable String eventPayload) {
         if (EventBusEvent.SHELL_REFRESH_CARDS.equals(eventPayload)) {
@@ -112,27 +134,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-    }
-
-    @Override
-    @LayoutRes
-    protected int getFragmentLayout() {
-        return R.layout.fragment_main;
-    }
-
-    @Override
-    protected void setViewBindings(@NonNull View view) {
-
-    }
-
-    @Override
-    protected MainFragmentViewModel onCreateViewModel() {
-        return new MainFragmentViewModel(requireActivity().getApplication());
-    }
-
-    @Override
-    protected void injectDependencies() {
-        ZephyrApplication.getApplicationComponent().inject(this);
     }
 
     @OnClick(R.id.test_notification_button)
