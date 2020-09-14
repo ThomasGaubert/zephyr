@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.layout.ILayoutManager;
 import com.texasgamer.zephyr.util.log.ILogger;
+import com.texasgamer.zephyr.util.navigation.INavigationManager;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.theme.IThemeManager;
 
@@ -40,6 +41,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected IThemeManager mThemeManager;
     @Inject
     protected ILayoutManager mLayoutManager;
+    @Inject
+    protected INavigationManager mNavigationManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

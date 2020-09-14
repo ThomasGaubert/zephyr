@@ -11,8 +11,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
@@ -66,7 +64,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @BindView(R.id.unsupported_api_section)
     View mUnsupportedApiSection;
 
-    private NavController mNavController;
     private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
 
     @Override
@@ -77,8 +74,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mNavController = Navigation.findNavController(view);
-        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(requireContext(), zephyrCardProvider.getCards(getContext(), mNavController));
+        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(requireContext(),
+                zephyrCardProvider.getCards(requireContext(), mLayoutManager, mNavigationManager));
         mZephyrCardViewPager.setAdapter(mZephyrCardViewPagerAdapter);
         mZephyrCardViewPager.setOffscreenPageLimit(5);
 
@@ -93,7 +90,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @Override
     public void onResume() {
         super.onResume();
-        mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(requireContext(), mNavController));
+        mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(requireContext(), mLayoutManager, mNavigationManager));
     }
 
     @Override
@@ -105,7 +102,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
     @Subscribe
     public void onEvent(@Nullable String eventPayload) {
         if (EventBusEvent.SHELL_REFRESH_CARDS.equals(eventPayload)) {
-            mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(requireContext(), mNavController));
+            mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(requireContext(), mLayoutManager, mNavigationManager));
         } else if (EventBusEvent.SERVICE_NOTIFICATION_STARTED.equals(eventPayload)
                 && getActivity() != null
                 && !ZephyrApplication.getInstance().isInForeground()) {
@@ -130,7 +127,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
 
     @Override
     protected MainFragmentViewModel onCreateViewModel() {
-        return new MainFragmentViewModel(getActivity().getApplication());
+        return new MainFragmentViewModel(requireActivity().getApplication());
     }
 
     @Override
@@ -187,8 +184,7 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, ViewDataBi
         if (lastSeenWhatsNewVersion < Constants.WHATS_NEW_VERSION) {
             logger.log(LogLevel.VERBOSE, LOG_TAG, "Showing What's new for %d (last seen %d)",
                     Constants.WHATS_NEW_VERSION, lastSeenWhatsNewVersion);
-            WhatsNewFragment whatsNewFragment = new WhatsNewFragment();
-            whatsNewFragment.show(getParentFragmentManager(), whatsNewFragment.getTag());
+            mNavigationManager.getMainNavController().navigate(R.id.action_fragment_main_to_fragment_whats_new);
         }
     }
 }

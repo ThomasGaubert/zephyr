@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
 
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
@@ -14,6 +13,8 @@ import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.model.ZephyrCardType;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
+import com.texasgamer.zephyr.util.layout.ILayoutManager;
+import com.texasgamer.zephyr.util.navigation.INavigationManager;
 import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
@@ -38,7 +39,9 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
         mPreferenceManager = preferenceManager;
     }
 
-    public List<ZephyrCard> getCards(@NonNull Context context, @NonNull NavController navController) {
+    public List<ZephyrCard> getCards(@NonNull Context context,
+                                     @NonNull ILayoutManager layoutManager,
+                                     @NonNull INavigationManager navigationManager) {
         List<ZephyrCard> cards = new ArrayList<>();
 
         @ConnectionStatus
@@ -110,7 +113,13 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 && !mApplicationUtils.didUpgradeFromV1()
                 && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS))) {
             ZephyrCard manageNotificationsCard = new ZephyrCard(ZephyrCardType.INFO, R.string.card_manage_notifications_title, R.string.card_manage_notifications_body);
-            manageNotificationsCard.setOnClickListener(v -> navController.navigate(R.id.action_fragment_main_to_fragment_notifications));
+            manageNotificationsCard.setOnClickListener(v -> {
+                if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
+                    navigationManager.getSecondaryNavController().navigate(R.id.fragment_notifications);
+                } else {
+                    navigationManager.getMainNavController().navigate(R.id.action_fragment_main_to_fragment_notifications);
+                }
+            });
             cards.add(manageNotificationsCard);
             completedFre = false;
         }
@@ -120,7 +129,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
                 && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO))) {
             ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
             zephyrV2Card.setOnClickListener(v -> {
-                navController.navigate(R.id.action_fragment_main_to_fragment_whats_new);
+                navigationManager.getMainNavController().navigate(R.id.action_fragment_main_to_fragment_whats_new);
             });
             cards.add(zephyrV2Card);
         }

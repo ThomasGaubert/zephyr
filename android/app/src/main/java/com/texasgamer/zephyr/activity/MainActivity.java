@@ -5,39 +5,28 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowInsets;
 import android.view.animation.DecelerateInterpolator;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.Px;
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.LiveData;
-import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.window.DisplayFeature;
-import androidx.window.WindowManager;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.fragment.ConnectFragment;
-import com.texasgamer.zephyr.fragment.MenuFragment;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
@@ -45,8 +34,6 @@ import com.texasgamer.zephyr.util.navigation.NavigationArgs;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -70,10 +57,8 @@ public class MainActivity extends BaseActivity {
 
     private DrawerArrowDrawable mDrawerArrowDrawable;
     private ConnectButtonViewModel mConnectButtonViewModel;
-    private MenuFragment mMenuFragment;
-    private ConnectFragment mConnectFragment;
-    private WindowManager mWindowManager;
-    private NavController mNavController;
+    private NavController mMainNavController;
+    private NavController mSecondaryNavController;
 
     private boolean mIsBackButtonEnabled = false;
 
@@ -82,14 +67,18 @@ public class MainActivity extends BaseActivity {
         setTheme(R.style.Theme_Zephyr);
         super.onCreate(savedInstanceState);
 
-        mWindowManager = new WindowManager(this, null);
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
-        if (navHostFragment != null) {
-            mNavController = navHostFragment.getNavController();
+        NavHostFragment mainNavHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+        if (mainNavHostFragment != null) {
+            mMainNavController = mainNavHostFragment.getNavController();
         }
 
-        mMenuFragment = new MenuFragment();
-        mConnectFragment = new ConnectFragment();
+        NavHostFragment secondaryNavHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.secondary_fragment);
+        if (secondaryNavHostFragment != null) {
+            mSecondaryNavController = secondaryNavHostFragment.getNavController();
+        }
+
+        mNavigationManager.setNavControllers(mMainNavController, mSecondaryNavController);
+
         setupToolbar();
 
         mConnectButtonViewModel = new ConnectButtonViewModel(ZephyrApplication.getInstance());
@@ -101,15 +90,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (mLayoutManager.isPrimarySecondaryLayoutEnabled()) {
-            setupSpacer(mLayoutManager.getPrimaryLayoutWidth(), mLayoutManager.getSpacerWidth());
-        }
+        handleConfigChange();
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration configuration) {
         super.onConfigurationChanged(configuration);
-        setupSpacer(mLayoutManager.getPrimaryLayoutWidth(), mLayoutManager.getSpacerWidth());
+        handleConfigChange();
     }
 
     @Override
@@ -120,7 +107,7 @@ public class MainActivity extends BaseActivity {
                     onBackPressed();
                 } else {
                     mAnalyticsManager.logEvent(ZephyrEvent.Action.OPEN_HAMBURGER_MENU);
-                    mNavController.navigate(R.id.action_fragment_main_to_fragment_menu);
+                    mMainNavController.navigate(R.id.action_fragment_main_to_fragment_menu);
                 }
                 return true;
             default:
@@ -171,7 +158,7 @@ public class MainActivity extends BaseActivity {
             }
 
             if (!isJoinCodeSet) {
-                mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
+                mMainNavController.navigate(R.id.action_fragment_main_to_fragment_connect);
             }
         } else {
             stopService(socketServiceIntent);
@@ -181,7 +168,7 @@ public class MainActivity extends BaseActivity {
     @OnLongClick(R.id.connect_button)
     public boolean onLongClickConnectButton() {
         mAnalyticsManager.logEvent(ZephyrEvent.Action.LONG_PRESS_CONNECTION_BUTTON);
-        mConnectFragment.show(getSupportFragmentManager(), mConnectFragment.getTag());
+        mMainNavController.navigate(R.id.action_fragment_main_to_fragment_connect);
         return true;
     }
 
@@ -191,7 +178,7 @@ public class MainActivity extends BaseActivity {
         mBottomAppBar.setNavigationIcon(mDrawerArrowDrawable);
         setSupportActionBar(mBottomAppBar);
 
-        mNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+        mMainNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             boolean isBackButtonEnabled = destination.getId() != R.id.fragment_main;
 
             if (arguments != null && isBackButtonEnabled) {
@@ -236,10 +223,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void setupSpacer(@Px int spacerStart, @Px int spacerWidth) {
+    private void handleConfigChange() {
+        int spacerStartPx = mLayoutManager.getPrimaryLayoutWidth();
+        int spacerWidthPx = mLayoutManager.getSpacerWidth();
+
         ConstraintLayout.LayoutParams mainFragmentOriginalParams = (ConstraintLayout.LayoutParams) mMainFragment.getLayoutParams();
         ConstraintLayout.LayoutParams mainFragmentLayoutParams = new ConstraintLayout.LayoutParams(mMainFragment.getLayoutParams());
-        mainFragmentLayoutParams.width = spacerStart;
+        mainFragmentLayoutParams.width = spacerStartPx;
         mainFragmentLayoutParams.startToStart = mainFragmentOriginalParams.startToStart;
         mainFragmentLayoutParams.endToStart = mainFragmentOriginalParams.endToStart;
         mainFragmentLayoutParams.topToTop = mainFragmentOriginalParams.topToTop;
@@ -252,8 +242,32 @@ public class MainActivity extends BaseActivity {
         spacerLayoutParams.endToStart = spacerOriginalParams.endToStart;
         spacerLayoutParams.topToTop = spacerOriginalParams.topToTop;
         spacerLayoutParams.bottomToBottom = spacerOriginalParams.bottomToBottom;
-        spacerLayoutParams.width = spacerWidth;
+        spacerLayoutParams.width = spacerWidthPx;
         mSpacer.setLayoutParams(spacerLayoutParams);
-        mSpacer.setVisibility(spacerWidth == 0 ? View.GONE : View.VISIBLE);
+        mSpacer.setVisibility(spacerWidthPx == 0 ? View.GONE : View.VISIBLE);
+
+        boolean isPrimarySecondaryLayoutEnabled = mLayoutManager.isPrimarySecondaryLayoutEnabled();
+        if (!isPrimarySecondaryLayoutEnabled) {
+            mBottomAppBar.performShow();
+        }
+
+        mSecondaryFragment.setVisibility(isPrimarySecondaryLayoutEnabled ? View.VISIBLE : View.GONE);
+        mConnectButton.setTranslationX(isPrimarySecondaryLayoutEnabled ? -(spacerStartPx / 2f) : 0);
+
+        NavDestination secondaryNavDestination = mSecondaryNavController.getCurrentDestination();
+        if (!isPrimarySecondaryLayoutEnabled
+                && secondaryNavDestination != null
+                && secondaryNavDestination.getId() != R.id.fragment_default_secondary) {
+            mMainNavController.navigate(secondaryNavDestination.getId());
+            mSecondaryNavController.setGraph(R.navigation.nav_secondary);
+        }
+
+        NavDestination mainNavDestination = mMainNavController.getCurrentDestination();
+        if (isPrimarySecondaryLayoutEnabled
+                && mainNavDestination != null
+                && mainNavDestination.getId() != R.id.fragment_main) {
+            mMainNavController.setGraph(R.navigation.nav_main);
+            mSecondaryNavController.navigate(mainNavDestination.getId());
+        }
     }
 }

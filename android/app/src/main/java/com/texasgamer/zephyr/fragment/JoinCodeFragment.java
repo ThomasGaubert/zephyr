@@ -24,6 +24,9 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
@@ -52,7 +55,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
 
-        Window window = getDialog().getWindow();
+        Window window = Objects.requireNonNull(getDialog()).getWindow();
         if (window != null) {
             mJoinCodeTextEdit.requestFocus();
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -70,7 +73,7 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
 
                     preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mJoinCodeTextEdit.getText().toString());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        QuickSettingService.updateQuickSettingTile(getContext());
+                        QuickSettingService.updateQuickSettingTile(requireContext());
                     }
                 }
 

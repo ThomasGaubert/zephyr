@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
@@ -25,6 +26,7 @@ import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
+import com.texasgamer.zephyr.util.navigation.INavigationManager;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
@@ -53,6 +55,10 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     IPreferenceManager preferenceManager;
     @Inject
     IDiscoveryManager discoveryManager;
+    @Inject
+    INavigationManager navigationManager;
+
+    private NavController mNavController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,13 +71,14 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
 
+        mNavController = navigationManager.getCurrentNavController(this);
+
         analyticsManager.logEvent(ZephyrEvent.Action.OPEN_CONNECTION_MENU);
 
         // Skip to entering code is QR scanning isn't enabled
         if (!configManager.isQrCodeScanningEnabled()) {
             logger.log(LogLevel.INFO, LOG_TAG, "QR code scanning is disabled, skipping to entering code.");
-            JoinCodeFragment joinCodeFragment = new JoinCodeFragment();
-            joinCodeFragment.show(getParentFragmentManager(), joinCodeFragment.getTag());
+            mNavController.navigate(R.id.action_fragment_connect_to_fragment_join_code);
             dismiss();
         }
 
@@ -103,13 +110,11 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
         switch (menuItem.getItemId()) {
             case R.id.action_scan_code:
                 analyticsManager.logEvent(ZephyrEvent.Action.TAP_QR_CODE);
-                ScanCodeFragment scanCodeFragment = new ScanCodeFragment();
-                scanCodeFragment.show(getParentFragmentManager(), scanCodeFragment.getTag());
+                mNavController.navigate(R.id.action_fragment_connect_to_fragment_scan_code);
                 break;
             case R.id.action_enter_code:
                 analyticsManager.logEvent(ZephyrEvent.Action.TAP_ENTER_CODE);
-                JoinCodeFragment joinCodeFragment = new JoinCodeFragment();
-                joinCodeFragment.show(getParentFragmentManager(), joinCodeFragment.getTag());
+                mNavController.navigate(R.id.action_fragment_connect_to_fragment_join_code);
                 break;
             default:
                 break;
@@ -134,7 +139,7 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
         analyticsManager.logEvent(ZephyrEvent.Action.TAP_DISCOVERED_SERVER);
         preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, discoveredServer.getIpAddress());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            QuickSettingService.updateQuickSettingTile(getContext());
+            QuickSettingService.updateQuickSettingTile(requireContext());
         }
         dismiss();
     }

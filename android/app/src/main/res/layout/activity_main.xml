@@ -4,65 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context=".activity.MainActivity">-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/spacer"
+        app:layout_constraintStart_toStartOf="parent">
 
-<!--        <androidx.fragment.app.FragmentContainerView-->
-<!--            android:id="@+id/main_fragment"-->
-<!--            android:name="androidx.navigation.fragment.NavHostFragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginBottom="?attr/actionBarSize"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/spacer"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:navGraph="@navigation/nav_main"-->
-<!--            app:defaultNavHost="true" />-->
-
-<!--        <View-->
-<!--            android:id="@+id/spacer"-->
-<!--            android:layout_width="32dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:background="@color/primary"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/secondary_fragment"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/main_fragment"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
-
-<!--        <androidx.fragment.app.FragmentContainerView-->
-<!--            android:id="@+id/secondary_fragment"-->
-<!--            android:name="com.texasgamer.zephyr.fragment.DefaultSecondaryFragment"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_marginBottom="?attr/actionBarSize"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/spacer"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent" />-->
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinator_layout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/spacer"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".activity.MainActivity">
+            tools:context=".activity.MainActivity">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/main_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="?attr/actionBarSize"
                 app:layout_constraintEnd_toStartOf="@+id/spacer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -82,45 +42,44 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/secondary_fragment"
-                android:name="com.texasgamer.zephyr.fragment.DefaultSecondaryFragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="?attr/actionBarSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/spacer"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottom_app_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:backgroundTint="@color/primaryDark"
-                app:hideOnScroll="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:navigationIcon="@drawable/ic_menu" />
+                app:navGraph="@navigation/nav_secondary" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.texasgamer.zephyr.view.ZephyrServiceButton
-                android:id="@+id/connect_button"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/fab_size"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/accent"
-                app:cornerRadius="@dimen/fab_corner_radius"
-                app:icon="@drawable/ic_connection"
-                app:iconTint="@color/white"
-                app:layout_anchor="@id/bottom_app_bar"
-                app:layout_anchorGravity="center_horizontal|top"
-                app:textAllCaps="false"
-                tools:text="@string/btn_connection_start" />
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/primaryDark"
+            app:hideOnScroll="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:navigationIcon="@drawable/ic_menu" />
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.texasgamer.zephyr.view.ZephyrServiceButton
+            android:id="@+id/connect_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/fab_size"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/accent"
+            app:cornerRadius="@dimen/fab_corner_radius"
+            app:icon="@drawable/ic_connection"
+            app:iconTint="@color/white"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:layout_anchorGravity="center_horizontal|top"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            app:textAllCaps="false"
+            tools:text="@string/btn_connection_start" />
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

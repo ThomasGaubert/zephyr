@@ -19,4 +19,5 @@
     <color name="red">#D50000</color>
 
     <color name="menu_icon">#b7bec4</color>
+    <color name="item_selected_background">#332962FF</color>
 </resources>

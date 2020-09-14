@@ -138,7 +138,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     public void onClickConfirm() {
         preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            QuickSettingService.updateQuickSettingTile(getContext());
+            QuickSettingService.updateQuickSettingTile(requireContext());
         }
         dismiss();
     }
@@ -150,7 +150,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
     @OnClick(R.id.open_permissions_button)
     public void onClickGrantPermission() {
-        NavigationUtils.openZephyrAppInfo(getContext());
+        NavigationUtils.openZephyrAppInfo(requireContext());
     }
 
     private void setupCamera() {

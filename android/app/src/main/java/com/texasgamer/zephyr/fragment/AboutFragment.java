@@ -17,16 +17,16 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.ViewDataBinding;
-import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.log.LogEntry;
 import com.texasgamer.zephyr.util.log.LogLevel;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.viewmodel.AboutFragmentViewModel;
 
@@ -55,6 +55,13 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     private boolean mExtendedVersionEnabled;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
+        postponeEnterTransition();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         updateVersionText(false);
         updateAuthorText();
@@ -62,6 +69,8 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             setupEdgeToEdgeLayout();
         }
+
+        startPostponedEnterTransition();
     }
 
     @Override
@@ -147,7 +156,7 @@ public class AboutFragment extends BaseFragment<AboutFragmentViewModel, ViewData
     @OnClick(R.id.about_licenses)
     public void onClickLicensesBtn(View view) {
         mAnalyticsManager.logEvent(ZephyrEvent.Navigation.LICENSES);
-        Navigation.findNavController(view).navigate(R.id.action_fragment_about_to_fragment_licenses);
+        mNavigationManager.getCurrentNavController(this).navigate(R.id.action_fragment_about_to_fragment_licenses);
     }
 
     private void updateVersionText(boolean enableExtendedVersion) {

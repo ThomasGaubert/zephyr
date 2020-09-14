@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavType;
+import androidx.navigation.fragment.FragmentNavigator;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -19,10 +22,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.config.IConfigManager;
+import com.texasgamer.zephyr.util.layout.ILayoutManager;
+import com.texasgamer.zephyr.util.navigation.INavigationManager;
+import com.texasgamer.zephyr.util.navigation.NavigationArgs;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.theme.IThemeManager;
 
 import javax.inject.Inject;
@@ -49,8 +55,13 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     IAnalyticsManager analyticsManager;
     @Inject
     IThemeManager themeManager;
+    @Inject
+    ILayoutManager layoutManager;
+    @Inject
+    INavigationManager navigationManager;
 
     private NavController mMainNavController;
+    private NavController mSecondaryNavController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,26 +77,46 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         themeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
         debugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
 
-        mMainNavController = Navigation.findNavController(getActivity(), R.id.main_fragment);
+        mMainNavController = navigationManager.getMainNavController();
+        mSecondaryNavController = navigationManager.getSecondaryNavController();
+
+        checkActiveItem();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.isChecked()) {
+            dismiss();
+            return false;
+        }
+
         switch (menuItem.getItemId()) {
             case R.id.action_manage_notifications:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.MANAGE_NOTIFICATIONS);
-                mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_notifications);
+                if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
+                    mSecondaryNavController.navigate(R.id.fragment_notifications);
+                } else {
+                    mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_notifications);
+                }
                 break;
             case R.id.action_privacy:
                 mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_privacy);
                 break;
             case R.id.action_help:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.HELP);
-                NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_HELP_URL);
+                NavigationUtils.openUrl(requireContext(), Constants.ZEPHYR_HELP_URL);
                 break;
             case R.id.action_about:
                 analyticsManager.logEvent(ZephyrEvent.Navigation.ABOUT);
-                mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about);
+                if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
+                    mSecondaryNavController.navigate(R.id.fragment_about);
+                } else {
+                    View titleView = requireActivity().findViewById(R.id.fragment_main_title);
+                    FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
+                            .addSharedElement(titleView, titleView.getTransitionName())
+                            .build();
+                    mMainNavController.navigate(R.id.action_fragment_menu_to_fragment_about, null, null, extras);
+                }
                 break;
             default:
                 break;
@@ -131,5 +162,22 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     @Override
     protected boolean shouldSkipCollapsedState() {
         return true;
+    }
+
+    private void checkActiveItem() {
+        if (layoutManager.isPrimarySecondaryLayoutEnabled()) {
+            NavDestination navDestination = mSecondaryNavController.getCurrentDestination();
+            if (navDestination != null) {
+                NavArgument arg = navDestination.getArguments().get(NavigationArgs.MENU_CHECKED_ITEM);
+                if (arg != null && arg.getType() == NavType.ReferenceType && arg.isDefaultValuePresent()) {
+                    int ref = (int) arg.getDefaultValue();
+                    MenuItem menuItem = mNavigationView.getMenu().findItem(ref);
+                    if (menuItem != null) {
+                        menuItem.setCheckable(true);
+                        menuItem.setChecked(true);
+                    }
+                }
+            }
+        }
     }
 }
