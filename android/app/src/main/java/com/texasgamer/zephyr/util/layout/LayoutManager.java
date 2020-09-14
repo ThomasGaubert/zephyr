@@ -59,7 +59,7 @@ public class LayoutManager implements ILayoutManager {
 
     @Override
     public int getSpacerWidth() {
-        if (isPrimarySecondaryLayoutEnabled()) {
+        if (!isPrimarySecondaryLayoutEnabled()) {
             return 0;
         }
 

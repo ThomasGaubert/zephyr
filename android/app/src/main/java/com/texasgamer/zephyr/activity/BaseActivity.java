@@ -83,10 +83,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @CallSuper
     protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
         // Some devices don't support edge to edge navigation
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                && supportsEdgeToEdgeNavigation()
-                && windowInsets.getSystemWindowInsetBottom() == 0) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, getNavigationBarColor()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && supportsEdgeToEdgeNavigation()) {
+            int colorRes = windowInsets.getSystemWindowInsetBottom() == 0 ? getNavigationBarColor() : android.R.color.transparent;
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, colorRes));
         }
 
         return windowInsets;
