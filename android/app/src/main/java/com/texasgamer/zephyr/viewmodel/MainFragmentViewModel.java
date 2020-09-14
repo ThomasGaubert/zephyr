@@ -21,7 +21,7 @@ import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 public class MainFragmentViewModel extends BaseViewModel {
 
     private final MediatorLiveData<Drawable> mConnectionStatusIcon = new MediatorLiveData<>();
-    private final MediatorLiveData<Integer> mConnectionStatusText = new MediatorLiveData<>();
+    private final MediatorLiveData<String> mConnectionStatusText = new MediatorLiveData<>();
     private final MediatorLiveData<String> mJoinCodeSummary = new MediatorLiveData<>();
     private final MediatorLiveData<Integer> mConnectedSectionVisibility = new MediatorLiveData<>();
     private final MediatorLiveData<Integer> mUnsupportedApiSectionVisibility = new MediatorLiveData<>();
@@ -38,7 +38,7 @@ public class MainFragmentViewModel extends BaseViewModel {
                         : R.drawable.ic_error)));
 
         mConnectionStatusText.addSource(mConnectionStatus, connectionStatus ->
-                mConnectionStatusText.setValue(NetworkUtils.connectionStatusToString(connectionStatus)));
+                mConnectionStatusText.setValue(mResourceProvider.getString(NetworkUtils.connectionStatusToString(connectionStatus))));
 
         mJoinCodeSummary.addSource(mJoinCode, joinCode -> mJoinCodeSummary.setValue(joinCode == null || joinCode.isEmpty()
                 ? mResourceProvider.getString(R.string.join_code_none)
@@ -71,7 +71,7 @@ public class MainFragmentViewModel extends BaseViewModel {
     }
 
     @NonNull
-    public LiveData<Integer> getConnectionStatusTextRes() {
+    public LiveData<String> getConnectionStatusTextRes() {
         return mConnectionStatusText;
     }
 
