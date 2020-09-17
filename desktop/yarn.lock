@@ -3151,9 +3151,9 @@ electron-settings@^3.2.0:
     clone "^2.1.1"
     jsonfile "^4.0.0"
 
-electron-updater@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-4.3.4.tgz#6003f88be9004d7834e4dd757167033d0fc2d29a"
+electron-updater@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-4.3.5.tgz#4fb36f593a031c87ea07ee141c9f064d5deffb15"
   dependencies:
     "@types/semver" "^7.3.1"
     builder-util-runtime "8.7.2"
