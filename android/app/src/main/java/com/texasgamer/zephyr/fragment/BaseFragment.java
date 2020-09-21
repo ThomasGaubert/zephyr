@@ -1,18 +1,24 @@
 package com.texasgamer.zephyr.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.layout.ILayoutManager;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -76,8 +82,16 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     }
 
     @Override
+    @CallSuper
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setupEdgeToEdgeNavigation();
+    }
+
+    @CallSuper
+    protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+        return windowInsets;
     }
 
     @LayoutRes
@@ -89,4 +103,12 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     protected abstract Class<T> getViewModelClass();
 
     protected abstract void setViewBindings(@NonNull View view);
+
+    private void setupEdgeToEdgeNavigation() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            return;
+        }
+
+        requireView().setOnApplyWindowInsetsListener(this::onApplyWindowInsets);
+    }
 }

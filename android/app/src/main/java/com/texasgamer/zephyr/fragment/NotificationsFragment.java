@@ -1,12 +1,12 @@
 package com.texasgamer.zephyr.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -71,10 +71,6 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
 
         subscribeUi(mViewModel.getNotificationPreferences());
         setupFastScroll();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            setupEdgeToEdgeLayout();
-        }
 
         if (!mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS)) {
             mPreferenceManager.putBoolean(PreferenceKeys.PREF_SEEN_MANAGE_NOTIFICATIONS, true);
@@ -150,6 +146,15 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         mViewModel.updateNotificationPreference(packageName, newValue);
     }
 
+    @Override
+    protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+        super.onApplyWindowInsets(view, windowInsets);
+        mAppList.setClipToPadding(false);
+        mAppList.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom());
+        mFastScrollerView.setPadding(0, 0, windowInsets.getSystemWindowInsetRight(), 0);
+        return windowInsets;
+    }
+
     private void subscribeUi(LiveData<List<ZephyrNotificationPreference>> liveData) {
         liveData.observe(getViewLifecycleOwner(), preferences -> {
             if (preferences != null && !preferences.isEmpty()) {
@@ -193,14 +198,5 @@ public class NotificationsFragment extends BaseFragment<ManageNotificationsViewM
         );
 
         mFastScrollerThumbView.setupWithFastScroller(mFastScrollerView);
-    }
-
-    private void setupEdgeToEdgeLayout() {
-        mAppList.setOnApplyWindowInsetsListener((v, insets) -> {
-            mAppList.setClipToPadding(false);
-            mAppList.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
-            mFastScrollerView.setPadding(0, 0, insets.getSystemWindowInsetRight(), 0);
-            return insets;
-        });
     }
 }
