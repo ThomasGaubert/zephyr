@@ -10,21 +10,30 @@ import androidx.lifecycle.MediatorLiveData;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.model.ConnectionStatus;
+import com.texasgamer.zephyr.provider.IZephyrCardProvider;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
+
+import javax.inject.Inject;
 
 /**
  * MainFragment view model.
  */
 public class MainFragmentViewModel extends BaseViewModel {
 
+    @Inject
+    IZephyrCardProvider zephyrCardProvider;
+
     private final MediatorLiveData<Drawable> mConnectionStatusIcon = new MediatorLiveData<>();
     private final MediatorLiveData<String> mConnectionStatusText = new MediatorLiveData<>();
     private final MediatorLiveData<String> mJoinCodeSummary = new MediatorLiveData<>();
     private final MediatorLiveData<Integer> mConnectedSectionVisibility = new MediatorLiveData<>();
     private final MediatorLiveData<Integer> mUnsupportedApiSectionVisibility = new MediatorLiveData<>();
+
+    private ZephyrCardViewPagerAdapter mZephyrCardViewPagerAdapter;
 
     public MainFragmentViewModel(Application application) {
         super(application);
@@ -53,6 +62,9 @@ public class MainFragmentViewModel extends BaseViewModel {
                 mUnsupportedApiSectionVisibility.setValue(connectionStatus == ConnectionStatus.UNSUPPORTED_API
                         ? View.VISIBLE
                         : View.GONE));
+
+        mZephyrCardViewPagerAdapter = new ZephyrCardViewPagerAdapter(getApplication(),
+                zephyrCardProvider.getCards(getApplication(), mNavigationManager));
     }
 
     @Override
@@ -83,6 +95,19 @@ public class MainFragmentViewModel extends BaseViewModel {
     @NonNull
     public LiveData<Integer> getUnsupportedApiSectionVisibility() {
         return mUnsupportedApiSectionVisibility;
+    }
+
+    @NonNull
+    public ZephyrCardViewPagerAdapter getCardPagerAdapter() {
+        return mZephyrCardViewPagerAdapter;
+    }
+
+    public int getOffscreenPageLimit() {
+        return 5;
+    }
+
+    public void refreshCards() {
+        mZephyrCardViewPagerAdapter.setItems(zephyrCardProvider.getCards(getApplication(), mNavigationManager));
     }
 
     public void onClickJoinCodeSummary() {

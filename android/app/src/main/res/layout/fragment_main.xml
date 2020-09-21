@@ -41,7 +41,9 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="32dp"
                     android:paddingEnd="32dp"
-                    android:clipToPadding="false" />
+                    android:clipToPadding="false"
+                    app:adapter="@{viewModel.cardPagerAdapter}"
+                    app:offscreenPageLimit="@{viewModel.offscreenPageLimit}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

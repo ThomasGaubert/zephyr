@@ -13,7 +13,6 @@ import com.texasgamer.zephyr.model.ZephyrCard;
 import com.texasgamer.zephyr.model.ZephyrCardType;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
-import com.texasgamer.zephyr.util.layout.ILayoutManager;
 import com.texasgamer.zephyr.util.navigation.INavigationManager;
 import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
@@ -40,7 +39,6 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
     }
 
     public List<ZephyrCard> getCards(@NonNull Context context,
-                                     @NonNull ILayoutManager layoutManager,
                                      @NonNull INavigationManager navigationManager) {
         List<ZephyrCard> cards = new ArrayList<>();
 
