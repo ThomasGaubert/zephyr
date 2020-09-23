@@ -2,7 +2,6 @@ package com.texasgamer.zephyr.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,11 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
 import com.texasgamer.zephyr.util.layout.ILayoutManager;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -85,7 +82,6 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
     @CallSuper
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setupEdgeToEdgeNavigation();
     }
 

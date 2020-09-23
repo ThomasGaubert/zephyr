@@ -19,7 +19,7 @@ public final class ViewPagerBindingAdapters {
     }
 
     @BindingAdapter("offscreenPageLimit")
-    public static void setOffscreenPageLimit(@NonNull ViewPager pagerAdapter, @NonNull int offscreenPageLimit) {
+    public static void setOffscreenPageLimit(@NonNull ViewPager pagerAdapter, int offscreenPageLimit) {
         pagerAdapter.setOffscreenPageLimit(offscreenPageLimit);
     }
 }
