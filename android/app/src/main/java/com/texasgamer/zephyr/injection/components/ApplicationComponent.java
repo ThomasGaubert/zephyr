@@ -38,7 +38,6 @@ import com.texasgamer.zephyr.service.NotificationService;
 import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.ApplicationUtils;
-import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.notification.INotificationsManager;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
@@ -147,8 +146,6 @@ public interface ApplicationComponent {
     void inject(DebugFragment debugFragment);
 
     /* Miscellaneous */
-    void inject(ZephyrLifecycleLogger zephyrLifecycleLogger);
-
     void inject(AppSyncWorker appSyncWorker);
 
     void inject(ZephyrBottomSheetDialog zephyrBottomSheetDialog);

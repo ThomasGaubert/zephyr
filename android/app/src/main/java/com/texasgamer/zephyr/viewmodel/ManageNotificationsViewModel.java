@@ -36,7 +36,6 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     ILogger logger;
 
     private final MutableLiveData<String> mSearchQuery = new MutableLiveData<>();
-    private final LiveData<List<ZephyrNotificationPreference>> mNotificationPreferences;
     private final MediatorLiveData<Integer> mAppListVisibility = new MediatorLiveData<>();
     private final MediatorLiveData<Integer> mSpinnerVisibility = new MediatorLiveData<>();
     private final MediatorLiveData<Integer> mNoResultsVisibility = new MediatorLiveData<>();
@@ -45,7 +44,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
     public ManageNotificationsViewModel(Application application) {
         super(application);
 
-        mNotificationPreferences = Transformations.switchMap(mSearchQuery, input -> {
+        LiveData<List<ZephyrNotificationPreference>> notificationPreferences = Transformations.switchMap(mSearchQuery, input -> {
             if (StringUtils.isNullOrEmpty(input)) {
                 return mDataRepository.getNotificationPreferences();
             } else {
@@ -54,7 +53,7 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
         });
 
         mAppListVisibility.postValue(View.GONE);
-        mAppListVisibility.addSource(mNotificationPreferences, preferences -> {
+        mAppListVisibility.addSource(notificationPreferences, preferences -> {
             if (preferences != null && !preferences.isEmpty()) {
                 mAdapter.setNotificationPreferences(preferences);
                 mAppListVisibility.setValue(View.VISIBLE);
@@ -64,18 +63,16 @@ public class ManageNotificationsViewModel extends BaseViewModel<NotificationPref
         });
 
         mSpinnerVisibility.postValue(View.VISIBLE);
-        mSpinnerVisibility.addSource(mNotificationPreferences, preferences -> {
-            String searchQuery = mSearchQuery.getValue();
-            mSpinnerVisibility.setValue((searchQuery == null || searchQuery.isEmpty())
+        mSpinnerVisibility.addSource(notificationPreferences, preferences -> {
+            mSpinnerVisibility.setValue(StringUtils.isNullOrEmpty(mSearchQuery.getValue())
                         && (preferences == null || preferences.isEmpty())
                     ? View.VISIBLE
                     : View.GONE);
         });
 
         mNoResultsVisibility.postValue(View.GONE);
-        mNoResultsVisibility.addSource(mNotificationPreferences, preferences -> {
-            String searchQuery = mSearchQuery.getValue();
-            mNoResultsVisibility.setValue((searchQuery != null && !searchQuery.isEmpty())
+        mNoResultsVisibility.addSource(notificationPreferences, preferences -> {
+            mNoResultsVisibility.setValue(!StringUtils.isNullOrEmpty(mSearchQuery.getValue())
                         && (preferences == null || preferences.isEmpty())
                     ? View.VISIBLE
                     : View.GONE);

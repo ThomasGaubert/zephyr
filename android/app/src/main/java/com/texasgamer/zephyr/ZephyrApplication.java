@@ -90,7 +90,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
         sApplicationComponent.inject(ZephyrApplication.this);
         sApplicationComponent.init();
 
-        registerActivityLifecycleCallbacks(new ZephyrLifecycleLogger());
+        registerActivityLifecycleCallbacks(new ZephyrLifecycleLogger(logger));
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
         EventBus.builder().logNoSubscriberMessages(false).installDefaultEventBus();
