@@ -27,6 +27,7 @@ object VibrationUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(length.toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
+                @Suppress("DEPRECATION")
                 v.vibrate(length.toLong())
             }
         }
