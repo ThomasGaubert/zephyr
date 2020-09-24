@@ -142,7 +142,7 @@
     "redux": "^4.0.5",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
-    "styled-components": "^3.4.5",
+    "styled-components": "^4.0.0",
     "utf-8-validate": "^5.0.2"
   },
   "jest": {
