@@ -89,7 +89,7 @@
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/socket.io": "^2.1.11",
-    "@types/socket.io-client": "^1.4.33",
+    "@types/socket.io-client": "^1.4.34",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
