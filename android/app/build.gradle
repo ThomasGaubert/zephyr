@@ -178,7 +178,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.5.0'
     implementation 'com.google.firebase:firebase-config:19.2.0'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
-    implementation 'com.google.firebase:firebase-perf:19.0.8'
+    implementation 'com.google.firebase:firebase-perf:19.0.9'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
 
     // Flipper
