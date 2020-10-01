@@ -14,6 +14,8 @@ Zephyr 2.0.0 represents a complete rewrite of all aspects of the project. Everyt
     - Added the ability to search for apps.
 - **Privacy**
     - Added privacy menu to review and expose privacy settings.
+- **Other**
+    - Added support for foldable devices like Surface Duo.
 
 #### Changed
 - Updated UI to conform with Material Design 2.

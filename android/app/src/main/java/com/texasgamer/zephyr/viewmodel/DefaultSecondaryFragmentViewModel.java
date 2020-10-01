@@ -2,9 +2,6 @@ package com.texasgamer.zephyr.viewmodel;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
-
-import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 
 /**

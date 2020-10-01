@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
 
 import androidx.annotation.NonNull;
 import androidx.window.DisplayFeature;
