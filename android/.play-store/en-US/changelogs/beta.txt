@@ -1,5 +1,8 @@
 Automatically built and published to beta track.
 
-- Updated appearance for older Android versions
+- Complete rewrite of in-app navigation
+- Added support for foldable devices like Surface Duo
+- Added support for landscape orientation
+- Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

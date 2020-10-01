@@ -1,13 +1,16 @@
 package com.texasgamer.zephyr.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
-
-import com.texasgamer.zephyr.db.repository.IRepository;
-
-import javax.inject.Inject;
 
 import androidx.lifecycle.AndroidViewModel;
+
+import com.texasgamer.zephyr.db.repository.IRepository;
+import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.log.ILogger;
+import com.texasgamer.zephyr.util.navigation.INavigationManager;
+import com.texasgamer.zephyr.util.resource.IResourceProvider;
+
+import javax.inject.Inject;
 
 /**
  * Base view model that performs common routines.
@@ -17,11 +20,17 @@ public abstract class BaseViewModel<T extends IRepository> extends AndroidViewMo
 
     @Inject
     protected T mDataRepository;
-    protected Context mContext;
+    @Inject
+    protected IResourceProvider mResourceProvider;
+    @Inject
+    protected ILogger mLogger;
+    @Inject
+    protected INavigationManager mNavigationManager;
+    @Inject
+    protected IAnalyticsManager mAnalyticsManager;
 
     public BaseViewModel(Application application) {
         super(application);
-        mContext = application.getApplicationContext();
 
         injectDependencies();
 

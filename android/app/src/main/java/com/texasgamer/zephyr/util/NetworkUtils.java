@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 /**
  * Network utilities.
@@ -53,27 +54,28 @@ public final class NetworkUtils {
         return connectionStatus == ConnectionStatus.CONNECTED;
     }
 
-    public static String connectionStatusToString(@NonNull Context context, @ConnectionStatus int connectionStatus) {
+    @StringRes
+    public static int connectionStatusToString(@ConnectionStatus int connectionStatus) {
         switch (connectionStatus) {
             case ConnectionStatus.CONNECTED:
-                return context.getString(R.string.status_notif_text_connected);
+                return R.string.status_notif_text_connected;
             case ConnectionStatus.CONNECTING:
-                return context.getString(R.string.status_notif_text_connecting);
+                return R.string.status_notif_text_connecting;
             case ConnectionStatus.DISCONNECTED:
-                return context.getString(R.string.status_notif_text_disconnected);
+                return R.string.status_notif_text_disconnected;
             case ConnectionStatus.NO_WIFI:
-                return context.getString(R.string.status_notif_text_no_wifi);
+                return R.string.status_notif_text_no_wifi;
             case ConnectionStatus.OFFLINE:
-                return context.getString(R.string.status_notif_text_offline);
+                return R.string.status_notif_text_offline;
             case ConnectionStatus.NO_JOIN_CODE:
-                return context.getString(R.string.status_notif_text_no_join_code);
+                return R.string.status_notif_text_no_join_code;
             case ConnectionStatus.UNSUPPORTED_API:
-                return context.getString(R.string.status_notif_text_unsupported_api);
+                return R.string.status_notif_text_unsupported_api;
             case ConnectionStatus.SERVER_NOT_FOUND:
-                return context.getString(R.string.status_notif_text_server_not_found);
+                return R.string.status_notif_text_server_not_found;
             case ConnectionStatus.UNKNOWN:
             default:
-                return context.getString(R.string.status_notif_text_unknown);
+                return R.string.status_notif_text_unknown;
         }
     }
 

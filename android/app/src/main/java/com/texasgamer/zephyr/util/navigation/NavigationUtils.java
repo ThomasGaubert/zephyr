@@ -1,4 +1,4 @@
-package com.texasgamer.zephyr.util;
+package com.texasgamer.zephyr.util.navigation;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 
-import com.texasgamer.zephyr.BuildConfig;
-import com.texasgamer.zephyr.R;
-
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
+
+import com.texasgamer.zephyr.BuildConfig;
+import com.texasgamer.zephyr.R;
 
 /**
  * Navigation utilities.
@@ -19,11 +19,6 @@ import androidx.core.content.ContextCompat;
 public final class NavigationUtils {
 
     private NavigationUtils() {
-    }
-
-    public static void openActivity(@NonNull Context context, @NonNull Class activity) {
-        Intent intent = new Intent(context, activity);
-        context.startActivity(intent);
     }
 
     public static void openUrl(@NonNull Context context, @NonNull String url) {

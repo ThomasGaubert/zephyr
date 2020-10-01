@@ -1,11 +1,12 @@
 package com.texasgamer.zephyr.activity;
 
-import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowInsets;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.texasgamer.zephyr.util.analytics.IAnalyticsManager;
+import com.texasgamer.zephyr.util.layout.ILayoutManager;
 import com.texasgamer.zephyr.util.log.ILogger;
+import com.texasgamer.zephyr.util.navigation.INavigationManager;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.theme.IThemeManager;
 
@@ -35,12 +38,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected IAnalyticsManager mAnalyticsManager;
     @Inject
     protected IThemeManager mThemeManager;
+    @Inject
+    protected ILayoutManager mLayoutManager;
+    @Inject
+    protected INavigationManager mNavigationManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         injectDependencies();
 
@@ -48,8 +53,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             throw new IllegalStateException("Dependencies not fulfilled for this Activity.");
         }
 
+        mLayoutManager.setCurrentActivity(this);
+
         setupContent();
         setupEdgeToEdgeNavigation();
+    }
+
+    @Override
+    @CallSuper
+    public void onConfigurationChanged(@NonNull Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        mLayoutManager.onConfigurationChanged(configuration);
     }
 
     @LayoutRes
@@ -66,7 +80,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+    @CallSuper
     protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+        // Some devices don't support edge to edge navigation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && supportsEdgeToEdgeNavigation()) {
+            int colorRes = windowInsets.getSystemWindowInsetBottom() == 0 ? getNavigationBarColor() : android.R.color.transparent;
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, colorRes));
+        }
+
         return windowInsets;
     }
 

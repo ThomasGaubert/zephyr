@@ -341,7 +341,7 @@ public class SocketService extends LifecycleService implements NetworkStateRecei
 
         mConnectionStatus = connectionStatus;
 
-        String statusMessage = NetworkUtils.connectionStatusToString(this, connectionStatus);
+        String statusMessage = getString(NetworkUtils.connectionStatusToString(connectionStatus));
 
         preferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, connectionStatus);
 

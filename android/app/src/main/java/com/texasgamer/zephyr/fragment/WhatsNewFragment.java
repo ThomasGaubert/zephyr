@@ -19,7 +19,7 @@ import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.adapter.WhatsNewAdapter;
 import com.texasgamer.zephyr.model.WhatsNewItem;
-import com.texasgamer.zephyr.util.NavigationUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
@@ -75,12 +75,12 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
     @Override
     protected int getInitialBottomSheetState() {
-        return BottomSheetBehavior.STATE_COLLAPSED;
+        return BottomSheetBehavior.STATE_EXPANDED;
     }
 
     @Override
     protected boolean shouldSkipCollapsedState() {
-        return false;
+        return true;
     }
 
     @OnClick(R.id.whats_new_more_icon)

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/fragment_default_secondary">
+
+    <fragment
+        android:id="@+id/fragment_default_secondary"
+        android:name="com.texasgamer.zephyr.fragment.DefaultSecondaryFragment"
+        android:label="DefaultSecondaryFragment"
+        tools:layout="@layout/fragment_default_secondary"/>
+
+    <fragment
+        android:id="@+id/fragment_notifications"
+        android:name="com.texasgamer.zephyr.fragment.NotificationsFragment"
+        android:label="@string/menu_manage_notifications"
+        tools:layout="@layout/fragment_notifications">
+        <argument
+            android:name="menuCheckedItem"
+            app:argType="reference"
+            android:defaultValue="@id/action_manage_notifications" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_about"
+        android:name="com.texasgamer.zephyr.fragment.AboutFragment"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about">
+        <argument
+            android:name="menuCheckedItem"
+            app:argType="reference"
+            android:defaultValue="@id/action_about" />
+
+        <action
+            android:id="@+id/action_fragment_about_to_fragment_licenses"
+            app:destination="@id/fragment_licenses" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_licenses"
+        android:name="com.texasgamer.zephyr.fragment.LicensesFragment"
+        android:label="@string/about_licenses"
+        tools:layout="@layout/fragment_licenses">
+        <argument
+            android:name="menuCheckedItem"
+            app:argType="reference"
+            android:defaultValue="@id/action_about" />
+    </fragment>
+
+</navigation>
