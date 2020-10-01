@@ -92,18 +92,14 @@ public class LayoutManager implements ILayoutManager {
 
     @Override
     public boolean isPrimarySecondaryLayoutEnabled() {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int widthDp = (int) (displayMetrics.widthPixels / displayMetrics.density);
-
+        // Enable primary-secondary layout if device has one vertical display feature splitting layout into two portrait screens.
         if (getDisplayFeature() != null) {
             int orientation = getOrientation();
             Rect displayFeatureRect = getDisplayFeature().getBounds();
-            if (displayFeatureRect.left == 0 && orientation == Configuration.ORIENTATION_PORTRAIT) {
-                return false;
-            }
+            return displayFeatureRect.left != 0 || orientation != Configuration.ORIENTATION_PORTRAIT;
         }
 
-        return widthDp > 720;
+        return false;
     }
 
     @NonNull

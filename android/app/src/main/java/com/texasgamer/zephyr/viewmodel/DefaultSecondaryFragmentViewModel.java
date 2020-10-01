@@ -20,9 +20,4 @@ public class DefaultSecondaryFragmentViewModel extends BaseViewModel {
     protected void injectDependencies() {
         ZephyrApplication.getApplicationComponent().inject(this);
     }
-
-    @NonNull
-    public String getText() {
-        return mResourceProvider.getString(R.string.fragment_default_secondary_text);
-    }
 }
