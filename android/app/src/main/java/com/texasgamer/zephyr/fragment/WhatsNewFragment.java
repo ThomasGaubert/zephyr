@@ -75,12 +75,12 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
 
     @Override
     protected int getInitialBottomSheetState() {
-        return BottomSheetBehavior.STATE_COLLAPSED;
+        return BottomSheetBehavior.STATE_EXPANDED;
     }
 
     @Override
     protected boolean shouldSkipCollapsedState() {
-        return false;
+        return true;
     }
 
     @OnClick(R.id.whats_new_more_icon)

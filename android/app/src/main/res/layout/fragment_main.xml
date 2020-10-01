@@ -23,7 +23,7 @@
             android:textAppearance="@style/ZephyrHeader"
             android:transitionName="app_name" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,7 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:animateLayoutChanges="true">
+                android:animateLayoutChanges="true"
+                android:paddingBottom="12dp">
 
                 <com.texasgamer.zephyr.view.ZephyrCardViewPager
                     android:id="@+id/main_carousel"
@@ -151,7 +152,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowInsets;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.databinding.FragmentMainBinding;
 import com.texasgamer.zephyr.model.DismissNotificationPayload;
 import com.texasgamer.zephyr.model.NotificationPayload;
+import com.texasgamer.zephyr.util.DimenUtils;
 import com.texasgamer.zephyr.util.ImageUtils;
 import com.texasgamer.zephyr.util.eventbus.EventBusEvent;
 import com.texasgamer.zephyr.util.log.LogLevel;
@@ -79,6 +81,13 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMa
     @Override
     protected void setViewBindings(@NonNull View view) {
         mDataBinding.setViewModel(mViewModel);
+    }
+
+    @Override
+    protected WindowInsets onApplyWindowInsets(@NonNull View view, @NonNull WindowInsets windowInsets) {
+        super.onApplyWindowInsets(view, windowInsets);
+        mDataBinding.scrollView.setPadding(0, 0, 0, windowInsets.getSystemWindowInsetBottom() + DimenUtils.dpToPx(12));
+        return windowInsets;
     }
 
     @Subscribe
