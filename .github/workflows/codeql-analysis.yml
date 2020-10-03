@@ -55,6 +55,14 @@ jobs:
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Autobuild
       uses: github/codeql-action/autobuild@v1
+      if: matrix.language == 'javascript'
+
+    - name: Build devDebug
+      if: matrix.language == 'java'
+      run: |
+        gradlew clean
+        gradlew assembleDevDebug
+      
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
