@@ -59,6 +59,7 @@ jobs:
 
     - name: Build devDebug
       if: matrix.language == 'java'
+      working-directory: android
       run: |
         gradlew clean
         gradlew assembleDevDebug
