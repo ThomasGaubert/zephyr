@@ -245,4 +245,8 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
 }
 
+// Dummy task for code analysis autobuild
+task testClasses {
+}
+
 apply plugin: 'com.google.gms.google-services'
