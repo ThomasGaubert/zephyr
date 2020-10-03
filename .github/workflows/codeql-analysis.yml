@@ -32,11 +32,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
-      if: matrix.language == 'javascript'
-
-    - name: Build devDebug
+    - name: 'Android: build devDebug'
       if: matrix.language == 'java'
       working-directory: android
       env:
