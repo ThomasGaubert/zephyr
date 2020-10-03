@@ -39,7 +39,10 @@ jobs:
     - name: Build devDebug
       if: matrix.language == 'java'
       working-directory: android
+      env:
+        SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
       run: |
+        gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \ --output ./google-services.json google-services.json.gpg
         ./gradlew clean
         ./gradlew assembleDevDebug
 
