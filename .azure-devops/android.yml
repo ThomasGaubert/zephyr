@@ -166,32 +166,6 @@ steps:
     contents: 'android/.play-store/**'
     targetFolder: $(Build.ArtifactStagingDirectory)
     cleanTargetFolder: true
-- task: Bash@3
-  displayName: Rename build metadata
-  inputs:
-    targetType: inline
-    workingDirectory: 'android/app/build/outputs/apk/production/release'
-    script: mv output-metadata.json build-metadata.json
-- task: CopyFiles@2
-  displayName: Stage build metadata for publishing
-  inputs:
-    contents: 'android/app/build/outputs/apk/production/release/build-metadata.json'
-    flattenFolders: true
-    targetFolder: $(Build.ArtifactStagingDirectory)
-- task: Bash@3
-  displayName: Create Discord embed
-  inputs:
-    targetType: inline
-    workingDirectory: 'android/.scripts'
-    script: | 
-      sudo chmod +x create-discord-embed.sh
-      ./create-discord-embed.sh -b ../app/build/outputs/apk/production/release/build-metadata.json -c ../.play-store/en-US/changelogs/production.txt >> discord-embed-production.json
-- task: CopyFiles@2
-  displayName: Stage Discord embed for publishing
-  inputs:
-    contents: 'android/app/build/outputs/apk/production/release/discord-embed.json'
-    flattenFolders: true
-    targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   displayName: Publish Play Store metadata
   inputs:
