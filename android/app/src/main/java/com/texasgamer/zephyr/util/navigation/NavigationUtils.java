@@ -1,5 +1,6 @@
 package com.texasgamer.zephyr.util.navigation;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.texasgamer.zephyr.BuildConfig;
 import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.ZephyrApplication;
 
 /**
  * Navigation utilities.
@@ -22,6 +24,13 @@ public final class NavigationUtils {
     }
 
     public static void openUrl(@NonNull Context context, @NonNull String url) {
+        if (!(context instanceof Activity)) {
+            Context activityContext = ZephyrApplication.getInstance().getCurrentActivity();
+            if (activityContext != null) {
+                context = activityContext;
+            }
+        }
+
         try {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setToolbarColor(ContextCompat.getColor(context, R.color.primary));

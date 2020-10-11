@@ -1,8 +1,12 @@
 package com.texasgamer.zephyr;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
+import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -34,12 +38,14 @@ import com.texasgamer.zephyr.worker.IWorkManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.ref.WeakReference;
+
 import javax.inject.Inject;
 
 /**
  * Zephyr application.
  */
-public class ZephyrApplication extends Application implements LifecycleObserver {
+public class ZephyrApplication extends Application implements LifecycleObserver, Application.ActivityLifecycleCallbacks {
 
     private static final String LOG_TAG = "ZephyrApplication";
     private static ZephyrApplication sInstance;
@@ -63,6 +69,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
     @Inject
     IThemeManager themeManager;
 
+    private WeakReference<Activity> mCurrentActivity;
     private boolean mIsInForeground;
 
     public static ApplicationComponent getApplicationComponent() {
@@ -91,6 +98,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
         sApplicationComponent.init();
 
         registerActivityLifecycleCallbacks(new ZephyrLifecycleLogger(logger));
+        registerActivityLifecycleCallbacks(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
         EventBus.builder().logNoSubscriberMessages(false).installDefaultEventBus();
@@ -150,8 +158,48 @@ public class ZephyrApplication extends Application implements LifecycleObserver 
         preferenceManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION, BuildConfigUtils.getVersionCode());
     }
 
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityStarted(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(@NonNull Activity activity) {
+        mCurrentActivity = new WeakReference<>(activity);
+    }
+
+    @Override
+    public void onActivityPaused(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(@NonNull Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(@NonNull Activity activity) {
+
+    }
+
     public boolean isInForeground() {
         return mIsInForeground;
+    }
+
+    @Nullable
+    public Activity getCurrentActivity() {
+        return mCurrentActivity != null ? mCurrentActivity.get() : null;
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod")

@@ -76,11 +76,21 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
             cards.add(zephyrV2Card);
         }
 
+        // Zephyr 2.0
+        if (forceShowCards || (mApplicationUtils.didUpgradeFromV1()
+                && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO))) {
+            ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
+            zephyrV2Card.setOnClickListener(v -> {
+                navigationManager.navigate(R.id.action_fragment_main_to_fragment_whats_new);
+            });
+            cards.add(zephyrV2Card);
+        }
+
         // Onboarding: Download desktop client
         if (forceShowCards || (mApplicationUtils.hasNotificationAccess()
-                && !mApplicationUtils.didUpgradeFromV1()
                 && !everConnectedToServer
-                && connectionStatus != ConnectionStatus.CONNECTED)) {
+                && connectionStatus != ConnectionStatus.CONNECTED)
+                && mConfigManager.isProduction()) {
             ZephyrCard manageNotificationsCard = new ZephyrCard(ZephyrCardType.INFO, R.string.card_download_desktop_title, R.string.card_download_desktop_body);
             manageNotificationsCard.setOnClickListener(v -> {
                 NavigationUtils.openUrl(context, Constants.ZEPHYR_STEAM_URL);
@@ -116,16 +126,6 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
             });
             cards.add(manageNotificationsCard);
             completedFre = false;
-        }
-
-        // Zephyr 2.0
-        if (forceShowCards || (mApplicationUtils.didUpgradeFromV1()
-                && !mPreferenceManager.getBoolean(PreferenceKeys.PREF_SEEN_V2_PROMO))) {
-            ZephyrCard zephyrV2Card = new ZephyrCard(ZephyrCardType.INFO, R.string.card_zephyr_v2_title, R.string.card_zephyr_v2_body);
-            zephyrV2Card.setOnClickListener(v -> {
-                navigationManager.navigate(R.id.action_fragment_main_to_fragment_whats_new);
-            });
-            cards.add(zephyrV2Card);
         }
 
         mPreferenceManager.putBoolean(PreferenceKeys.PREF_COMPLETED_FRE, completedFre);

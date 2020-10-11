@@ -1,8 +1,7 @@
 Automatically built and published to beta track.
 
-- Complete rewrite of in-app navigation
-- Added support for foldable devices like Surface Duo
-- Added support for landscape orientation
+- Fixed crash when opening in-app links
+- Updated card provider logic
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

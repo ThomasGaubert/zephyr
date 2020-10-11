@@ -168,8 +168,8 @@ public class DiscoveryManager implements IDiscoveryManager {
 
     private void populateMockData() {
         synchronized (mDiscoveredServers) {
-            mDiscoveredServers.put("0", new DiscoveredServer("0",
-                    "Mock Server", Constants.ZEPHYR_API_VERSION,
+            mDiscoveredServers.put("0", new DiscoveredServer("192.168.0.18",
+                    "Desktop", Constants.ZEPHYR_API_VERSION,
                     System.currentTimeMillis(), DiscoveredServer.DisabledReason.NOT_DISABLED));
             ZephyrExecutors.getMainThreadExecutor().execute(() -> {
                 mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
