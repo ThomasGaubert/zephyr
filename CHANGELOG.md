@@ -22,7 +22,7 @@ Zephyr 2.0.0 represents a complete rewrite of all aspects of the project. Everyt
 - Updated to latest Android SDK.
 
 #### Removed
-- Cloud syncing of Zephyr server IP address has been removed in favor of new pairing features.
+- Cloud syncing of Zephyr server IP address has been removed in favor of new local pairing features.
 - Removed Smart Connect and start on boot.
 
 #### Fixed
@@ -48,13 +48,13 @@ Zephyr 2.0.0 represents a complete rewrite of all aspects of the project. Everyt
 - Overlay is now tightly coupled with the desktop client.
 
 #### Removed
-- Cloud syncing of Zephyr server IP address has been removed in favor of new pairing features.
-- Standalone (non-Steam) builds are currently not provided.
-- Auto updates outside of Steam have been removed and are currently not supported.
+- Cloud syncing of Zephyr server IP address has been removed in favor of new local pairing features.
+- Standalone (non-Steam) builds have been discontinued and are no longer supported.
+- Auto updates outside of Steam have been removed and are no longer supported.
 - Telemetry.
 
 #### Fixed
-- Improved overall stability and reliability of desktop client and overlay.
+- Improved overall stability, security, and reliability of desktop client and overlay.
 
 ## 1.1.5 - 2016-10-07
 
