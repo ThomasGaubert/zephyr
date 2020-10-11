@@ -183,7 +183,9 @@ steps:
   inputs:
     targetType: inline
     workingDirectory: 'android/.scripts'
-    script: ./create-discord-embed.sh -b ../app/build/outputs/apk/production/release/build-metadata.json -c ../.play-store/en-US/changelogs/production.txt >> discord-embed-production.json
+    script: | 
+      sudo chmod +x create-discord-embed.sh
+      create-discord-embed.sh -b ../app/build/outputs/apk/production/release/build-metadata.json -c ../.play-store/en-US/changelogs/production.txt >> discord-embed-production.json
 - task: CopyFiles@2
   displayName: Stage Discord embed for publishing
   inputs:
