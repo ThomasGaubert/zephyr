@@ -170,22 +170,22 @@ dependencies {
 
     // Design
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'com.google.android.material:material:1.2.1'
 
     // EventBus
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-core:17.5.1'
     implementation 'com.google.firebase:firebase-config:19.2.0'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-perf:19.0.9'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
 
     // Flipper
-    debugImplementation 'com.facebook.flipper:flipper:0.60.0'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.60.0'
+    debugImplementation 'com.facebook.flipper:flipper:0.61.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.61.0'
     debugImplementation 'com.facebook.soloader:soloader:0.9.0'
 
     // Gson

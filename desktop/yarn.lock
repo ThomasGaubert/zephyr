@@ -193,25 +193,9 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@snyk/gemfile/-/gemfile-1.2.0.tgz#919857944973cce74c650e5428aaf11bcd5c0457"
 
-"@snyk/java-call-graph-builder@1.13.2":
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/@snyk/java-call-graph-builder/-/java-call-graph-builder-1.13.2.tgz#6e4a9495d5c47bbab9bc69e066d4646473781b67"
-  dependencies:
-    ci-info "^2.0.0"
-    debug "^4.1.1"
-    glob "^7.1.6"
-    graphlib "^2.1.8"
-    jszip "^3.2.2"
-    needle "^2.3.3"
-    progress "^2.0.3"
-    snyk-config "^3.0.0"
-    source-map-support "^0.5.7"
-    temp-dir "^2.0.0"
-    tslib "^1.9.3"
-
-"@snyk/java-call-graph-builder@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@snyk/java-call-graph-builder/-/java-call-graph-builder-1.14.0.tgz#62c64659ee954e4d24ee8220a445c6288afef8e1"
+"@snyk/java-call-graph-builder@1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@snyk/java-call-graph-builder/-/java-call-graph-builder-1.16.0.tgz#6f365399e735aa7fd17a49ea8928bb03186bf78c"
   dependencies:
     ci-info "^2.0.0"
     debug "^4.1.1"
@@ -421,9 +405,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.9.50":
-  version "16.9.50"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.50.tgz#cb5f2c22d42de33ca1f5efc6a0959feb784a3a2d"
+"@types/react@*", "@types/react@^16.9.51":
+  version "16.9.51"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.51.tgz#f8aa51ffa9996f1387f63686696d9b59713d2b60"
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -3179,9 +3163,9 @@ electron-updater@^4.3.5:
     lodash.isequal "^4.5.0"
     semver "^7.3.2"
 
-electron@^8.5.1:
-  version "8.5.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-8.5.1.tgz#db1c0c1dab16bfa3ac87bfc4c0ad86d43c3cfff4"
+electron@^8.5.2:
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.5.2.tgz#7b0246c6676a39df0e5e384b11cfe854fe5917f0"
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -4281,9 +4265,9 @@ html-minifier-terser@^5.0.1:
     relateurl "^0.2.7"
     terser "^4.6.3"
 
-html-webpack-plugin@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-4.4.1.tgz#61ab85aa1a84ba181443345ebaead51abbb84149"
+html-webpack-plugin@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-4.5.0.tgz#625097650886b97ea5dae331c320e3238f6c121c"
   dependencies:
     "@types/html-minifier-terser" "^5.0.0"
     "@types/tapable" "^1.0.5"
@@ -5042,9 +5026,9 @@ jest-jasmine2@^23.6.0:
     jest-util "^23.4.0"
     pretty-format "^23.6.0"
 
-jest-junit@^11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-11.1.0.tgz#79cd53948e44d62b2b30fa23ea0d7a899d2c8d7a"
+jest-junit@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-12.0.0.tgz#3ebd4a6a84b50c4ab18323a8f7d9cceb9d845df6"
   dependencies:
     mkdirp "^1.0.4"
     strip-ansi "^5.2.0"
@@ -7605,12 +7589,14 @@ snyk-cpp-plugin@2.0.0:
     debug "^4.1.1"
     tslib "^2.0.0"
 
-snyk-docker-plugin@3.24.0:
-  version "3.24.0"
-  resolved "https://registry.yarnpkg.com/snyk-docker-plugin/-/snyk-docker-plugin-3.24.0.tgz#534fe3a289dd6d0547a73807eee05d8d3e5ec9bc"
+snyk-docker-plugin@3.26.2:
+  version "3.26.2"
+  resolved "https://registry.yarnpkg.com/snyk-docker-plugin/-/snyk-docker-plugin-3.26.2.tgz#ca280604311dea46369dc25ecf1d3b7bc4f77c6d"
   dependencies:
+    "@snyk/dep-graph" "^1.19.4"
     "@snyk/rpm-parser" "^2.0.0"
     "@snyk/snyk-docker-pull" "^3.2.0"
+    chalk "^2.4.2"
     debug "^4.1.1"
     docker-modem "2.1.3"
     dockerfile-ast "0.0.30"
@@ -7642,13 +7628,13 @@ snyk-go-plugin@1.16.2:
     tmp "0.2.1"
     tslib "^1.10.0"
 
-snyk-gradle-plugin@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-3.7.0.tgz#db84eeaa349d6c4ec7e27a5ada788e7a53851d4a"
+snyk-gradle-plugin@3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-3.10.0.tgz#95e2e4297cd58910f6b42706b82a77eb24a41bc7"
   dependencies:
     "@snyk/cli-interface" "2.9.1"
     "@snyk/dep-graph" "^1.19.4"
-    "@snyk/java-call-graph-builder" "^1.14.0"
+    "@snyk/java-call-graph-builder" "1.16.0"
     "@types/debug" "^4.1.4"
     chalk "^3.0.0"
     debug "^4.1.1"
@@ -7678,13 +7664,14 @@ snyk-module@^2.0.2:
     debug "^3.1.0"
     hosted-git-info "^2.7.1"
 
-snyk-mvn-plugin@2.19.4:
-  version "2.19.4"
-  resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-2.19.4.tgz#4e29fa82b9ca409789d441939c766797d6a2360f"
+snyk-mvn-plugin@2.22.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-2.22.0.tgz#dd36764dcacdc5b4c3e1bb18c73ea2147a0baadd"
   dependencies:
     "@snyk/cli-interface" "2.9.1"
-    "@snyk/java-call-graph-builder" "1.13.2"
+    "@snyk/java-call-graph-builder" "1.16.0"
     debug "^4.1.1"
+    glob "^7.1.6"
     needle "^2.5.0"
     tmp "^0.1.0"
     tslib "1.11.1"
@@ -7830,9 +7817,9 @@ snyk-try-require@1.3.1, snyk-try-require@^1.1.1, snyk-try-require@^1.3.1:
     lru-cache "^4.0.0"
     then-fs "^2.0.0"
 
-snyk@^1.406.0:
-  version "1.406.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.406.0.tgz#f40e116786e655e81a5d1e3064b367d99489de33"
+snyk@^1.413.2:
+  version "1.413.2"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.413.2.tgz#ad929285f19b45fc0580e75ff114a999295be6c8"
   dependencies:
     "@snyk/cli-interface" "2.9.2"
     "@snyk/dep-graph" "1.19.4"
@@ -7857,11 +7844,11 @@ snyk@^1.406.0:
     semver "^6.0.0"
     snyk-config "3.1.1"
     snyk-cpp-plugin "2.0.0"
-    snyk-docker-plugin "3.24.0"
+    snyk-docker-plugin "3.26.2"
     snyk-go-plugin "1.16.2"
-    snyk-gradle-plugin "3.7.0"
+    snyk-gradle-plugin "3.10.0"
     snyk-module "3.1.0"
-    snyk-mvn-plugin "2.19.4"
+    snyk-mvn-plugin "2.22.0"
     snyk-nodejs-lockfile-parser "1.28.1"
     snyk-nuget-plugin "1.19.3"
     snyk-php-plugin "1.9.2"
