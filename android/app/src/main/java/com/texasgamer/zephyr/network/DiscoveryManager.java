@@ -166,6 +166,7 @@ public class DiscoveryManager implements IDiscoveryManager {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidUsingHardCodedIP")
     private void populateMockData() {
         synchronized (mDiscoveredServers) {
             mDiscoveredServers.put("0", new DiscoveredServer("192.168.0.18",
