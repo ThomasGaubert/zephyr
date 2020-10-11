@@ -24,21 +24,22 @@ public final class NavigationUtils {
     }
 
     public static void openUrl(@NonNull Context context, @NonNull String url) {
+        Context finalContext = context;
         if (!(context instanceof Activity)) {
             Context activityContext = ZephyrApplication.getInstance().getCurrentActivity();
             if (activityContext != null) {
-                context = activityContext;
+                finalContext = activityContext;
             }
         }
 
         try {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(context, R.color.primary));
+            builder.setToolbarColor(ContextCompat.getColor(finalContext, R.color.primary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context, Uri.parse(url));
+            customTabsIntent.launchUrl(finalContext, Uri.parse(url));
         } catch (ActivityNotFoundException e) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(browserIntent);
+            finalContext.startActivity(browserIntent);
         }
     }
 
