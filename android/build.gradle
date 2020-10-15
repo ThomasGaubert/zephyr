@@ -15,7 +15,7 @@ buildscript {
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
-        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0'
+        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.3.1'
     }
 }
 
