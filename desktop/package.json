@@ -104,7 +104,7 @@
     "electron": "^8.5.2",
     "electron-builder": "^22.9.1",
     "electron-react-devtools": "^0.5.3",
-    "electron-rebuild": "^2.2.0",
+    "electron-rebuild": "^2.3.2",
     "electron-reload": "^1.5.0",
     "html-webpack-plugin": "^4.5.0",
     "jest": "^23.5.0",
