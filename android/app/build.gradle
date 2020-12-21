@@ -166,7 +166,7 @@ dependencies {
 
     // Dagger
     implementation 'com.google.dagger:dagger:2.29.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.29.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.30.1'
 
     // Design
     implementation 'androidx.appcompat:appcompat:1.2.0'
