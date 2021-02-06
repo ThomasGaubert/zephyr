@@ -207,7 +207,7 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-common-java8:2.2.0"
 
     // Navigation
-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.3'
     implementation 'androidx.navigation:navigation-ui:2.3.3'
 
     // Palette
