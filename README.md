@@ -7,10 +7,8 @@ Mirror Android notifications to VR
 
 [<img alt="Get it on Google Play" height="75px" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr)
 
-## Beta
-Zephyr v2 is almost here! Get early access to the biggest release yet.
-
-**[Enroll in the beta](https://zephyrvr.gitbook.io/docs/zephyr/beta)**
+## Latest news
+Zephyr v2 is almost here! Beta access is closed as release nears...
 
 ## Looking for v1?
 Don't worry, Zephyr v1 is still available until v2 is released. The desktop client is available under [Releases](https://github.com/ThomasGaubert/zephyr/releases) and the Android client is available on the [Play Store](https://play.google.com/store/apps/details?id=com.texasgamer.zephyr).
