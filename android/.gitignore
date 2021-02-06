@@ -23,6 +23,7 @@ local.properties
 *.class
 bin/
 gen/
+reports/
 
 # Keystore
 android-keystore.properties

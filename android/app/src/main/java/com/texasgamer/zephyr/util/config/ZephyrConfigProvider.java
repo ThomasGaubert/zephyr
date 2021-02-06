@@ -60,16 +60,17 @@ public class ZephyrConfigProvider {
 
     private void initFirebaseRemoteConfig() {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                .build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        mFirebaseRemoteConfig.setDefaults(R.xml.config_defaults);
-        mFirebaseRemoteConfig.fetch(Constants.FIREBASE_REMOTE_CONFIG_CACHE_EXPIRY_IN_SECONDS).addOnCompleteListener(ZephyrExecutors.getNetworkExecutor(), task -> {
-            if (task.isSuccessful()) {
-                mFirebaseRemoteConfig.activateFetched();
-            }
-        });
+        FirebaseRemoteConfigSettings.Builder configSettingsBuilder = new FirebaseRemoteConfigSettings.Builder();
+
+        if (BuildConfig.DEBUG) {
+            configSettingsBuilder.setMinimumFetchIntervalInSeconds(60L);
+        }
+
+        FirebaseRemoteConfigSettings configSettings = configSettingsBuilder.build();
+
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.config_defaults);
+        mFirebaseRemoteConfig.fetchAndActivate();
     }
 
     private void initLocalConfig() throws Exception {
