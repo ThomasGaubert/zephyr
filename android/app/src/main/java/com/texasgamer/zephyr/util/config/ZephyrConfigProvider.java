@@ -3,19 +3,17 @@ package com.texasgamer.zephyr.util.config;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.texasgamer.zephyr.BuildConfig;
-import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 import com.texasgamer.zephyr.util.log.LogLevel;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
 
 /**
  * Config provider that sources from either Firebase or local configuration file.
