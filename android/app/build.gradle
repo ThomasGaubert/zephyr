@@ -144,7 +144,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // AppCenter
-    implementation "com.microsoft.appcenter:appcenter-distribute:3.3.1"
+    implementation "com.microsoft.appcenter:appcenter-distribute:4.1.0"
 
     // ButterKnife
     implementation ('com.jakewharton:butterknife:10.2.3') {
