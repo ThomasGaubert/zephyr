@@ -1,7 +1,6 @@
 Automatically built and published to beta track.
 
-- Fixed crash when opening in-app links
-- Updated card provider logic
+- Fixed invisible cards
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
