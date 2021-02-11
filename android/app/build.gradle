@@ -196,7 +196,7 @@ dependencies {
     // LiveData
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:2.3.0"
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
