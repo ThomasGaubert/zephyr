@@ -47,7 +47,6 @@ object Constants {
     const val FIREBASE_ANALYTICS_ENABLED = true
     const val FIREBASE_CRASHLYTICS_ENABLED = true
     const val FIREBASE_REMOTE_CONFIG_ENABLED = true
-    const val FIREBASE_PERFORMANCE_MONITORING_ENABLED = true
 
     /* Discovery */
     const val DISCOVERY_BROADCAST_ADDRESS = "230.186.100.28"

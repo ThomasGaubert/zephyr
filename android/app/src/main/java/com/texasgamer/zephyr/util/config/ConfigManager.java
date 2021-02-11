@@ -67,11 +67,6 @@ public class ConfigManager implements IConfigManager {
     }
 
     @Override
-    public boolean isFirebasePerformanceMonitoringEnabled() {
-        return isFirebaseEnabled() && Constants.FIREBASE_PERFORMANCE_MONITORING_ENABLED && isRelease();
-    }
-
-    @Override
     public boolean isQrCodeScanningEnabled() {
         return isFirebaseEnabled()
                 && mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)

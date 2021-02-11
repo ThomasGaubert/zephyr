@@ -14,7 +14,6 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.google.firebase.perf.FirebasePerformance;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
@@ -107,10 +106,6 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
             FirebaseApp.initializeApp(this);
         } else {
             logger.log(LogLevel.WARNING, LOG_TAG, "Firebase disabled, some features will be limited or disabled.");
-        }
-
-        if (configManager.isFirebasePerformanceMonitoringEnabled()) {
-            FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
         }
 
         FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
