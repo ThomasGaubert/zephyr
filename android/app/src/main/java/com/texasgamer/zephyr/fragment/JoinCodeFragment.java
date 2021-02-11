@@ -33,17 +33,17 @@ import javax.inject.Inject;
  */
 public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
 
-    private TextInputEditText mJoinCodeTextEdit;
-    private TextView joinCodeInvalidText;
-
     @Inject
     IPreferenceManager preferenceManager;
+
+    private TextInputEditText mJoinCodeTextEdit;
+    private TextView mJoinCodeInvalidText;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_join_code, container, false);
         mJoinCodeTextEdit = root.findViewById(R.id.join_code_edit_text);
-        joinCodeInvalidText = root.findViewById(R.id.join_code_invalid);
+        mJoinCodeInvalidText = root.findViewById(R.id.join_code_invalid);
         return root;
     }
 
@@ -90,9 +90,9 @@ public class JoinCodeFragment extends RoundedBottomSheetDialogFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String joinCode = s.toString();
                 if (!joinCode.isEmpty() && !NetworkUtils.isValidJoinCode(joinCode)) {
-                    joinCodeInvalidText.setVisibility(View.VISIBLE);
+                    mJoinCodeInvalidText.setVisibility(View.VISIBLE);
                 } else {
-                    joinCodeInvalidText.setVisibility(View.INVISIBLE);
+                    mJoinCodeInvalidText.setVisibility(View.INVISIBLE);
                 }
             }
 

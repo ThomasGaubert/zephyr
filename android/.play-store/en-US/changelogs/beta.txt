@@ -1,6 +1,5 @@
 Automatically built and published to beta track.
 
-- Fixed invisible cards
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.

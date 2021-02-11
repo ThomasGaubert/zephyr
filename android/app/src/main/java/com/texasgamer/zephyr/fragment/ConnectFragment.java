@@ -38,8 +38,6 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
 
     public static final String LOG_TAG = "ConnectFragment";
 
-    private NavigationView mNavigationView;
-
     @Inject
     ILogger logger;
     @Inject
@@ -52,6 +50,8 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     IDiscoveryManager discoveryManager;
     @Inject
     INavigationManager navigationManager;
+
+    private NavigationView mNavigationView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
