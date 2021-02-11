@@ -34,27 +34,17 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import butterknife.OnLongClick;
-
 /**
  * Main activity.
  */
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.coordinator_layout)
-    CoordinatorLayout mCoordinatorLayout;
-    @BindView(R.id.main_fragment)
-    FragmentContainerView mMainFragment;
-    @BindView(R.id.bottom_app_bar)
-    BottomAppBar mBottomAppBar;
-    @BindView(R.id.connect_button)
-    ZephyrServiceButton mConnectButton;
-    @BindView(R.id.spacer)
-    View mSpacer;
-    @BindView(R.id.secondary_fragment)
-    FragmentContainerView mSecondaryFragment;
+    private CoordinatorLayout mCoordinatorLayout;
+    private FragmentContainerView mMainFragment;
+    private BottomAppBar mBottomAppBar;
+    private ZephyrServiceButton mConnectButton;
+    private View mSpacer;
+    private FragmentContainerView mSecondaryFragment;
 
     private DrawerArrowDrawable mDrawerArrowDrawable;
     private ConnectButtonViewModel mConnectButtonViewModel;
@@ -67,6 +57,16 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Zephyr);
         super.onCreate(savedInstanceState);
+
+        mCoordinatorLayout = findViewById(R.id.coordinator_layout);
+        mMainFragment = findViewById(R.id.main_fragment);
+        mBottomAppBar = findViewById(R.id.bottom_app_bar);
+        mConnectButton = findViewById(R.id.connect_button);
+        mSpacer = findViewById(R.id.spacer);
+        mSecondaryFragment = findViewById(R.id.secondary_fragment);
+
+        mConnectButton.setOnClickListener(v -> onClickConnectButton());
+        mConnectButton.setOnLongClickListener(v -> onLongClickConnectButton());
 
         NavHostFragment mainNavHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
         if (mainNavHostFragment != null) {
@@ -141,7 +141,6 @@ public class MainActivity extends BaseActivity {
         return windowInsets;
     }
 
-    @OnClick(R.id.connect_button)
     public void onClickConnectButton() {
         Intent socketServiceIntent = new Intent(MainActivity.this, SocketService.class);
         boolean isJoinCodeSet = isJoinCodeSet();
@@ -166,7 +165,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @OnLongClick(R.id.connect_button)
     public boolean onLongClickConnectButton() {
         mAnalyticsManager.logEvent(ZephyrEvent.Action.LONG_PRESS_CONNECTION_BUTTON);
         mMainNavController.navigate(R.id.action_fragment_main_to_fragment_connect);

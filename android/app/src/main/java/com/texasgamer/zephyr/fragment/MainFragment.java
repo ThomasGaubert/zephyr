@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.WindowInsets;
+import android.widget.Button;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -28,14 +29,14 @@ import com.texasgamer.zephyr.viewmodel.MainFragmentViewModel;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.OnClick;
-
 /**
  * Main fragment.
  */
 public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMainBinding> {
 
     private static final String LOG_TAG = "MainFragment";
+
+    private Button mTestNotificationButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMa
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mTestNotificationButton = view.findViewById(R.id.test_notification_button);
+        mTestNotificationButton.setOnClickListener(v -> sendTestNotification());
         checkForWhatsNew();
     }
 
@@ -105,7 +108,6 @@ public class MainFragment extends BaseFragment<MainFragmentViewModel, FragmentMa
         }
     }
 
-    @OnClick(R.id.test_notification_button)
     void sendTestNotification() {
         ZephyrExecutors.getDiskExecutor().execute(() -> {
             NotificationPayload notificationPayload = new NotificationPayload();

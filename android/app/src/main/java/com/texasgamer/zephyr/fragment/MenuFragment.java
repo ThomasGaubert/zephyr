@@ -32,21 +32,10 @@ import com.texasgamer.zephyr.util.theme.IThemeManager;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Menu fragment.
  */
 public class MenuFragment extends RoundedBottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
-
-    @BindView(R.id.theme_btn)
-    View themeButton;
-    @BindView(R.id.debug_menu_btn)
-    View debugMenuButton;
-    @BindView(R.id.nav_menu)
-    NavigationView mNavigationView;
 
     @Inject
     IConfigManager configManager;
@@ -59,21 +48,34 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
     @Inject
     INavigationManager navigationManager;
 
+    private View mThemeButton;
+    private View mDebugMenuButton;
+    private NavigationView mNavigationView;
     private NavController mSecondaryNavController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
-        ButterKnife.bind(this, root);
+        mThemeButton = root.findViewById(R.id.theme_btn);
+        mDebugMenuButton = root.findViewById(R.id.debug_menu_btn);
+        mNavigationView = root.findViewById(R.id.nav_menu);
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
+
+        mDebugMenuButton.setOnClickListener(v -> {
+            navigationManager.navigate(R.id.action_fragment_menu_to_fragment_debug);
+            dismiss();
+        });
+
+        mThemeButton.setOnClickListener(v -> onClickThemeButton());
+
         mNavigationView.setNavigationItemSelectedListener(this);
-        themeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
-        debugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
+        mThemeButton.setVisibility(configManager.isThemingEnabled() ? View.VISIBLE : View.GONE);
+        mDebugMenuButton.setVisibility(configManager.isDebugMenuEnabled() ? View.VISIBLE : View.GONE);
 
         mSecondaryNavController = navigationManager.getSecondaryNavController();
 
@@ -112,13 +114,6 @@ public class MenuFragment extends RoundedBottomSheetDialogFragment implements Na
         return false;
     }
 
-    @OnClick(R.id.debug_menu_btn)
-    public void onClickDebugMenuButton() {
-        navigationManager.navigate(R.id.action_fragment_menu_to_fragment_debug);
-        dismiss();
-    }
-
-    @OnClick(R.id.theme_btn)
     public void onClickThemeButton() {
         if (getActivity() == null) {
             return;

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -26,11 +25,6 @@ import com.texasgamer.zephyr.util.privacy.IPrivacyManager;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
-
 /**
  * Privacy fragment.
  */
@@ -41,23 +35,24 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     @Inject
     IPrivacyManager privacyManager;
 
-    @BindView(R.id.privacy_disabled_config_text)
-    TextView configPrivacyDisabledText;
-    @BindView(R.id.privacy_setting_usage_data)
-    Switch usageDataSwitch;
-    @BindView(R.id.privacy_setting_crash_reports)
-    Switch crashReportSwitch;
-    @BindView(R.id.privacy_setting_uuid)
-    Switch uuidSwitch;
-    @BindView(R.id.privacy_btn_uuid_generate)
-    Button generateUuidButton;
-    @BindView(R.id.privacy_uuid)
-    TextView uuidTextView;
+    private TextView mConfigPrivacyDisabledText;
+    private Switch mUsageDataSwitch;
+    private Switch mCrashReportSwitch;
+    private Switch mUuidSwitch;
+    private Button mGenerateUuidButton;
+    private TextView mUuidTextView;
+    private Button mPrivacyPolicyButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_privacy, container, false);
-        ButterKnife.bind(this, root);
+        mConfigPrivacyDisabledText = root.findViewById(R.id.privacy_disabled_config_text);
+        mUsageDataSwitch = root.findViewById(R.id.privacy_setting_usage_data);
+        mCrashReportSwitch = root.findViewById(R.id.privacy_setting_crash_reports);
+        mUuidSwitch = root.findViewById(R.id.privacy_setting_uuid);
+        mGenerateUuidButton = root.findViewById(R.id.privacy_btn_uuid_generate);
+        mUuidTextView = root.findViewById(R.id.privacy_uuid);
+        mPrivacyPolicyButton = root.findViewById(R.id.privacy_btn_policy);
         return root;
     }
 
@@ -65,62 +60,52 @@ public class PrivacyFragment extends RoundedBottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ZephyrApplication.getApplicationComponent().inject(this);
 
-        usageDataSwitch.setChecked(privacyManager.isUsageDataCollectionEnabled());
-        crashReportSwitch.setChecked(privacyManager.isCrashReportingEnabled());
-        uuidSwitch.setChecked(privacyManager.isUuidEnabled());
-        uuidTextView.setText(privacyManager.getUuid());
+        mUsageDataSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                privacyManager.setUsageDataCollectionEnabled(isChecked));
+
+        mCrashReportSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                privacyManager.setCrashReportingEnabled(isChecked));
+
+        mUuidSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            privacyManager.setUuidEnabled(isChecked);
+            mUuidTextView.setText(privacyManager.getUuid());
+            mGenerateUuidButton.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        });
+
+        mGenerateUuidButton.setOnClickListener(v ->
+                mUuidTextView.setText(privacyManager.generateUuid()));
+
+        mPrivacyPolicyButton.setOnClickListener(v ->
+                NavigationUtils.openUrl(requireContext(), Constants.ZEPHYR_PRIVACY_URL));
+
+        mUsageDataSwitch.setChecked(privacyManager.isUsageDataCollectionEnabled());
+        mCrashReportSwitch.setChecked(privacyManager.isCrashReportingEnabled());
+        mUuidSwitch.setChecked(privacyManager.isUuidEnabled());
+        mUuidTextView.setText(privacyManager.getUuid());
 
         boolean settingDisabledFlag = false;
         if (!privacyManager.isEditingUsageDataCollectionSettingEnabled()) {
-            usageDataSwitch.setEnabled(false);
+            mUsageDataSwitch.setEnabled(false);
             settingDisabledFlag = true;
         }
 
         if (!privacyManager.isEditingUsageDataCollectionSettingEnabled()) {
-            crashReportSwitch.setEnabled(false);
+            mCrashReportSwitch.setEnabled(false);
             settingDisabledFlag = true;
         }
 
         if (!privacyManager.isEditingUsageDataCollectionSettingEnabled()) {
-            uuidSwitch.setEnabled(false);
+            mUuidSwitch.setEnabled(false);
             settingDisabledFlag = true;
         }
 
-        if (!uuidSwitch.isChecked()) {
-            generateUuidButton.setVisibility(View.GONE);
+        if (!mUuidSwitch.isChecked()) {
+            mGenerateUuidButton.setVisibility(View.GONE);
         }
 
         if (settingDisabledFlag && (!configManager.isFirebaseAnalyticsEnabled() || !configManager.isFirebaseCrashlyticsEnabled())) {
-            configPrivacyDisabledText.setVisibility(View.VISIBLE);
+            mConfigPrivacyDisabledText.setVisibility(View.VISIBLE);
         }
-    }
-
-    @OnCheckedChanged(R.id.privacy_setting_usage_data)
-    void onToggleUsageDataSwitch(CompoundButton view, boolean isChecked) {
-        privacyManager.setUsageDataCollectionEnabled(isChecked);
-    }
-
-    @OnCheckedChanged(R.id.privacy_setting_crash_reports)
-    void onToggleCrashReportsSwitch(CompoundButton view, boolean isChecked) {
-        privacyManager.setCrashReportingEnabled(isChecked);
-    }
-
-    @OnCheckedChanged(R.id.privacy_setting_uuid)
-    void onToggleUuidSwitch(CompoundButton view, boolean isChecked) {
-        privacyManager.setUuidEnabled(isChecked);
-        uuidTextView.setText(privacyManager.getUuid());
-        generateUuidButton.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-    }
-
-    @OnClick(R.id.privacy_btn_uuid_generate)
-    void onClickGenerateUuidButton() {
-        String uuid = privacyManager.generateUuid();
-        uuidTextView.setText(uuid);
-    }
-
-    @OnClick(R.id.privacy_btn_policy)
-    void onClickPrivacyPolicyButton() {
-        NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_PRIVACY_URL);
     }
 
     @Override

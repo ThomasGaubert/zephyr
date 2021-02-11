@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,12 +31,12 @@ import com.otaliastudios.cameraview.CameraView;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.service.QuickSettingService;
-import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
 import com.texasgamer.zephyr.util.VibrationUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ScannerOverlayView;
@@ -45,10 +46,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Fragment used when scanning a join code.
  */
@@ -56,25 +53,22 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
     private static final String LOG_TAG = "ScanCodeFragment";
 
-    @BindView(R.id.permission_denied_alert)
-    LinearLayout mPermissionDeniedAlert;
-    @BindView(R.id.scan_confirmation)
-    LinearLayout mScanConfirmation;
-    @BindView(R.id.scanned_value)
-    TextView mScannedValue;
-    @BindView(R.id.spinner)
-    ProgressBar mSpinner;
-    @BindView(R.id.scanner_overlay)
-    ScannerOverlayView mOverlay;
-    @BindView(R.id.camera)
-    CameraView mCameraView;
-
     @Inject
     ILogger logger;
     @Inject
     IPreferenceManager preferenceManager;
     @Inject
     IConfigManager configManager;
+
+    private LinearLayout mPermissionDeniedAlert;
+    private LinearLayout mScanConfirmation;
+    private TextView mScannedValue;
+    private ProgressBar mSpinner;
+    private ScannerOverlayView mOverlay;
+    private CameraView mCameraView;
+    private Button mConfirmButton;
+    private Button mScanButton;
+    private Button mOpenPermissionsButton;
 
     private FirebaseVisionBarcodeDetector mBarcodeDetector;
     private AtomicBoolean mIsDetectorRunning;
@@ -84,7 +78,15 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_scan_code, container, false);
-        ButterKnife.bind(this, root);
+        mPermissionDeniedAlert = root.findViewById(R.id.permission_denied_alert);
+        mScanConfirmation = root.findViewById(R.id.scan_confirmation);
+        mScannedValue = root.findViewById(R.id.scanned_value);
+        mSpinner = root.findViewById(R.id.spinner);
+        mOverlay = root.findViewById(R.id.scanner_overlay);
+        mCameraView = root.findViewById(R.id.camera);
+        mConfirmButton = root.findViewById(R.id.confirm_button);
+        mScanButton = root.findViewById(R.id.scan_button);
+        mOpenPermissionsButton = root.findViewById(R.id.open_permissions_button);
         return root;
     }
 
@@ -98,6 +100,18 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
             dismiss();
             return;
         }
+
+        mConfirmButton.setOnClickListener(v -> {
+            preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                QuickSettingService.updateQuickSettingTile(requireContext());
+            }
+            dismiss();
+        });
+
+        mScanButton.setOnClickListener(v -> startScanning());
+
+        mOpenPermissionsButton.setOnClickListener(v -> NavigationUtils.openZephyrAppInfo(requireContext()));
 
         mEnableQrCodeIndicators = configManager.isQrCodeIndicatorsEnabled();
 
@@ -132,25 +146,6 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                 mPermissionDeniedAlert.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    @OnClick(R.id.confirm_button)
-    public void onClickConfirm() {
-        preferenceManager.putString(PreferenceKeys.PREF_JOIN_CODE, mScannedValue.getText().toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            QuickSettingService.updateQuickSettingTile(requireContext());
-        }
-        dismiss();
-    }
-
-    @OnClick(R.id.scan_button)
-    public void onClickScan() {
-        startScanning();
-    }
-
-    @OnClick(R.id.open_permissions_button)
-    public void onClickGrantPermission() {
-        NavigationUtils.openZephyrAppInfo(requireContext());
     }
 
     private void setupCamera() {

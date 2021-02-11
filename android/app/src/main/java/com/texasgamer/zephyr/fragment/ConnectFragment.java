@@ -31,9 +31,6 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Connect fragment.
  */
@@ -41,8 +38,7 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
 
     public static final String LOG_TAG = "ConnectFragment";
 
-    @BindView(R.id.nav_menu)
-    NavigationView mNavigationView;
+    private NavigationView mNavigationView;
 
     @Inject
     ILogger logger;
@@ -60,7 +56,7 @@ public class ConnectFragment extends RoundedBottomSheetDialogFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_connect, container, false);
-        ButterKnife.bind(this, root);
+        mNavigationView = root.findViewById(R.id.nav_menu);
         return root;
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,10 +26,6 @@ import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * What's new fragment.
  */
@@ -39,17 +36,21 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
     @Inject
     IPreferenceManager preferenceManager;
 
-    @BindView(R.id.whats_new_subtitle)
-    TextView mWhatsNewSubtitle;
-    @BindView(R.id.whats_new_recyclerview)
-    RecyclerView mWhatsNewRecyclerView;
+    private TextView mWhatsNewSubtitle;
+    private RecyclerView mWhatsNewRecyclerView;
+    private ImageView mWhatsNewMoreIcon;
 
     private WhatsNewAdapter mWhatsNewAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_whats_new, container, false);
-        ButterKnife.bind(this, root);
+
+        mWhatsNewSubtitle = root.findViewById(R.id.whats_new_subtitle);
+        mWhatsNewRecyclerView = root.findViewById(R.id.whats_new_recyclerview);
+        mWhatsNewMoreIcon = root.findViewById(R.id.whats_new_more_icon);
+
+        mWhatsNewMoreIcon.setOnClickListener(v -> NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_WHATS_NEW_URL));
 
         mWhatsNewSubtitle.setText(BuildConfig.VERSION_NAME);
 
@@ -81,11 +82,6 @@ public class WhatsNewFragment extends RoundedBottomSheetDialogFragment {
     @Override
     protected boolean shouldSkipCollapsedState() {
         return true;
-    }
-
-    @OnClick(R.id.whats_new_more_icon)
-    public void onClickMoreIcon() {
-        NavigationUtils.openUrl(getContext(), Constants.ZEPHYR_WHATS_NEW_URL);
     }
 
     private WhatsNewItem[] getWhatsNewItems() {

@@ -21,10 +21,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Menu fragment.
  */
@@ -35,15 +31,14 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
     @Inject
     IPreferenceManager preferenceManager;
 
-    @BindView(R.id.debug_switch_show_all_cards)
-    SwitchCompat mShowAllCardsSwitch;
-    @BindView(R.id.debug_switch_enable_mock_data)
-    SwitchCompat mEnableMockDataSwitch;
+    private SwitchCompat mShowAllCardsSwitch;
+    private SwitchCompat mEnableMockDataSwitch;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_debug, container, false);
-        ButterKnife.bind(this, root);
+        mShowAllCardsSwitch = root.findViewById(R.id.debug_switch_show_all_cards);
+        mEnableMockDataSwitch = root.findViewById(R.id.debug_switch_enable_mock_data);
         return root;
     }
 
@@ -53,17 +48,14 @@ public class DebugFragment extends RoundedBottomSheetDialogFragment {
 
         mShowAllCardsSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS));
         mEnableMockDataSwitch.setChecked(preferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA));
-    }
 
-    @OnClick(R.id.debug_switch_show_all_cards)
-    public void onClickShowAllCards(@NonNull SwitchCompat view) {
-        preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS, view.isChecked());
-        EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
-    }
+        mShowAllCardsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_SHOW_ALL_CARDS, buttonView.isChecked());
+            EventBus.getDefault().post(EventBusEvent.SHELL_REFRESH_CARDS);
+        });
 
-    @OnClick(R.id.debug_switch_enable_mock_data)
-    public void onClickEnableMockData(@NonNull SwitchCompat view) {
-        preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA, view.isChecked());
+        mEnableMockDataSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                preferenceManager.putBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA, buttonView.isChecked()));
     }
 
     @Override

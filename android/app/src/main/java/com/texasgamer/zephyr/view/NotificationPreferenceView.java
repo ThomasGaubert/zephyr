@@ -23,26 +23,17 @@ import com.texasgamer.zephyr.model.ZephyrNotificationPreference;
 import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Notification preference view.
  */
 public class NotificationPreferenceView extends ConstraintLayout implements View.OnClickListener {
 
-    @BindView(R.id.notif_pref_icon)
-    ImageView prefIcon;
-    @BindView(R.id.notif_pref_title)
-    TextView prefTitle;
-    @BindView(R.id.top_view)
-    View topView;
-    @BindView(R.id.bottom_view)
-    View bottomView;
-    @BindView(R.id.summary_text)
-    TextView summaryText;
-    @BindView(R.id.notif_pref_switch)
-    Switch prefSwitch;
+    private ImageView mPrefIcon;
+    private TextView mPrefTitle;
+    private View mTopView;
+    private View mBottomView;
+    private TextView mSummaryText;
+    private Switch mPrefSwitch;
 
     private String mPackageName;
     private OnPreferenceChangeListener mOnPrefChangeListener;
@@ -62,16 +53,16 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
 
     @Override
     public void onClick(View v) {
-        prefSwitch.toggle();
+        mPrefSwitch.toggle();
     }
 
     @NonNull
     public String getTitle() {
-        return prefTitle.getText().toString();
+        return mPrefTitle.getText().toString();
     }
 
     public boolean isPrefEnabled() {
-        return prefSwitch.isChecked();
+        return mPrefSwitch.isChecked();
     }
 
     public void setOnPrefChangeListener(@Nullable OnPreferenceChangeListener onPrefChangeListener) {
@@ -100,8 +91,15 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
     private void init() {
         setOnClickListener(this);
         inflate(getContext(), R.layout.item_notification_preference, this);
-        ButterKnife.bind(this);
-        prefSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+        mPrefIcon = findViewById(R.id.notif_pref_icon);
+        mPrefTitle = findViewById(R.id.notif_pref_title);
+        mTopView = findViewById(R.id.top_view);
+        mBottomView = findViewById(R.id.bottom_view);
+        mSummaryText = findViewById(R.id.summary_text);
+        mPrefSwitch = findViewById(R.id.notif_pref_switch);
+
+        mPrefSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (mOnPrefChangeListener != null) {
                 mOnPrefChangeListener.onPreferenceChange(mPackageName, isPrefEnabled());
             }
@@ -111,25 +109,25 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
     private void setIcon(@Nullable Drawable drawable) {
         ZephyrExecutors.getMainThreadExecutor().execute(() -> {
             if (drawable != null) {
-                prefIcon.setImageDrawable(drawable);
+                mPrefIcon.setImageDrawable(drawable);
             } else {
-                prefIcon.setVisibility(View.INVISIBLE);
+                mPrefIcon.setVisibility(View.INVISIBLE);
             }
 
-            prefIcon.setVisibility(View.VISIBLE);
+            mPrefIcon.setVisibility(View.VISIBLE);
         });
     }
 
     private void setTitle(@NonNull String title) {
         ZephyrExecutors.getMainThreadExecutor().execute(() -> {
-            prefTitle.setText(title);
+            mPrefTitle.setText(title);
         });
     }
 
     private void setColors(@ColorInt int color) {
         ZephyrExecutors.getMainThreadExecutor().execute(() -> {
-            topView.setBackground(createBackground(color, false));
-            bottomView.setBackground(createBackground(ColorUtils.blendARGB(color, Color.BLACK, 0.2f), true));
+            mTopView.setBackground(createBackground(color, false));
+            mBottomView.setBackground(createBackground(ColorUtils.blendARGB(color, Color.BLACK, 0.2f), true));
 
             ColorStateList buttonStates = new ColorStateList(
                     new int[][]{
@@ -143,18 +141,18 @@ public class NotificationPreferenceView extends ConstraintLayout implements View
                             ColorUtils.blendARGB(color, Color.BLACK, 0.2f)
                     }
             );
-            prefSwitch.getThumbDrawable().setTintList(buttonStates);
-            prefSwitch.getTrackDrawable().setTintList(buttonStates);
+            mPrefSwitch.getThumbDrawable().setTintList(buttonStates);
+            mPrefSwitch.getTrackDrawable().setTintList(buttonStates);
         });
     }
 
     private void setPrefEnabled(boolean enabled) {
         ZephyrExecutors.getMainThreadExecutor().execute(() -> {
-            summaryText.setText(enabled ? R.string.notif_pref_enabled : R.string.notif_pref_disabled);
-            prefSwitch.setChecked(enabled);
+            mSummaryText.setText(enabled ? R.string.notif_pref_enabled : R.string.notif_pref_disabled);
+            mPrefSwitch.setChecked(enabled);
 
             // Delay showing switch to allow animation to finish
-            postDelayed(() -> prefSwitch.setVisibility(View.VISIBLE), 100);
+            postDelayed(() -> mPrefSwitch.setVisibility(View.VISIBLE), 100);
         });
     }
 

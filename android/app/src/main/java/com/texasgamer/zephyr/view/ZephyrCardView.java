@@ -12,33 +12,27 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.texasgamer.zephyr.R;
-import com.texasgamer.zephyr.model.ZephyrCard;
-import com.texasgamer.zephyr.model.ZephyrCardType;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.core.graphics.ColorUtils;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import com.texasgamer.zephyr.R;
+import com.texasgamer.zephyr.model.ZephyrCard;
+import com.texasgamer.zephyr.model.ZephyrCardType;
 
 /**
  * View for ZephyrCard.
  */
 public class ZephyrCardView extends LinearLayout implements View.OnClickListener {
 
-    @BindView(R.id.zephyr_card_top)
-    View cardTop;
-    @BindView(R.id.zephyr_card_bottom)
-    View cardBottom;
-    @BindView(R.id.zephyr_card_title)
-    TextView cardTitle;
-    @BindView(R.id.zephyr_card_body)
-    TextView cardBody;
-    OnClickListener mOnClickListener;
+    private View mCardTop;
+    private View mCardBottom;
+    private TextView mCardTitle;
+    private TextView mCardBody;
+    private OnClickListener mOnClickListener;
 
     @ZephyrCardType
     private int mType;
@@ -83,26 +77,26 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
 
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.attr.cardColor, typedValue, true);
-        cardTop.setBackground(createBackground(typedValue.data, false));
-        cardBottom.setBackground(createBackground(ColorUtils.blendARGB(typedValue.data, Color.BLACK, 0.2f), true));
+        mCardTop.setBackground(createBackground(typedValue.data, false));
+        mCardBottom.setBackground(createBackground(ColorUtils.blendARGB(typedValue.data, Color.BLACK, 0.2f), true));
     }
 
     @NonNull
     public String getTitle() {
-        return cardTitle.getText().toString();
+        return mCardTitle.getText().toString();
     }
 
     public void setTitle(@StringRes int title) {
-        cardTitle.setText(title);
+        mCardTitle.setText(title);
     }
 
     @NonNull
     public String getBody() {
-        return cardBody.getText().toString();
+        return mCardBody.getText().toString();
     }
 
     public void setBody(@StringRes int body) {
-        cardBody.setText(body);
+        mCardBody.setText(body);
     }
 
     public void setZephyrCard(@NonNull ZephyrCard card) {
@@ -123,7 +117,10 @@ public class ZephyrCardView extends LinearLayout implements View.OnClickListener
 
     private void init() {
         inflate(getContext(), R.layout.view_zephyr_card, this);
-        ButterKnife.bind(this);
+        mCardTop = findViewById(R.id.zephyr_card_top);
+        mCardBottom = findViewById(R.id.zephyr_card_bottom);
+        mCardTitle = findViewById(R.id.zephyr_card_title);
+        mCardBody = findViewById(R.id.zephyr_card_body);
     }
 
     private Resources.Theme getTheme() {

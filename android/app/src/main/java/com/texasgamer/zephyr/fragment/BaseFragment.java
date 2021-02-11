@@ -25,8 +25,6 @@ import com.texasgamer.zephyr.viewmodel.BaseViewModel;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 /**
  * Base fragment that performs common routines.
  * @param <T> ViewModel
@@ -72,8 +70,6 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
         } else {
             root = inflater.inflate(getFragmentLayout(), container, false);
         }
-
-        ButterKnife.bind(this, root);
 
         return root;
     }

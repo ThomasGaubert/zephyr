@@ -23,8 +23,6 @@ import com.texasgamer.zephyr.util.theme.IThemeManager;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 /**
  * Base activity that handles common routines.
  */
@@ -93,7 +91,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void setupContent() {
         setContentView(getLayoutResource());
-        ButterKnife.bind(this);
     }
 
     private void setupEdgeToEdgeNavigation() {
