@@ -56,19 +56,23 @@ module.exports = [
           title: 'Zephyr β',
           template: './src/index-desktop.ejs'
         }),
-        new CopyWebpackPlugin([
-          {
-            from: './src/assets',
-            to: 'assets',
-            ignore: [
-              'config/*'
-            ]
-          },
-          {
-            from: './src/assets/config/config.dev.json',
-            to: 'assets/config/config.json'
-          }
-        ]),
+        new CopyWebpackPlugin({
+          patterns: [
+            {
+              from: './src/assets',
+              to: 'assets',
+              globOptions: {
+                ignore: [
+                  '**/config/**'
+                ]
+              }
+            },
+            {
+              from: './src/assets/config/config.dev.json',
+              to: 'assets/config/config.json'
+            }
+          ]
+        }),
         new CspHtmlWebpackPlugin()
       ]
     },

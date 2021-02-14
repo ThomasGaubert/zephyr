@@ -116,7 +116,7 @@ function onReady() {
 function onError(error: any) {
   let errorString = 'Unknown error';
   if (error.code === 108) {
-    errorString = 'No HMD connected. Restart Zephyr after connecting a HMD.';
+    errorString = 'No headset detected. Restart Zephyr after connecting a headset.';
   }
   launchError = errorString + ' (' + error.code + ')';
   LogUtils.info('Zephyr Beta', errorString);
