@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { ThemeProvider } from 'styled-components';
 import RootReducer from '../../reducers/RootReducer';
-import { ZephyrDark } from '../../styles/Global';
+import { GlobalStyle, ZephyrDark } from '../../styles/Global';
 import ZephyrClient from '../common/ZephyrClient';
 import BigHistory from './BigHistory';
 
@@ -66,6 +66,7 @@ class OverlayApp extends Component<any, any> {
       <Provider store={OverlayApp.store}>
         <ThemeProvider theme={ZephyrDark}>
           <MuiThemeProvider theme={OverlayApp.theme}>
+            <GlobalStyle/>
             <BigHistory/>
             <ZephyrClient/>
           </MuiThemeProvider>

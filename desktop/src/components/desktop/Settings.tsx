@@ -84,7 +84,7 @@ class Settings extends React.Component<any, any> {
           <ListItemIcon>
             <UpdateIcon />
           </ListItemIcon>
-          <ListItemText inset primary='Check for Updates' />
+          <ListItemText primary='Check for Updates' />
         </ListItem>
       );
     } else {
@@ -101,7 +101,7 @@ class Settings extends React.Component<any, any> {
             <ListItemIcon>
               <DeveloperMode />
             </ListItemIcon>
-            <ListItemText inset primary='Developer' />
+            <ListItemText primary='Developer' />
             {this.state.devOptionsOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={this.state.devOptionsOpen} timeout='auto' unmountOnExit>
@@ -110,7 +110,7 @@ class Settings extends React.Component<any, any> {
                 <ListItemIcon>
                   <DeviceInfo />
                 </ListItemIcon>
-                <ListItemText inset primary='Toggle Developer Tools' />
+                <ListItemText primary='Toggle Developer Tools' />
               </ListItem>
             </List>
           </Collapse>
@@ -133,13 +133,13 @@ class Settings extends React.Component<any, any> {
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
-              <ListItemText inset primary='Help' />
+              <ListItemText primary='Help' />
             </ListItem>
             <ListItem button onClick={this.onClickDownloadAndroidApp}>
               <ListItemIcon>
                 <ShopIcon />
               </ListItemIcon>
-              <ListItemText inset primary='Get Android app' />
+              <ListItemText primary='Get Android app' />
             </ListItem>
             {this.checkForUpdatesButton()}
             {this.devOptions()}

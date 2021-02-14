@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { ThemeProvider } from 'styled-components';
 import RootReducer from '../../reducers/RootReducer';
-import { ZephyrDark } from '../../styles/Global';
+import { GlobalStyle, ZephyrDark } from '../../styles/Global';
 import ZephyrClient from '../common/ZephyrClient';
 import ContentView from './ContentView';
 import NavigationBar from './NavigationBar';
@@ -75,6 +75,7 @@ class DesktopApp extends Component<any, any> {
               theme={this.props.theme}
               style={{ height: '100%' }}
               chrome>
+              <GlobalStyle/>
               <TitleBar
                 title='Zephyr β'
                 background={this.props.toolbarColor}

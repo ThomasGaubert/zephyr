@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Slide from '@material-ui/core/Slide';
+import Slide, { SlideProps } from '@material-ui/core/Slide';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
@@ -13,9 +13,9 @@ import QRCode from 'qrcode.react';
 import React from 'react';
 import NetworkUtils from '../../utils/NetworkUtils';
 
-function Transition(props) {
-  return <Slide direction='up' {...props} />;
-}
+const Transition = React.forwardRef<unknown, SlideProps>((props, ref) => (
+  <Slide direction='up' {...props} ref={ref} />
+));
 
 class QrDialog extends React.Component<any, any> {
   state = {
@@ -55,7 +55,7 @@ class QrDialog extends React.Component<any, any> {
                 <IconButton color='inherit' onClick={this.handleClose} aria-label='Close'>
                   <CloseIcon />
                 </IconButton>
-                <Typography variant='title' color='inherit' style={{ flex: 1 }}>
+                <Typography variant='h6' color='inherit' style={{ flex: 1 }}>
                   QR Code
                 </Typography>
               </Toolbar>
