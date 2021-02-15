@@ -1,7 +1,6 @@
 package com.texasgamer.zephyr.activity;
 
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;

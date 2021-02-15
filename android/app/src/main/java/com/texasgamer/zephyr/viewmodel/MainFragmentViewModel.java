@@ -13,7 +13,6 @@ import androidx.lifecycle.MediatorLiveData;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
-import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
