@@ -59,10 +59,7 @@ public class ZephyrCardProvider implements IZephyrCardProvider {
         // Notification access
         if (forceShowCards || !mApplicationUtils.hasNotificationAccess()) {
             ZephyrCard notificationAccessCard = new ZephyrCard(ZephyrCardType.ERROR, R.string.card_notification_access_title, R.string.card_notification_access_body);
-            notificationAccessCard.setOnClickListener(v -> {
-                Intent intent = new Intent(Constants.ANDROID_NOTIFICATION_LISTENER_SETTINGS);
-                v.getContext().startActivity(intent);
-            });
+            notificationAccessCard.setOnClickListener(v -> NavigationUtils.openNotificationAccessSettings(v.getContext()));
             cards.add(notificationAccessCard);
             completedFre = false;
         }

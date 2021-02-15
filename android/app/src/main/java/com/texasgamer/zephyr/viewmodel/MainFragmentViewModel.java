@@ -1,19 +1,25 @@
 package com.texasgamer.zephyr.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.activity.MainActivity;
 import com.texasgamer.zephyr.adapter.ZephyrCardViewPagerAdapter;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.provider.IZephyrCardProvider;
+import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.NetworkUtils;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.preference.SharedPreferenceLiveData;
 
@@ -24,6 +30,8 @@ import javax.inject.Inject;
  */
 public class MainFragmentViewModel extends BaseViewModel {
 
+    @Inject
+    ApplicationUtils applicationUtils;
     @Inject
     IZephyrCardProvider zephyrCardProvider;
 
@@ -111,6 +119,18 @@ public class MainFragmentViewModel extends BaseViewModel {
     }
 
     public void onClickJoinCodeSummary() {
-        mNavigationManager.navigate(R.id.action_fragment_main_to_fragment_connect);
+        if (applicationUtils.hasNotificationAccess()) {
+            mNavigationManager.navigate(R.id.action_fragment_main_to_fragment_connect);
+        } else {
+            Context context = ZephyrApplication.getInstance().getCurrentActivity();
+            AlertDialog alertDialog = new MaterialAlertDialogBuilder(context)
+                    .setTitle(R.string.permission_dialog_notifications_title)
+                    .setMessage(R.string.permission_dialog_notifications_body)
+                    .setPositiveButton(R.string.permission_dialog_notifications_enable,
+                            (dialog, which) -> NavigationUtils.openNotificationAccessSettings(context))
+                    .setNegativeButton(R.string.permission_dialog_notifications_cancel,
+                            (dialog, which) -> dialog.cancel()).create();
+            alertDialog.show();
+        }
     }
 }

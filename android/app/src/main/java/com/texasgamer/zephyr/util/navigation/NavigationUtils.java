@@ -12,6 +12,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
 import com.texasgamer.zephyr.BuildConfig;
+import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 
@@ -48,6 +49,11 @@ public final class NavigationUtils {
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
         intent.setData(uri);
+        context.startActivity(intent);
+    }
+
+    public static void openNotificationAccessSettings(@NonNull Context context) {
+        Intent intent = new Intent(Constants.ANDROID_NOTIFICATION_LISTENER_SETTINGS);
         context.startActivity(intent);
     }
 }

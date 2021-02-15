@@ -1,6 +1,7 @@
 package com.texasgamer.zephyr.activity;
 
 import android.animation.ValueAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -24,20 +26,28 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
 import com.texasgamer.zephyr.model.ConnectionStatus;
 import com.texasgamer.zephyr.service.SocketService;
+import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.analytics.ZephyrEvent;
 import com.texasgamer.zephyr.util.navigation.NavigationArgs;
+import com.texasgamer.zephyr.util.navigation.NavigationUtils;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.view.ZephyrServiceButton;
 import com.texasgamer.zephyr.viewmodel.ConnectButtonViewModel;
+
+import javax.inject.Inject;
 
 /**
  * Main activity.
  */
 public class MainActivity extends BaseActivity {
+
+    @Inject
+    ApplicationUtils applicationUtils;
 
     private CoordinatorLayout mCoordinatorLayout;
     private FragmentContainerView mMainFragment;
@@ -142,6 +152,11 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onClickConnectButton() {
+        if (!applicationUtils.hasNotificationAccess()) {
+            showNotificationPermissionDialog();
+            return;
+        }
+
         Intent socketServiceIntent = new Intent(MainActivity.this, SocketService.class);
         boolean isJoinCodeSet = isJoinCodeSet();
 
@@ -166,6 +181,11 @@ public class MainActivity extends BaseActivity {
     }
 
     public boolean onLongClickConnectButton() {
+        if (!applicationUtils.hasNotificationAccess()) {
+            showNotificationPermissionDialog();
+            return true;
+        }
+
         mAnalyticsManager.logEvent(ZephyrEvent.Action.LONG_PRESS_CONNECTION_BUTTON);
         mMainNavController.navigate(R.id.action_fragment_main_to_fragment_connect);
         return true;
@@ -224,6 +244,17 @@ public class MainActivity extends BaseActivity {
             mPreferenceManager.putBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
             mPreferenceManager.putInt(PreferenceKeys.PREF_CONNECTION_STATUS, ConnectionStatus.DISCONNECTED);
         }
+    }
+
+    private void showNotificationPermissionDialog() {
+        AlertDialog alertDialog = new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.permission_dialog_notifications_title)
+                .setMessage(R.string.permission_dialog_notifications_body)
+                .setPositiveButton(R.string.permission_dialog_notifications_enable,
+                        (dialog, which) -> NavigationUtils.openNotificationAccessSettings(MainActivity.this))
+                .setNegativeButton(R.string.permission_dialog_notifications_cancel,
+                        (dialog, which) -> dialog.cancel()).create();
+        alertDialog.show();
     }
 
     private void handleConfigChange() {

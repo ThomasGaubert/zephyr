@@ -26,6 +26,12 @@
     <string name="status_disconnected">Disconnected</string>
     <string name="status_unsupported_api">Zephyr is unable to connect to this server because it is running an unsupported API.\n\nPlease ensure Zephyr is up to date on both desktop and mobile.</string>
 
+    <!-- Permissions -->
+    <string name="permission_dialog_notifications_title">Notification access required</string>
+    <string name="permission_dialog_notifications_body">Zephyr needs access to your notifications to operate properly.</string>
+    <string name="permission_dialog_notifications_enable">Enable</string>
+    <string name="permission_dialog_notifications_cancel">Cancel</string>
+
     <!-- Join code status -->
     <string name="join_code_saved">Join code: %s</string>
     <string name="join_code_none">No join code saved</string>
@@ -71,7 +77,7 @@
 
     <!-- Privacy Menu -->
     <string name="menu_privacy_title">Privacy</string>
-    <string name="menu_privacy_usage_text">Zephyr collects anonymous usage data and crash reports to improve your experience. Notifications never leave your local network.</string>
+    <string name="menu_privacy_usage_text">Zephyr collects anonymous usage data and crash reports to aid the development of new features and bug fixes. Notifications never leave your local network.</string>
     <string name="menu_privacy_setting_crash_reports">Crash reports</string>
     <string name="menu_privacy_setting_usage_data">Anonymous usage data</string>
     <string name="menu_privacy_uuid_title">Instance ID</string>

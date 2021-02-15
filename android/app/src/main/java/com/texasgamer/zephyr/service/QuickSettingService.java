@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import com.texasgamer.zephyr.R;
 import com.texasgamer.zephyr.ZephyrApplication;
+import com.texasgamer.zephyr.util.ApplicationUtils;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
@@ -28,6 +29,8 @@ public class QuickSettingService extends TileService {
 
     private static final String LOG_TAG = "QuickSettingService";
 
+    @Inject
+    ApplicationUtils applicationUtils;
     @Inject
     ILogger logger;
     @Inject
@@ -97,11 +100,11 @@ public class QuickSettingService extends TileService {
 
     private void updateTile() {
         boolean isServiceRunning = preferenceManager.getBoolean(PreferenceKeys.PREF_IS_SOCKET_SERVICE_RUNNING, false);
-        boolean isJoinCodeSet = isJoinCodeSet();
-        int tileState = isJoinCodeSet ? (isServiceRunning ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE) : Tile.STATE_UNAVAILABLE;
+        boolean isAvailable = isJoinCodeSet() && applicationUtils.hasNotificationAccess();
+        int tileState = isAvailable ? (isServiceRunning ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE) : Tile.STATE_UNAVAILABLE;
 
-        logger.log(LogLevel.DEBUG, LOG_TAG, "updateTile - isServiceRunning: %b, isJoinCodeSet: %b, tileState: %d",
-                isServiceRunning, isJoinCodeSet, tileState);
+        logger.log(LogLevel.DEBUG, LOG_TAG, "updateTile - isServiceRunning: %b, isAvailable: %b, tileState: %d",
+                isServiceRunning, isAvailable, tileState);
 
         Tile tile = getQsTile();
         if (tile != null) {
