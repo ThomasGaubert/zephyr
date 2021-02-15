@@ -23,7 +23,7 @@ const commonConfig = {
       },
       {
         test: /\.tsx?$/,
-        loader: ['babel-loader', 'ts-loader']
+        use: ['babel-loader', 'ts-loader']
       },
       {
         test: /\.jsx?$/,
