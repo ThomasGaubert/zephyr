@@ -231,7 +231,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // WindowManager
-    implementation "androidx.window:window:1.0.0-alpha02"
+    implementation "androidx.window:window:1.0.0-alpha03"
 
     // WorkManager
     implementation "android.arch.work:work-runtime:1.0.1"
