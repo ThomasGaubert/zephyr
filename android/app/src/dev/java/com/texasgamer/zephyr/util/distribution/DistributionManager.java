@@ -8,6 +8,7 @@ import com.texasgamer.zephyr.util.log.ILogger;
 /**
  * No-op distribution manager.
  */
+@SuppressWarnings("PMD.UnusedFormalParameter")
 public class DistributionManager implements IDistributionManager {
 
     public DistributionManager(@NonNull IConfigManager configManager, @NonNull ILogger logger) {
