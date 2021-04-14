@@ -14,8 +14,6 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.distribute.Distribute;
 import com.texasgamer.zephyr.injection.components.ApplicationComponent;
 import com.texasgamer.zephyr.injection.components.DaggerApplicationComponent;
 import com.texasgamer.zephyr.injection.modules.ApplicationModule;
@@ -25,6 +23,7 @@ import com.texasgamer.zephyr.service.QuickSettingService;
 import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.BuildConfigUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
+import com.texasgamer.zephyr.util.distribution.IDistributionManager;
 import com.texasgamer.zephyr.util.flipper.IFlipperManager;
 import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.log.ILogger;
@@ -67,6 +66,8 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
     IDiscoveryManager discoveryManager;
     @Inject
     IThemeManager themeManager;
+    @Inject
+    IDistributionManager distributionManager;
 
     private WeakReference<Activity> mCurrentActivity;
     private boolean mIsInForeground;
@@ -136,13 +137,7 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
 
         verifyConnectionStatus();
 
-        // Check for updates from AppCenter if beta.
-        // TODO: Refactor to be generic and to support other tracks.
-        if (BuildConfig.PROPS_SET && configManager.isBeta()) {
-            AppCenter.start(this, BuildConfig.APP_CENTER_SECRET, Distribute.class);
-        } else if (!BuildConfig.PROPS_SET && configManager.isBeta()) {
-            logger.log(LogLevel.WARNING, LOG_TAG, "AppCenter update check disabled -- APP_CENTER_SECRET not set!");
-        }
+        distributionManager.start();
 
         if (configManager.isDiscoveryEnabled()) {
             logger.log(LogLevel.INFO, LOG_TAG, "Starting DiscoveryManager.");
