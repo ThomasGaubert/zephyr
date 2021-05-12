@@ -168,7 +168,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:18.0.2'
-    implementation 'com.google.firebase:firebase-config:20.0.3'
+    implementation 'com.google.firebase:firebase-config:21.0.0'
     implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
 
