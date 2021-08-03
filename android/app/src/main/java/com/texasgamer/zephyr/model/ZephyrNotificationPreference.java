@@ -13,10 +13,10 @@ import com.texasgamer.zephyr.db.entity.NotificationPreferenceEntity;
  */
 public class ZephyrNotificationPreference implements IAppInfo, INotificationPreference {
 
-    @Embedded(prefix = "pref_")
+    @Embedded
     private NotificationPreferenceEntity mNotificationPreferenceEntity;
 
-    @Embedded(prefix = "app_")
+    @Embedded
     private AppInfoEntity mAppInfoEntity;
 
     @Override

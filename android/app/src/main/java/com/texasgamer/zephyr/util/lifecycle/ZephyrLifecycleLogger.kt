@@ -36,7 +36,7 @@ class ZephyrLifecycleLogger(private val logger: ILogger) : ActivityLifecycleCall
         logger.log(LogLevel.INFO, LOG_TAG, "onActivityStopped: " + activity.localClassName)
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         logger.log(LogLevel.INFO, LOG_TAG, "onActivitySaveInstanceState: " + activity.localClassName)
     }
 
