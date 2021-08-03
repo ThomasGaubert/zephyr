@@ -143,7 +143,7 @@ dependencies {
 
     // AppCenter
     // Limited to beta flavor to comply with Play Store guidelines
-    betaImplementation "com.microsoft.appcenter:appcenter-distribute:4.1.0"
+    betaImplementation "com.microsoft.appcenter:appcenter-distribute:4.2.0"
 
     // CameraView
     implementation 'com.otaliastudios:cameraview:2.7.0'
