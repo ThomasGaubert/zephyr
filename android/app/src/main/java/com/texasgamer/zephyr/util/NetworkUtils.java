@@ -21,15 +21,15 @@ import androidx.annotation.StringRes;
  */
 public final class NetworkUtils {
 
-    private static final String IP_ADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    private static final String IP_ADDRESS_REGEX = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
                     + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
                     + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
                     + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    private static final String JOIN_CODE_PATTERN = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.)?([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+    private static final String JOIN_CODE_REGEX = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.)?([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    private static final Pattern ipAddressPattern = Pattern.compile(IP_ADDRESS_PATTERN);
-    private static final Pattern joinCodePattern = Pattern.compile(JOIN_CODE_PATTERN);
+    private static final Pattern IP_ADDRESS_PATTERN = Pattern.compile(IP_ADDRESS_REGEX);
+    private static final Pattern JOIN_CODE_PATTERN = Pattern.compile(JOIN_CODE_REGEX);
 
     private NetworkUtils() {
     }
@@ -142,10 +142,10 @@ public final class NetworkUtils {
      * @return If given join code is valid
      */
     public static boolean isValidJoinCode(@NonNull String joinCode) {
-        if (ipAddressPattern.matcher(joinCode).matches()) {
+        if (IP_ADDRESS_PATTERN.matcher(joinCode).matches()) {
             return true;
         } else {
-            return joinCodePattern.matcher(joinCode).matches();
+            return JOIN_CODE_PATTERN.matcher(joinCode).matches();
         }
     }
 }
