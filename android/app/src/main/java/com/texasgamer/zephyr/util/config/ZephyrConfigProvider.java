@@ -22,7 +22,7 @@ public class ZephyrConfigProvider {
 
     private static final String LOG_TAG = "ZephyrConfigProvider";
 
-    private Context mContext;
+    private final Context mContext;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private Map<String, String> mLocalConfig;
 

@@ -17,15 +17,15 @@ import java.util.UUID;
  */
 public class PrivacyManager implements IPrivacyManager {
 
-    private SharedPreferences mSharedPreferences;
-    private IConfigManager mConfigManager;
+    private final SharedPreferences mSharedPreferences;
+    private final IConfigManager mConfigManager;
 
     private boolean mHavePrivacySettingsChanged;
 
     // Privacy settings at app launch
-    private boolean mInitialUsageDataSetting;
-    private boolean mInitialCrashReportSetting;
-    private boolean mInitialUuidSetting;
+    private final boolean mInitialUsageDataSetting;
+    private final boolean mInitialCrashReportSetting;
+    private final boolean mInitialUuidSetting;
     private String mInitialUuid;
 
     // Privacy settings as currently set by user
@@ -62,12 +62,16 @@ public class PrivacyManager implements IPrivacyManager {
 
     @Override
     public boolean isEditingUsageDataCollectionSettingEnabled() {
-        return mConfigManager.isFirebaseAnalyticsEnabled();
+        // Currently disabled.
+        // return mConfigManager.isFirebaseAnalyticsEnabled();
+        return false;
     }
 
     @Override
     public boolean isUsageDataCollectionEnabled() {
-        return mConfigManager.isFirebaseAnalyticsEnabled() && mCurrentUsageDataSetting;
+        // Disabled for now
+        // return mConfigManager.isFirebaseAnalyticsEnabled() && mCurrentUsageDataSetting;
+        return false;
     }
 
     @Override

@@ -77,11 +77,11 @@
 
     <!-- Privacy Menu -->
     <string name="menu_privacy_title">Privacy</string>
-    <string name="menu_privacy_usage_text">Zephyr collects anonymous usage data and crash reports to aid the development of new features and bug fixes. Notifications never leave your local network.</string>
+    <string name="menu_privacy_usage_text">Zephyr collects crash reports to aid the development of bug fixes. Notifications never leave your local network.</string>
     <string name="menu_privacy_setting_crash_reports">Crash reports</string>
     <string name="menu_privacy_setting_usage_data">Anonymous usage data</string>
     <string name="menu_privacy_uuid_title">Instance ID</string>
-    <string name="menu_privacy_uuid_text">Zephyr uses a randomly generated ID to track crashes and usage data. This ID is generated on a fresh install and isn\'t linked to you or other Zephyr clients.</string>
+    <string name="menu_privacy_uuid_text">Zephyr uses a randomly generated ID to track crashes across sessions. This ID is generated on a fresh install and isn\'t linked to you or other Zephyr clients.</string>
     <string name="menu_privacy_setting_uuid">Use instance ID</string>
     <string name="menu_privacy_uuid_generate">Generate new ID</string>
     <string name="menu_privacy_restart_app_title">Restart required</string>

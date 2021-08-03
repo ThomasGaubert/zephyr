@@ -19,10 +19,10 @@ public class AnalyticsManager implements IAnalyticsManager {
 
     private static final String LOG_TAG = "AnalyticsManager";
 
-    private Context mContext;
-    private ILogger mLogger;
-    private IConfigManager mConfigManager;
-    private IPrivacyManager mPrivacyManager;
+    private final Context mContext;
+    private final ILogger mLogger;
+    private final IConfigManager mConfigManager;
+    private final IPrivacyManager mPrivacyManager;
 
     public AnalyticsManager(@NonNull Context context,
                             @NonNull ILogger logger,

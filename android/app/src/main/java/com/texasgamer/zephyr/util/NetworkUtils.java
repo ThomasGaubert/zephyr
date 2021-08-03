@@ -28,8 +28,8 @@ public final class NetworkUtils {
 
     private static final String JOIN_CODE_PATTERN = "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.)?([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    private static Pattern ipAddressPattern = Pattern.compile(IP_ADDRESS_PATTERN);
-    private static Pattern joinCodePattern = Pattern.compile(JOIN_CODE_PATTERN);
+    private static final Pattern ipAddressPattern = Pattern.compile(IP_ADDRESS_PATTERN);
+    private static final Pattern joinCodePattern = Pattern.compile(JOIN_CODE_PATTERN);
 
     private NetworkUtils() {
     }
