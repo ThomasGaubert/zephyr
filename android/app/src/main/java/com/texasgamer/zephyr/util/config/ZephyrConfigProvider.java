@@ -81,7 +81,7 @@ public class ZephyrConfigProvider {
 
         while (eventType != xmlResourceParser.END_DOCUMENT) {
             if (eventType == xmlResourceParser.START_TAG) {
-                if (xmlResourceParser.getName().equals("key")) {
+                if ("key".equals(xmlResourceParser.getName())) {
                     // Key and value should be empty
                     if (key != null || value != null) {
                         throw new IllegalStateException("Invalid local config: bad key-value state");
@@ -102,7 +102,7 @@ public class ZephyrConfigProvider {
                     continue;
                 }
 
-                if (xmlResourceParser.getName().equals("value")) {
+                if ("value".equals(xmlResourceParser.getName())) {
                     // Key should be set, value should be empty
                     if (key == null || value != null) {
                         throw new IllegalStateException("Invalid local config: bad key-value state");

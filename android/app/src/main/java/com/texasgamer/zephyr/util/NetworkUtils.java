@@ -95,8 +95,8 @@ public final class NetworkUtils {
         String joinCode = "";
         String[] parts = ipAddress.split("\\.");
 
-        if (parts.length == 4 && parts[0].equals("192") && parts[1].equals("168")) {
-            if (!parts[2].equals("0")) {
+        if (parts.length == 4 && "192".equals(parts[0]) && "168".equals(parts[1])) {
+            if (!"0".equals(parts[2])) {
                 joinCode += parts[2] + ".";
             }
 
