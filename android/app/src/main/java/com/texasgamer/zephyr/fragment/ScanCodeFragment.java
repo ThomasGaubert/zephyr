@@ -17,12 +17,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
+import com.google.mlkit.vision.barcode.Barcode;
+import com.google.mlkit.vision.barcode.BarcodeScanner;
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
+import com.google.mlkit.vision.barcode.BarcodeScanning;
+import com.google.mlkit.vision.common.InputImage;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.otaliastudios.cameraview.CameraListener;
@@ -70,7 +69,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     private Button mScanButton;
     private Button mOpenPermissionsButton;
 
-    private FirebaseVisionBarcodeDetector mBarcodeDetector;
+    private BarcodeScanner mBarcodeScanner;
     private AtomicBoolean mIsDetectorRunning;
     private boolean mDidAlertInvalidCode;
     private boolean mEnableQrCodeIndicators;
@@ -149,11 +148,11 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
     }
 
     private void setupCamera() {
-        FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder()
-                .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
+        BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
                 .build();
 
-        mBarcodeDetector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
+        mBarcodeScanner = BarcodeScanning.getClient(options);
         mIsDetectorRunning = new AtomicBoolean(false);
 
         mCameraView.setLifecycleOwner(getViewLifecycleOwner());
@@ -168,14 +167,11 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
 
         mCameraView.addFrameProcessor(frame -> {
             try {
-                FirebaseVisionImageMetadata metadata = new FirebaseVisionImageMetadata.Builder()
-                        .setWidth(frame.getSize().getWidth())
-                        .setHeight(frame.getSize().getHeight())
-                        .setFormat(frame.getFormat())
-                        .setRotation(FirebaseVisionImageMetadata.ROTATION_90)
-                        .build();
-
-                scanQrCode(frame.getData(), metadata);
+                scanQrCode(frame.getData(),
+                        frame.getSize().getWidth(),
+                        frame.getSize().getHeight(),
+                        90,
+                        frame.getFormat());
             } catch (Exception e) {
                 logger.log(LogLevel.ERROR, LOG_TAG, "Error while scanning for QR code.", e);
             }
@@ -197,24 +193,24 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
         mScanConfirmation.setVisibility(View.VISIBLE);
     }
 
-    private void scanQrCode(@NonNull byte[] bytes, @NonNull FirebaseVisionImageMetadata metadata) {
+    private void scanQrCode(@NonNull byte[] bytes, int width, int height, int rotationDegrees, int format) {
         if (mIsDetectorRunning.get()) {
             return;
         }
 
-        FirebaseVisionImage visionImage = FirebaseVisionImage.fromByteArray(bytes, metadata);
+        InputImage visionImage = InputImage.fromByteArray(bytes, width, height, rotationDegrees, format);
 
         mIsDetectorRunning.set(true);
-        mBarcodeDetector.detectInImage(visionImage).addOnSuccessListener(firebaseVisionBarcodes -> {
+        mBarcodeScanner.process(visionImage).addOnSuccessListener(barcodes -> {
             if (mEnableQrCodeIndicators) {
-                Rect[] boundingBoxes = new Rect[firebaseVisionBarcodes.size()];
-                for (int x = 0; x < firebaseVisionBarcodes.size(); x++) {
-                    boundingBoxes[x] = firebaseVisionBarcodes.get(x).getBoundingBox();
+                Rect[] boundingBoxes = new Rect[barcodes.size()];
+                for (int x = 0; x < barcodes.size(); x++) {
+                    boundingBoxes[x] = barcodes.get(x).getBoundingBox();
                 }
                 mOverlay.setBoundingBoxes(boundingBoxes);
             }
 
-            for (FirebaseVisionBarcode barcode : firebaseVisionBarcodes) {
+            for (Barcode barcode : barcodes) {
                 String barcodeValue = barcode.getDisplayValue();
                 if (barcodeValue == null) {
                     continue;
@@ -230,7 +226,7 @@ public class ScanCodeFragment extends RoundedBottomSheetDialogFragment {
                 }
             }
 
-            if (!mDidAlertInvalidCode && firebaseVisionBarcodes.size() > 0) {
+            if (!mDidAlertInvalidCode && barcodes.size() > 0) {
                 Toast.makeText(getContext(), R.string.menu_scan_qr_invalid_code_toast, Toast.LENGTH_SHORT).show();
                 mDidAlertInvalidCode = true;
             }

@@ -169,7 +169,6 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-core:19.0.0'
     implementation 'com.google.firebase:firebase-config:21.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:24.1.0'
     implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
 
     // Flipper
@@ -198,6 +197,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     annotationProcessor "androidx.lifecycle:lifecycle-common-java8:2.3.1"
+
+    // ML Kit
+    implementation 'com.google.mlkit:barcode-scanning:16.2.0'
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
