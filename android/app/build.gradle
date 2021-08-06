@@ -146,7 +146,7 @@ dependencies {
     betaImplementation "com.microsoft.appcenter:appcenter-distribute:4.2.0"
 
     // CameraView
-    implementation 'com.otaliastudios:cameraview:2.7.0'
+    implementation 'com.otaliastudios:cameraview:2.7.1'
 
     // Chrome Custom Tabs
     implementation 'androidx.browser:browser:1.3.0'
