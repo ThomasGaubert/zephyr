@@ -27,6 +27,11 @@ jobs:
     - run: git checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
 
+    - name: Setup Java
+      uses: actions/setup-java@v1.3.0
+      with:
+        java-version: 11
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
