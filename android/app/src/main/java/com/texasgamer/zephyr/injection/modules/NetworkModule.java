@@ -1,8 +1,9 @@
 package com.texasgamer.zephyr.injection.modules;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.texasgamer.zephyr.network.DiscoveryManager;
 import com.texasgamer.zephyr.network.IDiscoveryManager;
 import com.texasgamer.zephyr.network.IOkHttpClientFactory;
@@ -29,7 +30,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    IDiscoveryManager provideDiscoveryManager(@NonNull Gson gson, @NonNull ILogger logger, @NonNull IPreferenceManager preferenceManager) {
-        return new DiscoveryManager(gson, logger, preferenceManager);
+    IDiscoveryManager provideDiscoveryManager(@NonNull Context context, @NonNull ILogger logger, @NonNull IPreferenceManager preferenceManager) {
+        return new DiscoveryManager(context, logger, preferenceManager);
     }
 }

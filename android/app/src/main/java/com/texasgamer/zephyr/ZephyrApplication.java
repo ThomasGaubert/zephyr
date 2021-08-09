@@ -139,11 +139,6 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
 
         distributionManager.start();
 
-        if (configManager.isDiscoveryEnabled()) {
-            logger.log(LogLevel.INFO, LOG_TAG, "Starting DiscoveryManager.");
-            discoveryManager.start();
-        }
-
         // Track version code
         preferenceManager.getInt(PreferenceKeys.PREF_LAST_KNOWN_APP_VERSION, BuildConfigUtils.getVersionCode());
     }
@@ -198,7 +193,6 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
         logger.log(LogLevel.VERBOSE, LOG_TAG, "App is in the foreground.");
         mIsInForeground = true;
         if (configManager.isDiscoveryEnabled()) {
-            logger.log(LogLevel.INFO, LOG_TAG, "Starting DiscoveryManager.");
             discoveryManager.start();
         }
 

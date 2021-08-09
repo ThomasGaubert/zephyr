@@ -14,7 +14,6 @@ public class DiscoveredServer {
     private final String mIpAddress;
     private final String mHostName;
     private final int mApiVersion;
-    private final long mTimestamp;
     private final boolean mDisabled;
     @DisabledReason
     private final int mDisabledReason;
@@ -22,12 +21,10 @@ public class DiscoveredServer {
     public DiscoveredServer(@NonNull String ipAddress,
                             @NonNull String hostName,
                             int apiVersion,
-                            long timestamp,
                             @DisabledReason int disabledReason) {
         mIpAddress = ipAddress;
         mHostName = hostName;
         mApiVersion = apiVersion;
-        mTimestamp = timestamp;
         mDisabled = disabledReason != DisabledReason.NOT_DISABLED;
         mDisabledReason = disabledReason;
     }
@@ -42,10 +39,6 @@ public class DiscoveredServer {
 
     public int getApiVersion() {
         return mApiVersion;
-    }
-
-    public long getTimestamp() {
-        return mTimestamp;
     }
 
     public boolean isDisabled() {

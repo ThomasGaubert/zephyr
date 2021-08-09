@@ -1,6 +1,9 @@
 package com.texasgamer.zephyr.network;
 
-import android.os.Handler;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.nsd.NsdManager;
+import android.net.nsd.NsdServiceInfo;
 import android.os.HandlerThread;
 
 import androidx.annotation.NonNull;
@@ -8,21 +11,16 @@ import androidx.collection.ArrayMap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
 import com.texasgamer.zephyr.Constants;
 import com.texasgamer.zephyr.model.discovery.DiscoveredServer;
-import com.texasgamer.zephyr.model.discovery.DiscoveryPacket;
+import com.texasgamer.zephyr.model.discovery.DiscoveryTxtRecord;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
 import com.texasgamer.zephyr.util.preference.IPreferenceManager;
 import com.texasgamer.zephyr.util.preference.PreferenceKeys;
 import com.texasgamer.zephyr.util.threading.ZephyrExecutors;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,47 +32,60 @@ import java.util.Map;
 public class DiscoveryManager implements IDiscoveryManager {
 
     private static final String LOG_TAG = "DiscoveryManager";
+    private static final String SERVICE_TYPE = "_zephyr._tcp.";
 
-    private Gson mGson;
-    private ILogger mLogger;
-    private IPreferenceManager mPreferenceManager;
-    private Handler mPacketHandler;
-    private Runnable mDiscoveryRunnable;
-    private boolean mRunning;
-    private MulticastSocket mMulticastSocket;
-    private byte[] mBuffer = new byte[256];
+    private final ILogger mLogger;
+    private final IPreferenceManager mPreferenceManager;
     private final Map<String, DiscoveredServer> mDiscoveredServers;
-    private MutableLiveData<List<DiscoveredServer>> mDiscoveredServersLiveData;
+    private final MutableLiveData<List<DiscoveredServer>> mDiscoveredServersLiveData;
+    private boolean mRunning;
 
-    public DiscoveryManager(@NonNull Gson gson,
+    private final NsdManager mNsdManager;
+    private NsdManager.ResolveListener mResolveListener;
+    private NsdManager.DiscoveryListener mDiscoveryListener;
+
+    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener;
+
+    public DiscoveryManager(@NonNull Context context,
                             @NonNull ILogger logger,
                             @NonNull IPreferenceManager preferenceManager) {
-        mGson = gson;
         mLogger = logger;
         mPreferenceManager = preferenceManager;
 
         HandlerThread mPacketHandlerThread = new HandlerThread(LOG_TAG);
         mPacketHandlerThread.start();
-        mPacketHandler = new Handler(mPacketHandlerThread.getLooper());
-        mDiscoveryRunnable = getDiscoveryRunnable();
 
         mDiscoveredServers = new ArrayMap<>();
         mDiscoveredServersLiveData = new MutableLiveData<>();
+
+        mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+        initializeResolveListener();
+        initializeDiscoveryListener();
+
+        initializePreferenceChangeListener();
+        checkIfMockDataIsEnabled();
     }
 
     @Override
     public synchronized void start() {
         if (!mRunning) {
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Starting DiscoveryManager");
             mRunning = true;
-            mPacketHandler.post(mDiscoveryRunnable);
+            mNsdManager.discoverServices(
+                    SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, mDiscoveryListener);
+        } else {
+            mLogger.log(LogLevel.WARNING, LOG_TAG, "DiscoveryManager already started");
         }
     }
 
     @Override
     public synchronized void stop() {
         if (mRunning) {
+            mLogger.log(LogLevel.INFO, LOG_TAG, "Stopping DiscoveryManager");
             mRunning = false;
-            mPacketHandler.removeCallbacks(mDiscoveryRunnable);
+            mNsdManager.stopServiceDiscovery(mDiscoveryListener);
+        } else {
+            mLogger.log(LogLevel.WARNING, LOG_TAG, "DiscoveryManager already stopped");
         }
     }
 
@@ -88,90 +99,137 @@ public class DiscoveryManager implements IDiscoveryManager {
         return mDiscoveredServersLiveData;
     }
 
-    private Runnable getDiscoveryRunnable() {
-        return () -> {
-            try {
-                InetAddress group = InetAddress.getByName(Constants.DISCOVERY_BROADCAST_ADDRESS);
-                mMulticastSocket = new MulticastSocket(Constants.DISCOVERY_BROADCAST_PORT);
-                mMulticastSocket.joinGroup(group);
-                mMulticastSocket.setSoTimeout(Constants.DISCOVERY_BROADCAST_TIMEOUT_IN_MS);
-
-                while (mRunning) {
-                    DatagramPacket packet = new DatagramPacket(mBuffer, mBuffer.length);
-                    try {
-                        mMulticastSocket.receive(packet);
-                        handlePacket(packet);
-                    } catch (SocketTimeoutException e) {
-                        cleanupDiscoveredServers();
-                    }
-                }
-
-                mMulticastSocket.leaveGroup(group);
-                mMulticastSocket.close();
-            } catch (IOException e) {
-                mLogger.log(LogLevel.ERROR, LOG_TAG, e, "Error encountered!");
-            }
-        };
-    }
-
-    private void handlePacket(@NonNull DatagramPacket packet) {
-        String received = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
-        DiscoveryPacket discoveryPacket = mGson.fromJson(received, DiscoveryPacket.class);
-        if (discoveryPacket == null) {
-            return;
-        }
-
+    private void handleDiscoveredService(@NonNull NsdServiceInfo serviceInfo) {
+        DiscoveryTxtRecord discoveryTxtRecord = getTxtRecord(serviceInfo);
         @DiscoveredServer.DisabledReason
-        int disabledReason = getDisabledReason(discoveryPacket);
-        InetAddress inetAddress = packet.getAddress();
+        int disabledReason = getDisabledReason(discoveryTxtRecord);
+        InetAddress inetAddress = serviceInfo.getHost();
         DiscoveredServer discoveredServer = new DiscoveredServer(inetAddress.getHostAddress(),
-                inetAddress.getHostName(), discoveryPacket.getApiVersion(),
-                discoveryPacket.getTimestamp(), disabledReason);
+                discoveryTxtRecord.displayName, discoveryTxtRecord.apiVersion, disabledReason);
 
         synchronized (mDiscoveredServers) {
-            mDiscoveredServers.put(discoveredServer.getIpAddress(), discoveredServer);
+            mDiscoveredServers.put(serviceInfo.getServiceName(), discoveredServer);
             ZephyrExecutors.getMainThreadExecutor().execute(() -> {
                 mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
             });
         }
-
-        cleanupDiscoveredServers();
     }
 
-    private void cleanupDiscoveredServers() {
-        if (mPreferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA)) {
-            populateMockData();
-        }
-
-        synchronized (mDiscoveredServers) {
-            for (Map.Entry<String, DiscoveredServer> entry : mDiscoveredServers.entrySet()) {
-                long timeSinceLastPacket = System.currentTimeMillis() - entry.getValue().getTimestamp();
-                if (timeSinceLastPacket > Constants.DISCOVERY_BROADCAST_INTERVAL_IN_MS) { // 3 seconds
-                    mLogger.log(LogLevel.DEBUG, LOG_TAG, "Removing server: last seen " + timeSinceLastPacket + "ms ago");
-                    mDiscoveredServers.remove(entry.getKey());
-                    ZephyrExecutors.getMainThreadExecutor().execute(() -> {
-                        mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
-                    });
-                }
-            }
-        }
+    private void handleLostService(@NonNull NsdServiceInfo serviceInfo) {
+        mDiscoveredServers.remove(serviceInfo.getServiceName());
+        ZephyrExecutors.getMainThreadExecutor().execute(() -> {
+            mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
+        });
     }
 
     @DiscoveredServer.DisabledReason
-    private int getDisabledReason(DiscoveryPacket discoveryPacket) {
-        if (discoveryPacket.getApiVersion() != Constants.ZEPHYR_API_VERSION) {
+    private int getDisabledReason(DiscoveryTxtRecord discoveryTxtRecord) {
+        if (discoveryTxtRecord.apiVersion != Constants.ZEPHYR_API_VERSION) {
             return DiscoveredServer.DisabledReason.UNSUPPORTED_API;
         } else {
             return DiscoveredServer.DisabledReason.NOT_DISABLED;
         }
     }
 
+    private DiscoveryTxtRecord getTxtRecord(@NonNull NsdServiceInfo serviceInfo) {
+        DiscoveryTxtRecord discoveryTxtRecord = new DiscoveryTxtRecord();
+        discoveryTxtRecord.apiVersion = Integer.parseInt(new String(serviceInfo.getAttributes().get("apiVersion"), StandardCharsets.UTF_8));
+        discoveryTxtRecord.displayName = new String(serviceInfo.getAttributes().get("displayName"), StandardCharsets.UTF_8);
+        return discoveryTxtRecord;
+    }
+
+    private void initializeResolveListener() {
+        mResolveListener = new NsdManager.ResolveListener() {
+            @Override
+            public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode) {
+                // Called when the resolve fails. Use the error code to debug.
+                mLogger.log(LogLevel.ERROR, LOG_TAG, "onResolveFailed: " + errorCode);
+            }
+
+            @Override
+            public void onServiceResolved(NsdServiceInfo serviceInfo) {
+                mLogger.log(LogLevel.VERBOSE, LOG_TAG, "onServiceResolved: " + serviceInfo);
+                handleDiscoveredService(serviceInfo);
+            }
+        };
+    }
+
+    private void initializeDiscoveryListener() {
+        // Instantiate a new DiscoveryListener
+        mDiscoveryListener = new NsdManager.DiscoveryListener() {
+
+            // Called as soon as service discovery begins.
+            @Override
+            public void onDiscoveryStarted(String regType) {
+                mLogger.log(LogLevel.VERBOSE, LOG_TAG, "onDiscoveryStarted");
+            }
+
+            @Override
+            public void onServiceFound(NsdServiceInfo service) {
+                // A service was found! Do something with it.
+                mLogger.log(LogLevel.VERBOSE, LOG_TAG, "onServiceFound: " + service);
+                mNsdManager.resolveService(service, mResolveListener);
+            }
+
+            @Override
+            public void onServiceLost(NsdServiceInfo service) {
+                // When the network service is no longer available.
+                // Internal bookkeeping code goes here.
+                mLogger.log(LogLevel.ERROR, LOG_TAG, "onServiceLost: " + service);
+                handleLostService(service);
+            }
+
+            @Override
+            public void onDiscoveryStopped(String serviceType) {
+                mLogger.log(LogLevel.VERBOSE, LOG_TAG, "onDiscoveryStopped: " + serviceType);
+            }
+
+            @Override
+            public void onStartDiscoveryFailed(String serviceType, int errorCode) {
+                mLogger.log(LogLevel.ERROR, LOG_TAG, "onStartDiscoveryFailed: " + errorCode);
+                mNsdManager.stopServiceDiscovery(this);
+            }
+
+            @Override
+            public void onStopDiscoveryFailed(String serviceType, int errorCode) {
+                mLogger.log(LogLevel.ERROR, LOG_TAG, "onStopDiscoveryFailed: " + errorCode);
+                mNsdManager.stopServiceDiscovery(this);
+            }
+        };
+    }
+
+    private void initializePreferenceChangeListener() {
+        mPreferenceChangeListener = (sharedPreferences, key) -> {
+            if (PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA.equals(key)) {
+                checkIfMockDataIsEnabled();
+            }
+        };
+        mPreferenceManager.registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
+    }
+
+    private void checkIfMockDataIsEnabled() {
+        if (mPreferenceManager.getBoolean(PreferenceKeys.PREF_DEBUG_ENABLE_MOCK_DATA)) {
+            populateMockData();
+        } else {
+            removeMockData();
+        }
+    }
+
     @SuppressWarnings("PMD.AvoidUsingHardCodedIP")
     private void populateMockData() {
         synchronized (mDiscoveredServers) {
-            mDiscoveredServers.put("0", new DiscoveredServer("192.168.0.18",
+            mDiscoveredServers.put("MOCK_SERVER", new DiscoveredServer("192.168.0.18",
                     "Desktop", Constants.ZEPHYR_API_VERSION,
-                    System.currentTimeMillis(), DiscoveredServer.DisabledReason.NOT_DISABLED));
+                    DiscoveredServer.DisabledReason.NOT_DISABLED));
+            ZephyrExecutors.getMainThreadExecutor().execute(() -> {
+                mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
+            });
+        }
+    }
+
+    private void removeMockData() {
+        synchronized (mDiscoveredServers) {
+            mDiscoveredServers.remove("MOCK_SERVER");
             ZephyrExecutors.getMainThreadExecutor().execute(() -> {
                 mDiscoveredServersLiveData.setValue(new ArrayList<>(mDiscoveredServers.values()));
             });

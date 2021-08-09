@@ -12,19 +12,12 @@ import androidx.lifecycle.LiveData;
  * LiveData wrapper for SharedPreferences.
  * @param <T>
  */
-public class SharedPreferenceLiveData<T> extends LiveData<T> {
+public class SharedPreferenceLiveData<T> extends LiveData<T>
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private String mKey;
-    private T mDefaultValue;
-    private IPreferenceManager mPreferenceManager;
-    private SharedPreferences.OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals(mKey)) {
-                setValue(getValueFromPreferences());
-            }
-        }
-    };
+    private final String mKey;
+    private final T mDefaultValue;
+    private final IPreferenceManager mPreferenceManager;
 
     public SharedPreferenceLiveData(@NonNull String key) {
         this(key, null);
@@ -40,13 +33,20 @@ public class SharedPreferenceLiveData<T> extends LiveData<T> {
     protected void onActive() {
         super.onActive();
         setValue(getValueFromPreferences());
-        mPreferenceManager.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+        mPreferenceManager.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     protected void onInactive() {
-        mPreferenceManager.unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+        mPreferenceManager.unregisterOnSharedPreferenceChangeListener(this);
         super.onInactive();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(mKey)) {
+            setValue(getValueFromPreferences());
+        }
     }
 
     private T getValueFromPreferences() {
