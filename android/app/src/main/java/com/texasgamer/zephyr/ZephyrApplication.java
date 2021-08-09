@@ -24,7 +24,6 @@ import com.texasgamer.zephyr.service.SocketService;
 import com.texasgamer.zephyr.util.BuildConfigUtils;
 import com.texasgamer.zephyr.util.config.IConfigManager;
 import com.texasgamer.zephyr.util.distribution.IDistributionManager;
-import com.texasgamer.zephyr.util.flipper.IFlipperManager;
 import com.texasgamer.zephyr.util.lifecycle.ZephyrLifecycleLogger;
 import com.texasgamer.zephyr.util.log.ILogger;
 import com.texasgamer.zephyr.util.log.LogLevel;
@@ -60,8 +59,6 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
     IPreferenceManager preferenceManager;
     @Inject
     IPrivacyManager privacyManager;
-    @Inject
-    IFlipperManager flipperManager;
     @Inject
     IDiscoveryManager discoveryManager;
     @Inject
@@ -121,10 +118,6 @@ public class ZephyrApplication extends Application implements LifecycleObserver,
 
         if (!BuildConfig.PROPS_SET) {
             logger.log(LogLevel.WARNING, LOG_TAG, "Secret properties not set! Some features will be limited or disabled.");
-        }
-
-        if (flipperManager.isInitialized()) {
-            logger.log(LogLevel.INFO, LOG_TAG, "Flipper initialized.");
         }
 
         logger.log(LogLevel.DEBUG, LOG_TAG, "Zephyr %s (%s - %s) started.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.GIT_HASH);

@@ -23,7 +23,6 @@ import com.texasgamer.zephyr.injection.modules.ConfigModule;
 import com.texasgamer.zephyr.injection.modules.DatabaseModule;
 import com.texasgamer.zephyr.injection.modules.DistributionModule;
 import com.texasgamer.zephyr.injection.modules.EagerModule;
-import com.texasgamer.zephyr.injection.modules.FlipperModule;
 import com.texasgamer.zephyr.injection.modules.LayoutModule;
 import com.texasgamer.zephyr.injection.modules.LoggerModule;
 import com.texasgamer.zephyr.injection.modules.NavigationModule;
@@ -67,7 +66,6 @@ import dagger.Component;
             DatabaseModule.class,
             DistributionModule.class,
             EagerModule.class,
-            FlipperModule.class,
             LayoutModule.class,
             LoggerModule.class,
             NavigationModule.class,

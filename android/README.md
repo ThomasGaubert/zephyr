@@ -35,10 +35,4 @@ Zephyr uses several code analysis tools to maintain code quality. The tools incl
 
 You can run any of these tools in the terminal using `gradlew <tool-name>`.
 
-## Debugging
-Zephyr provides tools to enhance the developer experience.
-
-- [Flipper](https://fbflipper.com/) - desktop application which provides access to network requests, database, SharedPreferences, etc.
-- [Android-Debug-Database](https://github.com/amitshekhariitbhu/Android-Debug-Database) - provides easy access to the database using a web interface
-
 Please see each tool's respective website for setup instructions.
