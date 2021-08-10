@@ -77,7 +77,7 @@ export default class VRWindow extends BrowserWindow {
 
       this.overlay.setTextureFromBuffer(buf, { ...image.getSize() });
     }).catch((error: any) => {
-      LogUtils.error('VRWindow', 'Error when capturing page: ' + JSON.stringify(error));
+      LogUtils.error('VRWindow', 'Error when capturing page: ' + error);
     });
   }
 }

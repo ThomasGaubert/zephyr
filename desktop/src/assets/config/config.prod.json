@@ -3,10 +3,5 @@
   "enableUpdates": true,
   "port": 3753,
   "enableOverlay": true,
-  "discovery": {
-    "enabled": true,
-    "broadcastAddress": "230.185.192.108",
-    "broadcastPort": 8088,
-    "broadcastIntervalInMs": 3000
-  }
+  "enableDiscovery": true
 }

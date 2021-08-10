@@ -1,14 +1,13 @@
-import dgram, { Socket } from 'dgram';
+import ciao, { CiaoService } from '@homebridge/ciao';
 import express from 'express';
+import os from 'os';
 import SocketIO from 'socket.io';
-import DiscoveryPacket from '../models/DiscoveryPacket';
 import DismissNotificationPayload from '../models/DismissNotificationPayload';
 import SocketChannels from '../models/SocketChannels';
 import ZephyrNotification from '../models/ZephyrNotification';
-import ConfigUtils, { IZephyrDiscoveryConfig } from '../utils/ConfigUtils';
+import ConfigUtils from '../utils/ConfigUtils';
 import EventUtils from '../utils/EventUtils';
 import LogUtils from '../utils/LogUtils';
-import NetworkUtils from '../utils/NetworkUtils';
 import NotificationUtils from '../utils/NotificationUtils';
 
 export class ZephyrServer {
@@ -17,12 +16,11 @@ export class ZephyrServer {
   static DEFAULT_PORT: number = 3753;
 
   notifications: Map<string, ZephyrNotification>;
-  discoveryConfig: IZephyrDiscoveryConfig;
+  service: CiaoService;
 
   constructor() {
     const app = express();
     this.notifications = new Map<string, ZephyrNotification>();
-    this.discoveryConfig = ConfigUtils.getDiscoveryConfig();
 
     let port: number = ConfigUtils.getPort();
 
@@ -51,8 +49,20 @@ export class ZephyrServer {
       LogUtils.info('ZephyrServer', 'Server listening on *:' + app.get('port'));
     });
 
+    // Initialize service info for advertisement
+    const responder = ciao.getResponder();
+    this.service = responder.createService({
+      name: 'Zephyr-' + os.hostname(),
+      type: 'zephyr',
+      port: ZephyrServer.DEFAULT_PORT,
+      txt: {
+        apiVersion: ZephyrServer.API_VERSION,
+        displayName: os.hostname()
+      }
+    });
+
     // Discovery
-    if (this.discoveryConfig.enabled) {
+    if (ConfigUtils.discoveryEnabled()) {
       this.startDiscoveryBroadcast();
     }
   }
@@ -169,27 +179,19 @@ export class ZephyrServer {
 
   startDiscoveryBroadcast () {
     LogUtils.info('ZephyrServer', 'Starting discovery broadcast...');
-    const socket: Socket = dgram.createSocket('udp4');
-    const serverInstance: ZephyrServer = this;
-    socket.on('listening', function() {
-      socket.setBroadcast(true);
-      socket.setMulticastTTL(128);
-      NetworkUtils.getAllIpAddresses().forEach((ipAddress) => {
-        socket.addMembership(serverInstance.discoveryConfig.broadcastAddress, ipAddress);
-      });
-      setInterval(() => serverInstance.broadcast(serverInstance, socket), serverInstance.discoveryConfig.broadcastIntervalInMs);
-      LogUtils.info('ZephyrServer', 'Started discovery broadcast.');
+    this.service.advertise().then(() => {
+      LogUtils.info('ZephyrServer', 'Published discovery broadcast');
+    }).catch(() => {
+      LogUtils.error('ZephyrServer', 'Error when publishing discovery broadcast');
     });
-    socket.bind(8000);
   }
 
-  broadcast (server: ZephyrServer, socket: Socket) {
-    const discoveryPacket = {
-      timestamp: Date.now(),
-      apiVersion: ZephyrServer.API_VERSION,
-      port: ZephyrServer.DEFAULT_PORT
-    } as DiscoveryPacket;
-    const message = Buffer.from(JSON.stringify(discoveryPacket), 'utf8');
-    socket.send(message, 0, message.length, server.discoveryConfig.broadcastPort, server.discoveryConfig.broadcastAddress);
+  stopDiscoveryBroadcast(): Promise<void> {
+    LogUtils.info('ZephyrServer', 'Stopping discovery broadcast...');
+    return this.service.end().then(() => {
+      LogUtils.info('ZephyrServer', 'Stopped discovery broadcast');
+    }).catch(() => {
+      LogUtils.error('ZephyrServer', 'Error when stopping discovery broadcast');
+    });
   }
 }

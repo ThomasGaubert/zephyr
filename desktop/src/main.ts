@@ -17,6 +17,7 @@ let mainWindow: Electron.BrowserWindow;
 let vrWindow: VRWindow;
 let mainWindowReady: boolean;
 let launchError: string | undefined;
+let zephyrServer: ZephyrServer;
 
 const store: Store<IStoreState> = createStore(
   RootReducer,
@@ -40,12 +41,10 @@ const installExtensions = () => {
       LogUtils.error('Zephyr Beta', 'Error when installing debug extensions: ' + err);
     });
   }
-
-  return Promise.resolve([]);
 };
 
 function onReady() {
-  new ZephyrServer(); // tslint:disable-line
+  zephyrServer = new ZephyrServer();
 
   mainWindow = new BrowserWindow({
     width: 400,
@@ -69,7 +68,7 @@ function onReady() {
     }
     mainWindowReady = true;
   });
-  mainWindow.on('close', () => app.quit());
+  mainWindow.on('close', () => quit());
 
   if (ConfigUtils.overlayEnabled()) {
     vrWindow = new VRWindow({
@@ -113,16 +112,29 @@ function onReady() {
   ZephyrUpdater.getInstance(store).checkForUpdates();
 }
 
-function onError(error: any) {
+function onError(errorObject: object) {
   let errorString = 'Unknown error';
-  if (error.code === 108) {
-    errorString = 'No headset detected. Restart Zephyr after connecting a headset.';
-  }
-  launchError = errorString + ' (' + error.code + ')';
-  LogUtils.info('Zephyr Beta', errorString);
+  try {
+    let errorParts = errorObject.toString().split(' ');
+    let errorCode = -1;
+    if (errorParts.length === 2) {
+      errorCode = parseInt(errorParts[1], 10);
+      if (errorCode === 108) {
+        errorString = 'No headset detected. Restart Zephyr after connecting a headset.';
+      }
+    }
+    launchError = errorString + ' (' + errorCode + ')';
+    LogUtils.error('Zephyr Beta', 'Error when initializing: ' + errorObject);
 
-  if (mainWindowReady) {
-    dispatchError();
+    if (mainWindowReady) {
+      dispatchError();
+    }
+  } catch (e) {
+    LogUtils.error('Zephyr Beta', 'Unable to parse error: ' + errorObject);
+    errorString = 'Unknown error - failed to parse error';
+    if (mainWindowReady) {
+      dispatchError();
+    }
   }
 }
 
@@ -147,7 +159,7 @@ function init() {
   const gotTheLock = app.requestSingleInstanceLock();
 
   if (!gotTheLock) {
-    app.quit();
+    quit();
   } else {
     app.on('second-instance', () => {
       // Someone tried to run a second instance, we should focus our window.
@@ -162,8 +174,18 @@ function init() {
     LogUtils.info('Zephyr Beta', `v${ConfigUtils.getAppVersion()} (${ConfigUtils.getBuildType()})`);
 
     app.whenReady().then(installExtensions).then(onReady).catch(onError);
-    app.on('window-all-closed', () => app.quit());
+    app.on('window-all-closed', () => quit());
   }
+}
+
+function quit() {
+  LogUtils.info('Zephyr Beta', 'Quitting...');
+  zephyrServer.stopDiscoveryBroadcast().then(() => {
+    app.quit();
+  }).catch(() => {
+    LogUtils.error('Zephyr Beta', 'Failed to stop discovery broadcast when quitting!');
+    app.quit();
+  });
 }
 
 init();

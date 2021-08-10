@@ -48,13 +48,13 @@ class ConnectionInfo extends React.Component<any, any> {
   getStatusText (connectionStatus: ConnectionStatus) {
     switch (connectionStatus) {
     case ConnectionStatus.CONNECTED:
-      return 'Connected';
+      return 'Server running';
     case ConnectionStatus.CONNECTING:
-      return 'Connecting';
+      return 'Initializing...';
     case ConnectionStatus.DISCONNECTED:
-      return 'Disconnected';
+      return 'Unable to start server';
     case ConnectionStatus.ERROR:
-      return 'Error';
+      return 'Error when running server';
     }
   }
 
@@ -92,7 +92,10 @@ class ConnectionInfo extends React.Component<any, any> {
             <div>Thanks for beta testing!</div>
             <p>What's new:</p>
             <ul>
-              <li>Updated dependencies</li>
+              <li>Updated to Electron 11</li>
+              <li>Rewrote OpenVR bindings</li>
+              <li>Rewrote discovery (requires latest app update)</li>
+              <li>Updated connection status text</li>
             </ul>
           </Card>
           <List component='nav'>

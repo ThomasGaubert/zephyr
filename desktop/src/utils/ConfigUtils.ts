@@ -12,14 +12,7 @@ export interface IZephyrConfig {
   enableUpdates: boolean;
   port: number;
   enableOverlay: boolean;
-  discovery: IZephyrDiscoveryConfig;
-}
-
-export interface IZephyrDiscoveryConfig {
-  enabled: boolean;
-  broadcastAddress: string;
-  broadcastPort: number;
-  broadcastIntervalInMs: number;
+  enableDiscovery: boolean;
 }
 
 export interface IZephyrSocketChannels {
@@ -215,7 +208,7 @@ export default class ConfigUtils {
     return ConfigUtils.getConfig().enableOverlay;
   }
 
-  static getDiscoveryConfig(): IZephyrDiscoveryConfig {
-    return ConfigUtils.getConfig().discovery;
+  static discoveryEnabled(): boolean {
+    return ConfigUtils.getConfig().enableDiscovery;
   }
 }

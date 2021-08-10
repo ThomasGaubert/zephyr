@@ -74,7 +74,7 @@ class QrDialog extends React.Component<any, any> {
               </div>
 
               <div style={{ textAlign: 'center' }}>
-                <p>Scan this code to connect.</p>
+                <p>Scan in-app to connect</p>
 
                 <p>{NetworkUtils.getPrimaryIpAddress()}</p>
               </div>
