@@ -168,7 +168,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:19.0.0'
-    implementation 'com.google.firebase:firebase-config:21.0.0'
+    implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
 
     // Google Play Services
