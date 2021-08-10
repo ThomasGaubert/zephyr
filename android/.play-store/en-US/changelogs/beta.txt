@@ -1,5 +1,7 @@
 Automatically built and published to beta track.
 
+- Rewrote discovery (requires latest desktop app)
+- Remove analytics
 - Updated dependencies
 
 See https://github.com/ThomasGaubert/zephyr/commits/master for latest changes.
