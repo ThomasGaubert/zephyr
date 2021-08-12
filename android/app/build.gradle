@@ -194,7 +194,7 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-common-java8:2.3.1"
 
     // ML Kit
-    implementation 'com.google.mlkit:barcode-scanning:16.2.0'
+    implementation 'com.google.mlkit:barcode-scanning:17.0.0'
 
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
