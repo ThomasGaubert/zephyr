@@ -5222,8 +5222,8 @@ jss@10.5.1, jss@^10.5.1:
     tiny-warning "^1.0.2"
 
 jszip@^3.1.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.4.0.tgz#1a69421fa5f0bb9bc222a46bca88182fba075350"
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.7.1.tgz#bd63401221c15625a1228c556ca8a68da6fda3d9"
   dependencies:
     lie "~3.3.0"
     pako "~1.0.2"
