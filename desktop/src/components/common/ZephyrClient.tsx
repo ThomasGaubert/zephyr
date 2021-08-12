@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import socketIOClient from 'socket.io-client';
+import { io } from 'socket.io-client';
 import ActionTypeKeys from '../../actions/ActionTypeKeys';
 import SocketChannels from '../../models/SocketChannels';
 import LogUtils from '../../utils/LogUtils';
@@ -21,7 +21,7 @@ class ZephyrClient extends React.Component<any, any> {
 
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
+    const socket = io(endpoint);
 
     // Connection
     socket.on('connect', () => this.onConnect(this));

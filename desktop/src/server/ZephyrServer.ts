@@ -1,7 +1,7 @@
 import ciao, { CiaoService } from '@homebridge/ciao';
 import express from 'express';
 import os from 'os';
-import SocketIO from 'socket.io';
+import { Server } from 'socket.io';
 import DismissNotificationPayload from '../models/DismissNotificationPayload';
 import SocketChannels from '../models/SocketChannels';
 import ZephyrNotification from '../models/ZephyrNotification';
@@ -34,8 +34,8 @@ export class ZephyrServer {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
-    let http = require('http').Server(app);
-    let io = SocketIO(http);
+    let http = require('http').createServer(app);
+    let io = new Server(http);
 
     // API routes
     app.get('/api/version', this.serveVersion);
