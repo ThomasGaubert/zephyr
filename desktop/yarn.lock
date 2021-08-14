@@ -1695,11 +1695,12 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.1.tgz#eb1f1407dea8da3bc741879c1192aa703ab9975b"
+"@types/react@*", "@types/react@^17.0.17":
+  version "17.0.17"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.17.tgz#1772d3d5425128e0635a716f49ef57c2955df055"
   dependencies:
     "@types/prop-types" "*"
+    "@types/scheduler" "*"
     csstype "^3.0.2"
 
 "@types/react@^16":
@@ -1707,14 +1708,6 @@
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.4.tgz#365f6a1e117d1eec960ba792c7e1e91ecad38e6f"
   dependencies:
     "@types/prop-types" "*"
-    csstype "^3.0.2"
-
-"@types/react@^16.14.13":
-  version "16.14.13"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.13.tgz#14f77c75ea581fa632907440dfda23b3c6ab24c9"
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
     csstype "^3.0.2"
 
 "@types/responselike@*", "@types/responselike@^1.0.0":
