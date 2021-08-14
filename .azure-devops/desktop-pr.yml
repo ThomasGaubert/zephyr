@@ -35,7 +35,7 @@ jobs:
     - task: NodeTool@0
       displayName: Setup NodeJS
       inputs:
-        versionSpec: '12.16.3'
+        versionSpec: '16.6.2'
     - task: Cache@2
       displayName: Cache Yarn packages
       enabled: false
