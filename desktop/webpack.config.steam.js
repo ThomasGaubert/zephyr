@@ -13,13 +13,17 @@ const commonConfig = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.(ts|tsx)$/,
         enforce: 'pre',
-        loader: 'tslint-loader',
-        options: {
-          typeCheck: true,
-          emitErrors: true
-        }
+        use: [
+          {
+            options: {
+              eslintPath: require.resolve('eslint'),
+            },
+            loader: require.resolve('eslint-loader'),
+          },
+        ],
+        exclude: /node_modules/,
       },
       {
         test: /\.tsx?$/,

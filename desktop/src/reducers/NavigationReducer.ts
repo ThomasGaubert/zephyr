@@ -5,7 +5,7 @@ import initialState from './initialState';
 export default function navigationReducer(
   state = initialState.navigationTarget,
   action: ActionTypes
-) {
+): number {
   switch (action.type) {
   case ActionTypeKeys.NAVIGATE_HOME:
     return onNavigateHome();
@@ -18,14 +18,14 @@ export default function navigationReducer(
   }
 }
 
-function onNavigateHome () {
+function onNavigateHome(): number {
   return 0;
 }
 
-function onNavigateHistory () {
+function onNavigateHistory(): number {
   return 1;
 }
 
-function onNavigateSettings () {
+function onNavigateSettings(): number {
   return 2;
 }

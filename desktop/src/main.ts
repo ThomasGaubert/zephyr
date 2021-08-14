@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import electronDebug from 'electron-debug';
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import { forwardToRenderer, replayActionMain, triggerAlias } from 'electron-redux';
 import Path from 'path';
@@ -12,7 +13,7 @@ import ConfigUtils from './utils/ConfigUtils';
 import LogUtils from './utils/LogUtils';
 import VRWindow from './vr/VRWindow';
 
-declare var __dirname: string;
+declare let __dirname: string; // eslint-disable-line @typescript-eslint/naming-convention
 let mainWindow: Electron.BrowserWindow;
 let vrWindow: VRWindow;
 let mainWindowReady: boolean;
@@ -29,21 +30,23 @@ const store: Store<IStoreState> = createStore(
 
 replayActionMain(store);
 
-const installExtensions = () => {
+const installExtensions = async (): Promise<void> => {
   if (ConfigUtils.isDev()) {
-    require('electron-debug')({
+    electronDebug({
       showDevTools: false
     });
 
-    return installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]).then((_) => {
+    return await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]).then((_) => {
       LogUtils.debug('Zephyr Beta', 'Successfully installed debug extensions.');
     }).catch((err) => {
       LogUtils.error('Zephyr Beta', 'Error when installing debug extensions: ' + err);
     });
   }
+
+  return await Promise.resolve();
 };
 
-function onReady() {
+function onReady(): void {
   zephyrServer = new ZephyrServer();
 
   mainWindow = new BrowserWindow({
@@ -91,7 +94,7 @@ function onReady() {
     });
   } else {
     LogUtils.warn('Zephyr Beta', 'Overlay disabled!');
-    let overlayWindow = new BrowserWindow({
+    const overlayWindow = new BrowserWindow({
       width: 1375,
       height: 750,
       frame: false,
@@ -112,10 +115,10 @@ function onReady() {
   ZephyrUpdater.getInstance(store).checkForUpdates();
 }
 
-function onError(errorObject: object) {
+function onError(errorObject: any): void {
   let errorString = 'Unknown error';
   try {
-    let errorParts = errorObject.toString().split(' ');
+    const errorParts = errorObject.toString().split(' ');
     let errorCode = -1;
     if (errorParts.length === 2) {
       errorCode = parseInt(errorParts[1], 10);
@@ -138,7 +141,7 @@ function onError(errorObject: object) {
   }
 }
 
-function dispatchError() {
+function dispatchError(): void {
   store.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
     message: launchError,
     type: 'error',
@@ -147,9 +150,10 @@ function dispatchError() {
   }});
 }
 
-function init() {
+function init(): void {
   if (ConfigUtils.isDev()) {
     LogUtils.info('Zephyr Beta', 'Live reload enabled!');
+    /* eslint-disable @typescript-eslint/no-var-requires */
     require('electron-reload')(__dirname, {
       electron: Path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       ignored: /.*\.log/
@@ -178,7 +182,7 @@ function init() {
   }
 }
 
-function quit() {
+function quit(): void {
   LogUtils.info('Zephyr Beta', 'Quitting...');
   zephyrServer.stopDiscoveryBroadcast().then(() => {
     app.quit();

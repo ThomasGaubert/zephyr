@@ -4,7 +4,7 @@ import { Container, Title } from '../primitives';
 import ConnectionInfo from './ConnectionInfo';
 
 class Home extends React.Component<any, any> {
-  render() {
+  render(): any {
     return (
       <Container>
         <Title>Zephyr β</Title>

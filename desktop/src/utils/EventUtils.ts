@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 export default class EventUtils {
 
   private static instance: EventUtils;
-  private eventEmitter: EventEmitter;
+  private readonly eventEmitter: EventEmitter;
 
   private constructor() {
     this.eventEmitter = new EventEmitter();
@@ -16,11 +16,11 @@ export default class EventUtils {
     return EventUtils.instance;
   }
 
-  emit (event: string, ...args: any[]) {
+  emit (event: string, ...args: any[]): void {
     this.eventEmitter.emit(event, args);
   }
 
-  on (event: string, listener: (...args: any[]) => void) {
+  on (event: string, listener: (...args: any[]) => void): void {
     this.eventEmitter.on(event, listener);
   }
 }

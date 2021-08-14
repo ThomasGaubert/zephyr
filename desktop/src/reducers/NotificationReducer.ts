@@ -1,12 +1,13 @@
 import ActionTypeKeys from '../actions/ActionTypeKeys';
 import ActionTypes from '../actions/ActionTypes';
+import ZephyrNotification from '../models/ZephyrNotification';
 import NotificationUtils from '../utils/NotificationUtils';
 import initialState from './initialState';
 
 export default function notificationReducer(
   state = initialState.notifications,
   action: ActionTypes
-) {
+): Map<string, ZephyrNotification> {
   switch (action.type) {
   case ActionTypeKeys.NOTIFICATION_POST:
     state.set(NotificationUtils.getNotificationKey(action.payload.notification), action.payload.notification);

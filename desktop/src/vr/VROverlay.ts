@@ -11,7 +11,7 @@ export default class VROverlay {
   renderer: any;
   pos: any;
 
-  constructor ({ system, key, name, iconPath, skipChecks = false, handle = null }) {
+  constructor({ system, key, name, iconPath, skipChecks = false, handle = null }) {
     if (!skipChecks) {
       if (system == null || (name == null && key == null)) {
         throw new TypeError('VROverlay needs a IVRSystem and a name and/or key argument.');
@@ -30,46 +30,46 @@ export default class VROverlay {
     if (!skipChecks) this.init();
   }
 
-  init () {
+  init(): void {
     if (!vr.overlay.Check()) {
       throw new Error("Couldn't initialize a VROverlay. Are you in Scene or Overlay mode from VR_Init?");
     }
     this.handle = vr.overlay.CreateDashboardOverlay(this.key, this.name, this.iconPath);
   }
 
-  createNotification(message: string, iconBuf, { width = 100, height = 100, depth = 8 } = {}) {
+  createNotification(message: string, iconBuf, { width = 100, height = 100, depth = 8 } = {}): void {
     if (iconBuf.length !== width * height * 4) {
-      console.warn(`Texture is not the correct number of elements for the size given. Got ${iconBuf.length} bytes, looking for ${width * height * 4}.`);
+      console.warn(`Texture is not the correct number of elements for the size given. Got ${Number(iconBuf.length)} bytes, looking for ${Number(width * height * 4)}.`);
     }
 
     vr.notifications.CreateNotification(this.handle, message, iconBuf, width, height, depth);
   }
 
-  show () {
+  show(): void {
     // vr.overlay.ShowOverlay(this.handle)
   }
 
-  get alpha () {
+  get alpha(): number {
     return vr.overlay.GetOverlayAlpha(this.handle);
   }
 
-  set alpha (_) {
+  set alpha(_) {
     vr.overlay.SetOverlayAlpha(this.handle);
   }
 
-  setTextureRaw (tex, { width, height, depth = 8 }) {
+  setTextureRaw(tex, { width, height, depth = 8 }): void {
     // if depth isn't defined, but it is a typed array, we can use the typed array bitness
     // otherwise, just 8 (0-255)
     vr.overlay.SetOverlayRaw(this.handle, tex, width, height, depth);
   }
 
-  setTextureFromBuffer (tex, { width = 100, height = 100, depth = 8 } = {}) {
+  setTextureFromBuffer(tex, { width = 100, height = 100, depth = 8 } = {}): void {
     // if depth isn't defined, but it is a typed array, we can use the typed array bitness
     // otherwise, just 8 (0-255)
     // tex = Uint8ClampedArray.from(tex)
 
     if (tex.length !== width * height * 4) {
-      console.warn(`Texture is not the correct number of elements for the size given. Got ${tex.length} bytes, looking for ${width * height * 4}.`);
+      console.warn(`Texture is not the correct number of elements for the size given. Got ${Number(tex.length)} bytes, looking for ${Number(width * height * 4)}.`);
     }
 
     // tex = Uint8Array.from(tex.map(x => x * 255))
@@ -77,19 +77,19 @@ export default class VROverlay {
     vr.overlay.SetOverlayTextureFromBuffer(this.handle, tex, width, height, depth);
   }
 
-  setTextureFromFile (path) {
+  setTextureFromFile(path): void {
     vr.overlay.SetOverlayFromFile(this.handle, path);
   }
 
-  transformTrackedDeviceRelative (trackedDevice, { x, y, z }) {
+  transformTrackedDeviceRelative(trackedDevice, { x, y, z }): void {
     vr.overlay.SetOverlayTransformTrackedDeviceRelative(this.handle, trackedDevice, VRVec3.VRVec3.HmdMatrix34(x, y, z));
   }
 
-  setOverlayWidthInMeters(w) {
+  setOverlayWidthInMeters(w): void {
     vr.overlay.SetOverlayWidthInMeters(this.handle, w);
   }
 
-  setOverlayMouseScale(width, height) {
+  setOverlayMouseScale(width, height): void {
     vr.overlay.SetOverlayMouseScale(this.handle, width, height);
   }
 
@@ -107,11 +107,11 @@ export default class VROverlay {
   A) around -30 or +30, this will pick which eye this renders to?
   B)
   */
-  transformTrackedDeviceRelativeMatrix (trackedDevice, matrix) {
+  transformTrackedDeviceRelativeMatrix(trackedDevice, matrix): void {
     vr.overlay.SetOverlayTransformTrackedDeviceRelative(this.handle, trackedDevice, matrix);
   }
 
-  transformAbsolute ({ x, y, z }) {
+  transformAbsolute({ x, y, z }): void {
     this.pos = VRVec3.VRVec3.HmdMatrix34(x, y, z);
     vr.overlay.SetOverlayTransformAbsolute(this.handle, this.pos);
   }
@@ -120,19 +120,20 @@ export default class VROverlay {
   //   this.transformTrackedDeviceRelative(0, VRVec3.ProjectionMatrix.HmdMatrix34(v));
   // }
 
-  get position () {
+  get position(): number[][] {
     return this.pos;
   }
 
-  set rotation (_) {
+  /* eslint-disable accessor-pairs */
+  set rotation(_) {
     this.transformAbsolute(this.pos);
   }
 
-  get width () {
+  get width(): number {
     return vr.overlay.GetOverlayWidthInMeters(this.handle);
   }
 
-  set width (v) {
+  set width(v) {
     vr.overlay.SetOverlayWidthInMeters(this.handle, v);
   }
 }

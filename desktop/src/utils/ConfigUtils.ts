@@ -5,7 +5,7 @@ import path from 'path';
 import SocketChannels from '../models/SocketChannels';
 import ZephyrFeatures from '../models/ZephyrFeatures';
 
-declare var __dirname: string;
+declare let __dirname: string; // eslint-disable-line @typescript-eslint/naming-convention
 
 export interface IZephyrConfig {
   type: string;
@@ -43,7 +43,7 @@ export default class ConfigUtils {
     return this.config;
   }
 
-  static getAppFeatures(): Array<string> {
+  static getAppFeatures(): string[] {
     return [ZephyrFeatures.POST_NOTIFICATIONS, ZephyrFeatures.DISMISS_NOTIFICATIONS, ZephyrFeatures.UPDATE_NOTIFICATIONS];
   }
 
@@ -120,7 +120,7 @@ export default class ConfigUtils {
    * Returns path to root of installation.
    */
   static getInstallDirectory(): string {
-    let appPath = path.dirname(this.getAppPath()).split(path.sep);
+    const appPath = path.dirname(this.getAppPath()).split(path.sep);
 
     if (!this.isRunner()) {
       appPath.pop();

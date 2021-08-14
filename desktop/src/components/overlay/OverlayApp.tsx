@@ -1,4 +1,5 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import electron from 'electron';
 import { forwardToMain, replayActionRenderer } from 'electron-redux';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
@@ -56,11 +57,11 @@ class OverlayApp extends Component<any, any> {
     }
   });
 
-  remote = require('electron').remote;
-  minimize = () => this.remote.getCurrentWindow().minimize();
-  close = () => this.remote.getCurrentWindow().close();
+  remote = electron.remote; // eslint-disable @typescript-eslint/no-var-requires
+  minimize = (): void => this.remote.getCurrentWindow().minimize();
+  close = (): void => this.remote.getCurrentWindow().close();
 
-  render() {
+  render(): any {
     replayActionRenderer(OverlayApp.store);
     return (
       <Provider store={OverlayApp.store}>

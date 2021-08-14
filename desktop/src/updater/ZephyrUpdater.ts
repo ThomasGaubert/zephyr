@@ -9,7 +9,7 @@ import LogUtils from '../utils/LogUtils';
 export default class ZephyrUpdater {
 
   private static instance: ZephyrUpdater;
-  private store: Store<IStoreState>;
+  private readonly store: Store<IStoreState>;
 
   private constructor(store: Store<IStoreState>) {
     this.store = store;
@@ -23,17 +23,14 @@ export default class ZephyrUpdater {
     });
     autoUpdater.on('update-available', (info) => this.onUpdateDownloaded(info, this.store));
     autoUpdater.on('update-not-available', (info) => {
-      LogUtils.info('ZephyrUpdater', 'Update not available: ' + info);
+      LogUtils.info('ZephyrUpdater', `Update not available: ${String(info)}`);
     });
     autoUpdater.on('error', (err) => this.onUpdateError(err, this.store));
     autoUpdater.on('download-progress', (progressObj) => {
-      let logMessage = 'Download speed: ' + progressObj.bytesPerSecond;
-      logMessage = logMessage + ' - Downloaded ' + progressObj.percent + '%';
-      logMessage = logMessage + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
-      LogUtils.info('ZephyrUpdater', logMessage);
+      LogUtils.info('ZephyrUpdater', `Download speed: ${String(progressObj.bytesPerSecond)} - Downloaded ${String(progressObj.percent)}% (${String(progressObj.transferred)}/${String(progressObj.total)})`);
     });
     autoUpdater.on('update-downloaded', (info) => {
-      LogUtils.info('ZephyrUpdater', 'Update downloaded: ' + info);
+      LogUtils.info('ZephyrUpdater', `Update downloaded: ${String(info)}`);
     });
 
     // Configure IPC events
@@ -49,21 +46,21 @@ export default class ZephyrUpdater {
     return ZephyrUpdater.instance;
   }
 
-  checkForUpdates() {
+  checkForUpdates(): void {
     if (!ConfigUtils.updatesEnabled()) {
       LogUtils.info('ZephyrUpdater', 'Updates disabled.');
       return;
     }
 
     autoUpdater.checkForUpdatesAndNotify().then(result => {
-      LogUtils.info('ZephyrUpdater', 'Update result: ' + result);
+      LogUtils.info('ZephyrUpdater', `Update result: ${String(result)}`);
     }).catch(error => {
-      LogUtils.error('ZephyrUpdater', 'Error when checking for updates: ' + error);
+      LogUtils.error('ZephyrUpdater', `Error when checking for updates: ${String(error)}`);
     });
   }
 
-  private onUpdateDownloaded(info, store: Store<IStoreState>) {
-    LogUtils.info('ZephyrUpdater', 'Update available: ' + info);
+  private onUpdateDownloaded(info, store: Store<IStoreState>): void {
+    LogUtils.info('ZephyrUpdater', `Update available: ${String(info)}`);
     store.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
       message: 'Update ' + info.version + ' downloaded.',
       type: 'info',
@@ -72,8 +69,8 @@ export default class ZephyrUpdater {
     }});
   }
 
-  private onUpdateError(err, store: Store<IStoreState>) {
-    LogUtils.info('ZephyrUpdater', 'Error in auto-updater: ' + err);
+  private onUpdateError(err, store: Store<IStoreState>): void {
+    LogUtils.info('ZephyrUpdater', `Error in auto-updater: ${String(err)}`);
     store.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
       message: 'Failed to check for updates.',
       type: 'error',

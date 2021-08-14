@@ -17,7 +17,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import DeviceInfo from '@material-ui/icons/PermDeviceInformation';
 import ShopIcon from '@material-ui/icons/Shop';
 import UpdateIcon from '@material-ui/icons/Update';
-import { ipcRenderer } from 'electron';
+import electron, { ipcRenderer } from 'electron';
 import React from 'react';
 import { connect } from 'react-redux';
 import ActionTypeKeys from '../../actions/ActionTypeKeys';
@@ -32,19 +32,19 @@ class Settings extends React.Component<any, any> {
     devOptionsOpen: false
   };
 
-  onClickInfo = () => {
+  onClickInfo = (): void => {
     this.setState({ aboutDialogOpen: true });
   }
 
-  onClickHelp = () => {
+  onClickHelp = (): void => {
     HelpUtils.openHelp();
   }
 
-  onClickDownloadAndroidApp = () => {
+  onClickDownloadAndroidApp = (): void => {
     HelpUtils.openPlayStore();
   }
 
-  onClickCheckForUpdates = () => {
+  onClickCheckForUpdates = (): void => {
     if (!ConfigUtils.updatesEnabled()) {
       this.props.dispatch({type: ActionTypeKeys.TOAST_SHOW, payload: {
         message: 'Build not eligible for updates.',
@@ -65,19 +65,19 @@ class Settings extends React.Component<any, any> {
     ipcRenderer.send('check-for-updates');
   }
 
-  onClickDeveloper = () => {
+  onClickDeveloper = (): void => {
     this.setState(state => ({ devOptionsOpen: !state.devOptionsOpen }));
   }
 
-  onClickDevTools = () => {
-    require('electron').remote.getCurrentWindow().webContents.toggleDevTools();
+  onClickDevTools = (): void => {
+    electron.remote.getCurrentWindow().webContents.toggleDevTools();
   }
 
-  handleClose = () => {
+  handleClose = (): void => {
     this.setState({ aboutDialogOpen: false });
   }
 
-  checkForUpdatesButton() {
+  checkForUpdatesButton(): any {
     if (ConfigUtils.updatesEnabled()) {
       return (
         <ListItem button onClick={this.onClickCheckForUpdates}>
@@ -92,7 +92,7 @@ class Settings extends React.Component<any, any> {
     }
   }
 
-  devOptions() {
+  devOptions(): any {
     if (ConfigUtils.isDev()) {
       return (
         <div>
@@ -121,7 +121,7 @@ class Settings extends React.Component<any, any> {
     }
   }
 
-  render() {
+  render(): any {
     return (
       <Container>
         <Title>Settings</Title>

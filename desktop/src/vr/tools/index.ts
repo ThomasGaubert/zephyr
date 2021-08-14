@@ -15,11 +15,11 @@ class VRVec3 {
     this.z = z;
   }
 
-  getHmdMatrix34 () {
-    VRVec3.HmdMatrix34(this.x, this.y, this.z);
+  getHmdMatrix34 (): number[][] {
+    return VRVec3.HmdMatrix34(this.x, this.y, this.z);
   }
 
-  static HmdMatrix34 (x, y, z) {
+  static HmdMatrix34 (x, y, z): number[][] {
     return [
       [1, 0, 0, x],
       [0, 1, 0, y],

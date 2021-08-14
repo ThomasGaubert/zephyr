@@ -1,5 +1,6 @@
 import ciao, { CiaoService } from '@homebridge/ciao';
 import express from 'express';
+import http from 'http';
 import os from 'os';
 import { Server } from 'socket.io';
 import DismissNotificationPayload from '../models/DismissNotificationPayload';
@@ -34,8 +35,8 @@ export class ZephyrServer {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
-    let http = require('http').createServer(app);
-    let io = new Server(http);
+    const httpInstance = http.createServer(app);
+    const io = new Server(httpInstance);
 
     // API routes
     app.get('/api/version', this.serveVersion);
@@ -45,8 +46,8 @@ export class ZephyrServer {
     // Socket routes
     io.on('connection', (socket) => this.onSocketConnection(socket, io, this));
 
-    http.listen(app.get('port'), function() {
-      LogUtils.info('ZephyrServer', 'Server listening on *:' + app.get('port'));
+    httpInstance.listen(app.get('port'), function() {
+      LogUtils.info('ZephyrServer', `Server listening on *:${String(app.get('port'))}`);
     });
 
     // Initialize service info for advertisement
@@ -68,7 +69,7 @@ export class ZephyrServer {
   }
 
   // HTTP
-  setupHeaders (_, res, next) {
+  setupHeaders(_, res, next): void {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -78,7 +79,7 @@ export class ZephyrServer {
     next();
   }
 
-  serveVersion (_, res) {
+  serveVersion(_, res): void {
     res.send(JSON.stringify({
       api: ZephyrServer.API_VERSION,
       desktop: ConfigUtils.getAppVersion(),
@@ -90,13 +91,13 @@ export class ZephyrServer {
     }));
   }
 
-  serveNotifications (_, res, server: ZephyrServer) {
+  serveNotifications(_, res, server: ZephyrServer): void {
     res.send(JSON.stringify({
       notifications: Array.from(server.notifications.values()).sort((a, b) => a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0)
     }));
   }
 
-  serve404 (_, res) {
+  serve404(_, res): void {
     res.status(404).send(JSON.stringify({
       error: 404,
       message: 'Not found'
@@ -104,7 +105,7 @@ export class ZephyrServer {
   }
 
   // Sockets
-  onSocketConnection (socket: any, io: any, server: ZephyrServer) {
+  onSocketConnection(socket: any, io: any, server: ZephyrServer): void {
     LogUtils.verbose('ZephyrServer', 'Client connected.');
 
     // Notification
@@ -115,8 +116,8 @@ export class ZephyrServer {
     socket.on(SocketChannels.ACTION_DISCONNECT, this.onSocketDisconnect);
   }
 
-  onPostNotification(io: any, msg: any, server: ZephyrServer) {
-    let notification = server.deserializeNotification(msg);
+  onPostNotification(io: any, msg: any, server: ZephyrServer): void {
+    const notification = server.deserializeNotification(msg);
 
     if (notification !== undefined) {
       LogUtils.verbose('ZephyrServer', 'Notification posted.');
@@ -129,8 +130,8 @@ export class ZephyrServer {
     }
   }
 
-  onDismissNotification(io: any, msg: any, server: ZephyrServer) {
-    let dismissPayload = server.deserializeDismissPayload(msg);
+  onDismissNotification(io: any, msg: any, server: ZephyrServer): void {
+    const dismissPayload = server.deserializeDismissPayload(msg);
 
     if (dismissPayload !== undefined) {
       LogUtils.verbose('ZephyrServer', 'Notification dismissed.');
@@ -141,43 +142,47 @@ export class ZephyrServer {
     }
   }
 
-  onSocketDisconnect() {
+  onSocketDisconnect(): void {
     LogUtils.verbose('ZephyrServer', 'Client disconnected.');
   }
 
-  deserializeNotification (notification: any): ZephyrNotification | undefined {
-    let notificationJson = JSON.parse(notification);
+  deserializeNotification(notification: any): ZephyrNotification | undefined {
+    const notificationJson = JSON.parse(notification);
 
     // Notifications must have package name, id, and title
-    if (notificationJson['packageName'] === undefined || notificationJson['id'] === undefined || notificationJson['title'] === undefined) {
+    if (notificationJson.packageName === undefined || notificationJson.id === undefined || notificationJson.title === undefined) {
       return undefined;
     }
 
-    return {
-      packageName: notificationJson['packageName'],
-      id: notificationJson['id'],
-      timestamp: notificationJson['timestamp'] !== undefined ? notificationJson['timestamp'] : Date.now(),
-      title: notificationJson['title'],
-      body: notificationJson['body'],
-      icon: notificationJson['icon']
-    } as ZephyrNotification;
+    const notificationObj: ZephyrNotification = {
+      packageName: notificationJson.packageName,
+      id: notificationJson.id,
+      timestamp: notificationJson.timestamp !== undefined ? notificationJson.timestamp : Date.now(),
+      title: notificationJson.title,
+      body: notificationJson.body,
+      icon: notificationJson.icon
+    };
+
+    return notificationObj;
   }
 
-  deserializeDismissPayload (payload: any): DismissNotificationPayload | undefined {
-    let payloadJson = JSON.parse(payload);
+  deserializeDismissPayload(payload: any): DismissNotificationPayload | undefined {
+    const payloadJson = JSON.parse(payload);
 
     // Dismiss payloads must have a package name
-    if (payloadJson['packageName'] === undefined || payloadJson['id'] === undefined) {
+    if (payloadJson.packageName === undefined || payloadJson.id === undefined) {
       return undefined;
     }
 
-    return {
-      packageName: payloadJson['packageName'],
-      id: payloadJson['id']
-    } as DismissNotificationPayload;
+    const dismissNotificationPayload: DismissNotificationPayload = {
+      packageName: payloadJson.packageName,
+      id: payloadJson.id
+    };
+
+    return dismissNotificationPayload;
   }
 
-  startDiscoveryBroadcast () {
+  startDiscoveryBroadcast(): void {
     LogUtils.info('ZephyrServer', 'Starting discovery broadcast...');
     this.service.advertise().then(() => {
       LogUtils.info('ZephyrServer', 'Published discovery broadcast');
@@ -186,9 +191,9 @@ export class ZephyrServer {
     });
   }
 
-  stopDiscoveryBroadcast(): Promise<void> {
+  async stopDiscoveryBroadcast(): Promise<void> {
     LogUtils.info('ZephyrServer', 'Stopping discovery broadcast...');
-    return this.service.end().then(() => {
+    return await this.service.end().then(() => {
       LogUtils.info('ZephyrServer', 'Stopped discovery broadcast');
     }).catch(() => {
       LogUtils.error('ZephyrServer', 'Error when stopping discovery broadcast');

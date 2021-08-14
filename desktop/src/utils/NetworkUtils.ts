@@ -6,10 +6,10 @@ export default class NetworkUtils {
   }
 
   static getPrimaryIpAddress(): string | undefined {
-    let ipAddresses = this.getAllIpAddresses();
+    const ipAddresses = this.getAllIpAddresses();
     if (ipAddresses.length > 0) {
       for (let i = 0; i < ipAddresses.length; i++) {
-        let parts: Array<String> = ipAddresses[i].split('.');
+        const parts: String[] = ipAddresses[i].split('.');
         if (parts.length === 4 && parts[0] === '192' && parts[1] === '168') {
           return ipAddresses[i];
         }
@@ -22,7 +22,7 @@ export default class NetworkUtils {
   }
 
   static getPrimaryIpAddressShort(): string | undefined {
-    let primaryIpAddress = this.getPrimaryIpAddress();
+    const primaryIpAddress = this.getPrimaryIpAddress();
     if (primaryIpAddress !== undefined) {
       return NetworkUtils.getShortAddress(primaryIpAddress);
     } else {
@@ -31,9 +31,9 @@ export default class NetworkUtils {
   }
 
   static getPrimaryIpAddressShortFormatted(): string | undefined {
-    let primaryIpAddress = this.getPrimaryIpAddress();
+    const primaryIpAddress = this.getPrimaryIpAddress();
     if (primaryIpAddress !== undefined) {
-      let primaryIpAddressShort = NetworkUtils.getShortAddress(primaryIpAddress);
+      const primaryIpAddressShort = NetworkUtils.getShortAddress(primaryIpAddress);
       if (primaryIpAddressShort === primaryIpAddress) {
         return 'IP: ' + primaryIpAddressShort;
       } else {
@@ -44,22 +44,22 @@ export default class NetworkUtils {
     }
   }
 
-  static getAllIpAddresses(): Array<string> {
-    let interfaces = os.networkInterfaces();
-    let ipAddresses = new Array<string>();
-    for (let devName in interfaces) {
+  static getAllIpAddresses(): string[] {
+    const interfaces = os.networkInterfaces();
+    const ipAddresses = new Array<string>();
+    for (const devName in interfaces) {
       if (devName.includes('VirtualBox')) {
         continue;
       }
 
-      let iface = interfaces[devName];
+      const iface = interfaces[devName];
 
       if (iface === undefined) {
         return [];
       }
 
       for (let i = 0; i < iface.length; i++) {
-        let alias = iface[i];
+        const alias = iface[i];
         if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
           ipAddresses.push(alias.address);
         }
@@ -71,14 +71,14 @@ export default class NetworkUtils {
 
   static getShortAddress(ipAddress: string): string {
     let shortIp: string = '';
-    let parts: Array<String> = ipAddress.split('.');
+    const parts: string[] = ipAddress.split('.');
 
     // Shorten 192.168.x.y to x.y, otherwise return original
     if (parts.length === 4 && parts[0] === '192' && parts[1] === '168') {
       if (parts[2] !== '0') {
-        shortIp += parts[2] + '.';
+        shortIp += `${parts[2]}.`;
       }
-      return shortIp + parts[3];
+      return `${shortIp}${parts[3]}`;
     } else {
       return ipAddress;
     }

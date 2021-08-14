@@ -23,15 +23,15 @@ class AboutDialog extends React.Component<any, any> {
     open: false
   };
 
-  handleClickOpen = () => {
+  handleClickOpen = (): void => {
     this.setState({ open: true });
   }
 
-  handleClose = () => {
+  handleClose = (): void => {
     this.setState({ open: false });
   }
 
-  render() {
+  render(): any {
     if (!NetworkUtils.foundIpAddress()) {
       return null;
     } else {

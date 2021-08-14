@@ -17,7 +17,7 @@ class History extends React.Component<any, any> {
     notifications: new Array<ZephyrNotification>()
   };
 
-  listItems() {
+  listItems(): any {
     return (
       <div>
         {this.props.notifications.reverse().map((notification) => {
@@ -35,7 +35,7 @@ class History extends React.Component<any, any> {
       </div>);
   }
 
-  emptyList() {
+  emptyList(): any {
     return (
       <ListItem key='notifications-none'>
         <ListItemText primary='No notifications' secondary='Notifications from your current session will be shown here.' />
@@ -43,7 +43,7 @@ class History extends React.Component<any, any> {
     );
   }
 
-  render() {
+  render(): any {
     return (
       <Container>
         <Title>History</Title>
@@ -62,7 +62,7 @@ class History extends React.Component<any, any> {
   }
 }
 
-function mapStatesToProps (state: IStoreState) {
+function mapStatesToProps (state: IStoreState): any {
   return {
     notifications: Array.from(state.notifications.values()).sort((a, b) => a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0)
   };

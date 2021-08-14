@@ -11,7 +11,7 @@ import ZephyrNotification from '../../models/ZephyrNotification';
 import IStoreState from '../../store/IStoreState';
 import { Container, VRTitle } from '../primitives';
 
-const styles = _ => ({
+const styles = (_): any => ({
   avatar: {
     width: 100,
     height: 200
@@ -30,7 +30,7 @@ class BigHistory extends React.Component<any, any> {
     notifications: new Array<ZephyrNotification>()
   };
 
-  listItems() {
+  listItems(): any {
     return (
       <div>
         {this.props.notifications.reverse().map((notification) => {
@@ -49,7 +49,7 @@ class BigHistory extends React.Component<any, any> {
       </div>);
   }
 
-  emptyList() {
+  emptyList(): any {
     return (
       <ListItem key='notifications-none'>
         <ListItemText
@@ -60,7 +60,7 @@ class BigHistory extends React.Component<any, any> {
     );
   }
 
-  render() {
+  render(): any {
     return (
       <Container>
         <VRTitle>Zephyr β</VRTitle>
@@ -79,7 +79,7 @@ class BigHistory extends React.Component<any, any> {
   }
 }
 
-function mapStatesToProps (state: IStoreState) {
+function mapStatesToProps(state: IStoreState): any {
   return {
     notifications: Array.from(state.notifications.values()).sort((a, b) => a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0)
   };

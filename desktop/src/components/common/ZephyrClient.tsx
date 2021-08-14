@@ -14,12 +14,12 @@ class ZephyrClient extends React.Component<any, any> {
     };
   }
 
-  onConnect (client: ZephyrClient) {
+  onConnect (client: ZephyrClient): void {
     LogUtils.verbose('ZephyrClient', 'Connected to ZephyrServer.');
     client.props.dispatch({ type: ActionTypeKeys.SERVER_CONNECTED });
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { endpoint } = this.state;
     const socket = io(endpoint);
 
@@ -37,7 +37,7 @@ class ZephyrClient extends React.Component<any, any> {
     }}));
   }
 
-  render() {
+  render(): any {
     return null;
   }
 }

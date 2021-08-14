@@ -6,7 +6,7 @@ import initialState from './initialState';
 export default function navigationReducer(
   state = initialState.connectionStatus,
   action: ActionTypes
-) {
+): ConnectionStatus {
   switch (action.type) {
   case ActionTypeKeys.SERVER_CONNECT:
     return ConnectionStatus.CONNECTING;

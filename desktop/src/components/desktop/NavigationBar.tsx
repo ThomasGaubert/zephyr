@@ -9,7 +9,7 @@ import ActionTypeKeys from '../../actions/ActionTypeKeys';
 import IStoreState from '../../store/IStoreState';
 
 class NavigationBar extends React.Component<any, any> {
-  handleChange = (_, value) => {
+  handleChange = (_, value): void => {
     let type: ActionTypeKeys = ActionTypeKeys.NAVIGATE_HOME;
     switch (value) {
     case 0:
@@ -26,7 +26,7 @@ class NavigationBar extends React.Component<any, any> {
     this.props.dispatch({ type: type });
   }
 
-  render() {
+  render(): any {
     return (
       <BottomNavigation
         value={this.props.currentTab}
@@ -42,7 +42,7 @@ class NavigationBar extends React.Component<any, any> {
   }
 }
 
-function mapStatesToProps (state: IStoreState) {
+function mapStatesToProps (state: IStoreState): any {
   return {
     currentTab: state.navigationTarget
   };

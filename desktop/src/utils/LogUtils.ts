@@ -12,27 +12,27 @@ export default class LogUtils {
     return Logger;
   }
 
-  static silly(tag: string, message: string) {
+  static silly(tag: string, message: string): void {
     this.getLogger().silly(this.formatLog(tag, message));
   }
 
-  static debug(tag: string, message: string) {
+  static debug(tag: string, message: string): void {
     this.getLogger().debug(this.formatLog(tag, message));
   }
 
-  static verbose(tag: string, message: string) {
+  static verbose(tag: string, message: string): void {
     this.getLogger().verbose(this.formatLog(tag, message));
   }
 
-  static info(tag: string, message: string) {
+  static info(tag: string, message: string): void {
     this.getLogger().info(this.formatLog(tag, message));
   }
 
-  static warn(tag: string, message: string) {
+  static warn(tag: string, message: string): void {
     this.getLogger().warn(this.formatLog(tag, message));
   }
 
-  static error(tag: string, message: string) {
+  static error(tag: string, message: string): void {
     this.getLogger().error(this.formatLog(tag, message));
   }
 

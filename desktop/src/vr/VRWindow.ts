@@ -32,8 +32,8 @@ export default class VRWindow extends BrowserWindow {
     this.setupOverlay(vrOpts);
   }
 
-  setupOverlay ({ key, name = 'Zephyr', fps = 60, iconPath, system = null }) {
-    this.vrSystem = system || vr.system.VR_Init(vr.EVRApplicationType.VRApplication_Overlay);
+  setupOverlay ({ key, name = 'Zephyr', fps = 60, iconPath, system = null }): void {
+    this.vrSystem = system ?? vr.system.VR_Init(vr.EVRApplicationType.VRApplication_Overlay);
     this.overlay = new VROverlay({ system: this.vrSystem, key: key, name: name, iconPath: iconPath });
     this.webContents.setFrameRate(fps);
 
@@ -55,19 +55,19 @@ export default class VRWindow extends BrowserWindow {
     });
 
     EventUtils.getInstance().on('vr-show-notification', (payload: any) => {
-      let notification: ZephyrNotification = payload[0];
+      const notification: ZephyrNotification = payload[0];
       if (notification) {
-        LogUtils.verbose('VRWindow', 'Creating notification: ' + JSON.stringify(notification));
+        LogUtils.verbose('VRWindow', `Creating notification: ${String(JSON.stringify(notification))}`);
 
-        const iconImg = nativeImage.createFromDataURL('data:image/png;base64, ' + notification.icon);
+        const iconImg = nativeImage.createFromDataURL(`data:image/png;base64, ${String(notification.icon)}`);
         const iconBuf = iconImg.toBitmap();
 
-        this.overlay.createNotification(notification.title + '\n' + notification.body, iconBuf, { ...iconImg.getSize() });
+        this.overlay.createNotification(`${String(notification.title)}\n${String(notification.body)}`, iconBuf, { ...iconImg.getSize() });
       }
     });
   }
 
-  vrDraw (force = false) {
+  vrDraw (force = false): void {
     this.webContents.capturePage().then((image: NativeImage) => {
       const buf = image.toBitmap();
 
@@ -77,7 +77,7 @@ export default class VRWindow extends BrowserWindow {
 
       this.overlay.setTextureFromBuffer(buf, { ...image.getSize() });
     }).catch((error: any) => {
-      LogUtils.error('VRWindow', 'Error when capturing page: ' + error);
+      LogUtils.error('VRWindow', `Error when capturing page: ${String(error)}`);
     });
   }
 }

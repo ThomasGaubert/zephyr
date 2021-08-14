@@ -13,7 +13,7 @@ class ContentView extends React.Component<any, any> {
   settingsView = <Settings/>;
   unknownView = <Unknown/>;
 
-  render() {
+  render(): any {
     switch (this.props.currentTab) {
     case 0: return (this.homeView);
     case 1: return (this.historyView);
@@ -23,7 +23,7 @@ class ContentView extends React.Component<any, any> {
   }
 }
 
-function mapStatesToProps (state: IStoreState) {
+function mapStatesToProps (state: IStoreState): any {
   return {
     currentTab: state.navigationTarget
   };

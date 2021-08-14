@@ -19,7 +19,7 @@ import HelpUtils from '../../utils/HelpUtils';
 import NetworkUtils from '../../utils/NetworkUtils';
 import QrDialog from './QrDialog';
 
-const styles = _ => ({
+const styles = (_): any => ({
   root: {
     width: '100%',
     maxWidth: 360
@@ -32,7 +32,7 @@ class ConnectionInfo extends React.Component<any, any> {
     ipDropdownOpen: false
   };
 
-  getStatusIcon (connectionStatus: ConnectionStatus) {
+  getStatusIcon (connectionStatus: ConnectionStatus): any {
     switch (connectionStatus) {
     case ConnectionStatus.CONNECTED:
       return <ConnectedIcon/>;
@@ -45,7 +45,7 @@ class ConnectionInfo extends React.Component<any, any> {
     }
   }
 
-  getStatusText (connectionStatus: ConnectionStatus) {
+  getStatusText (connectionStatus: ConnectionStatus): string {
     switch (connectionStatus) {
     case ConnectionStatus.CONNECTED:
       return 'Server running';
@@ -58,7 +58,7 @@ class ConnectionInfo extends React.Component<any, any> {
     }
   }
 
-  getAllIps () {
+  getAllIps (): any {
     return (
       <div>
         {NetworkUtils.getAllIpAddresses().map((ip) => {
@@ -71,15 +71,15 @@ class ConnectionInfo extends React.Component<any, any> {
       </div>);
   }
 
-  onClickMoreIps = () => {
+  onClickMoreIps = (): void => {
     this.setState(state => ({ ipDropdownOpen: !state.ipDropdownOpen }));
   }
 
-  onClickIpHelp = () => {
+  onClickIpHelp = (): void => {
     HelpUtils.openConnectionHelp();
   }
 
-  render () {
+  render (): any {
     return (
       <div className={this.props.root}>
         <ScrollArea
@@ -129,7 +129,7 @@ class ConnectionInfo extends React.Component<any, any> {
   }
 }
 
-function mapStatesToProps (state: IStoreState) {
+function mapStatesToProps (state: IStoreState): any {
   return {
     connectionStatus: state.connectionStatus
   };

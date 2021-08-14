@@ -1,4 +1,5 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import electron from 'electron';
 import { forwardToMain, replayActionRenderer } from 'electron-redux';
 import React, { Component } from 'react';
 import { TitleBar, Window } from 'react-desktop/windows';
@@ -12,8 +13,8 @@ import ContentView from './ContentView';
 import NavigationBar from './NavigationBar';
 import Toaster from './Toaster';
 
-class DesktopApp extends Component<any, any> {
-  static defaultProps = {
+class DesktopApp extends Component<Props> {
+  static defaultProps: Props = {
     backgroundColor: '#0D253A',
     toolbarColor: '#091B2A',
     theme: 'dark'
@@ -59,11 +60,11 @@ class DesktopApp extends Component<any, any> {
   composeEnhancers = (window as any)?.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   store = createStore(RootReducer, this.composeEnhancers(applyMiddleware(forwardToMain)));
 
-  remote = require('electron').remote;
-  minimize = () => this.remote.getCurrentWindow().minimize();
-  close = () => this.remote.getCurrentWindow().close();
+  remote = electron.remote;
+  minimize = (): void => this.remote.getCurrentWindow().minimize();
+  close = (): void => this.remote.getCurrentWindow().close();
 
-  render() {
+  render(): any {
     replayActionRenderer(this.store);
     return (
       <Provider store={this.store}>
@@ -93,6 +94,12 @@ class DesktopApp extends Component<any, any> {
       </Provider>
     );
   }
+}
+
+interface Props {
+  backgroundColor: string;
+  theme: string;
+  toolbarColor: string;
 }
 
 export default DesktopApp;

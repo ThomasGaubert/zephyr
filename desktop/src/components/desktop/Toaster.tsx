@@ -23,7 +23,7 @@ const variantIcon = {
   info: InfoIcon
 };
 
-const toastContentStyles = theme => ({
+const toastContentStyles = (theme): any => ({
   success: {
     backgroundColor: green[600]
   },
@@ -50,7 +50,7 @@ const toastContentStyles = theme => ({
   }
 });
 
-function ToastContent(props) {
+function ToastContent(props): any {
   const { classes, className, message, onClose, variant, dismissable, ...other } = props;
 
   const Icon = variantIcon[variant];
@@ -91,7 +91,7 @@ class Toast extends React.Component<any, any> {
     dismissable: false
   };
 
-  handleClose = (_, reason) => {
+  handleClose = (_, reason): void => {
     if (reason === 'clickaway') {
       return;
     }
@@ -99,7 +99,7 @@ class Toast extends React.Component<any, any> {
     this.props.dispatch({ type: ActionTypeKeys.TOAST_HIDE });
   }
 
-  render() {
+  render(): any {
     return (
       <div>
         <Snackbar
@@ -124,7 +124,7 @@ class Toast extends React.Component<any, any> {
   }
 }
 
-function mapStatesToProps (state: IStoreState) {
+function mapStatesToProps (state: IStoreState): any {
   if (state.toast !== null) {
     return {
       open: true,
