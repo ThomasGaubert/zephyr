@@ -97,7 +97,7 @@
     "electron": "^11.4.10",
     "electron-builder": "^22.11.7",
     "electron-react-devtools": "^0.5.3",
-    "electron-rebuild": "^3.1.1",
+    "electron-rebuild": "^3.2.0",
     "electron-reload": "^1.5.0",
     "eslint": "7",
     "eslint-config-prettier": "^8.3.0",
