@@ -3347,9 +3347,9 @@ electron-react-devtools@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/electron-react-devtools/-/electron-react-devtools-0.5.3.tgz#c74edb1245dc1cfe1380b93016cd4eb588ed00b7"
 
-electron-rebuild@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/electron-rebuild/-/electron-rebuild-3.2.0.tgz#5e5b8737501c49a3d3966702f9cf65292ac2683b"
+electron-rebuild@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/electron-rebuild/-/electron-rebuild-3.2.3.tgz#2c0b06b7b1a5240fec96f1d368d04222e2590c3d"
   dependencies:
     "@malept/cross-spawn-promise" "^2.0.0"
     colors "^1.3.3"
