@@ -94,7 +94,7 @@
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "csp-html-webpack-plugin": "^5.1.0",
-    "electron": "^11.4.10",
+    "electron": "^14.0.1",
     "electron-builder": "^22.11.7",
     "electron-react-devtools": "^0.5.3",
     "electron-rebuild": "^3.2.3",
