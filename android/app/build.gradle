@@ -167,7 +167,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.google.firebase:firebase-core:19.0.2'
     implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-crashlytics:18.2.3'
 
