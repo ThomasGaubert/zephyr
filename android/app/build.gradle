@@ -152,7 +152,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.3.0'
 
     // AndroidX Core
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
 
     // Dagger
     implementation 'com.google.dagger:dagger:2.39.1'
