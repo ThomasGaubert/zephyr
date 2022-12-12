@@ -129,7 +129,7 @@
     "electron-redux": "^1.5.4",
     "electron-settings": "^4.0.2",
     "electron-updater": "^4.3.9",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "node-openvr": "file:./lib/node-openvr",
     "prop-types": "^15.7.2",
     "qrcode.react": "^1.0.1",
